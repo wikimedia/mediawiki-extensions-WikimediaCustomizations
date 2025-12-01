@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gergő Tisza"
+		]
+	},
+	"wikimediacustomizations-desc": "The WikimediaCustomization extension hosts Wikimedia-specific hooks, messages and other size customizations."
+}
