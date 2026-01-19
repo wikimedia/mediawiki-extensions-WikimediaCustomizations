@@ -11,7 +11,7 @@ this file documenting the ownership. E.g.
 
 > ## example component
 >
-> * [Files/Directories]: [list of files/directories]
+> * [Files/Folders]: [list of files/Folders]
 > * Contact: [team page URL]
 >
 > [description of what the component does]
@@ -24,10 +24,10 @@ still add an OWNERS.md entry, but mark it as unowned.
 
 ## BadEmailDomain
 
-* Directories:
-  * src/BadEmailDomain
-  * tests/phpunit/unit/BadEmailDomain
-  * tests/phpunit/data/BadEmailDomain
+* Folders:
+  - src/BadEmailDomain
+  - tests/phpunit/unit/BadEmailDomain
+  - tests/phpunit/data/BadEmailDomain
 * Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
 
 Prevents the use of email providers which appear on a deny-list.
@@ -37,9 +37,9 @@ Originally moved here from the private Wikimedia repo, see history there for mor
 
 ## EmailAuth
 
-* Directories:
-  * src/EmailAuth
-  * tests/phpunit/integration/EmailAuth
+* Folders:
+  - src/EmailAuth
+  - tests/phpunit/integration/EmailAuth
 * Dependencies: EmailAuth, IPReputation, LoginNotify, OATHAuth, WikimediaEvents, cldr (all but
   the first optional).
 * Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
@@ -50,8 +50,8 @@ Most of it should probably be moved to EmailAuth.
 
 ## RateLimit
 
-* Directories:
-  * src/RateLimit
+* Folders:
+  - src/RateLimit
 * Contact: https://www.mediawiki.org/wiki/MediaWiki_Platform_Team
 
 Adds a rate limit class ('rlc') field to JWTs associated with login sessions.
@@ -60,7 +60,11 @@ Historical context: T399632, T415588.
 
 ## Attribution API
 
-* Directory: `src/Attribution`
+* Folders:
+  - src/Attribution
+  - tests/api-testing/Attribution
+  - tests/phpunit/unit/Attribution
+  - tests/phpunit/integration/Attribution
 * Contact: [MediaWiki Interfaces Team](https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team)
 
 Experimental REST API definition and related code for exposing structured attribution information about Wikimedia page or media, as defined by the Attribution Framework work.
@@ -76,9 +80,9 @@ $wgRestSandboxSpecs['attribution.v0-beta'] = [
 
 ## OfficeBan
 
-* Directories:
-  * src/OfficeBan
-  * modules/OfficeBan/office-ban.js
+* Folders:
+  - src/OfficeBan
+  - modules/OfficeBan
 * Dependencies: CentralAuth
 * Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
 
