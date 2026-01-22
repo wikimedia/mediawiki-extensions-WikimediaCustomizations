@@ -4,5 +4,6 @@
 			"Gergő Tisza"
 		]
 	},
-	"wikimediacustomizations-desc": "The WikimediaCustomization extension hosts Wikimedia-specific hooks, messages and other size customizations."
+	"wikimediacustomizations-desc": "The WikimediaCustomization extension hosts Wikimedia-specific hooks, messages and other size customizations.",
+	"wikimediacustomizations-bademaildomain-error": "Email addresses using $1 are not supported. Please choose another email provider."
 }

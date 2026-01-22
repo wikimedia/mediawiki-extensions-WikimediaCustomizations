@@ -4,5 +4,6 @@
 			"Gergő Tisza"
 		]
 	},
-	"wikimediacustomizations-desc": "{{desc|name=WikimediaCustomizations|url=https://www.mediawiki.org/wiki/Extension:WikimediaCustomizations}}"
+	"wikimediacustomizations-desc": "{{desc|name=WikimediaCustomizations|url=https://www.mediawiki.org/wiki/Extension:WikimediaCustomizations}}",
+	"wikimediacustomizations-bademaildomain-error": "Error message shown during registration or email address change when the email address is disallowed. $1 is the banned domain."
 }

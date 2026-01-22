@@ -22,4 +22,15 @@ your team is taking ownership of the code, or you have arranged ownership with s
 The exception is moving over legacy unowned code from operations/mediawiki-config etc. You should
 still add an OWNERS.md entry, but mark it as unowned.
 
-## ...
+## BadEmailDomain
+
+* Directories:
+  * src/BadEmailDomain
+  * tests/phpunit/unit/BadEmailDomain
+  * tests/phpunit/data/BadEmailDomain
+* Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
+
+Prevents the use of email providers which appear on a deny-list.
+Used to disallow disposable email addresses.
+
+Originally moved here from the private Wikimedia repo, see history there for more context.

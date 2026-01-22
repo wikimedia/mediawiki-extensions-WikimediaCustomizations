@@ -13,11 +13,39 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\WikimediaCustomizations\\": "src/"
 	},
+	"ServiceWiringFiles": [
+		"src/ServiceWiring.php"
+	],
+	"ConfigRegistry": {
+		"WikimediaCustomizations": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
+	},
 	"config": {
+		"WMCBadEmailDomainsFile": {
+			"description": "Path to the file listing the banned domains, one domain name per line.",
+			"value": false
+		}
 	},
 	"HookHandlers": {
+		"bademaildomain": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\BadEmailDomain\\BadEmailDomainHookHandler",
+			"services": [
+				"WikimediaCustomizations.BadEmailDomainChecker"
+			]
+		}
 	},
 	"Hooks": {
+		"UserCanChangeEmail": "bademaildomain"
+	},
+	"AuthManagerAutoConfig": {
+		"preauth": {
+			"BadEmailDomainPreAuthenticationProvider": {
+				"class": "MediaWiki\\Extension\\WikimediaCustomizations\\BadEmailDomain\\BadEmailDomainPreAuthenticationProvider",
+				"sort": 0,
+				"services": [
+					"WikimediaCustomizations.BadEmailDomainChecker"
+				]
+			}
+		}
 	},
 	"MessagesDirs": {
 		"WikimediaCustomizations": [
