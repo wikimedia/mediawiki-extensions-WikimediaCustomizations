@@ -58,8 +58,12 @@
 	},
 	"MessagesDirs": {
 		"WikimediaCustomizations": [
-			"i18n"
+			"i18n",
+			"i18n/attribution"
 		]
 	},
+	"RestModuleFiles": [
+		"src/Attribution/attribution.v0-beta.json"
+	],
 	"manifest_version": 2
 }

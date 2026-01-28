@@ -1,0 +1,156 @@
+{
+	"x-i18n-description": "wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc",
+	"required": [
+		"essential"
+	],
+	"properties": {
+		"essential": {
+			"type": "object",
+			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-essential",
+			"required": [
+				"title",
+				"author",
+				"license",
+				"link",
+				"default_brand_marks",
+				"source_wiki"
+			],
+			"properties": {
+				"title": {
+					"type": "string",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-title"
+				},
+				"author": {
+					"type": "string",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-author"
+				},
+				"license": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license",
+					"properties": {
+						"url": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-url"
+						},
+						"title": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title"
+						}
+					}
+				},
+				"link": {
+					"type": "string",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-link"
+				},
+				"default_brand_marks": {
+					"type": "array",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name"
+							},
+							"url": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url"
+							},
+							"type": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type"
+							}
+						}
+					}
+				},
+				"source_wiki": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki",
+					"properties": {
+						"site_name": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name"
+						},
+						"project_family": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family"
+						},
+						"site_id": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id"
+						},
+						"site_language": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language"
+						},
+						"page_language": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language"
+						}
+					}
+				}
+			}
+		},
+		"trust_and_relevance": {
+			"type": "object",
+			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance",
+			"required": [
+				"last_modified",
+				"page_views",
+				"contributor_counts"
+			],
+			"properties": {
+				"last_modified": {
+					"type": "string",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-last-modified"
+				},
+				"page_views": {
+					"type": "number",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-page-views"
+				},
+				"contributor_counts": {
+					"type": "number",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts"
+				}
+			}
+		},
+		"calls_to_action": {
+			"type": "object",
+			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action",
+			"required": [
+				"donation_cta",
+				"participation_cta"
+			],
+			"properties": {
+				"donation_cta": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta",
+					"properties": {
+						"default": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default"
+						},
+						"foundation": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation"
+						},
+						"special": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special"
+						}
+					}
+				},
+				"participation_cta": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-participation-cta",
+					"properties": {
+						"talk_page": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page"
+						}
+					}
+				}
+			}
+		}
+	}
+}

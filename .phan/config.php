@@ -10,6 +10,7 @@ $dirs = [
 	'../../extensions/LoginNotify',
 	'../../extensions/OATHAuth',
 	'../../extensions/WikimediaEvents',
+	'../../extensions/PageViewInfo',
 ];
 
 $cfg['directory_list'] = array_merge( $cfg['directory_list'], $dirs );

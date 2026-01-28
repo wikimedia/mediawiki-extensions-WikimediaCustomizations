@@ -1,0 +1,29 @@
+{
+	"mwapi": "1.1.0",
+	"moduleId": "attribution/v0-beta",
+	"info": {
+		"version": "0.1.0-beta",
+		"title": "Attribution API (Beta)",
+		"x-i18n-title": "wikimediacustomizations-attribution-rest-module-v0-beta-title",
+		"x-i18n-description": "wikimediacustomizations-attribution-rest-module-v0-beta-desc"
+	},
+	"paths": {
+		"/pages/{title}/signals": {
+			"get": {
+				"x-i18n-description": "wikimediacustomizations-attribution-endpoint-get-pages-signals-desc",
+				"handler": {
+					"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Attribution\\AttributionRestHandler",
+					"services": [
+						"MainConfig",
+						"UrlUtils",
+						"RepoGroup",
+						"PageRestHelperFactory"
+					],
+					"optional_services": [
+						"PageViewService"
+					]
+				}
+			}
+		}
+	}
+}

@@ -47,3 +47,21 @@ Originally moved here from the private Wikimedia repo, see history there for mor
 Business logic for when the EmailAuth extension should perform email verification.
 
 Most of it should probably be moved to EmailAuth.
+
+## Attribution API
+
+* Directory: `src/Attribution`
+* Contact: [MediaWiki Interfaces Team](https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team)
+
+Experimental REST API definition and related code for exposing structured attribution information about Wikimedia page or media, as defined by the Attribution Framework work.
+
+To expose the REST endpoint in Special:RestSandbox, add this to `LocalSettings.php`:
+
+```php
+$wgRestSandboxSpecs['attribution.v0-beta'] = [
+    'url' => $wgScriptPath . '/rest.php/specs/v0/module/attribution/v0-beta',
+    'name' => 'Attribution API',
+];
+```
+
+## ...

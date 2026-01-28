@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Moriel Schottlender"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Attribution API (Beta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "The Attribution API provides information about the attribution of a page.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Get the attribution information for a page.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "The schema for the Attribution API.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "The expand parameter allows the caller to include additional information in the response. The value is a comma-separated list of the keys to expand. The keys can be 'trust_and_relevance' or 'calls_to_action'.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "The essential information about the page attribution.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "The title of the requested page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "The uploader of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "The license of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "The URL of the license.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "The title of the license.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "The link to the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "The site brand marks of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "The name of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "The URL of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "The type of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "The details about the source wiki of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "The name of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "The type or 'family' of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "The ID of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "The content language of the wiki site.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "The content language of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "The trust and relevance information about the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "The number of contributor counts of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "The last modified date of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "The number of page views of the page for the last 30 days.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "The calls to action information for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "The donation call to action objects for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "The default donation call to action URL.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "The foundation donation call to action URL.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "The donation call to action URL for the special occasions.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "The participation call to action objects for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "The talk page call to action URL."
+}

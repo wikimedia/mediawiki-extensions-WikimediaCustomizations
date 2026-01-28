@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Moriel Schottlender"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "{{Experimental}} Title of the Attribution API REST module",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "{{Experimental}} Description of the Attribution API REST module",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Get the attribution information for a page.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "{{Experimental}} Description of the schema for the Attribution API.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "{{Experimental}} Description of the expand parameter.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "{{Experimental}} Description of the essential information about the page attribution.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "{{Experimental}} Description of the property for the title of the requested page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "{{Experimental}} Description of the property for the author of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "{{Experimental}} Description of the property for the license of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "{{Experimental}} Description of the property for the URL of the license.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "{{Experimental}} Description of the property for the title of the license.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "{{Experimental}} Description of the property for the link to the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "{{Experimental}} Description of the property for the site brand marks of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "{{Experimental}} Description of the property for the name of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "{{Experimental}} Description of the property for the URL of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "{{Experimental}} Description of the property for the type of the site brand mark.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "{{Experimental}} Description of the property for the details about the source wiki of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "{{Experimental}} Description of the property for the name of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "{{Experimental}} Description of the property for the type or 'family' of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "{{Experimental}} Description of the property for the ID of the source wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "{{Experimental}} Description of the property for the content language of the wiki site.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "{{Experimental}} Description of the property for the content language of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "{{Experimental}} Description of the property for the trust and relevance information about the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "{{Experimental}} Description of the property for the number of contributor counts of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "{{Experimental}} Description of the property for the last modified date of the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "{{Experimental}} Description of the property for the number of page views of the page for the last 30 days.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "{{Experimental}} Description of the property for the calls to action information for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "{{Experimental}} Description of the property for the donation call to action objects for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "{{Experimental}} Description of the property for the default donation call to action URL.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "{{Experimental}} Description of the property for the foundation donation call to action URL.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "{{Experimental}} Description of the property for the donation call to action URL for the special occasions.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "{{Experimental}} Description of the property for the participation call to action objects for the page.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "{{Experimental}} Description of the property for the talk page call to action URL."
+}
