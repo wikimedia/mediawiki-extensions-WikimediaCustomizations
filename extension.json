@@ -23,6 +23,10 @@
 		"WMCBadEmailDomainsFile": {
 			"description": "Path to the file listing the banned domains, one domain name per line.",
 			"value": false
+		},
+		"WMCEmailAuthEnforce": {
+			"description": "Whether to enforce email auth verification. Default is false, so log-only mode.",
+			"value": false
 		}
 	},
 	"HookHandlers": {
@@ -31,10 +35,15 @@
 			"services": [
 				"WikimediaCustomizations.BadEmailDomainChecker"
 			]
+		},
+		"emailauth": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler",
+			"factory": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler::factory"
 		}
 	},
 	"Hooks": {
-		"UserCanChangeEmail": "bademaildomain"
+		"UserCanChangeEmail": "bademaildomain",
+		"EmailAuthRequireToken": "emailauth"
 	},
 	"AuthManagerAutoConfig": {
 		"preauth": {

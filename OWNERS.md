@@ -34,3 +34,16 @@ Prevents the use of email providers which appear on a deny-list.
 Used to disallow disposable email addresses.
 
 Originally moved here from the private Wikimedia repo, see history there for more context.
+
+## EmailAuth
+
+* Directories:
+  * src/EmailAuth
+  * tests/phpunit/integration/EmailAuth
+* Dependencies: EmailAuth, IPReputation, LoginNotify, OATHAuth, WikimediaEvents, cldr (all but
+  the first optional).
+* Legacy code, no assigned owner
+
+Business logic for when the EmailAuth extension should perform email verification.
+
+Most of it should probably be moved to EmailAuth.
