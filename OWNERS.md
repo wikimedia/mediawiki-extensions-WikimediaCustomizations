@@ -35,6 +35,15 @@ Used to disallow disposable email addresses.
 
 Originally moved here from the private Wikimedia repo, see history there for more context.
 
+## Donor Identification
+
+* Folders: /
+  - src/DonorIdentification
+  - tests/phpunit/unit/DonorIdentification
+* Contact: [Reader Experience Team](https://www.mediawiki.org/wiki/Readers/Reader_Experience)
+
+Support for donor identification (currently not used in production).
+
 ## EmailAuth
 
 * Folders:

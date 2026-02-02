@@ -10,6 +10,13 @@
 	"requires": {
 		"MediaWiki": ">= 1.46.0"
 	},
+	"attributes": {
+		"GlobalPreferences": {
+			"AutoPrefs": [
+				"wikimedia-donor"
+			]
+		}
+	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\WikimediaCustomizations\\": "src/"
 	},
@@ -37,12 +44,19 @@
 			"value": "https://upload.wikimedia.org/wikipedia/commons/9/91/Wikimedia_Sonic_Logo_-_4-seconds.wav"
 		}
 	},
+	"DefaultUserOptions": {
+		"wikimedia-donor": "{ \"value\": 0 }"
+	},
 	"HookHandlers": {
 		"bademaildomain": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\BadEmailDomain\\BadEmailDomainHookHandler",
 			"services": [
 				"WikimediaCustomizations.BadEmailDomainChecker"
 			]
+		},
+		"donoridentification": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationHookHandler",
+			"services": []
 		},
 		"emailauth": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler",
@@ -70,6 +84,7 @@
 		}
 	},
 	"Hooks": {
+		"GetPreferences": "donoridentification",
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
 		"GetSessionJwtData": "ratelimit",
