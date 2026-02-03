@@ -37,9 +37,7 @@ class BadEmailDomainPreAuthenticationProvider extends AbstractPreAuthenticationP
 				// Do not pass a user as the account doesn't exist yet
 				+ $this->manager->getRequest()->getSecurityLogContext()
 			);
-			$msg = wfMessage( 'wikimediacustomizations-bademaildomain-error' )
-				->params( $domain );
-			return StatusValue::newFatal( $msg );
+			return StatusValue::newFatal( 'wikimediacustomizations-bademaildomain-error', $domain );
 		}
 
 		return StatusValue::newGood();

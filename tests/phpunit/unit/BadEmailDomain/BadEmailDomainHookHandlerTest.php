@@ -44,8 +44,7 @@ class BadEmailDomainHookHandlerTest extends MediaWikiUnitTestCase {
 			$status,
 		);
 		$this->assertTrue( $result );
-		$this->assertTrue( $status->isGood() );
-		$this->assertFalse( $status->hasMessage( 'wikimediacustomizations-bademaildomain-error' ) );
+		$this->assertStatusGood( $status );
 
 		$result = $handler->onUserCanChangeEmail(
 			$user,
@@ -54,8 +53,7 @@ class BadEmailDomainHookHandlerTest extends MediaWikiUnitTestCase {
 			$status,
 		);
 		$this->assertFalse( $result );
-		$this->assertFalse( $status->isGood() );
-		$this->assertTrue( $status->hasMessage( 'wikimediacustomizations-bademaildomain-error' ) );
+		$this->assertStatusError( 'wikimediacustomizations-bademaildomain-error', $status );
 	}
 
 }

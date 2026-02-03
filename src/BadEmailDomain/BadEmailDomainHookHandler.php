@@ -22,9 +22,7 @@ class BadEmailDomainHookHandler implements UserCanChangeEmailHook {
 				+ RequestContext::getMain()->getRequest()->getSecurityLogContext( $user )
 			);
 
-			$msg = wfMessage( 'wikimediacustomizations-bademaildomain-error' )
-				->params( $domain );
-			$status->fatal( $msg );
+			$status->fatal( 'wikimediacustomizations-bademaildomain-error', $domain );
 			return false;
 		}
 

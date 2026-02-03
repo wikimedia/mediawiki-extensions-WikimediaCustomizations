@@ -48,8 +48,11 @@ class BadEmailDomainPreAuthenticationProviderTest extends MediaWikiUnitTestCase 
 		$user = $this->createNoOpMock( User::class );
 		$status = $provider->testForAccountCreation( $user, $user, $reqs );
 
-		$this->assertSame( $expectPass, $status->isGood() );
-		$this->assertSame( !$expectPass, $status->hasMessage( 'wikimediacustomizations-bademaildomain-error' ) );
+		if ( $expectPass ) {
+			$this->assertStatusGood( $status );
+		} else {
+			$this->assertStatusError( 'wikimediacustomizations-bademaildomain-error', $status );
+		}
 	}
 
 	public function provideTestUser() {
