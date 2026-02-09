@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
+use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
@@ -146,20 +147,25 @@ class AttributionRestHandler extends SimpleHandler {
 		$result = [];
 		$result['essential'] = [
 			'title' => $metadata['title'],
-			// For the moment, we'll return an empty string for the author, but only if the title is a file.
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			'author' => $this->repoGroup->findFile( $page, [ 'private' => $this->getAuthority() ] ) ?: '',
 			'license' => $metadata['license'],
 			'link' => $title->getCanonicalURL(),
 			'default_brand_marks' => $this->getSiteBrandMarksObject( $title->getPageLanguage()->getCode() ),
 			'source_wiki' => [
 				'site_name' => $wikiName,
-				'project_family' => $this->getProjectName(),
+				'project_family' => $this->getProjectFamily(),
 				'site_id' => $this->dbname,
 				'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
-				'page_language' => $title->getPageLanguage()->getCode(),
+				'page_language' => $title->getPageLanguage()->getHtmlCode(),
 			],
 		];
+
+		// If this is a file page, we'll add the author to the response.
+		$file =
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			$this->repoGroup->findFile( $page, [ 'private' => $this->getAuthority() ] ) ?: null;
+		if ( $file ) {
+			$result['essential']['author'] = $file->getUploader( File::FOR_PUBLIC )->getName();
+		}
 
 		if ( $this->shouldExpand( 'trust_and_relevance' ) ) {
 			$result['trust_and_relevance'] = [
@@ -205,12 +211,12 @@ class AttributionRestHandler extends SimpleHandler {
 	}
 
 	/**
-	 * Get the project name for the current wiki; "wikipedia", "wiktionary", "wikibooks", etc.
+	 * Get the project family for the current wiki; "wikipedia", "wiktionary", "wikibooks", etc.
 	 * Will return an empty string if the project name is not found.
 	 *
 	 * @return string The project name, or an empty string if not found.
 	 */
-	private function getProjectName() {
+	private function getProjectFamily() {
 		global $wgConf;
 		[ $site, ] = $wgConf->siteFromDB( $this->dbname );
 		return $site ?? '';
