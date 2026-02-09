@@ -4,3 +4,4 @@
 .eslintcache
 /.stylelintcache
 .DS_Store
+.api-testing.config.json
