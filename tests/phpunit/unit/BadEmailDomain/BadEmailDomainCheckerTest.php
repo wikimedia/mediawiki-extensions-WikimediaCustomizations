@@ -63,7 +63,7 @@ class BadEmailDomainCheckerTest extends MediaWikiUnitTestCase {
 			] ),
 			new HashBagOStuff(),
 		);
-		$this->assertSame( false, $checker->isBad( 'foo@bar.boom' ) );
+		$this->assertFalse( $checker->isBad( 'foo@bar.boom' ) );
 	}
 
 }

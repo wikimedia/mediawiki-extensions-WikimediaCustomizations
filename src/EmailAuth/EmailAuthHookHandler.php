@@ -25,15 +25,15 @@ class EmailAuthHookHandler {
 	private $getPrivilegedGroupsCallback;
 
 	public function __construct(
-		private ExtensionRegistry $extensionRegistry,
-		private Config $config,
-		private UserEditTracker $userEditTracker,
-		private ?OATHUserRepository $oathUserRepository,
-		private ?IPReputationIPoidDataLookup $ipReputationDataLookup,
-		private ?LoginNotify $loginNotify,
+		private readonly ExtensionRegistry $extensionRegistry,
+		private readonly Config $config,
+		private readonly UserEditTracker $userEditTracker,
+		private readonly ?OATHUserRepository $oathUserRepository,
+		private readonly ?IPReputationIPoidDataLookup $ipReputationDataLookup,
+		private readonly ?LoginNotify $loginNotify,
 		?callable $getPrivilegedGroupsCallback,
-		private ?WikimediaEventsCountryCodeLookup $countryCodeLookup,
-		private LoggerInterface $logger
+		private readonly ?WikimediaEventsCountryCodeLookup $countryCodeLookup,
+		private readonly LoggerInterface $logger
 	) {
 		$this->getPrivilegedGroupsCallback = $getPrivilegedGroupsCallback;
 	}
@@ -61,11 +61,7 @@ class EmailAuthHookHandler {
 
 		$countryCodeLookup = null;
 		if ( $extensionRegistry->isLoaded( 'WikimediaEvents' )
-			 && (
-				 $extensionRegistry->isLoaded( 'cldr' )
-				 ||
-				 $extensionRegistry->isLoaded( 'CLDR' )
-			 )
+			 && $extensionRegistry->isLoaded( 'cldr' )
 		) {
 			$countryCodeLookup = $services->get( 'WikimediaEventsCountryCodeLookup' );
 		}
@@ -107,7 +103,6 @@ class EmailAuthHookHandler {
 		$isBot = $user->isBot();
 		// one of the LoginNotify::USER_* constants
 		$knownLoginNotify = 'no info';
-		$knownToIPoid = false;
 		$hasTwoFactorAuth = false;
 		$privilegedGroups = [];
 		$countryCode = $countryName = '';
@@ -131,11 +126,7 @@ class EmailAuthHookHandler {
 			$privilegedGroups = ( $this->getPrivilegedGroupsCallback )( $user );
 		}
 		if ( $this->extensionRegistry->isLoaded( 'WikimediaEvents' )
-			&& (
-				$this->extensionRegistry->isLoaded( 'cldr' )
-				||
-				$this->extensionRegistry->isLoaded( 'CLDR' )
-			)
+			&& $this->extensionRegistry->isLoaded( 'cldr' )
 		) {
 			$countryCode = WikimediaEventsCountryCodeLookup::getFromCookie( $request );
 			if ( !$countryCode ) {
@@ -208,7 +199,7 @@ class EmailAuthHookHandler {
 
 					// IPReputation modifies this event's log message
 					if ( $eventType === 'emailauth-verification-required' ) {
-						$logMessage = $logMessage . ', ' . ( $knownToIPoid ? 'bad' : 'good' ) . ' IP reputation';
+						$logMessage .= ', ' . ( $knownToIPoid ? 'bad' : 'good' ) . ' IP reputation';
 					}
 				}
 

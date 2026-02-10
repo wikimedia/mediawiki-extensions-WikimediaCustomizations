@@ -45,14 +45,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'IPReputation' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'OATHAuth' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'LoginNotify' );
-		$this->markTestSkippedIfExtensionNotLoaded( 'WikimediaEvents' );
-
-		if ( !(
-			ExtensionRegistry::getInstance()->isLoaded( 'cldr' )
-			|| ExtensionRegistry::getInstance()->isLoaded( 'CLDR' )
-		) ) {
-			self::markTestSkipped( 'cldr extension is required for this test' );
-		}
+		$this->markTestSkippedIfExtensionNotLoaded( 'cldr' );
 
 		parent::setUp();
 
@@ -94,7 +87,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', false ],
+				[ 'cldr', '*', false ],
 				[ 'WikimediaEvents', '*', false ],
 			] );
 
@@ -128,7 +121,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', false ],
+				[ 'cldr', '*', false ],
 				[ 'WikimediaEvents', '*', false ],
 			] );
 
@@ -182,7 +175,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', true ],
 				[ 'OATHAuth', '*', true ],
 				[ 'LoginNotify', '*', true ],
-				[ 'CLDR', '*', true ],
+				[ 'cldr', '*', true ],
 				[ 'WikimediaEvents', '*', true ],
 			] );
 
@@ -332,7 +325,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', false ],
+				[ 'cldr', '*', false ],
 				[ 'WikimediaEvents', '*', false ],
 			] );
 		$this->request->setCookie( 'forceEmailAuth', '1', '' );
@@ -360,7 +353,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', false ],
+				[ 'cldr', '*', false ],
 				[ 'WikimediaEvents', '*', false ],
 			] );
 		$this->request->setCookie( 'forceEmailAuth', '1', '' );
@@ -388,7 +381,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', true ],
+				[ 'cldr', '*', true ],
 				[ 'WikimediaEvents', '*', true ],
 			] );
 		$this->request->setCookie( 'forceEmailAuth', '1', '' );
@@ -418,7 +411,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 				[ 'IPReputation', '*', false ],
 				[ 'OATHAuth', '*', false ],
 				[ 'LoginNotify', '*', false ],
-				[ 'CLDR', '*', true ],
+				[ 'cldr', '*', true ],
 				[ 'WikimediaEvents', '*', true ],
 			] );
 		$this->request->setCookie( 'forceEmailAuth', '1', '' );
