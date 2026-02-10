@@ -125,17 +125,13 @@ class EmailAuthHookHandler {
 		if ( is_callable( $this->getPrivilegedGroupsCallback ) ) {
 			$privilegedGroups = ( $this->getPrivilegedGroupsCallback )( $user );
 		}
-		if ( $this->extensionRegistry->isLoaded( 'WikimediaEvents' )
-			&& $this->extensionRegistry->isLoaded( 'cldr' )
-		) {
-			$countryCode = WikimediaEventsCountryCodeLookup::getFromCookie( $request );
-			if ( !$countryCode ) {
-				$countryCode = $this->countryCodeLookup->getFromGeoIP( $request );
-			}
-			if ( $countryCode ) {
-				$countryNames = CountryNames::getNames( RequestContext::getMain()->getLanguage()->toBcp47Code() );
-				$countryName = $countryNames[$countryCode] ?? '';
-			}
+		if ( $this->extensionRegistry->isLoaded( 'WikimediaEvents' ) ) {
+			$countryCode = WikimediaEventsCountryCodeLookup::getFromCookie( $request ) ?:
+				$this->countryCodeLookup->getFromGeoIP( $request );
+		}
+		if ( $countryCode && $this->extensionRegistry->isLoaded( 'cldr' ) ) {
+			$countryNames = CountryNames::getNames( RequestContext::getMain()->getLanguage()->toBcp47Code() );
+			$countryName = $countryNames[$countryCode] ?? '';
 		}
 
 		$logData = [
