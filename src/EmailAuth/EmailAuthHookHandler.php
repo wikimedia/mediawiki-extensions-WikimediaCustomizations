@@ -130,10 +130,12 @@ class EmailAuthHookHandler {
 		if ( is_callable( $this->getPrivilegedGroupsCallback ) ) {
 			$privilegedGroups = ( $this->getPrivilegedGroupsCallback )( $user );
 		}
-		if (
-			$this->extensionRegistry->isLoaded( 'cldr' )
-			||
-			$this->extensionRegistry->isLoaded( 'CLDR' )
+		if ( $this->extensionRegistry->isLoaded( 'WikimediaEvents' )
+			&& (
+				$this->extensionRegistry->isLoaded( 'cldr' )
+				||
+				$this->extensionRegistry->isLoaded( 'CLDR' )
+			)
 		) {
 			$countryCode = WikimediaEventsCountryCodeLookup::getFromCookie( $request );
 			if ( !$countryCode ) {
@@ -157,7 +159,7 @@ class EmailAuthHookHandler {
 			'privilegedGroups' => array_fill_keys( $privilegedGroups, 1 ),
 			'activeOnLocalWikiInLast90Days' => $activeOnLocalWikiInLast90Days,
 			'countryCode' => $countryCode,
-			'countryName' => $countryName
+			'countryName' => $countryName,
 		];
 
 		if ( $forceEmailAuth ) {
