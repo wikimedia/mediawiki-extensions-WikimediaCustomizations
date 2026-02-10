@@ -9,7 +9,6 @@
 			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-essential",
 			"required": [
 				"title",
-				"author",
 				"license",
 				"link",
 				"default_brand_marks",
