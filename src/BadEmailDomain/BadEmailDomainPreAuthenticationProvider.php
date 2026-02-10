@@ -11,7 +11,7 @@ use StatusValue;
 class BadEmailDomainPreAuthenticationProvider extends AbstractPreAuthenticationProvider {
 
 	public function __construct(
-		private BadEmailDomainChecker $checker
+		private readonly BadEmailDomainChecker $checker
 	) {
 	}
 

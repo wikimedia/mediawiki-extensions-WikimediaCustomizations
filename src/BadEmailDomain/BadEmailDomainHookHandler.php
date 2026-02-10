@@ -9,7 +9,7 @@ use MediaWiki\Specials\Hook\UserCanChangeEmailHook;
 class BadEmailDomainHookHandler implements UserCanChangeEmailHook {
 
 	public function __construct(
-		private BadEmailDomainChecker $checker
+		private readonly BadEmailDomainChecker $checker
 	) {
 	}
 

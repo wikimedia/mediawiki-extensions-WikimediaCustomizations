@@ -10,8 +10,8 @@ use Wikimedia\ObjectCache\BagOStuff;
 class BadEmailDomainChecker {
 
 	public function __construct(
-		private Config $config,
-		private BagOStuff $cache
+		private readonly Config $config,
+		private readonly BagOStuff $cache
 	) {
 	}
 
