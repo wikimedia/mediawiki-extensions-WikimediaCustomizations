@@ -48,6 +48,16 @@ Business logic for when the EmailAuth extension should perform email verificatio
 
 Most of it should probably be moved to EmailAuth.
 
+## RateLimit
+
+* Directories:
+  * src/RateLimit
+* Contact: https://www.mediawiki.org/wiki/MediaWiki_Platform_Team
+
+Adds a rate limit class ('rlc') field to JWTs associated with login sessions.
+Used to enforce low-level rate limits (outside of MediaWiki).
+Historical context: T399632, T415588.
+
 ## Attribution API
 
 * Directory: `src/Attribution`

@@ -27,6 +27,10 @@
 		"WMCEmailAuthEnforce": {
 			"description": "Whether to enforce email auth verification. Default is false, so log-only mode.",
 			"value": false
+		},
+		"WMCGlobalGroupToRateLimitClass": {
+			"description": "Map of global group names to the rate limit class ('rlc') assigned to members of that group in JWTs.",
+			"value": {}
 		}
 	},
 	"HookHandlers": {
@@ -39,11 +43,19 @@
 		"emailauth": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler",
 			"factory": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler::factory"
+		},
+		"ratelimit": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\RateLimit\\RateLimitHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config",
+				"ExtensionRegistry"
+			]
 		}
 	},
 	"Hooks": {
 		"UserCanChangeEmail": "bademaildomain",
-		"EmailAuthRequireToken": "emailauth"
+		"EmailAuthRequireToken": "emailauth",
+		"GetSessionJwtData": "ratelimit"
 	},
 	"AuthManagerAutoConfig": {
 		"preauth": {
