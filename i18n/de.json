@@ -1,0 +1,7 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"wikimediacustomizations-desc": "Die WikimediaCustomization-Erweiterung hostet Wikimedia-spezifische Hooks, Meldungen und andere Website-Anpassungen.",
+	"wikimediacustomizations-bademaildomain-error": "E-Mail-Adressen mit der Bezeichnung $1 werden nicht unterstützt. Bitte wähle einen anderen E-Mail-Anbieter."
+}

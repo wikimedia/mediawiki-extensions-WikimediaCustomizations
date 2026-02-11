@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Приложник за припис (Бета)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Приложникот за припис дава информации за приписот на дадена страница.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Дај приписни информации за страница.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Шемата за приложникот за припис."
+}

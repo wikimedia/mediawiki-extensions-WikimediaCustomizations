@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"wikimediacustomizations-desc": "Utvidelsen WikimediaCustomization inneholder Wikimedia-spesifikke hooker, beskjeder og andre tilpasninger for nettstedene.",
+	"wikimediacustomizations-bademaildomain-error": "E-postadresser fra $1 støttes ikke. Velg en annen e-postleverandør."
+}

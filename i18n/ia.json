@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"wikimediacustomizations-desc": "Le extension WikimediaCustomization alberga uncinos, messages e altere personalisationes de sito specific a Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "Le adresses de e-mail que usa $1 non es supportate. Per favor usa un altere fornitor de e-mail."
+}

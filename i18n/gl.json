@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"wikimediacustomizations-desc": "A extensión WikimediaCustomization aloxa asociadores, mensaxes e outras personalizacións do sitio específicos da Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "Non se admiten os enderezos de correo electrónico que usan o dominio «$1». Escolle outro provedor de correo electrónico."
+}

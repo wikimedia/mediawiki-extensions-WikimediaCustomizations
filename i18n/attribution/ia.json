@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de attribution (beta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Le API de attribution forni informationes sur le attribution de un pagina.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Obtener le informationes de attribution de un pagina.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Le schema pro le API de attribution.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Le parametro ‘expand’ permitte al appellante includer informationes additional in le responsa. Le valor es un lista separate per commas del claves a expander. Le claves pote esser ‘trust_and_relevance’ o ‘calls_to_action’.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informationes essential sur le attribution de un pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Le titulo del pagina requestate.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "Le incargator del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Le licentia del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Le adresse URL del licentia.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Le titulo del licentia.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Le ligamine al pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Le marcas de sito del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Le nomine del marca de sito.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "Le adresse URL del marca de sito.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "Le typo del marca de sito.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Le detalios del wiki de origine del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Le nomine del wiki de origine.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "Le typo o ‘familia’ del wiki de origine.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "Le ID del wiki de origine.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "Le lingua de contento del sito wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Le lingua de contento del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Le informationes de fiducia e de pertinentia sur le pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Le numero de numeros de contributores del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Le data de ultime modification del pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Le numero de visitas del pagina durante le ultime 30 dies.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Le information de appellos al action pro le pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Le objectos de appello a donation pro le pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "Le adresse URL predefinite del appello a donation.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Le adresse URL de appello a donation del fundation.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Le adresse URL de appello a donation pro occasiones special.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Le objectos de appello a participation pro le pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Le adresse URL de appello a action pro le pagina de discussion."
+}

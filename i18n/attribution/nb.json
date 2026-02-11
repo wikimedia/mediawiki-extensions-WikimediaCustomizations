@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Attribusjons-API (beta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Attribusjons-API-et gir informasjon om attribusjon for ei side.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Hent attribusjonsinformasjon for ei side.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Skjemaet for attribusjons-API-et."
+}
