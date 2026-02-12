@@ -4,10 +4,11 @@ namespace MediaWiki\Extension\WikimediaCustomizations\RateLimit;
 
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Hook\GetSessionJwtDataHook;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserIdentity;
 
-class RateLimitHookHandler {
+class RateLimitHookHandler implements GetSessionJwtDataHook {
 
 	public function __construct(
 		private Config $config,
