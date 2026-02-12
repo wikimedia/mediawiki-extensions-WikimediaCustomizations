@@ -139,13 +139,7 @@ class AttributionRestHandler extends SimpleHandler {
 		// If we can't resolve the wiki name, just use an empty string
 		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
 
-		// Get the talk page if it exists
-		$talkPage = $title->getTalkPageIfDefined();
-
-		// Build the response object.
-
-		$result = [];
-		$result['essential'] = [
+		$result = [ 'essential' => [
 			'title' => $metadata['title'],
 			'license' => $metadata['license'],
 			'link' => $title->getCanonicalURL(),
@@ -157,7 +151,7 @@ class AttributionRestHandler extends SimpleHandler {
 				'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
 				'page_language' => $title->getPageLanguage()->getHtmlCode(),
 			],
-		];
+		] ];
 
 		// If this is a file page, we'll add the author to the response.
 		$file =
@@ -177,6 +171,8 @@ class AttributionRestHandler extends SimpleHandler {
 		}
 
 		if ( $this->shouldExpand( 'calls_to_action' ) ) {
+			$talkPage = $title->getTalkPageIfDefined();
+
 			$result['calls_to_action'] = [
 				'donation_cta' => [
 					'default' => 'https://donate.wikimedia.org',
@@ -191,9 +187,7 @@ class AttributionRestHandler extends SimpleHandler {
 			];
 		}
 
-		// Return the response
-		$response = $this->getResponseFactory()->createJson( $result );
-		return $response;
+		return $this->getResponseFactory()->createJson( $result );
 	}
 
 	/**
@@ -284,9 +278,7 @@ class AttributionRestHandler extends SimpleHandler {
 		$data = $status->getValue();
 		$views = $data[$title->getPrefixedDBkey()];
 
-		$total = array_sum( $views );
-
-		return $total;
+		return array_sum( $views );
 	}
 
 	protected function getResponseBodySchemaFileName( string $method ): ?string {
