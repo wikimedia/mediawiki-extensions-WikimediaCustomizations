@@ -8,7 +8,9 @@ return [
 		return $services->getConfigFactory()->makeConfig( 'WikimediaCustomizations' );
 	},
 
-	'WikimediaCustomizations.BadEmailDomainChecker' => static function ( MediaWikiServices $services ) {
+	'WikimediaCustomizations.BadEmailDomainChecker' => static function (
+		MediaWikiServices $services
+	): BadEmailDomainChecker {
 		return new BadEmailDomainChecker(
 			$services->get( 'WikimediaCustomizations.Config' ),
 			$services->getLocalServerObjectCache(),
