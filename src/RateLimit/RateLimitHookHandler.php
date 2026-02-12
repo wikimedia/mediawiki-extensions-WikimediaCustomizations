@@ -11,8 +11,8 @@ use MediaWiki\User\UserIdentity;
 class RateLimitHookHandler implements GetSessionJwtDataHook {
 
 	public function __construct(
-		private Config $config,
-		private ExtensionRegistry $extensionRegistry,
+		private readonly Config $config,
+		private readonly ExtensionRegistry $extensionRegistry,
 	) {
 	}
 
