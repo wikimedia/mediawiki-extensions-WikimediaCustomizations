@@ -282,6 +282,6 @@ class AttributionRestHandler extends SimpleHandler {
 	}
 
 	protected function getResponseBodySchemaFileName( string $method ): ?string {
-		return 'extensions/WikimediaCustomizations/src/Attribution/schema/PagesTitleSignalsSchema.json';
+		return __DIR__ . '/schema/PagesTitleSignalsSchema.json';
 	}
 }
