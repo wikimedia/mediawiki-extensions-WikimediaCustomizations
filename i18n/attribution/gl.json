@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de recoñecemento (beta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "A API de recoñecemento proporciona información sobre os recoñecementos dunha páxina.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Obter a información de recoñecemento dunha páxina.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "O esquema para a API de recoñecemento.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "O parámetro «expand» permite que a persoa que fai a chamada inclúa información adicional na resposta. O valor é unha lista separada por comas das claves que se van expandir. As claves poden ser «trust_and_relevance» ou «calls_to_action».",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "A información esencial sobre o recoñecemento da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "O título da páxina solicitada.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "A persoa que subiu a páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "A licenza da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "O enderezo URL da licenza.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "O título da licenza.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "A ligazón á páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "As marcas do sitio web da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "O nome da marca do sitio.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "O enderezo URL da marca do sitio.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "O tipo de marca do sitio.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Os detalles sobre o wiki de orixe da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "O nome do wiki de orixe.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "O tipo ou «familia» do wiki de orixe.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "O identificador do wiki de orixe.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "A lingua do contido do sitio wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "A lingua do contido da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "A información de confianza e relevancia da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "O número de colaboradores da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "A data da última modificación da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "O número de visualizacións da páxina nos últimos 30 días.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "A información de chamadas á acción da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Os obxectos de chamada á acción de doazón da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "O enderezo URL predeterminado de chamada á acción de doazón.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "O enderezo URL de chamada á acción dunha doazón á fundación.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "O enderezo URL de chamada á acción de doazóns para as ocasións especiais.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Os obxectos de chamada á acción de participación da páxina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "O enderezo URL de chamada á acción da páxina de conversa."
+}

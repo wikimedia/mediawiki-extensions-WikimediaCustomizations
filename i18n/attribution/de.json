@@ -3,5 +3,26 @@
 		"authors": []
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Attribution API (Beta)",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Die Attribution API liefert Informationen über die Urheberschaft einer Seite."
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Die Attribution API liefert Informationen über die Urheberschaft einer Seite.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Ruft die Attributionsinformationen für eine Seite ab.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Das Schema für die Attributions-API.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Der Titel der angeforderten Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "Der Hochlader der Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Die Lizenz der Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Die URL der Lizenz.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Der Titel der Lizenz.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Der Link zur Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Die Markenzeichen der Website.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Der Name der Website-Marke.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "Die URL der Website-Marke.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "Die Art des Markenzeichens der Website.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Der Name des Quell-Wikis.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "Der Typ oder die „Familie“ des Quell-Wikis.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "Die ID des Quell-Wikis.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "Die Inhaltssprache der Wiki-Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Die Inhaltssprache der Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Die Vertrauens- und Relevanzinformationen zur Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Die Anzahl der Mitwirkenden auf der Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Das Datum der letzten Änderung dieser Seite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Die Anzahl der Seitenaufrufe der Seite in den letzten 30 Tagen."
 }

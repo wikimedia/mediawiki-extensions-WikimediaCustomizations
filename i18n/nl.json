@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"HanV"
+		]
+	},
+	"wikimediacustomizations-desc": "De extensie WikimediaCustomization biedt Wikimedia-specifieke hooks, berichten en andere site-aanpassingen.",
+	"wikimediacustomizations-bademaildomain-error": "E-mailadressen met $1 worden niet ondersteund. Kies een andere e-mailprovider."
+}

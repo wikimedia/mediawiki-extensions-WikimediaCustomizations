@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informazioni essenziali sull'attribuzione della pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Il titolo della pagina richiesta.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "La licenza della pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Il titolo della licenza.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "I dettagli sul wiki di origine della pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Il nome del wiki di origine.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "La lingua del contenuto della pagina."
+}

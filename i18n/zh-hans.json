@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"0x48fe75df30"
+		]
+	},
+	"wikimediacustomizations-desc": "WikimediaCustomization（维基媒体自定义）扩展功能托管了Wikimedia（维基媒体）特有的钩子、消息和其他网站自定义功能。",
+	"wikimediacustomizations-bademaildomain-error": "不支持使用$1域名的电子邮件地址。请选择其他电子邮件服务提供商。"
+}

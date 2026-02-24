@@ -1,8 +1,41 @@
 {
 	"@metadata": {
 		"authors": [
+			"0x48fe75df30",
 			"Gsdn"
 		]
 	},
-	"wikimediacustomizations-attribution-get-pages-signals-property-license": "页面的许可协议。"
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "归属API（测试）",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "归属API提供有关页面归属的信息。",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "获取页面的归属信息。",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "归属API的架构。",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "<code>expand</code>参数允许调用者在返回结果中包含额外的信息。它的值是一个以逗号分隔的列表，列表中是需要展开（包含）的键名。这些键名可以是 <code>trust_and_relevance</code>（信任与相关性）或者 <code>calls_to_action</code>（行动号召）。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "关于页面归属的必要信息。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "请求页面的标题。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "该页面的上传者。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "页面的许可协议。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "许可协议的URL。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "许可协议的标题。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "页面链接。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "该页面的网站品牌标识。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "网站品牌标识的名称。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "网站品牌标识的URL。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "网站品牌标识的类型。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "页面来源维基的详细信息。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "来源维基名称。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "来源维基的类型或“族”。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "来源维基ID。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "维基网站的内容语言。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "页面内容语言。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "此页面的信度和相关性信息。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "该页面的贡献者数量。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "页面最后修改日期。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "最近30天该页面的浏览量。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "页面上的行动号召信息。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "页面上的捐赠号召性用语对象。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "默认捐款行动号召网址。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "基金会捐款行动号召网址。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "特殊场合的捐款行动号召网址。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "页面上的参与号召性用语对象。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "讨论页行动号召URL。"
 }

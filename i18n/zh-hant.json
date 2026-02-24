@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly"
+		]
+	},
+	"wikimediacustomizations-desc": "WikimediaCustomization 擴充功能託管了 Wikimedia 特有的掛勾、訊息和其他網站自訂功能。",
+	"wikimediacustomizations-bademaildomain-error": "不支援使用 $1 網域的電子郵件地址。請選擇其他電子郵件服務提供者。"
+}
