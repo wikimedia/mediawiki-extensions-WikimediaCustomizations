@@ -162,7 +162,10 @@ class EmailAuthHookHandler {
 			$logMessage = 'Email verification skipped for {user} with 2FA enabled';
 			$eventType = 'emailauth-verification-skipped-2fa';
 			$verificationRequired = false;
-		} elseif ( $knownLoginNotify === LoginNotify::USER_KNOWN ) {
+		} elseif (
+			$this->extensionRegistry->isLoaded( 'LoginNotify' ) &&
+			$knownLoginNotify === LoginNotify::USER_KNOWN
+		) {
 			$logMessage = 'Email verification skipped for {user} with known IP or device';
 			$eventType = 'emailauth-verification-skipped-known-loginnotify';
 			$verificationRequired = false;
