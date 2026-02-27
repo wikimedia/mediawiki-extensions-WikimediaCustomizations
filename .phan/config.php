@@ -16,4 +16,6 @@ $dirs = [
 $cfg['directory_list'] = array_merge( $cfg['directory_list'], $dirs );
 $cfg['exclude_analysis_directory_list'] = array_merge( $cfg['exclude_analysis_directory_list'], $dirs );
 
+$cfg['warn_about_undocumented_exceptions_thrown_by_invoked_functions'] = true;
+
 return $cfg;

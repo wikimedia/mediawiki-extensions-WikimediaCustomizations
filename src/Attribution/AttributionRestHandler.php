@@ -85,6 +85,7 @@ class AttributionRestHandler extends SimpleHandler {
 	 * If the page is accessible and redirectable, return null.
 	 *
 	 * @return Response|null
+	 * @throws LocalizedHttpException
 	 */
 	private function checkPageAccess() {
 		$this->contentHelper->checkAccessPermission();
