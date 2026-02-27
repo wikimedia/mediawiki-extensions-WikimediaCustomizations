@@ -6,7 +6,6 @@ use LoginNotify\LoginNotify;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Config\MutableConfig;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Exception\MWException;
 use MediaWiki\Extension\IPReputation\IPoid\IPoidResponse;
 use MediaWiki\Extension\IPReputation\Services\IPReputationIPoidDataLookup;
 use MediaWiki\Extension\OATHAuth\OATHUser;
@@ -19,7 +18,6 @@ use MediaWiki\User\UserEditTracker;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Wikimedia\NormalizedException\NormalizedException;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 use WikimediaEvents\Tests\ArrayHasSubset;
 use WikimediaEvents\WikimediaEventsCountryCodeLookup;
@@ -152,8 +150,6 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @param bool $shouldEnforceVerification The value of $wgWikimediaEventsEmailAuthEnforce
 	 * @param string $knownLoginNotify The status of the user's IP according to LoginNotify
 	 * @param ?bool $activeOnLocalWikiInLast90Days Null for no data, true/false for recent / old time
-	 * @throws MWException
-	 * @throws NormalizedException
 	 */
 	public function testShouldRequireVerificationForNon2FAUsersOnUnknownIPsKnownToIpoid(
 		bool $hasEnabledTwoFactorAuth,
