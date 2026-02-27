@@ -42,7 +42,7 @@ Originally moved here from the private Wikimedia repo, see history there for mor
   * tests/phpunit/integration/EmailAuth
 * Dependencies: EmailAuth, IPReputation, LoginNotify, OATHAuth, WikimediaEvents, cldr (all but
   the first optional).
-* Legacy code, no assigned owner
+* Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
 
 Business logic for when the EmailAuth extension should perform email verification.
 
