@@ -18,7 +18,6 @@ class BadEmailDomainChecker {
 	/**
 	 * Checks email domains against a configured deny-list.
 	 * @param string $domain The domain part of an email address (e.g. `gmail.com`).
-	 * @return bool
 	 */
 	public function isBad( string $domain ): bool {
 		return array_key_exists( $domain, $this->getBlockedHosts() );
@@ -26,7 +25,6 @@ class BadEmailDomainChecker {
 
 	/**
 	 * Convenience function to get the domain part of an email address.
-	 * @param string $email
 	 * @return string|false Domain, or false if the address couldn't be parsed.
 	 */
 	public function getDomain( string $email ): string|false {

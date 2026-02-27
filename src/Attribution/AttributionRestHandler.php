@@ -116,7 +116,6 @@ class AttributionRestHandler extends SimpleHandler {
 	}
 
 	/**
-	 * @return Response
 	 * @throws LocalizedHttpException
 	 */
 	public function run(): Response {
@@ -221,7 +220,6 @@ class AttributionRestHandler extends SimpleHandler {
 	 * Get the site brand marks for a given title and create the response object.
 	 *
 	 * @param string $langCode The language code of the page
-	 * @return array
 	 */
 	private function getSiteBrandMarksObject( string $langCode ): array {
 		// Get the site brand mark logo from the config
@@ -257,7 +255,6 @@ class AttributionRestHandler extends SimpleHandler {
 	 * Get the page views for a given title, summed over the last 30 days.
 	 * Note: This is copied from PageViewInfo\Hooks::onInfoAction, as it is doing exactly what we need.
 	 *
-	 * @param Title $title
 	 * @return int -1 if the page views are not supported or unavailable,
 	 *  or the total number of views over the last 30 days.
 	 */
