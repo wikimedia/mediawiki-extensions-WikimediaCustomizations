@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mormegil"
+		]
+	},
+	"wikimediacustomizations-desc": "Rozšíření WikimediaCustomization obsahuje funkce, zprávy a další přizpůsobení specifická pro projekty Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "E-mailové adresy používající $1 nejsou podporovány. Zvolte si prosím jiného e-mailového poskytovatele."
+}
