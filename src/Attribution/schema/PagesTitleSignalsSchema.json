@@ -21,7 +21,8 @@
 				},
 				"author": {
 					"type": "string",
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-author"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-author",
+					"nullable": true
 				},
 				"license": {
 					"type": "object",
@@ -29,11 +30,13 @@
 					"properties": {
 						"url": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-url"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-url",
+							"nullable": true
 						},
 						"title": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title",
+							"nullable": true
 						}
 					}
 				},

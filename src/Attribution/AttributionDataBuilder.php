@@ -3,11 +3,15 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Config\Config;
+use MediaWiki\Context\DerivativeContext;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Page\ExistingPageRecord;
+use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
 use MediaWiki\Title\Title;
@@ -79,8 +83,26 @@ class AttributionDataBuilder {
 		// TODO: Do a generalized media checks to not show citations and pageviews for files
 		// Also confirm on other conditional files responses.
 		if ( $file ) {
-			$essential['essential']['author'] = $file->getUploader( File::FOR_PUBLIC )->getName();
+			$essential = $this->injectFileMetadata( $file, $essential );
 		}
+		return $essential;
+	}
+
+	/**
+	 * Inject the Artist/License metadata into attribution data
+	 */
+	private function injectFileMetadata( File $file, array $essential ): array {
+		$extMeta = $this->getExtMetaData( $file );
+
+		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
+		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
+		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
+
+		$essential['essential']['author'] = $artist;
+		$essential['essential']['license'] = [
+			'title' => $licenseTitle,
+			'url' => $licenseUrl,
+		];
 		return $essential;
 	}
 
@@ -184,5 +206,34 @@ class AttributionDataBuilder {
 		$views = $data[$title->getPrefixedDBkey()];
 
 		return array_sum( $views );
+	}
+
+	/**
+	 * Retrieves a sanitized value from the extmetadata array by key.
+	 *
+	 * Returns the plain-text value at `$extMeta[$key]['value']`, or null if the key
+	 * is not present. Uses Sanitizer::stripAllTags() which relies on a proper HTML
+	 * tokenizer (RemexHtml) to correctly strip tags and decode entities, avoiding
+	 * the pitfalls of strip_tags().
+	 *
+	 * @param array $extMeta Associative array of extmetadata entries, each containing a 'value' key
+	 * @param string $key The metadata key to look up
+	 * @return string|null The sanitized value, or null if the key is not present
+	 * @see T418503 for more details about the null return value
+	 */
+	private function getExtMetaValue( array $extMeta, string $key ): ?string {
+		return isset( $extMeta[$key]['value'] )
+			? Sanitizer::stripAllTags( $extMeta[$key]['value'] )
+			: null;
+	}
+
+	private function getExtMetaData( File $file ): array {
+		$format = new FormatMetadata();
+		$format->setSingleLanguage( true );
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setLanguage( 'en' );
+		$format->setContext( $context );
+
+		return $format->fetchExtendedMetadata( $file );
 	}
 }
