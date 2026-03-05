@@ -17,7 +17,8 @@
 						"MainConfig",
 						"UrlUtils",
 						"RepoGroup",
-						"PageRestHelperFactory"
+						"PageRestHelperFactory",
+						"ParserOutputAccess"
 					],
 					"optional_services": [
 						"PageViewService"

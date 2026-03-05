@@ -14,7 +14,6 @@ describe( 'Attribution API tests', () => {
 	before( async () => {
 		mindy = await action.mindy();
 		await mindy.edit( title, { text: 'Test page for Attribution API' } );
-
 		// Prepare the OpenAPI spec for validation
 		// Fetch the OpenAPI spec using a separate client
 		const specClient = new REST( 'rest.php' );
@@ -68,6 +67,7 @@ describe( 'Attribution API tests', () => {
 			assert.isDefined( response.body.trust_and_relevance.last_modified );
 			assert.isDefined( response.body.trust_and_relevance.page_views );
 			assert.isDefined( response.body.trust_and_relevance.contributor_counts );
+			assert.isNumber( response.body.trust_and_relevance.reference_count );
 
 			assert.isUndefined( response.body.calls_to_action );
 

@@ -113,6 +113,11 @@
 				"contributor_counts": {
 					"type": "number",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts"
+				},
+				"reference_count": {
+					"type": "integer",
+					"nullable": true,
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-reference-count"
 				}
 			}
 		},

@@ -11,6 +11,8 @@ use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Page\ExistingPageRecord;
+use MediaWiki\Page\ParserOutputAccess;
+use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
@@ -29,42 +31,56 @@ class AttributionDataBuilder {
 		private readonly Config $mainConfig,
 		private readonly UrlUtils $urlUtils,
 		private readonly RepoGroup $repoGroup,
+		private readonly ParserOutputAccess $parserOutputAccess,
+		private readonly ParserOptions $parserOptions,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
 	}
 
 	public function getAttributionData(
-		Title $title, ?ExistingPageRecord $page, array $metadata, array $paramsToExpand,
+		Title $title, ExistingPageRecord $page, array $metadata, array $paramsToExpand,
 		Authority $authority
 	): array {
-		$base = $this->getEssential( $title, $page, $metadata, $authority );
+		$base = [];
+		$base[ 'essential' ] = $this->getEssential( $title, $metadata );
 
-		// TODO: Add back the ALLOWED_EXPAND_KEYS constant
+		// Start conditional response based on whether this is as file or an article.
+		// TODO: Do a generalized media checks to not show citations and pageviews for files
+		// Also confirm on other conditional files responses.
+		$file = $this->repoGroup->findFile( $page, [ 'private' => $authority ] ) ?: null;
+
+		// If this is a file page, we'll inject file metadata into the essential response.
+		if ( $file ) {
+			$base = $this->injectFileMetadata( $file, $base );
+		}
+
+		// TODO: Add back the ALLOWED_EXPAND_KEYS constant.
 		// See  https://gerrit.wikimedia.org/r/c/mediawiki/extensions/WikimediaCustomizations/+/1239925
 		if ( in_array( 'trust_and_relevance', $paramsToExpand ) ) {
 			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $title, $metadata );
+
+			// If this is an article we'll add the reference count.
+			if ( !$file ) {
+				$base['trust_and_relevance']['reference_count'] = $this->getReferenceCount( $page );
+			}
 		}
 		if ( in_array( 'calls_to_action', $paramsToExpand ) ) {
 			$base[ 'calls_to_action' ] = $this->getCallsToAction( $title );
 		}
+
 		return $base;
 	}
 
 	/**
-	 * Get the essential attribution fields
+	 * Get the essential attribution fields.
 	 *
 	 * @param Title $title The title of the wiki
-	 * @param ?ExistingPageRecord $page The page of the resource
 	 * @param array $metadata The page of the resource
-	 * @param Authority $authority The current acting authority
 	 * @return array The default essential attribution data
 	 */
-	private function getEssential(
-		Title $title, ?ExistingPageRecord $page, array $metadata,
-		Authority $authority
-	): array {
-		$essential = [ 'essential' => [
+	private function getEssential( Title $title, array $metadata ): array {
+		return [
 			'title' => $metadata['title'],
 			'license' => $metadata['license'],
 			'link' => $title->getCanonicalURL(),
@@ -74,18 +90,7 @@ class AttributionDataBuilder {
 				'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
 				'page_language' => $title->getPageLanguage()->getHtmlCode(),
 			],
-		] ];
-
-		// If this is a file page, we'll add the author to the response.
-		$file =
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			$this->repoGroup->findFile( $page, [ 'private' => $authority ] ) ?: null;
-		// TODO: Do a generalized media checks to not show citations and pageviews for files
-		// Also confirm on other conditional files responses.
-		if ( $file ) {
-			$essential = $this->injectFileMetadata( $file, $essential );
-		}
-		return $essential;
+		];
 	}
 
 	/**
@@ -117,7 +122,7 @@ class AttributionDataBuilder {
 		return [
 			'last_modified' => $metadata['latest']['timestamp'],
 			'page_views' => $this->getPageViews( $title ),
-			// Placeholder for the contributor counts, will be implemented in a future version.
+			// Placeholder for the contributor counts will be implemented in a future version.
 			'contributor_counts' => 0,
 		];
 	}
@@ -149,7 +154,7 @@ class AttributionDataBuilder {
 	 */
 	private function getSiteBrandMarksObject( string $langCode ): array {
 		// Get the site brand mark logo from the config
-		// For the moment, we'll get the icon logo, and fall back on 1x if the icon logo is not set.
+		// For the moment, we'll get the icon logo and fall back on 1x if the icon logo is not set.
 		$logos = SkinModule::getAvailableLogos( $this->mainConfig, $langCode );
 		if ( !$logos ) {
 			return [];
@@ -159,7 +164,7 @@ class AttributionDataBuilder {
 		$brandMarks = [
 			[
 				'name' => 'Default logo',
-				// 1x version always exists, and falls back on config if not set
+				// 1x version always exists and falls back on config if not set
 				'url' => $this->urlUtils->expand( $logos['1x'], PROTO_CANONICAL ),
 				'type' => 'logo',
 			]
@@ -235,5 +240,29 @@ class AttributionDataBuilder {
 		$format->setContext( $context );
 
 		return $format->fetchExtendedMetadata( $file );
+	}
+
+	/**
+	 * Count the number of unique references on a page by fetching its Parsoid HTML and counting
+	 * occurrences of 'id="cite_note-'. Each unique reference in the footnotes section gets a
+	 * single element with this ID pattern, so this counts unique sources rather than the total
+	 * number of inline citations (which may cite the same source multiple times).
+	 *
+	 * @return int|null The reference count, or null if the count cannot be determined.
+	 */
+	private function getReferenceCount( ExistingPageRecord $page ): ?int {
+		$this->parserOptions->setUseParsoid( true );
+		$this->parserOptions->setRenderReason( 'attribution' );
+
+		// Note: on wikis using FlaggedRevisions (e.g. dewiki, ruwiki), this returns the latest
+		// revision's output rather than the stable (reader-visible) one. The count may therefore
+		// differ from what readers see if there are pending unreviewed edits. See T414359, T322426.
+		$status = $this->parserOutputAccess->getParserOutput( $page, $this->parserOptions );
+		if ( !$status->isOK() ) {
+			return null;
+		}
+
+		$html = $status->getValue()->getContentHolderText();
+		return preg_match_all( '/\bid="cite_note-/', $html );
 	}
 }

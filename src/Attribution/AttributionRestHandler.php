@@ -7,6 +7,8 @@ use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
+use MediaWiki\Page\ParserOutputAccess;
+use MediaWiki\Page\WikiPage;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
 use MediaWiki\Rest\Handler\Helper\PageRedirectHelper;
@@ -36,6 +38,7 @@ class AttributionRestHandler extends SimpleHandler {
 		private readonly UrlUtils $urlUtils,
 		private readonly RepoGroup $repoGroup,
 		private readonly PageRestHelperFactory $helperFactory,
+		private readonly ParserOutputAccess $parserOutputAccess,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
@@ -118,14 +121,13 @@ class AttributionRestHandler extends SimpleHandler {
 		if ( $accessResultResponse !== null ) {
 			return $accessResultResponse;
 		}
-
 		$title = Title::newFromText( $this->contentHelper->getTitleText() );
 		$page = $this->contentHelper->getPage();
+		Assert::invariant( $page !== null, 'Page should be known after checkPageAccess()' );
 		$metadata = $this->contentHelper->constructMetadata();
 		// Get params to be expanded
 		$params = $this->getValidatedParams();
 		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
-
 		// Get the attribution data
 		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
@@ -134,6 +136,8 @@ class AttributionRestHandler extends SimpleHandler {
 			$this->mainConfig,
 			$this->urlUtils,
 			$this->repoGroup,
+			$this->parserOutputAccess,
+			WikiPage::makeParserOptionsFromTitleAndModel( $title, $title->getContentModel(), 'canonical' ),
 			$this->pageViewService
 		);
 		$result = $attributionDataBuilder->getAttributionData(
@@ -143,12 +147,10 @@ class AttributionRestHandler extends SimpleHandler {
 			$paramsToExpand,
 			$this->getAuthority()
 		);
-
 		// Add site_name to source_wiki since we don't have service container in the data builder
 		$wikiName = $this->getWikiName( $title );
 		$result['source_wiki']['site_name'] = $wikiName;
 		$result['source_wiki']['project_family'] = $this->getProjectFamily();
-
 		return $this->getResponseFactory()->createJson( $result );
 	}
 
@@ -156,7 +158,7 @@ class AttributionRestHandler extends SimpleHandler {
 	 * Get the project family for the current wiki; "wikipedia", "wiktionary", "wikibooks", etc.
 	 * Will return an empty string if the project name is not found.
 	 *
-	 * @return string The project name, or an empty string if not found.
+	 * @return string The project name or an empty string if not found.
 	 */
 	private function getProjectFamily() {
 		global $wgConf;
