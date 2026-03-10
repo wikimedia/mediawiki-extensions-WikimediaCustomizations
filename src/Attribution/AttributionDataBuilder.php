@@ -151,7 +151,7 @@ class AttributionDataBuilder {
 		}
 		$brandMarks[] = [
 			'name' => 'Sound logo',
-			'url' => 'https://upload.wikimedia.org/wikipedia/commons/9/91/Wikimedia_Sonic_Logo_-_4-seconds.wav',
+			'url' => $this->mainConfig->get( 'WMCAttributionBrandmarkUrl' ),
 			'type' => 'audio',
 		];
 
