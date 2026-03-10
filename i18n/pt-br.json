@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardoaddad"
+		]
+	},
+	"wikimediacustomizations-desc": "A extensão WikimediaCustomization hospeda ganchos, mensagens e outras personalizações específicas da Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "Endereços de e-mail que usam o símbolo $1 não são suportados. Por favor, escolha outro provedor de e-mail."
+}

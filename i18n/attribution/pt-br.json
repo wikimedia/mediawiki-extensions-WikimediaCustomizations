@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardoaddad"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de atribuição (Beta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "A API de atribuição fornece informações sobre a atribuição de uma página."
+}
