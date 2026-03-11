@@ -8,5 +8,8 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "רישיון הדף.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "כתובת הרישיון.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "כותרת הרישיון.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-link": "הקישור לדף."
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "הקישור לדף.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "מזהה הוויקי של המקור.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "שפת תוכן אתר הוויקי.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "שפת תוכן הדף."
 }
