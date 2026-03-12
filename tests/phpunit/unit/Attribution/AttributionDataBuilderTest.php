@@ -16,6 +16,7 @@ use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
 use MediaWikiUnitTestCase;
+use Wikimedia\Telemetry\NoopTracer;
 
 /**
  * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder
@@ -46,8 +47,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 			$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
 		}
 
+		$noopTracer = new NoopTracer();
 		return new AttributionDataBuilder(
-			$config, $urlUtils, $repoGroup, $parserOutputAccess, $parserOptions, $pageViewService );
+			$config, $urlUtils, $repoGroup, $parserOutputAccess, $parserOptions,
+			$noopTracer, $pageViewService );
 	}
 
 	private function mockTitle(): Title {

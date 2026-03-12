@@ -21,6 +21,7 @@ use MediaWiki\Utils\UrlUtils;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Telemetry\TracerInterface;
 
 /**
  * A handler that returns metadata attribution information about a page
@@ -39,6 +40,7 @@ class AttributionRestHandler extends SimpleHandler {
 		private readonly RepoGroup $repoGroup,
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly ParserOutputAccess $parserOutputAccess,
+		private readonly TracerInterface $tracer,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
@@ -122,12 +124,16 @@ class AttributionRestHandler extends SimpleHandler {
 			return $accessResultResponse;
 		}
 		$title = Title::newFromText( $this->contentHelper->getTitleText() );
+		$span = $this->tracer->createSpan( 'Attribution RestEndpoint' )->start();
+
 		$page = $this->contentHelper->getPage();
 		Assert::invariant( $page !== null, 'Page should be known after checkPageAccess()' );
 		$metadata = $this->contentHelper->constructMetadata();
 		// Get params to be expanded
 		$params = $this->getValidatedParams();
 		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
+		$span->setAttributes( [ 'title' => $title->getPrefixedText(), 'expand' => $paramsToExpand ] );
+
 		// Get the attribution data
 		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
@@ -138,6 +144,7 @@ class AttributionRestHandler extends SimpleHandler {
 			$this->repoGroup,
 			$this->parserOutputAccess,
 			WikiPage::makeParserOptionsFromTitleAndModel( $title, $title->getContentModel(), 'canonical' ),
+			$this->tracer,
 			$this->pageViewService
 		);
 		$result = $attributionDataBuilder->getAttributionData(

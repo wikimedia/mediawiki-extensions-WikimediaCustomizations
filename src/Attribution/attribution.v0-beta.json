@@ -18,7 +18,8 @@
 						"UrlUtils",
 						"RepoGroup",
 						"PageRestHelperFactory",
-						"ParserOutputAccess"
+						"ParserOutputAccess",
+						"Tracer"
 					],
 					"optional_services": [
 						"PageViewService"

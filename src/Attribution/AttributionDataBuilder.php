@@ -18,6 +18,7 @@ use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
+use Wikimedia\Telemetry\TracerInterface;
 
 /**
  * Builds attribution information about a page returned by the Attribution
@@ -33,6 +34,7 @@ class AttributionDataBuilder {
 		private readonly RepoGroup $repoGroup,
 		private readonly ParserOutputAccess $parserOutputAccess,
 		private readonly ParserOptions $parserOptions,
+		private readonly TracerInterface $tracer,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
@@ -96,19 +98,28 @@ class AttributionDataBuilder {
 	/**
 	 * Inject the Artist/License metadata into attribution data
 	 */
-	private function injectFileMetadata( File $file, array $essential ): array {
+	private function injectFileMetadata( File $file, array $base ): array {
+		/**
+		 * Although it looks like $span is unused, we need to keep it as local variable
+		 * as SPANs follow RAII, it's similar to ScopedCallback, where the span will end itself
+		 * once it gets out of scope ( via __destruct ). This way once PHP goes out of scope, it
+		 * will automatically end the span. This solves the issue of the span not being ended in
+		 * case of early exits/exceptions/etc.
+		 */
+		$span = $this->tracer->createSpan( 'Attribution FileEssentials' )->start();
+
 		$extMeta = $this->getExtMetaData( $file );
 
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
 		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
 		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
 
-		$essential['essential']['author'] = $artist;
-		$essential['essential']['license'] = [
+		$base['essential']['author'] = $artist;
+		$base['essential']['license'] = [
 			'title' => $licenseTitle,
 			'url' => $licenseUrl,
 		];
-		return $essential;
+		return $base;
 	}
 
 	/**
@@ -119,6 +130,7 @@ class AttributionDataBuilder {
 	 * @return array The trust and relevance attribution data
 	 */
 	private function getTrustAndRelevance( Title $title, array $metadata ): array {
+		$span = $this->tracer->createSpan( 'Attribution TrustAndRelevance' )->start();
 		return [
 			'last_modified' => $metadata['latest']['timestamp'],
 			'page_views' => $this->getPageViews( $title ),
@@ -251,6 +263,8 @@ class AttributionDataBuilder {
 	 * @return int|null The reference count, or null if the count cannot be determined.
 	 */
 	private function getReferenceCount( ExistingPageRecord $page ): ?int {
+		$span = $this->tracer->createSpan( 'Attribution GetReferenceCount' )->start();
+
 		$this->parserOptions->setUseParsoid( true );
 		$this->parserOptions->setRenderReason( 'attribution' );
 
