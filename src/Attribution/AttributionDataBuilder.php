@@ -3,11 +3,13 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Config\Config;
+use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
+use MediaWiki\Message\Message;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Parser\ParserOptions;
@@ -33,6 +35,7 @@ class AttributionDataBuilder {
 		private readonly ParserOutputAccess $parserOutputAccess,
 		private readonly ParserOptions $parserOptions,
 		private readonly TracerInterface $tracer,
+		private readonly SiteConfiguration $siteConfig,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
@@ -40,7 +43,7 @@ class AttributionDataBuilder {
 
 	public function getAttributionData(
 		Title $title, ExistingPageRecord $page, array $metadata, array $paramsToExpand,
-		Authority $authority, FormatMetadata $format
+		Authority $authority, FormatMetadata $format, Message $wikiNameMessage
 	): array {
 		$base = [];
 		$base[ 'essential' ] = $this->getEssential( $title, $metadata );
@@ -85,6 +88,8 @@ class AttributionDataBuilder {
 		if ( in_array( 'calls_to_action', $paramsToExpand ) ) {
 			$base[ 'calls_to_action' ] = $this->getCallsToAction();
 		}
+
+		$base['source_wiki'] = $this->buildSourceWiki( $wikiNameMessage );
 
 		return $base;
 	}
@@ -137,6 +142,22 @@ class AttributionDataBuilder {
 			'url' => $licenseUrl,
 		];
 		return $base;
+	}
+
+	/**
+	 * Get the source wiki attribution data
+	 *
+	 * @param Message $wikiNameMessage The wikiname as a Message instance
+	 * @return array site_name and project_name
+	 */
+	private function buildSourceWiki( Message $wikiNameMessage ): array {
+		// If we can't resolve the wiki name, just use an empty string
+		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
+
+		return [
+			'site_name' => $wikiName,
+			'project_family' => $this->getProjectFamily()
+		];
 	}
 
 	/**
@@ -377,5 +398,16 @@ class AttributionDataBuilder {
 
 		$html = $status->getValue()->getContentHolderText();
 		return preg_match_all( '/\bid="cite_note-/', $html );
+	}
+
+	/**
+	 * Get the project family for the current wiki; "wikipedia", "wiktionary", "wikibooks", etc.
+	 * Will return an empty string if the project name is not found.
+	 *
+	 * @return string The project name or an empty string if not found.
+	 */
+	private function getProjectFamily() {
+		[ $site, ] = $this->siteConfig->siteFromDB( $this->dbname );
+		return $site ?? '';
 	}
 }

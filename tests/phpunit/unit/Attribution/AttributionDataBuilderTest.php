@@ -3,12 +3,14 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Tests\Attribution;
 
 use MediaWiki\Config\Config;
+use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
+use MediaWiki\Message\Message;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Parser\ParserOptions;
@@ -52,9 +54,12 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 			$repoGroup = $this->createMock( RepoGroup::class );
 		}
 		$noopTracer = new NoopTracer();
+		$siteConfig = $this->createMock( SiteConfiguration::class );
+		$siteConfig->method( 'siteFromDB' )
+			->willReturn( [ 'wiki', 'unittest' ] );
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $parserOutputAccess, $parserOptions,
-			$noopTracer, $pageViewService );
+			$noopTracer, $siteConfig, $pageViewService );
 	}
 
 	private function mockTitle(): Title {
@@ -76,9 +81,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
 		$page = $this->createMock( ExistingPageRecord::class );
+		$message = $this->createMock( Message::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format, $message );
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'title', $result['essential'] );
 		$this->assertArrayHasKey( 'license', $result['essential'] );
@@ -100,8 +106,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
@@ -123,9 +130,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
+		$message = $this->createMock( Message::class );
 		$format = $this->createMock( FormatMetadata::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
@@ -147,8 +155,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 0, $result['trust_and_relevance']['reference_count'] );
@@ -168,8 +177,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 3, $result['trust_and_relevance']['reference_count'] );
@@ -183,8 +193,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'trending', $result['trust_and_relevance'] );
 		$this->assertArrayHasKey( 'top', $result['trust_and_relevance']['trending'] );
@@ -207,8 +218,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'calls_to_action', $result );
@@ -239,6 +251,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$format->method( 'fetchExtendedMetadata' )->willReturn(
 			[
 				'Artist' => [
@@ -253,7 +266,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 			]
 		);
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [], $authority, $format
+			$title, $page, $metadata, [], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'credit', $result['essential'] );
@@ -286,7 +299,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
 			]
 		);
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$message = $this->createMock( Message::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [], $authority, $format, $message
+		);
 		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
 	}
 
@@ -314,7 +330,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
 			]
 		);
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$message = $this->createMock( Message::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [], $authority, $format, $message
+		);
 		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
 	}
 
@@ -341,7 +360,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
 			]
 		);
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$message = $this->createMock( Message::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [], $authority, $format, $message
+		);
 		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
 	}
 
@@ -368,7 +390,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/licenses/by-sa/4.0/' ],
 			]
 		);
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$message = $this->createMock( Message::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [], $authority, $format, $message
+		);
 		$this->assertSame( 'Jane Doe', $result['essential']['credit'] );
 	}
 
@@ -382,9 +407,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
 			$title, $page, $metadata, [ 'trust_and_relevance' ],
-			$authority, $format
+			$authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'title', $result['essential'] );
@@ -421,8 +447,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				]
 			]
 		);
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayHasKey( 'last_updated', $result[ 'trust_and_relevance' ] );
@@ -456,8 +483,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 				]
 			]
 		);
+		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayHasKey( 'last_updated', $result[ 'trust_and_relevance' ] );
@@ -465,5 +493,29 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'contributor_counts', $result['trust_and_relevance'] );
 		$this->assertArrayHasKey( 'page_views', $result['trust_and_relevance'] );
 		$this->assertArrayNotHasKey( 'credit', $result['essential'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::buildSourceWiki()
+	 */
+	public function testBuildSourceWiki() {
+		$builder = $this->newDataBuilder();
+		$talkTitle = $this->createMock( Title::class );
+		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
+		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$title = $this->mockTitle();
+		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$message = $this->createMock( Message::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format, $message
+		);
+		$this->assertArrayHasKey( 'essential', $result );
+		$this->assertArrayHasKey( 'source_wiki', $result );
+		$this->assertArrayHasKey( 'site_name', $result['source_wiki'] );
+		$this->assertArrayHasKey( 'project_family', $result['source_wiki'] );
 	}
 }

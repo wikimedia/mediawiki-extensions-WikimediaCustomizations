@@ -143,6 +143,7 @@ class AttributionRestHandler extends SimpleHandler {
 		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
 		// are only used in this class to pass the the data builder
+		global $wgConf;
 		$attributionDataBuilder = new AttributionDataBuilder(
 			$this->mainConfig,
 			$this->urlUtils,
@@ -150,25 +151,26 @@ class AttributionRestHandler extends SimpleHandler {
 			$this->parserOutputAccess,
 			WikiPage::makeParserOptionsFromTitleAndModel( $title, $title->getContentModel(), 'canonical' ),
 			$this->tracer,
+			$wgConf,
 			$this->pageViewService
 		);
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setLanguage( RequestContext::getMain()->getLanguage() );
 		$format = new FormatMetadata();
 		$format->setContext( $context );
-
+		$wikiNameMessage = new Message(
+			'project-localized-name-' . $this->dbname,
+			[],
+			$title->getPageLanguage()
+		);
 		$result = $attributionDataBuilder->getAttributionData(
 			$title,
 			$page,
 			$metadata,
 			$paramsToExpand,
 			$this->getAuthority(),
-			$format
+			$format, $wikiNameMessage
 		);
-		// Add site_name to source_wiki since we don't have service container in the data builder
-		$wikiName = $this->getWikiName( $title );
-		$result['source_wiki']['site_name'] = $wikiName;
-		$result['source_wiki']['project_family'] = $this->getProjectFamily();
 		$response = $this->getResponseFactory()->createJson( $result );
 		if ( !$this->getSession()->isPersistent() ) {
 			$response->setHeader(
@@ -177,35 +179,6 @@ class AttributionRestHandler extends SimpleHandler {
 			);
 		}
 		return $response;
-	}
-
-	/**
-	 * Get the project family for the current wiki; "wikipedia", "wiktionary", "wikibooks", etc.
-	 * Will return an empty string if the project name is not found.
-	 *
-	 * @return string The project name or an empty string if not found.
-	 */
-	private function getProjectFamily() {
-		global $wgConf;
-		[ $site, ] = $wgConf->siteFromDB( $this->dbname );
-		return $site ?? '';
-	}
-
-	/**
-	 * Get the wiki name from the Title
-	 *
-	 * @param Title $title The title of the wiki
-	 * @return string The wiki name
-	 */
-	private function getWikiName( Title $title ): string {
-		$wikiNameMessage = new Message(
-			'project-localized-name-' . $this->dbname,
-			[],
-			$title->getPageLanguage()
-		);
-		// If we can't resolve the wiki name, just use an empty string
-		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
-		return $wikiName;
 	}
 
 	protected function getResponseBodySchemaFileName( string $method ): ?string {
