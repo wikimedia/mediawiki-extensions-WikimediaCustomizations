@@ -3,9 +3,12 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Config\Config;
+use MediaWiki\Context\DerivativeContext;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
 use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Page\WikiPage;
@@ -147,12 +150,18 @@ class AttributionRestHandler extends SimpleHandler {
 			$this->tracer,
 			$this->pageViewService
 		);
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setLanguage( RequestContext::getMain()->getLanguage() );
+		$format = new FormatMetadata();
+		$format->setContext( $context );
+
 		$result = $attributionDataBuilder->getAttributionData(
 			$title,
 			$page,
 			$metadata,
 			$paramsToExpand,
-			$this->getAuthority()
+			$this->getAuthority(),
+			$format
 		);
 		// Add site_name to source_wiki since we don't have service container in the data builder
 		$wikiName = $this->getWikiName( $title );

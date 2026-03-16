@@ -3,8 +3,6 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Config\Config;
-use MediaWiki\Context\DerivativeContext;
-use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
@@ -42,7 +40,7 @@ class AttributionDataBuilder {
 
 	public function getAttributionData(
 		Title $title, ExistingPageRecord $page, array $metadata, array $paramsToExpand,
-		Authority $authority
+		Authority $authority, FormatMetadata $format
 	): array {
 		$base = [];
 		$base[ 'essential' ] = $this->getEssential( $title, $metadata );
@@ -54,7 +52,7 @@ class AttributionDataBuilder {
 
 		// If this is a file page, we'll inject file metadata into the essential response.
 		if ( $file ) {
-			$base = $this->injectFileMetadata( $file, $base );
+			$base = $this->injectFileMetadata( $file, $base, $format );
 		}
 
 		// TODO: Add back the ALLOWED_EXPAND_KEYS constant.
@@ -111,7 +109,9 @@ class AttributionDataBuilder {
 	/**
 	 * Inject the Artist/License metadata into attribution data
 	 */
-	private function injectFileMetadata( File $file, array $base ): array {
+	private function injectFileMetadata(
+		File $file, array $base, FormatMetadata $format
+	): array {
 		/**
 		 * Although it looks like $span is unused, we need to keep it as local variable
 		 * as SPANs follow RAII, it's similar to ScopedCallback, where the span will end itself
@@ -121,7 +121,7 @@ class AttributionDataBuilder {
 		 */
 		$span = $this->tracer->createSpan( 'Attribution FileEssentials' )->start();
 
-		$extMeta = $this->getExtMetaData( $file );
+		$extMeta = $this->getExtMetaData( $file, $format );
 
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
 		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
@@ -311,13 +311,8 @@ class AttributionDataBuilder {
 			: null;
 	}
 
-	private function getExtMetaData( File $file ): array {
-		$format = new FormatMetadata();
+	private function getExtMetaData( File $file, FormatMetadata $format ): array {
 		$format->setSingleLanguage( true );
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setLanguage( 'en' );
-		$format->setContext( $context );
-
 		return $format->fetchExtendedMetadata( $file );
 	}
 

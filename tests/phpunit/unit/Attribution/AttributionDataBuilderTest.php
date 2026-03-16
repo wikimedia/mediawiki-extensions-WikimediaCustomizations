@@ -5,8 +5,10 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Tests\Attribution;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
+use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Parser\ParserOptions;
@@ -37,16 +39,18 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 
 	private function newDataBuilder(
 		?PageViewService $pageViewService = null,
-		?ParserOutputAccess $parserOutputAccess = null
+		?ParserOutputAccess $parserOutputAccess = null,
+		?RepoGroup $repoGroup = null
 	): AttributionDataBuilder {
 		$config = $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
-		$repoGroup = $this->createMock( RepoGroup::class );
 		$parserOptions = $this->createMock( ParserOptions::class );
 		if ( !$parserOutputAccess ) {
 			$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
 		}
-
+		if ( !$repoGroup ) {
+			$repoGroup = $this->createMock( RepoGroup::class );
+		}
 		$noopTracer = new NoopTracer();
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $parserOutputAccess, $parserOptions,
@@ -73,10 +77,12 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'title', $result['essential'] );
 		$this->assertArrayHasKey( 'license', $result['essential'] );
+		$this->assertSame( 'CC-BY-SA', $result['essential']['license'] );
 		$this->assertArrayHasKey( 'link', $result['essential'] );
 		$this->assertArrayHasKey( 'default_brand_marks', $result['essential'] );
 		$this->assertArrayHasKey( 'source_wiki', $result['essential'] );
@@ -93,7 +99,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
@@ -114,8 +123,9 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
@@ -136,7 +146,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 0, $result['trust_and_relevance']['reference_count'] );
 	}
@@ -153,7 +166,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 3, $result['trust_and_relevance']['reference_count'] );
 	}
@@ -164,7 +180,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
 		$this->assertArrayHasKey( 'trending', $result['trust_and_relevance'] );
 		$this->assertArrayHasKey( 'top', $result['trust_and_relevance']['trending'] );
 		$this->assertArrayHasKey( 'relative', $result['trust_and_relevance']['trending'] );
@@ -185,7 +204,10 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
-		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'calls_to_action' ], $authority );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'calls_to_action', $result );
 		$this->assertArrayNotHasKey( 'trust_and_relevance', $result );
@@ -199,5 +221,42 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'create_account', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayHasKey( 'learn_more', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayNotHasKey( 'talk_page', $result['calls_to_action']['participation_ctas'] );
+	}
+
+	public function testInjectedMetadata() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$talkTitle = $this->createMock( Title::class );
+		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
+		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$title = $this->mockTitle();
+		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'artist'
+				],
+				'LicenseShortName' => [
+					'value' => 'shortname'
+				],
+				'LicenseUrl' => [
+					'value' => 'url'
+				]
+			]
+		);
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [], $authority, $format
+		);
+		$this->assertArrayHasKey( 'essential', $result );
+		$this->assertArrayHasKey( 'credit', $result['essential'] );
+		$this->assertArrayHasKey( 'license', $result['essential'] );
+		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
+		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
 	}
 }
