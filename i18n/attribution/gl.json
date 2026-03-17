@@ -11,7 +11,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "O parámetro «expand» permite que a persoa que fai a chamada inclúa información adicional na resposta. O valor é unha lista separada por comas das claves que se van expandir. As claves poden ser «trust_and_relevance» ou «calls_to_action».",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "A información esencial sobre o recoñecemento da páxina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "O título da páxina solicitada.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "A persoa artista ou autora do ficheiro.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "A persoa artista ou autora do ficheiro.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "A licenza do ficheiro.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "O enderezo URL da licenza.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "O título da licenza.",

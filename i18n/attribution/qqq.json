@@ -11,7 +11,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "{{Experimental}} Description of the expand parameter.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "{{Experimental}} Description of the essential information about the page attribution.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "{{Experimental}} Description of the property for the title of the requested page.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "{{Experimental}} Description of the property for the artist or author of the file.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "{{Experimental}} Description of the property for the artist or author of the file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "{{Experimental}} Description of the property for the license of the file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "{{Experimental}} Description of the property for the URL of the license.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "{{Experimental}} Description of the property for the title of the license.",

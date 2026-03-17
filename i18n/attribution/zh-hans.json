@@ -13,7 +13,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "<code>expand</code>参数允许调用者在返回结果中包含额外的信息。它的值是一个以逗号分隔的列表，列表中是需要展开（包含）的键名。这些键名可以是 <code>trust_and_relevance</code>（信任与相关性）或者 <code>calls_to_action</code>（行动号召）。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "关于页面归属的必要信息。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "请求页面的标题。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "该文件的创作者或著作者。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "该文件的创作者或著作者。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "文件的许可协议。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "许可协议的URL。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "许可协议的标题。",

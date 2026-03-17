@@ -98,7 +98,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
 		$this->assertSame( -1, $result['trust_and_relevance']['page_views'] );
-		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_modified'] );
+		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_updated'] );
 	}
 
 	public function testTrustAndRelevanceIsExpanded() {
@@ -121,7 +121,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
 		$this->assertSame( 6, $result['trust_and_relevance']['page_views'] );
-		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_modified'] );
+		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_updated'] );
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfZero() {
@@ -158,16 +158,30 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertSame( 3, $result['trust_and_relevance']['reference_count'] );
 	}
 
+	public function testTrustAndRelevanceTrendingPlaceholders() {
+		$builder = $this->newDataBuilder();
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$result = $builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority );
+		$this->assertArrayHasKey( 'trending', $result['trust_and_relevance'] );
+		$this->assertArrayHasKey( 'top', $result['trust_and_relevance']['trending'] );
+		$this->assertArrayHasKey( 'relative', $result['trust_and_relevance']['trending'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['read'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['edited'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['read_and_edited'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['read'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['edited'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['read_and_edited'] );
+	}
+
 	/**
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getCallsToAction()
 	 */
 	public function testCallsToActionIsExpanded() {
 		$builder = $this->newDataBuilder();
-		$talkTitle = $this->createMock( Title::class );
-		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
-		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
 		$title = $this->mockTitle();
-		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
@@ -175,6 +189,15 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'calls_to_action', $result );
 		$this->assertArrayNotHasKey( 'trust_and_relevance', $result );
-		$this->assertSame( $talkPageUrl, $result['calls_to_action'][ 'participation_cta' ][ 'talk_page' ] );
+		$this->assertArrayHasKey( 'donation_ctas', $result['calls_to_action'] );
+		$this->assertArrayHasKey( 'default', $result['calls_to_action']['donation_ctas'] );
+		$this->assertArrayHasKey( 'url', $result['calls_to_action']['donation_ctas']['default'] );
+		$this->assertArrayHasKey( 'link_text', $result['calls_to_action']['donation_ctas']['default'] );
+		$this->assertArrayHasKey( 'description', $result['calls_to_action']['donation_ctas']['default'] );
+		$this->assertArrayHasKey( 'participation_ctas', $result['calls_to_action'] );
+		$this->assertArrayHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
+		$this->assertArrayHasKey( 'create_account', $result['calls_to_action']['participation_ctas'] );
+		$this->assertArrayHasKey( 'learn_more', $result['calls_to_action']['participation_ctas'] );
+		$this->assertArrayNotHasKey( 'talk_page', $result['calls_to_action']['participation_ctas'] );
 	}
 }

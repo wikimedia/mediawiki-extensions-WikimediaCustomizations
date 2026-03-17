@@ -11,7 +11,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Le parametro ‘expand’ permitte al appellante includer informationes additional in le responsa. Le valor es un lista separate per commas del claves a expander. Le claves pote esser ‘trust_and_relevance’ o ‘calls_to_action’.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informationes essential sur le attribution de un pagina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Le titulo del pagina requestate.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "Le artista o autor del file.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Le artista o autor del file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Le licentia del file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Le adresse URL del licentia.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Le titulo del licentia.",

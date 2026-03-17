@@ -19,9 +19,9 @@
 					"type": "string",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-title"
 				},
-				"author": {
+				"credit": {
 					"type": "string",
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-author",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-credit",
 					"nullable": true
 				},
 				"license": {
@@ -97,12 +97,12 @@
 			"type": "object",
 			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance",
 			"required": [
-				"last_modified",
+				"last_updated",
 				"page_views",
 				"contributor_counts"
 			],
 			"properties": {
-				"last_modified": {
+				"last_updated": {
 					"type": "string",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-last-modified"
 				},
@@ -118,6 +118,56 @@
 					"type": "integer",
 					"nullable": true,
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-reference-count"
+				},
+				"trending": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending",
+					"required": [
+						"top",
+						"relative"
+					],
+					"properties": {
+						"top": {
+							"type": "object",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top",
+							"required": [
+								"read",
+								"edited",
+								"read_and_edited"
+							],
+							"properties": {
+								"read": {
+									"type": "boolean"
+								},
+								"edited": {
+									"type": "boolean"
+								},
+								"read_and_edited": {
+									"type": "boolean"
+								}
+							}
+						},
+						"relative": {
+							"type": "object",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative",
+							"required": [
+								"read",
+								"edited",
+								"read_and_edited"
+							],
+							"properties": {
+								"read": {
+									"type": "boolean"
+								},
+								"edited": {
+									"type": "boolean"
+								},
+								"read_and_edited": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
 				}
 			}
 		},
@@ -125,35 +175,70 @@
 			"type": "object",
 			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action",
 			"required": [
-				"donation_cta",
-				"participation_cta"
+				"donation_ctas",
+				"participation_ctas"
 			],
 			"properties": {
-				"donation_cta": {
+				"donation_ctas": {
 					"type": "object",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta",
 					"properties": {
 						"default": {
-							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default"
+							"type": "object",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
 						},
 						"foundation": {
-							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation"
+							"type": "object",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
 						},
 						"special": {
-							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special"
+							"type": "object",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
 						}
 					}
 				},
-				"participation_cta": {
+				"participation_ctas": {
 					"type": "object",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-participation-cta",
 					"properties": {
-						"talk_page": {
-							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page"
+						"download_app": {
+							"type": "object",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
+						},
+						"create_account": {
+							"type": "object",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
+						},
+						"learn_more": {
+							"type": "object",
+							"properties": {
+								"url": { "type": "string" },
+								"link_text": { "type": "string" },
+								"description": { "type": "string" }
+							}
 						}
 					}
 				}

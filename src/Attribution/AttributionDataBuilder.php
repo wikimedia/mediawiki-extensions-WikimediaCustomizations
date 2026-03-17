@@ -62,13 +62,26 @@ class AttributionDataBuilder {
 		if ( in_array( 'trust_and_relevance', $paramsToExpand ) ) {
 			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $title, $metadata );
 
-			// If this is an article we'll add the reference count.
+			// If this is an article we'll add the reference count and trending data.
 			if ( !$file ) {
 				$base['trust_and_relevance']['reference_count'] = $this->getReferenceCount( $page );
+				// TEMPORARY: placeholder for demo purposes only. See: T419157
+				$base['trust_and_relevance']['trending'] = [
+					'top' => [
+						'read' => false,
+						'edited' => false,
+						'read_and_edited' => false,
+					],
+					'relative' => [
+						'read' => false,
+						'edited' => false,
+						'read_and_edited' => false,
+					],
+				];
 			}
 		}
 		if ( in_array( 'calls_to_action', $paramsToExpand ) ) {
-			$base[ 'calls_to_action' ] = $this->getCallsToAction( $title );
+			$base[ 'calls_to_action' ] = $this->getCallsToAction();
 		}
 
 		return $base;
@@ -114,7 +127,7 @@ class AttributionDataBuilder {
 		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
 		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
 
-		$base['essential']['author'] = $artist;
+		$base['essential']['credit'] = $artist;
 		$base['essential']['license'] = [
 			'title' => $licenseTitle,
 			'url' => $licenseUrl,
@@ -132,7 +145,7 @@ class AttributionDataBuilder {
 	private function getTrustAndRelevance( Title $title, array $metadata ): array {
 		$span = $this->tracer->createSpan( 'Attribution TrustAndRelevance' )->start();
 		return [
-			'last_modified' => $metadata['latest']['timestamp'],
+			'last_updated' => $metadata['latest']['timestamp'],
 			'page_views' => $this->getPageViews( $title ),
 			// Placeholder for the contributor counts will be implemented in a future version.
 			'contributor_counts' => 0,
@@ -140,22 +153,76 @@ class AttributionDataBuilder {
 	}
 
 	/**
-	 * Get the trust and relevance data.
+	 * Get the calls to action attribution data.
 	 *
-	 * @param Title $title The title of the wiki
 	 * @return array The calls to action attribution data
 	 */
-	private function getCallsToAction( Title $title ): array {
-		$talkPage = $title->getTalkPageIfDefined();
+	private function getCallsToAction(): array {
+		// TEMPORARY: placeholder for demo purposes only. See: T419157
+		$donationCtas = [
+			'default' => [
+				'url' => 'https://donate.wikimedia.org/w/index.php?title=Special:LandingPage'
+					. '&country=US&uselang=en&wmf_medium=sidebar&wmf_source=donate'
+					. '&wmf_campaign=en.wikipedia.org',
+				'link_text' => 'Donate to Wikipedia',
+				'description' => 'Wikipedia is the backbone of the internet\'s knowledge.'
+					. ' If everyone reading this gave just a few dollars, we\'d protect'
+					. ' the future of free knowledge for everyone for years to come,'
+					. ' in just a few hours.',
+			],
+			'foundation' => [
+				'url' => 'https://donate.wikimedia.org',
+				'link_text' => 'Support the Wikimedia Foundation',
+				'description' => 'Wikimedia Foundation hosts the technology infrastructure'
+					. ' that makes possible billions of visits to Wikipedia on a monthly basis.'
+					. ' Since our founding in 2003, we have supported the hundreds of thousands'
+					. ' of volunteer editors who edit, expand and curate the Wikimedia projects.',
+			],
+			'special' => [
+				'url' => 'https://donate.wikipedia25.org/',
+				'link_text' => 'Celebrate 25 years of free knowledge',
+				'description' => 'After 25 years, Wikipedia is still here. What started as a'
+					. ' wildly ambitious and probably impossible dream is now an essential'
+					. ' knowledge resource for humanity—funded by readers like you and filled'
+					. ' with knowledge shared by volunteers all over the world.',
+			],
+		];
+
+		// TEMPORARY: CTAs below have not yet been reviewed by owning teams. See: T419157
+		$participationCtas = [
+			'download_app' => [
+				// TEMPORARY: defaulting to Android; waiting on OS-aware link from apps team. See: T419157
+				'url' => 'https://play.google.com/store/apps/details?id=org.wikipedia',
+				'link_text' => 'Download the Wikipedia app',
+				'description' => 'Download the free Wikipedia app for the best way to explore'
+					. ' knowledge on the go. The app delivers a rich, smooth mobile experience'
+					. ' with exclusive features designed to make discovering, reading, and'
+					. ' engaging with the world\'s largest encyclopedia faster and more'
+					. ' enjoyable than ever.',
+			],
+			'create_account' => [
+				'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount',
+				'link_text' => 'Create a Wikipedia account',
+				'description' => 'Create a free account and get more out of Wikipedia!'
+					. ' While anyone can browse and even edit without signing in, an account'
+					. ' unlocks a richer experience for readers and gives contributors the'
+					. ' ability to build a reputation, save their work, and have a real say'
+					. ' in how the world\'s largest encyclopedia takes shape.',
+			],
+			'learn_more' => [
+				// TEMPORARY: should resolve to localised version if possible. See: T419157
+				'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia',
+				'link_text' => 'Learn more about Wikipedia',
+				'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
+					. ' by the people who use it. Since 2001, it has grown rapidly to become'
+					. ' the world\'s largest reference website. Come learn how you can help'
+					. ' shape its content and protect its future.',
+			],
+		];
+
 		return [
-			'donation_cta' => [
-				'default' => 'https://donate.wikimedia.org',
-				'foundation' => 'https://donate.wikimedia.org',
-				'special' => 'https://donate.wikipedia25.org/',
-			],
-			'participation_cta' => [
-				'talk_page' => $talkPage ? $talkPage->getCanonicalURL() : '',
-			],
+			'donation_ctas' => $donationCtas,
+			'participation_ctas' => $participationCtas,
 		];
 	}
 

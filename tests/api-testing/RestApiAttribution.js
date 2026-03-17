@@ -64,10 +64,13 @@ describe( 'Attribution API tests', () => {
 			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance` );
 			assert.deepEqual( response.status, 200 );
 
-			assert.isDefined( response.body.trust_and_relevance.last_modified );
+			assert.isDefined( response.body.trust_and_relevance.last_updated );
 			assert.isDefined( response.body.trust_and_relevance.page_views );
 			assert.isDefined( response.body.trust_and_relevance.contributor_counts );
 			assert.isNumber( response.body.trust_and_relevance.reference_count );
+			assert.isDefined( response.body.trust_and_relevance.trending );
+			assert.isDefined( response.body.trust_and_relevance.trending.top );
+			assert.isDefined( response.body.trust_and_relevance.trending.relative );
 
 			assert.isUndefined( response.body.calls_to_action );
 
@@ -79,9 +82,11 @@ describe( 'Attribution API tests', () => {
 			const response = await client.get( `pages/${ title }/signals?expand=calls_to_action` );
 			assert.deepEqual( response.status, 200 );
 
-			assert.isDefined( response.body.calls_to_action.donation_cta );
-			assert.isDefined( response.body.calls_to_action.participation_cta );
-			assert.isDefined( response.body.calls_to_action.participation_cta.talk_page );
+			assert.isDefined( response.body.calls_to_action.donation_ctas );
+			assert.isDefined( response.body.calls_to_action.participation_ctas );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.download_app );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.create_account );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.learn_more );
 
 			assert.isUndefined( response.body.trust_and_relevance );
 
@@ -93,13 +98,16 @@ describe( 'Attribution API tests', () => {
 			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance,calls_to_action` );
 			assert.deepEqual( response.status, 200 );
 
-			assert.isDefined( response.body.calls_to_action.donation_cta );
-			assert.isDefined( response.body.calls_to_action.participation_cta );
-			assert.isDefined( response.body.calls_to_action.participation_cta.talk_page );
+			assert.isDefined( response.body.calls_to_action.donation_ctas );
+			assert.isDefined( response.body.calls_to_action.participation_ctas );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.download_app );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.create_account );
+			assert.isDefined( response.body.calls_to_action.participation_ctas.learn_more );
 
-			assert.isDefined( response.body.trust_and_relevance.last_modified );
+			assert.isDefined( response.body.trust_and_relevance.last_updated );
 			assert.isDefined( response.body.trust_and_relevance.page_views );
 			assert.isDefined( response.body.trust_and_relevance.contributor_counts );
+			assert.isDefined( response.body.trust_and_relevance.trending );
 
 			// eslint-disable-next-line no-unused-expressions
 			expect( response ).to.satisfyApiSpec;

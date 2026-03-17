@@ -11,7 +11,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "The expand parameter allows the caller to include additional information in the response. The value is a comma-separated list of the keys to expand. The keys can be 'trust_and_relevance' or 'calls_to_action'.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "The essential information about the page attribution.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "The title of the requested page.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "The artist or author of the file.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "The artist or author of the file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "The license of the file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "The URL of the license.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "The title of the license.",

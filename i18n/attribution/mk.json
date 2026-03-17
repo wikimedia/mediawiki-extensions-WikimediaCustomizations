@@ -11,7 +11,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Параметарот за проширување му овозможува на повикувачот да вклучи дополнителни информации во одговорот. Вредноста е список на клучеви за проширување, одделелени со запирки. Клучеви можат да бидат „trust_and_relevance“ или „calls_to_action“.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Основни информации за припис на страница.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Наслов на побараната страница.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "Подигач на страницата.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Подигач на страницата.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Лиценцата на страницата.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "URL на лиценцата.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Наслов на лиценцата.",

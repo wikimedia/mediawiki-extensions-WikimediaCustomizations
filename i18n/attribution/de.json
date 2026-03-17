@@ -9,7 +9,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Der Parameter „expand“ ermöglicht es dem Aufrufer, zusätzliche Informationen in die Antwort aufzunehmen. Der Wert ist eine durch Kommas getrennte Liste der zu erweiternden Schlüssel. Mögliche Schlüssel sind „trust_and_relevance“ oder „calls_to_action“.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Die wichtigsten Informationen zur Attribuierung der Seite.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Der Titel der angeforderten Seite.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-author": "Der Künstler oder Autor der Datei.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Der Künstler oder Autor der Datei.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Die Lizenz der Datei.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Die URL der Lizenz.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Der Titel der Lizenz.",
