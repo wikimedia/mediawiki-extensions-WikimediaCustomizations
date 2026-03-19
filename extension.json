@@ -136,6 +136,14 @@
 		"remoteExtPath": "WikimediaCustomizations/modules"
 	},
 	"ResourceModules": {
+		"ext.wikimediaCustomizations.donor": {
+			"dependencies": [
+				"mediawiki.cookie"
+			],
+			"packageFiles": [
+				"DonorIdentification/ext.wikimediaCustomizations.donor/index.js"
+			]
+		},
 		"ext.wikimediaCustomizations.officeBan": {
 			"scripts": [
 				"OfficeBan/office-ban.js"
