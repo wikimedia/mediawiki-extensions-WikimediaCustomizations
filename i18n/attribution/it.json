@@ -1,14 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"FL2226"
 		]
 	},
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informazioni essenziali sull'attribuzione della pagina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Il titolo della pagina richiesta.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-author": "L'artista o l'autore del file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "La licenza del file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Il titolo della licenza.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "I dettagli sul wiki di origine della pagina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Il nome del wiki di origine.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "La lingua del contenuto della pagina."
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "La lingua del contenuto della pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Il numero di riferimenti citati nella pagina. Questa proprietà viene omessa per le pagine di file e può essere nulla se non è possibile determinarne il conteggio."
 }
