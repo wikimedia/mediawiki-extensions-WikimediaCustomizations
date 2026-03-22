@@ -55,7 +55,7 @@ class BadEmailDomainPreAuthenticationProviderTest extends MediaWikiUnitTestCase 
 		}
 	}
 
-	public function provideTestUser() {
+	public static function provideTestUser() {
 		$noemailreq = new UserDataAuthenticationRequest();
 
 		$goodreq = new UserDataAuthenticationRequest();

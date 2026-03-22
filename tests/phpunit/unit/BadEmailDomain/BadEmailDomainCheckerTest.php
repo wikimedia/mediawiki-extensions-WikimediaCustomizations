@@ -23,7 +23,7 @@ class BadEmailDomainCheckerTest extends MediaWikiUnitTestCase {
 		$this->assertSame( $expectedDomain, $checker->getDomain( $email ) );
 	}
 
-	public function provideGetDomain() {
+	public static function provideGetDomain() {
 		return [
 			[ 'john.doe@gmail.com', 'gmail.com' ],
 			[ 'foo@bar.boom', 'bar.boom' ],
@@ -48,7 +48,7 @@ class BadEmailDomainCheckerTest extends MediaWikiUnitTestCase {
 		$this->assertSame( $expected, $checker->isBad( $email ) );
 	}
 
-	public function provideIsBad() {
+	public static function provideIsBad() {
 		return [
 			[ 'good.com', false ],
 			[ 'evil.com', true ],
