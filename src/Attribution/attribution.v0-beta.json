@@ -10,7 +10,8 @@
 	"paths": {
 		"/pages/{title}/signals": {
 			"get": {
-				"x-i18n-description": "wikimediacustomizations-attribution-endpoint-get-pages-signals-desc",
+				"x-i18n-summary": "wikimediacustomizations-attribution-endpoint-summ-get-pages-signals",
+				"x-i18n-description": "wikimediacustomizations-attribution-endpoint-desc-get-pages-signals",
 				"handler": {
 					"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Attribution\\AttributionRestHandler",
 					"services": [

@@ -3,6 +3,63 @@
 	"required": [
 		"essential"
 	],
+	"x-examples": {
+		"article": {
+			"summary": "Article (Earth, English Wikipedia)",
+			"value": {
+				"essential": {
+					"title": "Earth",
+					"license": {
+						"url": "https://creativecommons.org/licenses/by-sa/4.0/",
+						"title": "CC BY-SA 4.0"
+					},
+					"link": "https://en.wikipedia.org/wiki/Earth",
+					"default_brand_marks": [
+						{
+							"name": "Wikipedia",
+							"url": "https://en.wikipedia.org/static/images/project-logos/enwiki.png",
+							"type": "wordmark"
+						}
+					],
+					"source_wiki": {
+						"site_name": "Wikipedia",
+						"project_family": "wikipedia",
+						"site_id": "enwiki",
+						"site_language": "en",
+						"page_language": "en"
+					}
+				}
+			}
+		},
+		"media_file": {
+			"summary": "Media file (Wikimedia Commons)",
+			"value": {
+				"essential": {
+					"title": "File:Pale Blue Dot.png",
+					"credit": "NASA/JPL",
+					"license": {
+						"url": null,
+						"title": "Public Domain"
+					},
+					"link": "https://commons.wikimedia.org/wiki/File:Pale_Blue_Dot.png",
+					"default_brand_marks": [
+						{
+							"name": "Wikimedia Commons",
+							"url": "https://commons.wikimedia.org/static/images/project-logos/commonswiki.png",
+							"type": "wordmark"
+						}
+					],
+					"source_wiki": {
+						"site_name": "Wikimedia Commons",
+						"project_family": "commons",
+						"site_id": "commonswiki",
+						"site_language": "en",
+						"page_language": "en"
+					}
+				}
+			}
+		}
+	},
 	"properties": {
 		"essential": {
 			"type": "object",

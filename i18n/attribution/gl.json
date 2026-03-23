@@ -6,7 +6,7 @@
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de recoñecemento (beta)",
 	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "A API de recoñecemento proporciona información sobre os recoñecementos dunha páxina.",
-	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Obter a información de recoñecemento dunha páxina.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Obter a información de recoñecemento dunha páxina.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "O esquema para a API de recoñecemento.",
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "O parámetro «expand» permite que a persoa que fai a chamada inclúa información adicional na resposta. O valor é unha lista separada por comas das claves que se van expandir. As claves poden ser «trust_and_relevance» ou «calls_to_action».",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "A información esencial sobre o recoñecemento da páxina.",

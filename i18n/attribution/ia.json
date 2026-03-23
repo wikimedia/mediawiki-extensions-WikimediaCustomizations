@@ -6,7 +6,7 @@
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de attribution (beta)",
 	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Le API de attribution forni informationes sur le attribution de un pagina.",
-	"wikimediacustomizations-attribution-endpoint-get-pages-signals-desc": "Obtener le informationes de attribution de un pagina.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Obtener le informationes de attribution de un pagina.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Le schema pro le API de attribution.",
 	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Le parametro ‘expand’ permitte al appellante includer informationes additional in le responsa. Le valor es un lista separate per commas del claves a expander. Le claves pote esser ‘trust_and_relevance’ o ‘calls_to_action’.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informationes essential sur le attribution de un pagina.",
