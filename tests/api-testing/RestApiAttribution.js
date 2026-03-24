@@ -34,6 +34,17 @@ describe( 'Attribution API tests', () => {
 	} );
 
 	describe( 'GET /pages/{title}/signals', () => {
+		it( 'Should redirect to canonical title preserving module prefix', async () => {
+			const redirectTitle = utils.title( 'AttributionRedirectTest_' );
+			const targetTitle = utils.title( 'AttributionRedirectTarget_' );
+			await mindy.edit( targetTitle, { text: 'Target page for redirect test' } );
+			await mindy.edit( redirectTitle, { text: `#REDIRECT [[${ targetTitle }]]` } );
+
+			const response = await client.get( `pages/${ redirectTitle }/signals?redirect=true`, null, { followRedirects: false } );
+			assert.deepEqual( response.status, 307 );
+			assert.include( response.headers.location, '/attribution/v0-beta/pages/' );
+		} );
+
 		it( 'Should successfully return a response', async () => {
 			const response = await client.get( `pages/${ title }/signals` );
 

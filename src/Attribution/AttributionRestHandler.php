@@ -71,7 +71,7 @@ class AttributionRestHandler extends SimpleHandler {
 		return $this->helperFactory->newPageRedirectHelper(
 			$this->getResponseFactory(),
 			$this->getRouter(),
-			$this->getPath(),
+			'/' . $this->getModule()->getPathPrefix() . $this->getPath(),
 			$this->getRequest()
 		);
 	}
