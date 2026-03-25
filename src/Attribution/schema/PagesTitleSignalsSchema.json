@@ -154,9 +154,7 @@
 			"type": "object",
 			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance",
 			"required": [
-				"last_updated",
-				"page_views",
-				"contributor_counts"
+				"last_updated"
 			],
 			"properties": {
 				"last_updated": {
@@ -165,10 +163,12 @@
 				},
 				"page_views": {
 					"type": "number",
+					"nullable": true,
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-page-views"
 				},
 				"contributor_counts": {
 					"type": "number",
+					"nullable": true,
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts"
 				},
 				"reference_count": {

@@ -106,7 +106,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
-		$this->assertSame( -1, $result['trust_and_relevance']['page_views'] );
+		$this->assertSame( null, $result['trust_and_relevance']['page_views'] );
 		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_updated'] );
 	}
 
@@ -152,6 +152,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 0, $result['trust_and_relevance']['reference_count'] );
+		$this->assertNull( $result['trust_and_relevance']['contributor_counts'] );
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfMultiple() {
@@ -172,6 +173,7 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		);
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertSame( 3, $result['trust_and_relevance']['reference_count'] );
+		$this->assertNull( $result['trust_and_relevance']['contributor_counts'] );
 	}
 
 	public function testTrustAndRelevanceTrendingPlaceholders() {
@@ -258,5 +260,100 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 		$this->assertArrayHasKey( 'license', $result['essential'] );
 		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
 		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
+	 */
+	public function testGetAttributionDataReturnsNullForMissingValues() {
+		$builder = $this->newDataBuilder();
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ],
+			$authority, $format
+		);
+		$this->assertArrayHasKey( 'essential', $result );
+		$this->assertArrayHasKey( 'title', $result['essential'] );
+		$this->assertArrayHasKey( 'license', $result['essential'] );
+		// trending has a temporary placeholder so not nullable for now
+		$this->assertNull( $result['trust_and_relevance']['contributor_counts'] );
+		$this->assertNull( $result['trust_and_relevance']['page_views'] );
+	}
+
+	public function testMediaSpecificTrustAndRelevance() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$talkTitle = $this->createMock( Title::class );
+		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
+		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$title = $this->mockTitle();
+		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'artist'
+				],
+				'LicenseShortName' => [
+					'value' => 'shortname'
+				],
+				'LicenseUrl' => [
+					'value' => 'url'
+				]
+			]
+		);
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+		$this->assertArrayHasKey( 'trust_and_relevance', $result );
+		$this->assertArrayHasKey( 'last_updated', $result[ 'trust_and_relevance' ] );
+		$this->assertArrayHasKey( 'credit', $result['essential'] );
+		$this->assertArrayNotHasKey( 'reference_count', $result['trust_and_relevance'] );
+		$this->assertArrayNotHasKey( 'contributor_counts', $result['trust_and_relevance'] );
+		$this->assertArrayNotHasKey( 'page_views', $result['trust_and_relevance'] );
+	}
+
+	public function testArticleSpecificTrustAndRelevance() {
+		$builder = $this->newDataBuilder();
+		$talkTitle = $this->createMock( Title::class );
+		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
+		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$title = $this->mockTitle();
+		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'artist'
+				],
+				'LicenseShortName' => [
+					'value' => 'shortname'
+				],
+				'LicenseUrl' => [
+					'value' => 'url'
+				]
+			]
+		);
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+		$this->assertArrayHasKey( 'trust_and_relevance', $result );
+		$this->assertArrayHasKey( 'last_updated', $result[ 'trust_and_relevance' ] );
+		$this->assertArrayHasKey( 'reference_count', $result['trust_and_relevance'] );
+		$this->assertArrayHasKey( 'contributor_counts', $result['trust_and_relevance'] );
+		$this->assertArrayHasKey( 'page_views', $result['trust_and_relevance'] );
+		$this->assertArrayNotHasKey( 'credit', $result['essential'] );
 	}
 }

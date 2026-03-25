@@ -58,10 +58,14 @@ class AttributionDataBuilder {
 		// TODO: Add back the ALLOWED_EXPAND_KEYS constant.
 		// See  https://gerrit.wikimedia.org/r/c/mediawiki/extensions/WikimediaCustomizations/+/1239925
 		if ( in_array( 'trust_and_relevance', $paramsToExpand ) ) {
-			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $title, $metadata );
+			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $metadata );
 
-			// If this is an article we'll add the reference count and trending data.
+			// If this is an article we'll add the reference count, trending data, page views
+			// and contributor counts.
 			if ( !$file ) {
+				// Placeholder for the contributor counts will be implemented in a future version.
+				$base['trust_and_relevance']['contributor_counts'] = null;
+				$base['trust_and_relevance']['page_views'] = $this->getPageViews( $title );
 				$base['trust_and_relevance']['reference_count'] = $this->getReferenceCount( $page );
 				// TEMPORARY: placeholder for demo purposes only. See: T419157
 				$base['trust_and_relevance']['trending'] = [
@@ -89,7 +93,7 @@ class AttributionDataBuilder {
 	 * Get the essential attribution fields.
 	 *
 	 * @param Title $title The title of the wiki
-	 * @param array $metadata The page of the resource
+	 * @param array $metadata The page metadata
 	 * @return array The default essential attribution data
 	 */
 	private function getEssential( Title $title, array $metadata ): array {
@@ -138,17 +142,13 @@ class AttributionDataBuilder {
 	/**
 	 * Get the trust and relevance data.
 	 *
-	 * @param Title $title The title of the wiki
-	 * @param array $metadata
+	 * @param array $metadata the content metadata
 	 * @return array The trust and relevance attribution data
 	 */
-	private function getTrustAndRelevance( Title $title, array $metadata ): array {
+	private function getTrustAndRelevance( array $metadata ): array {
 		$span = $this->tracer->createSpan( 'Attribution TrustAndRelevance' )->start();
 		return [
-			'last_updated' => $metadata['latest']['timestamp'],
-			'page_views' => $this->getPageViews( $title ),
-			// Placeholder for the contributor counts will be implemented in a future version.
-			'contributor_counts' => 0,
+			'last_updated' => $metadata['latest']['timestamp']
 		];
 	}
 
@@ -268,10 +268,10 @@ class AttributionDataBuilder {
 	 * Get the page views for a given title, summed over the last 30 days.
 	 * Note: This is copied from PageViewInfo\Hooks::onInfoAction, as it is doing exactly what we need.
 	 *
-	 * @return int -1 if the page views are not supported or unavailable,
+	 * @return int|null null if the page views are not supported or unavailable,
 	 *  or the total number of views over the last 30 days.
 	 */
-	private function getPageViews( Title $title ): int {
+	private function getPageViews( Title $title ): ?int {
 		if (
 			!$this->pageViewService ||
 			!$this->pageViewService->supports(
@@ -279,12 +279,12 @@ class AttributionDataBuilder {
 				PageViewService::SCOPE_ARTICLE
 			)
 		) {
-			return -1;
+			return null;
 		}
 
 		$status = $this->pageViewService->getPageData( [ $title ], 30, PageViewService::METRIC_VIEW );
 		if ( !$status->isOK() ) {
-			return -1;
+			return null;
 		}
 		$data = $status->getValue();
 		$views = $data[$title->getPrefixedDBkey()];
