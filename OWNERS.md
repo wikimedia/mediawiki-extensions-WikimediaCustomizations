@@ -52,6 +52,7 @@ Most of it should probably be moved to EmailAuth.
 
 * Folders:
   - src/RateLimit
+  - tests/phpunit/unit/RateLimit
 * Contact: https://www.mediawiki.org/wiki/MediaWiki_Platform_Team
 
 Adds a rate limit class ('rlc') field to JWTs associated with login sessions.

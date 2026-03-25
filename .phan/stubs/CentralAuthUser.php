@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\CentralAuth\User;
 use MediaWiki\User\UserIdentity;
 
 /**
- * Stub of CentralAuth extension's CentralAuthUser class
+ * Stub of the class from CentralAuth.
  */
 class CentralAuthUser {
 
@@ -16,6 +16,18 @@ class CentralAuthUser {
 	 * @return string[]
 	 */
 	public function getGlobalGroups() {
+	}
+
+	/**
+	 * @return string timestamp
+	 */
+	public function getRegistration() {
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function exists() {
 	}
 
 }
