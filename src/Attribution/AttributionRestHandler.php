@@ -18,6 +18,7 @@ use MediaWiki\Rest\Handler\Helper\PageRedirectHelper;
 use MediaWiki\Rest\Handler\Helper\PageRestHelperFactory;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
+use MediaWiki\Rest\ResponseHeaders;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
@@ -36,6 +37,7 @@ class AttributionRestHandler extends SimpleHandler {
 
 	private PageContentHelper $contentHelper;
 	private string $dbname;
+	private const MAX_AGE_200 = 3600;
 
 	public function __construct(
 		private readonly Config $mainConfig,
@@ -167,7 +169,14 @@ class AttributionRestHandler extends SimpleHandler {
 		$wikiName = $this->getWikiName( $title );
 		$result['source_wiki']['site_name'] = $wikiName;
 		$result['source_wiki']['project_family'] = $this->getProjectFamily();
-		return $this->getResponseFactory()->createJson( $result );
+		$response = $this->getResponseFactory()->createJson( $result );
+		if ( !$this->getSession()->isPersistent() ) {
+			$response->setHeader(
+				ResponseHeaders::CACHE_CONTROL,
+				'public, max-age=' . self::MAX_AGE_200 . ', s-maxage=' . self::MAX_AGE_200
+			);
+		}
+		return $response;
 	}
 
 	/**

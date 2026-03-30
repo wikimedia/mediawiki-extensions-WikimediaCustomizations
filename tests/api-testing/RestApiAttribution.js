@@ -49,6 +49,7 @@ describe( 'Attribution API tests', () => {
 			const response = await client.get( `pages/${ title }/signals` );
 
 			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 
 			// eslint-disable-next-line no-unused-expressions
 			expect( response ).to.satisfyApiSpec;
@@ -57,6 +58,7 @@ describe( 'Attribution API tests', () => {
 		it( 'Should return essential properties', async () => {
 			const response = await client.get( `pages/${ title }/signals` );
 			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 
 			assert.isDefined( response.body.essential.title );
 			assert.isDefined( response.body.essential.license );
@@ -74,6 +76,7 @@ describe( 'Attribution API tests', () => {
 		it( 'Should respect expand parameter and return trust_and_relevance properties', async () => {
 			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance` );
 			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 
 			assert.isDefined( response.body.trust_and_relevance.last_updated );
 			assert.isDefined( response.body.trust_and_relevance.page_views );
@@ -92,6 +95,7 @@ describe( 'Attribution API tests', () => {
 		it( 'Should respect expand parameter and return calls_to_action properties', async () => {
 			const response = await client.get( `pages/${ title }/signals?expand=calls_to_action` );
 			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 
 			assert.isDefined( response.body.calls_to_action.donation_ctas );
 			assert.isDefined( response.body.calls_to_action.participation_ctas );
@@ -108,6 +112,7 @@ describe( 'Attribution API tests', () => {
 		it( 'Should respect expand parameter and return both trust_and_relevance and calls_to_action properties', async () => {
 			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance,calls_to_action` );
 			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 
 			assert.isDefined( response.body.calls_to_action.donation_ctas );
 			assert.isDefined( response.body.calls_to_action.participation_ctas );
