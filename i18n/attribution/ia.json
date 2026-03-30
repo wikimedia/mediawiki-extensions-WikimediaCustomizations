@@ -5,10 +5,11 @@
 		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de attribution (beta)",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Le API de attribution forni informationes sur le attribution de un pagina.",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Le API de Attribution forni datos de attribution ben structurate pro contento de tote le projectos de Wikimedia. Pro plus informationes sur le principios de attribution, expectationes e guidas de stilo quando se reutilisa contento de Wikimedia, vide le [https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html Quadro de Attribution].",
+	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Obtener informationes de attribution pro un pagina.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Obtener le informationes de attribution de un pagina.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Le schema pro le API de attribution.",
-	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Le parametro ‘expand’ permitte al appellante includer informationes additional in le responsa. Le valor es un lista separate per commas del claves a expander. Le claves pote esser ‘trust_and_relevance’ o ‘calls_to_action’.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Permitte al appellante includer typos additional de signales in le responsa, secundo le categorias del [https://wikimedia-attribution.toolforge.org/ Quadro de Attribution]. Per predefinition, solmente signales `Essential` es retornate. Categorias additional pote esser specificate como un lista separate per commas.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informationes essential sur le attribution de un pagina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Le titulo del pagina requestate.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Le artista o autor del file.",
