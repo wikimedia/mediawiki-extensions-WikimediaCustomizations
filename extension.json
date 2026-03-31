@@ -54,12 +54,35 @@
 				"WikimediaCustomizations.Config",
 				"ExtensionRegistry"
 			]
+		},
+		"officeban": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\OfficeBan\\OfficeBanHookHandler",
+			"services": [
+				"ExtensionRegistry"
+			]
 		}
 	},
 	"Hooks": {
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
-		"GetSessionJwtData": "ratelimit"
+		"GetSessionJwtData": "ratelimit",
+		"BeforePageDisplay": "officeban"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "WikimediaCustomizations/modules"
+	},
+	"ResourceModules": {
+		"ext.wikimediaCustomizations.officeBan": {
+			"scripts": [
+				"OfficeBan/office-ban.js"
+			],
+			"dependencies": [
+				"mediawiki.api",
+				"mediawiki.ForeignApi",
+				"codex-styles"
+			]
+		}
 	},
 	"AuthManagerAutoConfig": {
 		"preauth": {

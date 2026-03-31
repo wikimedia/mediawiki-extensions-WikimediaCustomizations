@@ -1,6 +1,11 @@
 {
 	"root": true,
 	"extends": [
-		"wikimedia/server"
-	]
+		"wikimedia/server",
+		"wikimedia/client"
+	],
+	"globals": {
+		"jQuery": "readonly",
+		"mediaWiki": "readonly"
+	}
 }

@@ -74,4 +74,15 @@ $wgRestSandboxSpecs['attribution.v0-beta'] = [
 ];
 ```
 
+## OfficeBan
+
+* Directories:
+  * src/OfficeBan
+  * modules/OfficeBan/office-ban.js
+* Dependencies: CentralAuth
+* Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
+
+Allows staff members to perform global bans on Wikimedia wikis. This was a gadget that 
+ported over here and was originally written by ladsgroup. See the ban policy at https://meta.wikimedia.org/wiki/WMF_Global_Ban_Policy
+
 ## ...
