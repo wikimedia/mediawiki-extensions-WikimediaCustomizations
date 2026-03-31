@@ -23,7 +23,8 @@
 						"Tracer"
 					],
 					"optional_services": [
-						"PageViewService"
+						"PageViewService",
+						"FlaggedRevsParserCacheFactory"
 					]
 				}
 			}

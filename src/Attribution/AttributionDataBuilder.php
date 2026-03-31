@@ -12,8 +12,6 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
 use MediaWiki\Page\ExistingPageRecord;
-use MediaWiki\Page\ParserOutputAccess;
-use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
@@ -33,10 +31,9 @@ class AttributionDataBuilder {
 		private readonly Config $mainConfig,
 		private readonly UrlUtils $urlUtils,
 		private readonly RepoGroup $repoGroup,
-		private readonly ParserOutputAccess $parserOutputAccess,
-		private readonly ParserOptions $parserOptions,
 		private readonly TracerInterface $tracer,
 		private readonly SiteConfiguration $siteConfig,
+		private readonly ReferenceCountProvider $referenceCountProvider,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
@@ -381,29 +378,14 @@ class AttributionDataBuilder {
 	}
 
 	/**
-	 * Count the number of unique references on a page by fetching its Parsoid HTML and counting
-	 * occurrences of 'id="cite_note-'. Each unique reference in the footnotes section gets a
-	 * single element with this ID pattern, so this counts unique sources rather than the total
-	 * number of inline citations (which may cite the same source multiple times).
+	 * Count the number of unique references on a page.
+	 * Delegates to the injected {@see ReferenceCountProvider}.
 	 *
 	 * @return int|null The reference count, or null if the count cannot be determined.
 	 */
 	private function getReferenceCount( ExistingPageRecord $page ): ?int {
 		$span = $this->tracer->createSpan( 'Attribution GetReferenceCount' )->start();
-
-		$this->parserOptions->setUseParsoid( true );
-		$this->parserOptions->setRenderReason( 'attribution' );
-
-		// Note: on wikis using FlaggedRevisions (e.g. dewiki, ruwiki), this returns the latest
-		// revision's output rather than the stable (reader-visible) one. The count may therefore
-		// differ from what readers see if there are pending unreviewed edits. See T414359, T322426.
-		$status = $this->parserOutputAccess->getParserOutput( $page, $this->parserOptions );
-		if ( !$status->isOK() ) {
-			return null;
-		}
-
-		$html = $status->getValue()->getContentHolderText();
-		return preg_match_all( '/\bid="cite_note-/', $html );
+		return $this->referenceCountProvider->getReferenceCount( $page );
 	}
 
 	/**

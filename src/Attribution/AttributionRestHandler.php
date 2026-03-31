@@ -5,12 +5,11 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\FlaggedRevs\Backend\FlaggedRevsParserCacheFactory;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\RepoGroup;
-use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Page\ParserOutputAccess;
-use MediaWiki\Page\WikiPage;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
 use MediaWiki\Rest\Handler\Helper\PageRedirectHelper;
@@ -35,7 +34,6 @@ use Wikimedia\Telemetry\TracerInterface;
 class AttributionRestHandler extends SimpleHandler {
 
 	private PageContentHelper $contentHelper;
-	private string $dbname;
 	private const MAX_AGE_200 = 3600;
 
 	public function __construct(
@@ -45,10 +43,10 @@ class AttributionRestHandler extends SimpleHandler {
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly ParserOutputAccess $parserOutputAccess,
 		private readonly TracerInterface $tracer,
-		private readonly ?PageViewService $pageViewService = null
+		private readonly ?PageViewService $pageViewService = null,
+		private readonly ?FlaggedRevsParserCacheFactory $flaggedRevsParserCacheFactory = null
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
-		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
 	}
 
 	public function getParamSettings(): array {
@@ -145,14 +143,21 @@ class AttributionRestHandler extends SimpleHandler {
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
 		// are only used in this class to pass the the data builder
 		global $wgConf;
+		$referenceCountProvider = new ParsoidReferenceCountProvider( $this->parserOutputAccess );
+
+		if ( $this->flaggedRevsParserCacheFactory !== null ) {
+			$referenceCountProvider = new FlaggedRevsReferenceCountProvider(
+				$this->flaggedRevsParserCacheFactory,
+				$referenceCountProvider
+			);
+		}
 		$attributionDataBuilder = new AttributionDataBuilder(
 			$this->mainConfig,
 			$this->urlUtils,
 			$this->repoGroup,
-			$this->parserOutputAccess,
-			WikiPage::makeParserOptionsFromTitleAndModel( $title, $title->getContentModel(), 'canonical' ),
 			$this->tracer,
 			$wgConf,
+			$referenceCountProvider,
 			$this->pageViewService
 		);
 		$context = new DerivativeContext( RequestContext::getMain() );

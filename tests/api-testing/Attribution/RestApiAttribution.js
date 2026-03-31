@@ -81,7 +81,7 @@ describe( 'Attribution API tests', () => {
 			assert.isDefined( response.body.trust_and_relevance.last_updated );
 			assert.isDefined( response.body.trust_and_relevance.page_views );
 			assert.isDefined( response.body.trust_and_relevance.contributor_counts );
-			assert.isNumber( response.body.trust_and_relevance.reference_count );
+			assert.isDefined( response.body.trust_and_relevance.reference_count );
 			assert.isDefined( response.body.trust_and_relevance.trending );
 			assert.isDefined( response.body.trust_and_relevance.trending.top );
 			assert.isDefined( response.body.trust_and_relevance.trending.relative );

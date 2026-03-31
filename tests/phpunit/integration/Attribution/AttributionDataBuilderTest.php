@@ -6,15 +6,13 @@ use MediaWiki\Config\Config;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
 use MediaWiki\Page\ExistingPageRecord;
-use MediaWiki\Page\ParserOutputAccess;
-use MediaWiki\Parser\ParserOptions;
-use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
@@ -41,14 +39,13 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	private function newDataBuilder(
 		?PageViewService $pageViewService = null,
-		?ParserOutputAccess $parserOutputAccess = null,
+		?ReferenceCountProvider $referenceCountProvider = null,
 		?RepoGroup $repoGroup = null
 	): AttributionDataBuilder {
 		$config = $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
-		$parserOptions = $this->createMock( ParserOptions::class );
-		if ( !$parserOutputAccess ) {
-			$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
+		if ( !$referenceCountProvider ) {
+			$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
 		}
 		if ( !$repoGroup ) {
 			$repoGroup = $this->createMock( RepoGroup::class );
@@ -57,9 +54,9 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$siteConfig = $this->createMock( SiteConfiguration::class );
 		$siteConfig->method( 'siteFromDB' )
 			->willReturn( [ 'wiki', 'unittest' ] );
+
 		return new AttributionDataBuilder(
-			$config, $urlUtils, $repoGroup, $parserOutputAccess, $parserOptions,
-			$noopTracer, $siteConfig, $pageViewService );
+			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig, $referenceCountProvider, $pageViewService );
 	}
 
 	private function mockTitle(): Title {
@@ -143,13 +140,10 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfZero() {
-		$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
-		$po = new ParserOutput();
-		$po->setRawText( 'Foo bar' );
-		$status = Status::newGood( $po );
-		$parserOutputAccess->method( 'getParserOutput' )->willReturn( $status );
+		$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
+		$referenceCountProvider->method( 'getReferenceCount' )->willReturn( 0 );
 
-		$builder = $this->newDataBuilder( null, $parserOutputAccess );
+		$builder = $this->newDataBuilder( null, $referenceCountProvider );
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
@@ -165,13 +159,10 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfMultiple() {
-		$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
-		$po = new ParserOutput();
-		$po->setRawText( 'id="cite_note-2 id="cite_note-7 id="cite_note-3' );
-		$status = Status::newGood( $po );
-		$parserOutputAccess->method( 'getParserOutput' )->willReturn( $status );
+		$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
+		$referenceCountProvider->method( 'getReferenceCount' )->willReturn( 3 );
 
-		$builder = $this->newDataBuilder( null, $parserOutputAccess );
+		$builder = $this->newDataBuilder( null, $referenceCountProvider );
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );

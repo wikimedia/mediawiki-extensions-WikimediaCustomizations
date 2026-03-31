@@ -6,6 +6,7 @@ $dirs = [
 	'stubs',
 	'../../extensions/cldr',
 	'../../extensions/EmailAuth',
+	'../../extensions/FlaggedRevs',
 	'../../extensions/IPReputation',
 	'../../extensions/LoginNotify',
 	'../../extensions/OATHAuth',
