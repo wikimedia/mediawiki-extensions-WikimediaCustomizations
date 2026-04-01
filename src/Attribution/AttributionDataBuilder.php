@@ -287,9 +287,8 @@ class AttributionDataBuilder {
 			return null;
 		}
 		$data = $status->getValue();
-		$views = $data[$title->getPrefixedDBkey()];
-
-		return array_sum( $views );
+		$views = $data[$title->getPrefixedDBkey()] ?? null;
+		return is_array( $views ) ? array_sum( $views ) : null;
 	}
 
 	/**
