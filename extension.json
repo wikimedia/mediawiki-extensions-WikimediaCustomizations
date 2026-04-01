@@ -60,13 +60,22 @@
 			"services": [
 				"ExtensionRegistry"
 			]
+		},
+		"forcereauth": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\ForceReauth\\ForceReauthHookHandler",
+			"services": [
+				"AuthManager",
+				"PermissionManager"
+			]
 		}
 	},
 	"Hooks": {
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": "officeban"
+		"BeforePageDisplay": "officeban",
+		"getUserPermissionsErrorsExpensive": "forcereauth",
+		"AlternateEdit": "forcereauth"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",

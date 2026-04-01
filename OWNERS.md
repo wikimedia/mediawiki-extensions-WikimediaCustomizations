@@ -90,4 +90,13 @@ $wgRestSandboxSpecs['attribution.v0-beta'] = [
 Allows staff members to perform global bans on Wikimedia wikis. This was a gadget that 
 ported over here and was originally written by ladsgroup. See the ban policy at https://meta.wikimedia.org/wiki/WMF_Global_Ban_Policy
 
+## ForceReauth
+
+* Folders:
+  - src/ForceReauth
+* Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
+
+Forces reauthentication for editing site JS in Wikimedia wikis. Orginally written by
+Roan Kattouw
+
 ## ...
