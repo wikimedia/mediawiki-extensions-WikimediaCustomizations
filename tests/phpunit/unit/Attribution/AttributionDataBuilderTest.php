@@ -264,6 +264,116 @@ class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
 
 	/**
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
+	 * @see T420780
+	 */
+	public function testArtistDisplayNoneSpanIsStripped() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		// Simulates {{Unknown|author}}: visible text + hidden machine-readable span
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'Unknown author<span style="display: none;">Unknown author</span>'
+				],
+				'LicenseShortName' => [ 'value' => 'CC0' ],
+				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
+			]
+		);
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
+	 * @see T420780
+	 */
+	public function testArtistDisplayNoneDivIsStripped() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		// Simulates Module:TagQS / {{Artwork}}: visible text + hidden machine-readable div
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'Unknown author<div style="display: none;">Unknown author</div>'
+				],
+				'LicenseShortName' => [ 'value' => 'CC0' ],
+				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
+			]
+		);
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
+	 * @see T420780
+	 */
+	public function testArtistDisplayNoneParagraphIsStripped() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'Unknown author<p style="display: none;">Unknown author</p>'
+				],
+				'LicenseShortName' => [ 'value' => 'CC0' ],
+				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/publicdomain/zero/1.0/' ],
+			]
+		);
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
+	 * @see T420780
+	 */
+	public function testArtistWithoutDisplayNoneIsUnchanged() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => '<span>Jane Doe</span>'
+				],
+				'LicenseShortName' => [ 'value' => 'CC-BY-SA' ],
+				'LicenseUrl' => [ 'value' => 'https://creativecommons.org/licenses/by-sa/4.0/' ],
+			]
+		);
+		$result = $builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+		$this->assertSame( 'Jane Doe', $result['essential']['credit'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getEssential()
 	 */
 	public function testGetAttributionDataReturnsNullForMissingValues() {
 		$builder = $this->newDataBuilder();

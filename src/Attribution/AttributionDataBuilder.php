@@ -295,19 +295,57 @@ class AttributionDataBuilder {
 	 * Retrieves a sanitized value from the extmetadata array by key.
 	 *
 	 * Returns the plain-text value at `$extMeta[$key]['value']`, or null if the key
-	 * is not present. Uses Sanitizer::stripAllTags() which relies on a proper HTML
-	 * tokenizer (RemexHtml) to correctly strip tags and decode entities, avoiding
-	 * the pitfalls of strip_tags().
+	 * is not present. Hidden elements (display:none) are removed before stripping to
+	 * avoid machine-readable Commons template output being concatenated into the
+	 * visible text (e.g. "Unknown authorUnknown author"). Uses Sanitizer::stripAllTags()
+	 * which relies on a proper HTML tokenizer (RemexHtml) to correctly strip remaining
+	 * tags and decode entities.
 	 *
 	 * @param array $extMeta Associative array of extmetadata entries, each containing a 'value' key
 	 * @param string $key The metadata key to look up
 	 * @return string|null The sanitized value, or null if the key is not present
 	 * @see T418503 for more details about the null return value
+	 * @see T420780
 	 */
 	private function getExtMetaValue( array $extMeta, string $key ): ?string {
 		return isset( $extMeta[$key]['value'] )
-			? Sanitizer::stripAllTags( $extMeta[$key]['value'] )
+			? Sanitizer::stripAllTags( $this->stripDisplayNoneElements( $extMeta[$key]['value'] ) )
 			: null;
+	}
+
+	/**
+	 * Strips hidden HTML elements injected by Commons templates for machine-readable
+	 * watermarking purposes (e.g. {{Unknown|author}}, Module:TagQS).
+	 *
+	 * Commons emits three known patterns:
+	 *   <span style="display: none;">...</span>  — used by {{Unknown}} and similar
+	 *   <div style="display: none;">...</div>    — used by Module:TagQS / {{Artwork}}
+	 *   <p style="display: none;">...</p>        — used by Module:TagQS / {{Artwork}}
+	 *
+	 * We match these as literal strings rather than regex, per the same approach
+	 * used by Commons' own Module:TagQS (see removeTag function).
+	 *
+	 * @see https://commons.wikimedia.org/wiki/Module:TagQS
+	 * @see T420780
+	 */
+	private function stripDisplayNoneElements( string $html ): string {
+		foreach ( [ 'span', 'div', 'p' ] as $tag ) {
+			$open  = "<$tag style=\"display: none;\">";
+			$close = "</$tag>";
+
+			$start = strpos( $html, $open );
+			while ( $start !== false ) {
+				$end = strpos( $html, $close, $start );
+				if ( $end === false ) {
+					break;
+				}
+				$html = substr( $html, 0, $start )
+					. substr( $html, $end + strlen( $close ) );
+				$start = strpos( $html, $open );
+			}
+		}
+
+		return $html;
 	}
 
 	private function getExtMetaData( File $file, FormatMetadata $format ): array {
