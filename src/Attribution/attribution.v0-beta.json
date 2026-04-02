@@ -22,6 +22,7 @@
 					"services": [
 						"PageRestHelperFactory",
 						"WikimediaCustomizations.AttributionDataBuilder",
+						"ContentLanguage",
 						"Tracer"
 					]
 				}

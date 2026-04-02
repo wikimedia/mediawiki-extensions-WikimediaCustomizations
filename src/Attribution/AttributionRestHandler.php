@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Language\Language;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
@@ -33,7 +34,8 @@ class AttributionRestHandler extends SimpleHandler {
 	public function __construct(
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly AttributionDataBuilder $attributionDataBuilder,
-		private readonly TracerInterface $tracer,
+		private readonly Language $contentLanguage,
+		private readonly TracerInterface $tracer
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
 	}
@@ -132,7 +134,7 @@ class AttributionRestHandler extends SimpleHandler {
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
 		// are only used in this class to pass the the data builder
 		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setLanguage( RequestContext::getMain()->getLanguage() );
+		$context->setLanguage( $this->contentLanguage );
 		$format = new FormatMetadata();
 		$format->setContext( $context );
 
