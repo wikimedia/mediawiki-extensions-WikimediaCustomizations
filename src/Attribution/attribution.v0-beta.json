@@ -5,7 +5,11 @@
 		"version": "0.1.0-beta",
 		"title": "Attribution API (Beta)",
 		"x-i18n-title": "wikimediacustomizations-attribution-rest-module-v0-beta-title",
-		"x-i18n-description": "wikimediacustomizations-attribution-rest-module-v0-beta-desc"
+		"x-i18n-description": "wikimediacustomizations-attribution-rest-module-v0-beta-desc",
+		"contact": {
+			"name": "joining the discussion",
+			"url": "https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/Attribution_API_(beta)"
+		}
 	},
 	"paths": {
 		"/pages/{title}/signals": {
