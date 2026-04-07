@@ -5,11 +5,11 @@
 		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "{{Experimental}} Title of the Attribution API REST module",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "{{Experimental}} Description of the Attribution API REST module",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "{{Experimental}} Description of the Attribution API REST module. This string is used in an OpenAPI Description (OAD) and must use Markdown syntax, not wikitext. Links use the format [link text](URL). Do not alter the Markdown link structure when translating.",
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "{{Experimental}} One-line summary of the endpoint for getting attribution information for a page.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "{{Experimental}} Description of the endpoint for getting attribution information for a page.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "{{Experimental}} Description of the schema for the Attribution API.",
-	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "{{Experimental}} Description of the expand parameter.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "{{Experimental}} Description of the expand parameter. This string is used in an OpenAPI Description (OAD) and must use Markdown syntax, not wikitext. Links use the format [link text](URL). Do not alter the Markdown link structure when translating.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "{{Experimental}} Description of the essential information about the page attribution.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "{{Experimental}} Description of the property for the title of the requested page.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "{{Experimental}} Description of the property for the artist or author of the file.",
