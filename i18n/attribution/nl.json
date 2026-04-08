@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Naamsvermelding-API (bèta)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "De Naamsvermelding-API biedt goed gestructureerde gegevens over bronvermelding voor inhoud in alle Wikimedia-projecten. Voor meer informatie over richtlijnen, verwachtingen en stijlgidsen voor bronvermelding bij hergebruik van Wikimedia-inhoud, zie het [https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html Naamsvermeldingframework].",
+	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Bronvermelding voor een pagina opvragen.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Naamsvermeldingsignalen zijn de individuele elementen die Wikimedia-projecten zichtbaar houden wanneer hun inhoud in externe contexten wordt weergegeven. Signalen bieden directe erkenning en toegang tot bronnen en presenteren aanvullende informatie die eindgebruikers helpt de kennis Naamsvermeldingsignalen ze tegenkomen te evalueren en ermee aan de slag te gaan. Attributiesignalen kunnen worden opgevraagd voor elke Wikimedia-inhoudspagina, maar zijn het meest van toepassing op inhoudelijke pagina's en mediabestanden. Niet alle informatie wordt voor elk paginatype geretourneerd; de bronvermelding wordt bijvoorbeeld alleen geretourneerd voor mediabestanden. Om verschillen tussen paginatypen te onderscheiden van ontbrekende gegevens, worden alleen velden die van toepassing zijn op het betreffende paginatype in het antwoord opgenomen en worden 'null'-waarden gebruikt in gevallen waarin gegevens worden verwacht maar niet beschikbaar zijn.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Het schema voor de Naamsvermelding-API.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Hiermee kan de opvrager extra typen signalen in het antwoord opnemen, volgens de categorieën van het [https://wikimedia-attribution.toolforge.org/ Naamsvermeldingframework]. Standaard worden alleen 'Essentiële' signalen geretourneerd. Extra typen kunnen worden opgegeven als een door komma's gescheiden lijst.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "De essentiële informatie over de paginatoeschrijving.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "De titel van de bronpagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "De artiest of auteur van het bestand.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "De licentie van het bestand.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "De URL van de licentie.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "De titel van de licentie.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "De koppeling naar de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "De merkaanduiding van de website op de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "De naam van het sitemerk.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "De URL van het sitemerk.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "Het type van het website-merklogo.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Details over de bronwiki van de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "De naam van de bronwiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "Het type of de 'familie' van de bronwiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "De ID van de bronwiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "De inhoudstaal van de wikisite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "De inhoudstaal van de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Informatie over de betrouwbaarheid en relevantie van de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Het aantal bijdragers aan de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "De datum waarop de pagina voor het laatst is gewijzigd.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Het aantal paginaweergaven van de pagina in de afgelopen 30 dagen.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Het aantal geciteerde referenties op de pagina. Deze eigenschap wordt weggelaten voor bestandspagina's en kan null zijn als het aantal niet kan worden vastgesteld.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "De oproep tot handelen voor de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "De oproep tot doneren voor de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "De standaard URL voor de oproep tot doneren.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "De URL van de oproep tot donatie aan de stichting.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "De URL voor de oproep tot donatie bij speciale gelegenheden.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "De oproep voor deelname aan handelen voor de pagina.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "De URL van de oproep tot handelen op de overlegpagina."
+}
