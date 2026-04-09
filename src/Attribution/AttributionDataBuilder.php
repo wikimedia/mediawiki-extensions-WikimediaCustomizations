@@ -7,6 +7,7 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
+use MediaWiki\Language\Language;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -43,7 +44,7 @@ class AttributionDataBuilder {
 
 	public function getAttributionData(
 		Title $title, ExistingPageRecord $page, array $metadata, array $paramsToExpand,
-		Authority $authority, FormatMetadata $format, Message $wikiNameMessage
+		Authority $authority, FormatMetadata $format
 	): array {
 		$base = [];
 		$base[ 'essential' ] = $this->getEssential( $title, $metadata );
@@ -89,7 +90,7 @@ class AttributionDataBuilder {
 			$base[ 'calls_to_action' ] = $this->getCallsToAction();
 		}
 
-		$base['source_wiki'] = $this->buildSourceWiki( $wikiNameMessage );
+		$base['source_wiki'] = $this->buildSourceWiki( $title->getPageLanguage() );
 
 		return $base;
 	}
@@ -147,11 +148,16 @@ class AttributionDataBuilder {
 	/**
 	 * Get the source wiki attribution data
 	 *
-	 * @param Message $wikiNameMessage The wikiname as a Message instance
 	 * @return array site_name and project_name
 	 */
-	private function buildSourceWiki( Message $wikiNameMessage ): array {
+	private function buildSourceWiki( Language $language ): array {
 		// If we can't resolve the wiki name, just use an empty string
+		$wikiNameMessage = new Message(
+			'project-localized-name-' . $this->dbname,
+			[],
+			$language
+		);
+
 		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
 
 		return [

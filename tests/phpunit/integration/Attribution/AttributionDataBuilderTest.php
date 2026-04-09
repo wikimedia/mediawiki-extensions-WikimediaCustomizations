@@ -19,13 +19,13 @@ use MediaWiki\Permissions\Authority;
 use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
-use MediaWikiUnitTestCase;
+use MediaWikiIntegrationTestCase;
 use Wikimedia\Telemetry\NoopTracer;
 
 /**
  * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder
  */
-class AttributionDataBuilderTest extends MediaWikiUnitTestCase {
+class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	private function mockConfig(): Config {
 		$config = $this->createMock( Config::class );

@@ -9,7 +9,6 @@ use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
-use MediaWiki\Message\Message;
 use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Page\WikiPage;
 use MediaWiki\Rest\Handler;
@@ -158,18 +157,14 @@ class AttributionRestHandler extends SimpleHandler {
 		$context->setLanguage( RequestContext::getMain()->getLanguage() );
 		$format = new FormatMetadata();
 		$format->setContext( $context );
-		$wikiNameMessage = new Message(
-			'project-localized-name-' . $this->dbname,
-			[],
-			$title->getPageLanguage()
-		);
+
 		$result = $attributionDataBuilder->getAttributionData(
 			$title,
 			$page,
 			$metadata,
 			$paramsToExpand,
 			$this->getAuthority(),
-			$format, $wikiNameMessage
+			$format
 		);
 		$response = $this->getResponseFactory()->createJson( $result );
 		if ( !$this->getSession()->isPersistent() ) {
