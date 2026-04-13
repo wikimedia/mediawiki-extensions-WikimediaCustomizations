@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Language\Language;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
@@ -15,6 +16,7 @@ use MediaWiki\Rest\Response;
 use MediaWiki\Rest\ResponseHeaders;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Title\Title;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -35,9 +37,11 @@ class AttributionRestHandler extends SimpleHandler {
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly AttributionDataBuilder $attributionDataBuilder,
 		private readonly Language $contentLanguage,
-		private readonly TracerInterface $tracer
+		private readonly TracerInterface $tracer,
+		private ?LoggerInterface $logger = null,
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
+		$this->logger = $logger ?? LoggerFactory::getInstance( 'Attribution' );
 	}
 
 	public function getParamSettings(): array {
@@ -79,12 +83,19 @@ class AttributionRestHandler extends SimpleHandler {
 	 * @throws LocalizedHttpException
 	 */
 	private function checkPageAccess(): ?Response {
-		$this->contentHelper->checkAccessPermission();
+		try {
+			$this->contentHelper->checkAccess();
+		} catch ( LocalizedHttpException $e ) {
+			$this->logger->warning( 'Attribution request failed', [
+				'message' => $e->getMessage(),
+				'code' => $e->getCode(),
+				'exception' => $e
+			] );
+			throw $e;
+		}
 		$pageIdentity = $this->contentHelper->getPageIdentity();
 
 		$followWikiRedirects = $this->contentHelper->getRedirectsAllowed();
-
-		// The page should be set if checkAccessPermission() didn't throw
 		Assert::invariant( $pageIdentity !== null, 'Page should be known' );
 
 		$redirectHelper = $this->getRedirectHelper();
@@ -99,9 +110,6 @@ class AttributionRestHandler extends SimpleHandler {
 		if ( $redirectResponse !== null ) {
 			return $redirectResponse;
 		}
-
-		// We could have a missing page at this point, check and return 404 if that's the case
-		$this->contentHelper->checkHasContent();
 
 		return null;
 	}
