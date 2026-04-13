@@ -135,7 +135,10 @@ class AttributionRestHandler extends SimpleHandler {
 		// Get params to be expanded
 		$params = $this->getValidatedParams();
 		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
-		$span->setAttributes( [ 'title' => $title->getPrefixedText(), 'expand' => $paramsToExpand ] );
+		$span->setAttributes( [
+			'title' => $title->getPrefixedText(),
+			'expand' => implode( ',', $paramsToExpand )
+		] );
 
 		// Get the attribution data
 		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
