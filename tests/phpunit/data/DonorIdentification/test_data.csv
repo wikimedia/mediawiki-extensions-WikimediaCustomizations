@@ -1,0 +1,11 @@
+email_address,donor_status_id
+donor@example.com,30
+donor@bernard.wang,1
+recurring@example.org,2
+lapsed@example.net,50
+invalidemail,3
+incorrectdata@gmail.com
+incorrectdata2@gmail.com,2,3
+
+newdonor@example.com,25
+nondonor@example.org,1000

@@ -38,7 +38,9 @@ Originally moved here from the private Wikimedia repo, see history there for mor
 ## Donor Identification
 
 * Folders: /
+  - maintenance/DonorIdentification
   - src/DonorIdentification
+  - tests/phpunit/maintenance/DonorIdentification
   - tests/phpunit/unit/DonorIdentification
 * Contact: [Reader Experience Team](https://www.mediawiki.org/wiki/Readers/Reader_Experience)
 
