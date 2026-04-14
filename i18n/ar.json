@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Meno25"
+		]
+	},
+	"wikimediacustomizations-desc": "يستضيف ملحق WikimediaCustomization روابط ورسائل وتخصيصات أخرى خاصة بموقع ويكيميديا.",
+	"wikimediacustomizations-bademaildomain-error": "لا ندعم عناوين البريد الإلكتروني التي تبدأ بـ $1 . يرجى اختيار مزود خدمة بريد إلكتروني آخر."
+}
