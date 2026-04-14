@@ -18,6 +18,9 @@ use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\NullLogger;
+use Wikimedia\Stats\StatsFactory;
+use Wikimedia\Stats\UnitTestingHelper;
 use Wikimedia\Telemetry\NoopTracer;
 
 /**
@@ -40,7 +43,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	private function newDataBuilder(
 		?PageViewService $pageViewService = null,
 		?ReferenceCountProvider $referenceCountProvider = null,
-		?RepoGroup $repoGroup = null
+		?RepoGroup $repoGroup = null,
+		?StatsFactory $statsFactory = null
 	): AttributionDataBuilder {
 		$config = $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
@@ -56,7 +60,15 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			->willReturn( [ 'wiki', 'unittest' ] );
 
 		return new AttributionDataBuilder(
-			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig, $referenceCountProvider, $pageViewService );
+			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
+			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $referenceCountProvider, $pageViewService
+		);
+	}
+
+	private function newStatsHelper(): UnitTestingHelper {
+		$helper = StatsFactory::newUnitTestingHelper();
+		$helper->withComponent( 'Attribution' );
+		return $helper;
 	}
 
 	private function mockTitle(): Title {
@@ -484,6 +496,69 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'contributor_counts', $result['trust_and_relevance'] );
 		$this->assertArrayHasKey( 'page_views', $result['trust_and_relevance'] );
 		$this->assertArrayNotHasKey( 'credit', $result['essential'] );
+	}
+
+	public function testRequestTotalCounterIsEmittedOnEveryCall(): void {
+		$statsHelper = $this->newStatsHelper();
+		$builder = $this->newDataBuilder( null, null, null, $statsHelper->getStatsFactory() );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+
+		$this->assertSame( 1, $statsHelper->count( 'attribution_request_total' ) );
+	}
+
+	public function testMissingArticleFieldsEmitMissingDataCounters(): void {
+		$statsHelper = $this->newStatsHelper();
+		// No PageViewService → page_views=null; default mock ReferenceCountProvider → reference_count=null
+		$builder = $this->newDataBuilder( null, null, null, $statsHelper->getStatsFactory() );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format );
+
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'attribution_missing_data_total{field="attribution_page_views"}' )
+		);
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'attribution_missing_data_total{field="attribution_reference_count"}' )
+		);
+	}
+
+	public function testMissingFileCreditEmitsMissingDataCounter(): void {
+		$statsHelper = $this->newStatsHelper();
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$builder = $this->newDataBuilder( null, null, $repoGroup, $statsHelper->getStatsFactory() );
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		// No Artist/LicenseShortName/LicenseUrl in extmeta → credit and license fields will be null
+		$format->method( 'fetchExtendedMetadata' )->willReturn( [] );
+		$builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
+
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'attribution_missing_data_total{field="attribution_credit"}' )
+		);
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'attribution_missing_data_total{field="attribution_license_title"}' )
+		);
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'attribution_missing_data_total{field="attribution_license_url"}' )
+		);
 	}
 
 	/**

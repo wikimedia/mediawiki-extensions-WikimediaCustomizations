@@ -4,6 +4,7 @@ use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuild
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -44,6 +45,8 @@ return [
 			$services->get( 'RepoGroup' ),
 			$services->get( 'Tracer' ),
 			$wgConf,
+			LoggerFactory::getInstance( 'Attribution' ),
+			$services->get( 'StatsFactory' ),
 			$referenceCountProvider,
 			$pageViewService
 		);

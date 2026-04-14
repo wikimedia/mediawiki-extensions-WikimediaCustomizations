@@ -17,6 +17,8 @@ use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
+use Psr\Log\LoggerInterface;
+use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Telemetry\TracerInterface;
 
 /**
@@ -26,6 +28,7 @@ use Wikimedia\Telemetry\TracerInterface;
 class AttributionDataBuilder {
 
 	private string $dbname;
+	private StatsFactory $stats;
 
 	public function __construct(
 		private readonly Config $mainConfig,
@@ -33,10 +36,13 @@ class AttributionDataBuilder {
 		private readonly RepoGroup $repoGroup,
 		private readonly TracerInterface $tracer,
 		private readonly SiteConfiguration $siteConfig,
+		private readonly LoggerInterface $logger,
+		StatsFactory $statsFactory,
 		private readonly ReferenceCountProvider $referenceCountProvider,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
+		$this->stats = $statsFactory->withComponent( 'Attribution' );
 	}
 
 	public function getAttributionData(
@@ -89,7 +95,59 @@ class AttributionDataBuilder {
 
 		$base['source_wiki'] = $this->buildSourceWiki( $title->getPageLanguage() );
 
+		$this->trackResponseData( $base, $file, $paramsToExpand );
+
 		return $base;
+	}
+
+	/**
+	 * Emit metrics and log for any nullable fields that returned null.
+	 * Intentionally missing data (e.g. contributor_counts) is excluded.
+	 *
+	 * @param array $base The built attribution data array
+	 * @param File|null $file The file object if this is a file page, or null
+	 * @param array $paramsToExpand The list of requested expansion keys
+	 */
+	private function trackResponseData(
+		array $base, ?File $file, array $paramsToExpand
+	): void {
+		$missingFields = [];
+		// Article-only fields — only present when trust_and_relevance is expanded
+		if ( !$file && in_array( 'trust_and_relevance', $paramsToExpand ) ) {
+			if ( ( $base['trust_and_relevance']['page_views'] ?? null ) === null ) {
+				$missingFields[] = 'attribution_page_views';
+			}
+			if ( ( $base['trust_and_relevance']['reference_count'] ?? null ) === null ) {
+				$missingFields[] = 'attribution_reference_count';
+			}
+		}
+
+		// File-only fields
+		if ( $file ) {
+			if ( $base['essential']['credit'] === null ) {
+				$missingFields[] = 'attribution_credit';
+			}
+			if ( ( $base['essential']['license']['title'] ?? null ) === null ) {
+				$missingFields[] = 'attribution_license_title';
+			}
+			if ( ( $base['essential']['license']['url'] ?? null ) === null ) {
+				$missingFields[] = 'attribution_license_url';
+			}
+		}
+
+		foreach ( $missingFields as $field ) {
+			$this->stats->getCounter( 'attribution_missing_data_total' )
+				->setLabel( 'field', $field )
+				->increment();
+		}
+
+		$counter = $this->stats->getCounter( 'attribution_request_total' );
+		sort( $paramsToExpand );
+
+		$counter->setLabel( 'attribution_missing_fields', (string)count( $missingFields ) );
+		$counter->setLabel( 'attribution_expand', $paramsToExpand ? implode( ',', $paramsToExpand ) : 'none' );
+		$counter->setLabel( 'attribution_media_file', $file ? '1' : '0' );
+		$counter->increment();
 	}
 
 	/**
