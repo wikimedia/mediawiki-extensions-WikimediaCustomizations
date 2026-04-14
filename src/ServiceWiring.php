@@ -1,5 +1,8 @@
 <?php
 
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
 use MediaWiki\MediaWikiServices;
 
@@ -16,4 +19,34 @@ return [
 			$services->getLocalServerObjectCache(),
 		);
 	},
+
+	'WikimediaCustomizations.AttributionDataBuilder' => static function (
+		MediaWikiServices $services
+	): AttributionDataBuilder {
+		global $wgConf;
+		$parserOutputAccess = $services->getParserOutputAccess();
+		$referenceCountProvider = new ParsoidReferenceCountProvider( $parserOutputAccess );
+		$pageViewService = null;
+
+		if ( $services->getExtensionRegistry()->isLoaded( 'FlaggedRevs' ) ) {
+			$referenceCountProvider = new FlaggedRevsReferenceCountProvider(
+				$services->get( 'FlaggedRevsParserCacheFactory' ),
+				$referenceCountProvider
+			);
+		}
+		if ( $services->getExtensionRegistry()->isLoaded( 'PageViewInfo' ) ) {
+			$pageViewService = $services->get( 'PageViewService' );
+		}
+
+		return new AttributionDataBuilder(
+			$services->get( 'MainConfig' ),
+			$services->get( 'UrlUtils' ),
+			$services->get( 'RepoGroup' ),
+			$services->get( 'Tracer' ),
+			$wgConf,
+			$referenceCountProvider,
+			$pageViewService
+		);
+	},
+
 ];

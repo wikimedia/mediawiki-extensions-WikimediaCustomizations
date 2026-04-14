@@ -2,14 +2,9 @@
 
 namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
-use MediaWiki\Config\Config;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Extension\FlaggedRevs\Backend\FlaggedRevsParserCacheFactory;
-use MediaWiki\Extension\PageViewInfo\PageViewService;
-use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Media\FormatMetadata;
-use MediaWiki\Page\ParserOutputAccess;
 use MediaWiki\Rest\Handler;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
 use MediaWiki\Rest\Handler\Helper\PageRedirectHelper;
@@ -19,7 +14,6 @@ use MediaWiki\Rest\Response;
 use MediaWiki\Rest\ResponseHeaders;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Title\Title;
-use MediaWiki\Utils\UrlUtils;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -37,14 +31,9 @@ class AttributionRestHandler extends SimpleHandler {
 	private const MAX_AGE_200 = 3600;
 
 	public function __construct(
-		private readonly Config $mainConfig,
-		private readonly UrlUtils $urlUtils,
-		private readonly RepoGroup $repoGroup,
 		private readonly PageRestHelperFactory $helperFactory,
-		private readonly ParserOutputAccess $parserOutputAccess,
+		private readonly AttributionDataBuilder $attributionDataBuilder,
 		private readonly TracerInterface $tracer,
-		private readonly ?PageViewService $pageViewService = null,
-		private readonly ?FlaggedRevsParserCacheFactory $flaggedRevsParserCacheFactory = null
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
 	}
@@ -142,30 +131,12 @@ class AttributionRestHandler extends SimpleHandler {
 		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
 		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
 		// are only used in this class to pass the the data builder
-		global $wgConf;
-		$referenceCountProvider = new ParsoidReferenceCountProvider( $this->parserOutputAccess );
-
-		if ( $this->flaggedRevsParserCacheFactory !== null ) {
-			$referenceCountProvider = new FlaggedRevsReferenceCountProvider(
-				$this->flaggedRevsParserCacheFactory,
-				$referenceCountProvider
-			);
-		}
-		$attributionDataBuilder = new AttributionDataBuilder(
-			$this->mainConfig,
-			$this->urlUtils,
-			$this->repoGroup,
-			$this->tracer,
-			$wgConf,
-			$referenceCountProvider,
-			$this->pageViewService
-		);
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setLanguage( RequestContext::getMain()->getLanguage() );
 		$format = new FormatMetadata();
 		$format->setContext( $context );
 
-		$result = $attributionDataBuilder->getAttributionData(
+		$result = $this->attributionDataBuilder->getAttributionData(
 			$title,
 			$page,
 			$metadata,

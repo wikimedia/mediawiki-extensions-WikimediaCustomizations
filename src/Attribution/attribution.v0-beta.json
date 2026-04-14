@@ -19,16 +19,9 @@
 				"handler": {
 					"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Attribution\\AttributionRestHandler",
 					"services": [
-						"MainConfig",
-						"UrlUtils",
-						"RepoGroup",
 						"PageRestHelperFactory",
-						"ParserOutputAccess",
+						"WikimediaCustomizations.AttributionDataBuilder",
 						"Tracer"
-					],
-					"optional_services": [
-						"PageViewService",
-						"FlaggedRevsParserCacheFactory"
 					]
 				}
 			}
