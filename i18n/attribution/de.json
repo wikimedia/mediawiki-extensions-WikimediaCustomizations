@@ -3,11 +3,11 @@
 		"authors": []
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Attribution API (Beta)",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Die Attribution-API stellt gut strukturierte Angaben zur Urheberschaft für Inhalte aus allen Wikimedia-Projekten bereit. Weitere Informationen zu den Richtlinien zur Urheberschaft, den Erwartungen und den Stilrichtlinien bei der Wiederverwendung von Wikimedia-Inhalten findest du im [https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html Attribution-Framework].",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Die Attribution-API stellt gut strukturierte Angaben zur Urheberschaft für Inhalte aus allen Wikimedia-Projekten bereit. Weitere Informationen zu den Richtlinien zur Urheberschaft, den Erwartungen und den Stilrichtlinien bei der Wiederverwendung von Wikimedia-Inhalten findest du im [Attribution Framework](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html).",
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Ruft die Attributionsinformationen für eine Seite ab.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Ruft die Attributionsinformationen für eine Seite ab.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Das Schema für die Attributions-API.",
-	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Ermöglicht es dem Aufrufer, zusätzliche Signalarten in die Antwort aufzunehmen, entsprechend den Kategorien des [https://wikimedia-attribution.toolforge.org/ Attribution-Frameworks]. Standardmäßig werden nur „Essential“-Signale zurückgegeben. Zusätzliche Kategorien können als durch Kommas getrennte Liste angegeben werden.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Ermöglicht es dem Aufrufer, zusätzliche Signalarten in die Antwort aufzunehmen, entsprechend den Kategorien des [Attribution Frameworks](https://wikimedia-attribution.toolforge.org/). Standardmäßig werden nur „Essential“-Signale zurückgegeben. Zusätzliche Kategorien können als durch Kommas getrennte Liste angegeben werden. Mögliche Werte: „trust_and_relevance“, „calls_to_action“.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Die wichtigsten Informationen zur Attribuierung der Seite.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Der Titel der angeforderten Seite.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Der Künstler oder Autor der Datei.",
