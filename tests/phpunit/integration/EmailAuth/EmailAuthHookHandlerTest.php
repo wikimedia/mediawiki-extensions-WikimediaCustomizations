@@ -11,6 +11,7 @@ use MediaWiki\Extension\IPReputation\Services\IPReputationIPoidDataLookup;
 use MediaWiki\Extension\OATHAuth\OATHUser;
 use MediaWiki\Extension\OATHAuth\OATHUserRepository;
 use MediaWiki\Extension\WikimediaCustomizations\EmailAuth\EmailAuthHookHandler;
+use MediaWiki\Extension\WikimediaCustomizations\PrivilegedGroups\PrivilegedGroups;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
@@ -26,6 +27,7 @@ use WikimediaEvents\WikimediaEventsCountryCodeLookup;
  * @covers \MediaWiki\Extension\WikimediaCustomizations\EmailAuth\EmailAuthHookHandler
  */
 class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
+	private PrivilegedGroups&MockObject $privilegedGroups;
 	private ExtensionRegistry&MockObject $extensionRegistry;
 	private MutableConfig $config;
 	private OATHUserRepository&MockObject $userRepository;
@@ -50,7 +52,8 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->setMocks();
 	}
 
-	protected function setMocks( ?callable $getPrivilegedGroupsCallback = null ): void {
+	protected function setMocks(): void {
+		$this->privilegedGroups = $this->createMock( PrivilegedGroups::class );
 		$this->extensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$this->config = new HashConfig( [
 			'WMCEmailAuthEnforce' => true,
@@ -67,13 +70,13 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->user->method( 'getRequest' )->willReturn( $this->request );
 
 		$this->hookHandler = new EmailAuthHookHandler(
+			$this->privilegedGroups,
 			$this->extensionRegistry,
 			$this->config,
 			$this->userEditTracker,
 			$this->userRepository,
 			$this->ipReputationDataLookup,
 			$this->loginNotify,
-			$getPrivilegedGroupsCallback,
 			$this->countryCodeLookup,
 			$this->logger
 		);
@@ -315,7 +318,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function testGetPrivilegedGroupsCallback() {
+	public function testPrivilegedGroups() {
 		$this->extensionRegistry->method( 'isLoaded' )
 			->willReturnMap( [
 				[ 'IPReputation', '*', false ],
@@ -342,8 +345,8 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 		DeferredUpdates::doUpdates();
 
-		$this->setMocks( static fn () => [ 'foo', 'bar' ] );
-
+		$this->setMocks();
+		$this->privilegedGroups->method( 'getPrivilegedGroups' )->willReturn( [ 'foo', 'bar' ] );
 		$this->extensionRegistry->method( 'isLoaded' )
 			->willReturnMap( [
 				[ 'IPReputation', '*', false ],

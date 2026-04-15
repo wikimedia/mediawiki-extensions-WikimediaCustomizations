@@ -10,6 +10,7 @@ use MediaWiki\Extension\CLDR\CountryNames;
 use MediaWiki\Extension\IPReputation\Services\IPReputationIPoidDataLookup;
 use MediaWiki\Extension\OATHAuth\OATHAuthServices;
 use MediaWiki\Extension\OATHAuth\OATHUserRepository;
+use MediaWiki\Extension\WikimediaCustomizations\PrivilegedGroups\PrivilegedGroups;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Registration\ExtensionRegistry;
@@ -21,21 +22,17 @@ use WikimediaEvents\WikimediaEventsCountryCodeLookup;
 
 class EmailAuthHookHandler {
 
-	/** @var callable|null */
-	private $getPrivilegedGroupsCallback;
-
 	public function __construct(
+		private readonly PrivilegedGroups $privilegedGroups,
 		private readonly ExtensionRegistry $extensionRegistry,
 		private readonly Config $config,
 		private readonly UserEditTracker $userEditTracker,
 		private readonly ?OATHUserRepository $oathUserRepository,
 		private readonly ?IPReputationIPoidDataLookup $ipReputationDataLookup,
 		private readonly ?LoginNotify $loginNotify,
-		?callable $getPrivilegedGroupsCallback,
 		private readonly ?WikimediaEventsCountryCodeLookup $countryCodeLookup,
 		private readonly LoggerInterface $logger
 	) {
-		$this->getPrivilegedGroupsCallback = $getPrivilegedGroupsCallback;
 	}
 
 	public static function factory(): self {
@@ -67,15 +64,13 @@ class EmailAuthHookHandler {
 		}
 
 		return new self(
+			$services->get( 'WikimediaCustomizations.PrivilegedGroups' ),
 			$services->getExtensionRegistry(),
 			$services->getMainConfig(),
 			$services->getUserEditTracker(),
 			$userRepository,
 			$ipReputationDataLookup,
 			$loginNotify,
-			// defined in wmf-config/CommonSettings.php in the operations/mediawiki-config repo
-			function_exists( 'wmfGetPrivilegedGroups' ) ? 'wmfGetPrivilegedGroups' :
-				$services->get( 'WikimediaCustomizations.PrivilegedGroups' )->getPrivilegedGroups( ... ),
 			$countryCodeLookup,
 			LoggerFactory::getInstance( 'EmailAuth' )
 		);
@@ -105,7 +100,7 @@ class EmailAuthHookHandler {
 		// one of the LoginNotify::USER_* constants
 		$knownLoginNotify = 'no info';
 		$hasTwoFactorAuth = false;
-		$privilegedGroups = [];
+		$privilegedGroups = $this->privilegedGroups->getPrivilegedGroups( $user );
 		$countryCode = $countryName = '';
 
 		$activeOnLocalWikiInLast90Days = false;
@@ -122,9 +117,6 @@ class EmailAuthHookHandler {
 		if ( $this->extensionRegistry->isLoaded( 'OATHAuth' ) ) {
 			$oathUser = $this->oathUserRepository->findByUser( $user );
 			$hasTwoFactorAuth = $oathUser->isTwoFactorAuthEnabled();
-		}
-		if ( is_callable( $this->getPrivilegedGroupsCallback ) ) {
-			$privilegedGroups = ( $this->getPrivilegedGroupsCallback )( $user );
 		}
 		if ( $this->extensionRegistry->isLoaded( 'WikimediaEvents' ) ) {
 			$countryCode = WikimediaEventsCountryCodeLookup::getFromCookie( $request ) ?:
