@@ -35,6 +35,18 @@
 			"description": "Whether to enforce email auth verification. Default is false, so log-only mode.",
 			"value": false
 		},
+		"WMCPrivilegedGroups": {
+			"description": "List of local groups which should be considered privileged. This is used for some security checks, mainly logging.",
+			"value": []
+		},
+		"WMCPrivilegedGlobalGroups": {
+			"description": "List of global groups which should be considered privileged. This is used for some security checks, mainly logging.",
+			"value": []
+		},
+		"WMCPrivilegedPasswordPolicy": {
+			"description": "Password policy applying to users in privileged groups.",
+			"value": {}
+		},
 		"WMCGlobalGroupToRateLimitClass": {
 			"description": "Map of global group names to the rate limit class ('rlc') assigned to members of that group in JWTs.",
 			"value": {}
@@ -62,6 +74,16 @@
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler",
 			"factory": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler::factory"
 		},
+		"privilegedgroups-noservices": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\PrivilegedGroups\\PrivilegedGroupsNoServicesHookHandler"
+		},
+		"privilegedgroups": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\PrivilegedGroups\\PrivilegedGroupsHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config",
+				"WikimediaCustomizations.PrivilegedGroups"
+			]
+		},
 		"ratelimit": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\RateLimit\\RateLimitHookHandler",
 			"services": [
@@ -87,6 +109,9 @@
 		"GetPreferences": "donoridentification",
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
+		"MediaWikiServices": "privilegedgroups-noservices",
+		"GetSecurityLogContext": "privilegedgroups",
+		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
 		"BeforePageDisplay": "officeban",
 		"getUserPermissionsErrorsExpensive": "forcereauth",

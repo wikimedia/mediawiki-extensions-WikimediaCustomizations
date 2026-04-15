@@ -59,6 +59,15 @@ Business logic for when the EmailAuth extension should perform email verificatio
 
 Most of it should probably be moved to EmailAuth.
 
+## PrivilegedGroups
+
+* Folders:
+  - src/PrivilegedGroups
+* Dependencies: CentralAuth (optional).
+* Contact: UNOWNED (unowned code moved from operations/mediawiki-config)
+
+Password policies and additional logging for members of privileged groups.
+
 ## RateLimit
 
 * Folders:

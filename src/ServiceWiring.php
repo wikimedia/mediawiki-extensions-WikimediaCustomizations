@@ -5,6 +5,7 @@ use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuild
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
+use MediaWiki\Extension\WikimediaCustomizations\PrivilegedGroups\PrivilegedGroups;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 
@@ -19,6 +20,16 @@ return [
 		return new BadEmailDomainChecker(
 			$services->get( 'WikimediaCustomizations.Config' ),
 			$services->getLocalServerObjectCache(),
+		);
+	},
+
+	'WikimediaCustomizations.PrivilegedGroups' => static function (
+		MediaWikiServices $services
+	): PrivilegedGroups {
+		return new PrivilegedGroups(
+			$services->get( 'WikimediaCustomizations.Config' ),
+			$services->getExtensionRegistry(),
+			$services->getUserGroupManager(),
 		);
 	},
 

@@ -74,7 +74,8 @@ class EmailAuthHookHandler {
 			$ipReputationDataLookup,
 			$loginNotify,
 			// defined in wmf-config/CommonSettings.php in the operations/mediawiki-config repo
-			function_exists( 'wmfGetPrivilegedGroups' ) ? 'wmfGetPrivilegedGroups' : null,
+			function_exists( 'wmfGetPrivilegedGroups' ) ? 'wmfGetPrivilegedGroups' :
+				$services->get( 'WikimediaCustomizations.PrivilegedGroups' )->getPrivilegedGroups( ... ),
 			$countryCodeLookup,
 			LoggerFactory::getInstance( 'EmailAuth' )
 		);
