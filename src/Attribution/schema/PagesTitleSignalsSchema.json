@@ -194,13 +194,16 @@
 							],
 							"properties": {
 								"read": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read"
 								},
 								"edited": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited"
 								},
 								"read_and_edited": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited"
 								}
 							}
 						},
@@ -214,13 +217,16 @@
 							],
 							"properties": {
 								"read": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read"
 								},
 								"edited": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited"
 								},
 								"read_and_edited": {
-									"type": "boolean"
+									"type": "boolean",
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited"
 								}
 							}
 						}
