@@ -38,5 +38,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Call to action for donation to the Wikimedia Foundation",
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Call to action for donation for a special campaign",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Calls to action for participation",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Call to action for participation on the talk page"
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Call to action for participation on the talk page",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Trending indicators show when Wikipedia articles experienced a higher volume of page views, edits or both. Trending activity often correlates with current events.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Indicates whether a Wikipedia article ranked among the project’s most read, most edited, or both over the last 24 hours",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "The page is currently in the top 1000 read pages for the wiki project.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "The page is currently in the top 100 edited pages for the wiki project, based on number of edits.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "The page is currently in the top 1000 read and top 100 edited pages for the wiki project.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indicates the page is currently outperforming its average read and edit rates.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "The page is currently exceeding its average read rate.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "The page currently has a higher rate of edits being submitted than its average.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "The page currently has more read and edit activity than its average performance."
 }

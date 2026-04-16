@@ -38,5 +38,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "{{Experimental}} Description of the property for the foundation donation call to action URL.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "{{Experimental}} Description of the property for the donation call to action URL for the special occasions.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "{{Experimental}} Description of the property for the participation call to action objects for the page.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "{{Experimental}} Description of the property for the talk page call to action URL."
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "{{Experimental}} Description of the property for the talk page call to action URL.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "{{Experimental}} Description of the property for the trending information about the page. This property contains the following sub-properties: top and relative",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "{{Experimental}} Description of the property that indicated wether the page is among the project’s most read, most edited, or both over the last 24 hours. This property contains the following sub-properties: read, edited and read-and-edited.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "{{Experimental}} Description of the property that indicates if the page is in the top 1000 read pages on the wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "{{Experimental}} Description of the property that indicates if the page is in the top 100 edited pages on the wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "{{Experimental}} Description of the property that indicates if the page is in the top 1000 read pages and top 100 edited pages on the wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "{{Experimental}} Description of the propertry that indicates if the page is outperforming its average read and edit rates. This property contains the following sub-properties: read, edited and read-and-edited.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "{{Experimental}}  Description of the propertry that indicates if the page is currently exceeding its average read rate.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "{{Experimental}}  Description of the propertry that indicates if the page has a higher rate of edits being submitted than its average.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "{{Experimental}}  Description of the propertry that indicates if the page has more read and edit activity than its average performance."
 }
