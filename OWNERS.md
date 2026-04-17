@@ -119,4 +119,12 @@ ported over here and was originally written by ladsgroup. See the ban policy at 
 Forces reauthentication for editing site JS in Wikimedia wikis. Orginally written by
 Roan Kattouw
 
+## Discord
+* Folders:
+  - src/Discord
+* Contact: https://www.mediawiki.org/wiki/Future_Audiences
+
+Support for Discord's HTML header that allows us to customize page previews.
+
+
 ## ...

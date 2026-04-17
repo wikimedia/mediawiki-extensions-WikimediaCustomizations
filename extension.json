@@ -54,12 +54,26 @@
 		"WMCAttributionBrandmarkUrl": {
 			"description": "URL to the site's brand sound",
 			"value": "https://upload.wikimedia.org/wikipedia/commons/9/91/Wikimedia_Sonic_Logo_-_4-seconds.wav"
+		},
+		"WMCDiscord": {
+			"description": "Configuration for the Discord preview generation service. Includes the base URL for the service, the name of the meta tag to use when adding preview URLs to pages, and the wprov value to use for analytics.",
+			"value": {
+				"baseUrl": null,
+				"metaTagName": null,
+				"wprov": null
+			}
 		}
 	},
 	"DefaultUserOptions": {
 		"wikimedia-donor": "{ \"value\": 0 }"
 	},
 	"HookHandlers": {
+		"discord": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Discord\\DiscordHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config"
+			]
+		},
 		"bademaildomain": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\BadEmailDomain\\BadEmailDomainHookHandler",
 			"services": [
@@ -113,7 +127,7 @@
 		"GetSecurityLogContext": "privilegedgroups",
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": "officeban",
+		"BeforePageDisplay": [ "officeban", "discord" ],
 		"getUserPermissionsErrorsExpensive": "forcereauth",
 		"AlternateEdit": "forcereauth"
 	},
