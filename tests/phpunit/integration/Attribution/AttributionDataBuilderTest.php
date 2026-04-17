@@ -9,6 +9,7 @@ use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuild
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
+use MediaWiki\Language\Language;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -73,7 +74,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	private function mockTitle(): Title {
 		$title = $this->createMock( Title::class );
-		$language = $this->getMockBuilder( \Language::class )->disableOriginalConstructor()->getMock();
+		$language = $this->getMockBuilder( Language::class )->disableOriginalConstructor()->getMock();
 		$language->method( 'getCode' )->willReturn( 'en' );
 		$language->method( 'getHtmlCode' )->willReturn( 'en' );
 		$title->method( 'getPageLanguage' )->willReturn( $language );

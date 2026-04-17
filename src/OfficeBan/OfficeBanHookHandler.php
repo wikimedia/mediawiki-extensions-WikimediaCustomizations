@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\OfficeBan;
 
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Registration\ExtensionRegistry;
 
 class OfficeBanHookHandler implements BeforePageDisplayHook {

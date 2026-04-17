@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Config\Config;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
