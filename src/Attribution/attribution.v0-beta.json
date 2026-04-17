@@ -8,8 +8,8 @@
 		"x-i18n-description": "wikimediacustomizations-attribution-rest-module-v0-beta-desc",
 		"termsOfService": "https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use#12._API_Terms",
 		"contact": {
-			"name": "joining the discussion",
-			"url": "https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/Attribution_API_(beta)"
+			"name": "MediaWiki Interfaces Team",
+			"url": "https://www.mediawiki.org/wiki/Talk:Attribution_API"
 		}
 	},
 	"paths": {
