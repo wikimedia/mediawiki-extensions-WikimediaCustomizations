@@ -5,13 +5,23 @@
 			"FL2226"
 		]
 	},
-	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Le informazioni essenziali sull'attribuzione della pagina.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Il titolo della pagina richiesta.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "L'artista o l'autore del file.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-license": "La licenza del file.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Il titolo della licenza.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "I dettagli sul wiki di origine della pagina.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Il nome del wiki di origine.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "La lingua del contenuto della pagina.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Il numero di riferimenti citati nella pagina. Questa proprietà viene omessa per le pagine di file e può essere nulla se non è possibile determinarne il conteggio."
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Informazioni di attribuzione",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Segnali di attribuzione essenziali",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Titolo della pagina",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Artista o autore del file",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Licenza contenuto",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Collegamento ai dettagli della licenza",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Nome della licenza",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL della pagina",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Icone e loghi per il wiki",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "Tipo di marchio, come 'icona', 'logo' o 'audio'",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Dettagli sul wiki",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Nome wiki localizzato",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "Tipo di wiki, come 'wikipedia' o 'wiktionary'",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "Identificatore wiki",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Lingua del contenuto della pagina, formattata come codice lingua",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Segnali di fiducia e rilevanza",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Data e ora dell'ultimo aggiornamento in formato ISO 8601",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Numero di visualizzazioni della pagina negli ultimi 30 giorni",
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Numero di riferimenti citati. Questa proprietà viene omessa per le pagine di file e può essere 'null' se non è possibile determinarne il conteggio."
 }

@@ -4,8 +4,13 @@
 			"Volvox"
 		]
 	},
-	"wikimediacustomizations-attribution-get-pages-signals-property-license": "D'Lizenz vum Fichier.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "D'URL vun der Lizenz.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Den Titel vun der Lizenz.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-link": "De Link op d'Säit."
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Titel vun der Säit",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Lizenz vum Inhalt",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Link op d'Detailer vun der Lizenz",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Lizenznumm",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL vun der Säit",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Symboler a Logoe fir d'Wiki",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Detailer iwwer d'Wiki",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Lokaliséierte Wiki-Numm",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family": "Typ vun der Wiki, z.&nbsp;B. „wikipedia“ oder „wiktionary“"
 }

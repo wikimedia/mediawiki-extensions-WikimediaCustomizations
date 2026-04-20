@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"Wikipeedikko"
+		]
+	},
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Sivun nimi",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Sisältölisenssi",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Linkki lisenssitietoihin",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Lisenssin nimi",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Sivun verkko-osoite",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Wikin kuvakkeet ja logot",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Tuotemerkin nimi",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Tietoja wikistä",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name": "Wikin lokalisoitu nimi",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "Wikin tunniste",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Muokkaajien määrä",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Viimeisimmän päivityksen aikaleima ISO 8061 -muodossa",
+	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Sivun tarkastelukerrat viimeisen 30 päivän ajalta",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Toimintakehotteet",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Lahjoituspyynnöt",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "Oletuksena käytettävä lahjoituspyyntö",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Lahjoituspyyntö Wikimedia-säätiölle",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Erikoiskampanjan lahjoituspyyntö",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Osallistumispyynnöt",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Osallistumispyyntö keskustelusivulle"
+}

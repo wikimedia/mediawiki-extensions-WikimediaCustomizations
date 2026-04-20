@@ -4,6 +4,9 @@
 			"Milicevic01"
 		]
 	},
-	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Уметник или аутор ове датотеке.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Лиценца датотеке."
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Наслов странице",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Уметник или аутор ове датотеке",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Лиценца садржаја",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Назив лиценце",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL странице"
 }
