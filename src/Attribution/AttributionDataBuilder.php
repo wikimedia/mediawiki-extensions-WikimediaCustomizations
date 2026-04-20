@@ -19,6 +19,7 @@ use MediaWiki\Utils\UrlUtils;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Telemetry\TracerInterface;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Builds attribution information about a page returned by the Attribution
@@ -466,8 +467,20 @@ class AttributionDataBuilder {
 	 * @return int|null The reference count, or null if the count cannot be determined.
 	 */
 	private function getReferenceCount( ExistingPageRecord $page ): ?int {
+		$startTime = ConvertibleTimestamp::hrtime();
 		$span = $this->tracer->createSpan( 'Attribution GetReferenceCount' )->start();
-		return $this->referenceCountProvider->getReferenceCount( $page );
+
+		$countResult = $this->referenceCountProvider->getReferenceCount( $page );
+
+		$labels = [
+			'operation_result' => $countResult->getOperationResult(),
+			'source' => $countResult->getSource()
+		];
+		$this->stats->getTiming( 'reference_count_fetch_seconds' )
+			->setLabels( $labels )
+			->observeNanoseconds( ConvertibleTimestamp::hrtime() - $startTime );
+		$span->setAttributes( [ 'source' => $countResult->getSource() ] );
+		return $countResult->getReferenceCount();
 	}
 
 	/**

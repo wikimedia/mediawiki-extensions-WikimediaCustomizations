@@ -13,7 +13,8 @@ interface ReferenceCountProvider {
 	 * Count the number of unique references on a page by looking for occurrences
 	 * of 'id="cite_note-' in the page HTML.
 	 *
-	 * @return int|null The reference count, or null if the count cannot be determined.
+	 * @return ReferenceCountResult The reference count with metadata whether was a cache-hit,
+	 * miss or error
 	 */
-	public function getReferenceCount( ExistingPageRecord $page ): ?int;
+	public function getReferenceCount( ExistingPageRecord $page ): ReferenceCountResult;
 }

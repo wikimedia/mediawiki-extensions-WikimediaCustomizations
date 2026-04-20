@@ -23,13 +23,15 @@ use MediaWiki\Title\Title;
  */
 class FlaggedRevsReferenceCountProvider implements ReferenceCountProvider {
 
+	public const PROVIDER_SHORT_NAME = 'flaggedrevs';
+
 	public function __construct(
 		private readonly FlaggedRevsParserCacheFactory $flaggedRevsParserCacheFactory,
 		private readonly ReferenceCountProvider $fallbackProvider
 	) {
 	}
 
-	public function getReferenceCount( ExistingPageRecord $page ): ?int {
+	public function getReferenceCount( ExistingPageRecord $page ): ReferenceCountResult {
 		if ( !$this->pageUsesFlaggedRevsStable( $page ) ) {
 			return $this->fallbackProvider->getReferenceCount( $page );
 		}
@@ -45,11 +47,18 @@ class FlaggedRevsReferenceCountProvider implements ReferenceCountProvider {
 		if ( $parserOutput !== false ) {
 			// The legacy parser encodes '_' as '&#95;' in id attributes; decode before matching.
 			$html = html_entity_decode( $parserOutput->getContentHolderText(), ENT_QUOTES | ENT_HTML5 );
-			return preg_match_all( '/\bid="cite_note-/', $html );
+			return new ReferenceCountResult(
+				preg_match_all( '/\bid="cite_note-/', $html ),
+				self::PROVIDER_SHORT_NAME,
+				ReferenceCountResult::CACHE_HIT
+			);
 		}
-
 		// Cache miss: unlike Parsoid, FlaggedRevs cache does not trigger a parse on miss.
-		return null;
+		return new ReferenceCountResult(
+			null,
+			self::PROVIDER_SHORT_NAME,
+			ReferenceCountResult::CACHE_MISS
+		);
 	}
 
 	/**

@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Tests\Attribution;
 use MediaWiki\Extension\FlaggedRevs\Backend\FlaggedRevsParserCacheFactory;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountResult;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Parser\ParserCache;
 use MediaWiki\Parser\ParserOptions;
@@ -78,25 +79,37 @@ class FlaggedRevsReferenceCountProviderTest extends MediaWikiIntegrationTestCase
 		$po->setContentHolderText( 'id="cite&#95;note-foo id="cite&#95;note-bar' );
 
 		$provider = $this->newProvider( true, $this->newFactoryReturning( $po ) );
-		$this->assertSame( 2, $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) ) );
+		$refCount = $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) );
+
+		$this->assertSame( 2, $refCount->getReferenceCount() );
+		$this->assertSame( FlaggedRevsReferenceCountProvider::PROVIDER_SHORT_NAME, $refCount->getSource() );
 	}
 
 	public function testCacheMissReturnsNull() {
 		// FlaggedRevs parser cache returns false (cache miss); no automatic parse is triggered.
-		$provider = $this->newProvider( true, $this->newFactoryReturning( false ) );
-		$this->assertNull( $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) ) );
+		$provider = $this->newProvider(
+			true,
+			$this->newFactoryReturning( false ),
+			null
+		);
+		$result = $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) );
+
+		$this->assertNull( $result->getReferenceCount() );
+		$this->assertSame( ReferenceCountResult::CACHE_MISS, $result->getOperationResult() );
 	}
 
 	public function testDelegatesToFallbackWhenNotStable() {
 		$factory = $this->createMock( FlaggedRevsParserCacheFactory::class );
 		$factory->expects( $this->never() )->method( 'getParserCache' );
-
 		$fallback = $this->createMock( ReferenceCountProvider::class );
-		$fallback->expects( $this->once() )->method( 'getReferenceCount' )->willReturn( 5 );
+		$fallback->expects( $this->once() )->method( 'getReferenceCount' )->willReturn(
+			new ReferenceCountResult( 5, 'fallback', ReferenceCountResult::CACHE_MISS )
+		);
 
 		$provider = $this->newProvider( false, $factory, $fallback );
 		$result = $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) );
-		$this->assertSame( 5, $result );
+		$this->assertSame( 5, $result->getReferenceCount() );
+		$this->assertSame( 'fallback', $result->getSource() );
 	}
 
 	public function testDisablesParsoidForFlaggedRevsCache() {
@@ -107,7 +120,12 @@ class FlaggedRevsReferenceCountProviderTest extends MediaWikiIntegrationTestCase
 		$parserOptions->expects( $this->once() )->method( 'setUseParsoid' )->with( false );
 		$parserOptions->expects( $this->once() )->method( 'setRenderReason' )->with( 'attribution' );
 
-		$provider = $this->newProvider( true, $this->newFactoryReturning( $po ), null, $parserOptions );
+		$provider = $this->newProvider(
+			true,
+			$this->newFactoryReturning( $po ),
+			null,
+			$parserOptions
+		);
 		$provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) );
 	}
 }

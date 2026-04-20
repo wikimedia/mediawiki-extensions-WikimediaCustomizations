@@ -7,6 +7,7 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountResult;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
@@ -52,6 +53,9 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		if ( !$referenceCountProvider ) {
 			$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
 		}
+		$referenceCountProvider->method( 'getReferenceCount' )->willReturn(
+			new ReferenceCountResult( null, 'test', ReferenceCountResult::CACHE_MISS )
+		);
 		if ( !$repoGroup ) {
 			$repoGroup = $this->createMock( RepoGroup::class );
 		}
@@ -195,7 +199,9 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	public function testTrustAndRelevanceReferenceCountOfZero() {
 		$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
-		$referenceCountProvider->method( 'getReferenceCount' )->willReturn( 0 );
+		$referenceCountProvider->method( 'getReferenceCount' )->willReturn(
+			new ReferenceCountResult( 0, 'phpunit', ReferenceCountResult::CACHE_HIT )
+		);
 
 		$builder = $this->newDataBuilder( null, $referenceCountProvider );
 		$title = $this->mockTitle();
@@ -214,7 +220,9 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	public function testTrustAndRelevanceReferenceCountOfMultiple() {
 		$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
-		$referenceCountProvider->method( 'getReferenceCount' )->willReturn( 3 );
+		$referenceCountProvider->method( 'getReferenceCount' )->willReturn(
+			new ReferenceCountResult( 3, 'phpunit', ReferenceCountResult::CACHE_HIT )
+		);
 
 		$builder = $this->newDataBuilder( null, $referenceCountProvider );
 		$title = $this->mockTitle();
