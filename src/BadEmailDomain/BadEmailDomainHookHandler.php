@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Specials\Hook\UserCanChangeEmailHook;
+use MediaWiki\User\User;
 
 class BadEmailDomainHookHandler implements UserCanChangeEmailHook {
 
@@ -19,7 +20,7 @@ class BadEmailDomainHookHandler implements UserCanChangeEmailHook {
 		if ( $domain && $this->checker->isBad( $domain ) ) {
 			LoggerFactory::getInstance( 'security' )->info( 'Email change prevented due to bad email domain',
 				[ 'email' => $newaddr ]
-				+ RequestContext::getMain()->getRequest()->getSecurityLogContext( $user )
+				+ $this->getSecurityLogContext( $user )
 			);
 
 			$status->fatal( 'wikimediacustomizations-bademaildomain-error', $domain );
@@ -27,6 +28,15 @@ class BadEmailDomainHookHandler implements UserCanChangeEmailHook {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Allow tests to override the security log context and avoid accessing RequestContext
+	 *
+	 * @param User $user
+	 */
+	protected function getSecurityLogContext( $user ): array {
+		return RequestContext::getMain()->getRequest()->getSecurityLogContext( $user );
 	}
 
 }

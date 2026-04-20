@@ -2,10 +2,8 @@
 
 namespace MediaWiki\Extension\WikimediaCustomizations\Tests\BadEmailDomain;
 
-use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainHookHandler;
-use MediaWiki\Request\FauxRequest;
 use MediaWiki\Status\Status;
 use MediaWiki\User\User;
 use MediaWikiUnitTestCase;
@@ -28,11 +26,11 @@ class BadEmailDomainHookHandlerTest extends MediaWikiUnitTestCase {
 				[ 'evil.com', true ],
 			] );
 
-		$handler = new BadEmailDomainHookHandler( $checker );
-
-		$request = $this->createNoOpMock( FauxRequest::class, [ 'getSecurityLogContext' ] );
-		$request->method( 'getSecurityLogContext' )->willReturn( [] );
-		RequestContext::getMain()->setRequest( $request );
+		$handler = new class( $checker ) extends BadEmailDomainHookHandler {
+			protected function getSecurityLogContext( $user ): array {
+				return [];
+			}
+		};
 
 		$user = $this->createNoOpMock( User::class );
 		$status = Status::newGood();
