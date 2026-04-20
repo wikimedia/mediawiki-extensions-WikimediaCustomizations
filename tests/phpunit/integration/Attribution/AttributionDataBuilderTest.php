@@ -131,11 +131,18 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		if ( !interface_exists( PageViewService::class ) ) {
 			$this->markTestSkipped( 'PageViewService not installed' );
 		}
+		$statsHelper = $this->newStatsHelper();
+
 		$pageViewService = $this->createMock( PageViewService::class );
 		$pageViewService->method( 'supports' )->willReturn( true );
 		$status = Status::newGood( [ 'Foo' => [ 1, 2, 3 ] ] );
 		$pageViewService->method( 'getPageData' )->willReturn( $status );
-		$builder = $this->newDataBuilder( $pageViewService );
+		$builder = $this->newDataBuilder(
+			$pageViewService,
+			null,
+			null,
+			$statsHelper->getStatsFactory()
+		);
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
 		$page = $this->createMock( ExistingPageRecord::class );
@@ -150,6 +157,39 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
 		$this->assertSame( 6, $result['trust_and_relevance']['page_views'] );
 		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_updated'] );
+		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_duration' ) );
+	}
+
+	public function testPageViewsFailureIsTracked() {
+		if ( !interface_exists( PageViewService::class ) ) {
+			$this->markTestSkipped( 'PageViewService not installed' );
+		}
+		$statsHelper = $this->newStatsHelper();
+
+		$pageViewService = $this->createMock( PageViewService::class );
+		$pageViewService->method( 'supports' )->willReturn( true );
+		$status = Status::newFatal( 'Failed to get page views' );
+		$pageViewService->method( 'getPageData' )->willReturn( $status );
+		$builder = $this->newDataBuilder(
+			$pageViewService,
+			null,
+			null,
+			$statsHelper->getStatsFactory()
+		);
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$message = $this->createMock( Message::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
+		);
+		$this->assertArrayHasKey( 'essential', $result );
+		$this->assertArrayHasKey( 'trust_and_relevance', $result );
+		$this->assertArrayNotHasKey( 'calls_to_action', $result );
+		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_duration' ) );
+		$this->assertSame( 1, $statsHelper->count( 'pageviews_not_available' ) );
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfZero() {
@@ -242,10 +282,16 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testInjectedMetadata() {
+		$statsHelper = $this->newStatsHelper();
 		$file = $this->createMock( File::class );
 		$repoGroup = $this->createMock( RepoGroup::class );
 		$repoGroup->method( 'findFile' )->willReturn( $file );
-		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$builder = $this->newDataBuilder(
+			null,
+			null,
+			$repoGroup,
+			$statsHelper->getStatsFactory()
+		);
 		$talkTitle = $this->createMock( Title::class );
 		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
 		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
@@ -277,6 +323,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'license', $result['essential'] );
 		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
 		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
+		$this->assertSame( 1, $statsHelper->count( 'get_ext_metadata_duration' ) );
 	}
 
 	/**
@@ -284,10 +331,16 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	 * @see T420780
 	 */
 	public function testArtistDisplayNoneSpanIsStripped() {
+		$statsHelper = $this->newStatsHelper();
 		$file = $this->createMock( File::class );
 		$repoGroup = $this->createMock( RepoGroup::class );
 		$repoGroup->method( 'findFile' )->willReturn( $file );
-		$builder = $this->newDataBuilder( null, null, $repoGroup );
+		$builder = $this->newDataBuilder(
+			null,
+			null,
+			$repoGroup,
+			$statsHelper->getStatsFactory()
+		);
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
 		$page = $this->createMock( ExistingPageRecord::class );
@@ -308,6 +361,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			$title, $page, $metadata, [], $authority, $format, $message
 		);
 		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
+		$this->assertSame( 1, $statsHelper->count( 'found_html_in_metadata' ) );
+		$this->assertSame( 1, $statsHelper->count( 'html_display_none_removed' ) );
 	}
 
 	/**
@@ -398,6 +453,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$result = $builder->getAttributionData(
 			$title, $page, $metadata, [], $authority, $format, $message
 		);
+
 		$this->assertSame( 'Jane Doe', $result['essential']['credit'] );
 	}
 

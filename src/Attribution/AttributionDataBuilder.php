@@ -28,7 +28,6 @@ use Wikimedia\Telemetry\TracerInterface;
 class AttributionDataBuilder {
 
 	private string $dbname;
-	private StatsFactory $stats;
 
 	public function __construct(
 		private readonly Config $mainConfig,
@@ -37,12 +36,11 @@ class AttributionDataBuilder {
 		private readonly TracerInterface $tracer,
 		private readonly SiteConfiguration $siteConfig,
 		private readonly LoggerInterface $logger,
-		StatsFactory $statsFactory,
+		private readonly StatsFactory $stats,
 		private readonly ReferenceCountProvider $referenceCountProvider,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
-		$this->stats = $statsFactory->withComponent( 'Attribution' );
 	}
 
 	public function getAttributionData(
@@ -185,7 +183,7 @@ class AttributionDataBuilder {
 		 * case of early exits/exceptions/etc.
 		 */
 		$span = $this->tracer->createSpan( 'Attribution FileEssentials' )->start();
-
+		$timing = $this->stats->getTiming( 'get_ext_metadata_duration' )->start();
 		$extMeta = $this->getExtMetaData( $file, $format );
 
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
@@ -197,6 +195,10 @@ class AttributionDataBuilder {
 			'title' => $licenseTitle,
 			'url' => $licenseUrl,
 		];
+		$timing->setLabel( 'has_credit', $artist ? '1' : '0' );
+		$timing->setLabel( 'has_license', $licenseTitle ? '1' : '0' );
+		$timing->stop();
+
 		return $base;
 	}
 
@@ -363,13 +365,16 @@ class AttributionDataBuilder {
 		) {
 			return null;
 		}
-
+		$timing = $this->stats->getTiming( 'get_pageviews_duration' )->start();
 		$status = $this->pageViewService->getPageData( [ $title ], 30, PageViewService::METRIC_VIEW );
 		if ( !$status->isOK() ) {
+			$timing->stop();
+			$this->stats->getCounter( 'pageviews_not_available' )->increment();
 			return null;
 		}
 		$data = $status->getValue();
 		$views = $data[$title->getPrefixedDBkey()] ?? null;
+		$timing->stop();
 		return is_array( $views ) ? array_sum( $views ) : null;
 	}
 
@@ -411,6 +416,12 @@ class AttributionDataBuilder {
 	 * @see T420780
 	 */
 	private function stripDisplayNoneElements( string $html ): string {
+		// if $html has any opening and closing tag, assume it is HTML and count the metric
+		// this is just for analytics, we don't need an exact match
+		if ( strpos( $html, '<' ) !== false && strpos( $html, '</' ) !== false ) {
+			$this->stats->getCounter( 'found_html_in_metadata' )->increment();
+		}
+		$removed = false;
 		foreach ( [ 'span', 'div', 'p' ] as $tag ) {
 			$open  = "<$tag style=\"display: none;\">";
 			$close = "</$tag>";
@@ -424,9 +435,12 @@ class AttributionDataBuilder {
 				$html = substr( $html, 0, $start )
 					. substr( $html, $end + strlen( $close ) );
 				$start = strpos( $html, $open );
+				$removed = true;
 			}
 		}
-
+		if ( $removed ) {
+			$this->stats->getCounter( 'html_display_none_removed' )->increment();
+		}
 		return $html;
 	}
 

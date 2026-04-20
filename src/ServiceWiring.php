@@ -37,6 +37,7 @@ return [
 		MediaWikiServices $services
 	): AttributionDataBuilder {
 		global $wgConf;
+		$statsFactory = $services->getStatsFactory()->withComponent( 'Attribution' );
 		$parserOutputAccess = $services->getParserOutputAccess();
 		$referenceCountProvider = new ParsoidReferenceCountProvider( $parserOutputAccess );
 		$pageViewService = null;
@@ -58,7 +59,7 @@ return [
 			$services->get( 'Tracer' ),
 			$wgConf,
 			LoggerFactory::getInstance( 'Attribution' ),
-			$services->get( 'StatsFactory' ),
+			$statsFactory,
 			$referenceCountProvider,
 			$pageViewService
 		);
