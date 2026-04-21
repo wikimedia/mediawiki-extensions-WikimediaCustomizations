@@ -29,5 +29,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Anzahl der Mitwirkenden",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Zeitstempel der letzten Aktualisierung im ISO 8601-Format",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Anzahl der Seitenaufrufe in den letzten 30 Tagen",
-	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Anzahl der zitierten Einzelnachweise. Diese Eigenschaft wird für Dateiseiten weggelassen und kann „null“ sein, wenn die Anzahl nicht ermittelt werden kann."
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Anzahl der zitierten Einzelnachweise. Diese Eigenschaft wird für Dateiseiten weggelassen und kann „null“ sein, wenn die Anzahl nicht ermittelt werden kann.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Trendindikatoren zeigen an, wann Wikipedia-Artikel ein höheres Aufkommen an Seitenaufrufen, Bearbeitungen oder beidem verzeichneten. Trendaktivitäten korrelieren häufig mit aktuellen Ereignissen.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Gibt an, ob ein Wikipedia-Artikel in den letzten 24 Stunden zu den meistgelesenen, den am häufigsten bearbeiteten oder zu beiden Kategorien gehörte",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "Die Seite gehört aktuell zu den 1000 meistgelesenen Seiten des Wiki-Projekts.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "Die Seite gehört aktuell, gemessen an der Anzahl der Bearbeitungen, zu den 100 am häufigsten bearbeiteten Seiten des Wiki-Projekts.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "Die Seite gehört aktuell zu den 1000 meistgelesenen und den 100 meistbearbeiteten Seiten des Wiki-Projekts.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Zeigt an, dass die Seite derzeit ihre durchschnittlichen Lese- und Bearbeitungsraten übertrifft.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "Die Seite verzeichnet derzeit eine höhere Leserate als im Durchschnitt.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "Die Seite verzeichnet derzeit eine höhere Anzahl an eingereichten Bearbeitungen als im Durchschnitt.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Die Seite verzeichnet derzeit mehr Lese- und Bearbeitungsaktivität als im Durchschnitt."
 }

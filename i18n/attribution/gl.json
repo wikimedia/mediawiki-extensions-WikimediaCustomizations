@@ -5,7 +5,7 @@
 		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API de recoñecemento (beta)",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "A API de recoñecemento proporciona datos de recoñecemento ben estruturados para o contido dos proxectos da Wikimedia. Para obter máis información sobre a API de recoñecemento, consulta a [documentación en mediawiki.org](https://www.mediawiki.org/wiki/Special:MyLanguage/Attribution_API). Para obter máis información sobre as directrices de recoñecemento, as expectativas e as guías de estilo ao reutilizares contido da Wikimedia, consulta o «[Marco de recoñecemento](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html)».",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "A API de recoñecemento proporciona datos de recoñecemento ben estruturados para o contido dos proxectos da Wikimedia. Para obter máis información sobre a API de recoñecemento, consulta a [documentación en mediawiki.org](https://www.mediawiki.org/wiki/Special:MyLanguage/Attribution_API). Para obter máis información sobre as directrices de recoñecemento, as expectativas e as guías de estilo ao reutilizares contido da Wikimedia, consulta o «[Marco de recoñecemento](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html)».\n\nTes algunha pregunta ou comentario sobre esta API? Axuda a dar forma á experiencia e á funcionalidade durante o período beta [uníndote á conversa](https://www.mediawiki.org/wiki/Talk:Attribution_API).",
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Obter a información de recoñecemento dunha páxina.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Obter a información de recoñecemento dunha páxina.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Información de recoñecemento",
@@ -38,5 +38,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Chamada á acción para unha doazón á Fundación Wikimedia",
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Chamada á acción para unha doazón nunha campaña especial",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Chamadas á acción para a participación",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Chamada á acción para a participación na páxina de conversa"
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Chamada á acción para a participación na páxina de conversa",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Os indicadores de tendencias mostran cando os artigos da Wikipedia experimentaron un maior volume de visualizacións de páxinas, edicións ou ambos. A actividade de tendencia adoita estar correlacionada cos acontecementos actuais.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Indica se un artigo da Wikipedia se clasificou entre os máis lidos, os máis editados ou ambos nas últimas 24 horas",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "Nestes intres, a páxina está entre as 1000 páxinas máis lidas do proxecto wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "Nestes intres, a páxina está entre as 100 páxinas máis editadas do proxecto wiki, segundo o número de edicións.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "Nestes intres, a páxina está entre as 1000 páxinas máis lidas e as 100 máis editadas do proxecto wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indica que a páxina está a superar actualmente as súas taxas medias de lectura e edición.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "Nestes intres, a páxina está a superar a súa taxa de lectura media.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "Nestes intres, a páxina ten unha taxa de edicións enviadas máis alta que a súa media.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Nestes intres, a páxina ten máis actividade de lectura e edición que o seu rendemento medio."
 }
