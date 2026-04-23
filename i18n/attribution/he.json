@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Amire80"
+		]
+	},
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "כותרת הדף",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "רישיון התוכן",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "קישור לפרטי הרישיון",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "שם הרישיון",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "כתובת URL אל הדף",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "מזהה הוויקי",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "שפת תוכן אתר הוויקי, בצורת קוד שפה",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "שפת התוכן של הדף, בצורת קוד שפה"
+}

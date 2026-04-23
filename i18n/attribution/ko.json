@@ -1,10 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Tensama0415"
+			"Tensama0415",
+			"Ykhwong"
 		]
 	},
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "문서 제목",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "콘텐츠 라이선스",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "라이선스 제목",
-	"wikimediacustomizations-attribution-get-pages-signals-property-link": "문서 URL"
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "문서 URL",
+	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "위키 식별자",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "기여자 수"
 }
