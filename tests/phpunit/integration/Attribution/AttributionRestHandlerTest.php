@@ -34,60 +34,13 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideExecute() {
-		$basePageContentHelper = $this->createMock( PageContentHelper::class );
-		$basePageContentHelper->method( 'constructMetadata' )
-			->willReturn( [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ] );
-
-		$notFoundException = new LocalizedHttpException(
-			MessageValue::new( 'rest-permission-denied-title' )->plaintextParams( '' ),
-			404
-		);
-		$permissionDeniedException = new LocalizedHttpException(
-			MessageValue::new( 'rest-permission-denied-title' )->plaintextParams( '' ),
-			403
-		);
-
-		$basePageContentHelper403 = $this->createMock( PageContentHelper::class );
-		$basePageContentHelper403->method( 'constructMetadata' )
-			->willReturn( [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ] );
-		$basePageContentHelper403->method( 'checkAccess' )
-			->willThrowException( $permissionDeniedException );
-
-		$basePageContentHelper404 = $this->createMock( PageContentHelper::class );
-		$basePageContentHelper404->method( 'constructMetadata' )
-			->willReturn( [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ] );
-		$basePageContentHelper404->method( 'checkAccess' )
-			->willThrowException( $notFoundException );
-
-		$pageIdentity = $this->createMock( PageIdentity::class );
-		$pageContentHelperWithIdentity = $this->createMock( PageContentHelper::class );
-		$pageContentHelperWithIdentity->method( 'constructMetadata' )
-			->willReturn( [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ] );
-		$pageContentHelperWithIdentity->method( 'getPageIdentity' )
-			->willReturn( $pageIdentity );
-
-		$pageContentHelperWithIdentityAndPage = $this->createMock( PageContentHelper::class );
-		$pageContentHelperWithIdentityAndPage->method( 'constructMetadata' )
-			->willReturn( [
-				'title' => 'Foo',
-				'license' => 'CC-BY-SA',
-				'latest' => [ 'timestamp' => '20250101000000' ]
-			] );
-		$pageContentHelperWithIdentityAndPage->method( 'getPageIdentity' )
-			->willReturn( $pageIdentity );
-		$existingPageRecord = $this->createMock( ExistingPageRecord::class );
-		$pageContentHelperWithIdentityAndPage->method( 'getPage' )
-			->willReturn( $existingPageRecord );
-		$pageContentHelperWithIdentityAndPage->method( 'getTitleText' )->willReturn( "titleText" );
-
+	public static function provideExecute() {
 		yield "page identity should be known" => [
 			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'pageContentHelper' => $basePageContentHelper,
-			'logger' => null,
+			'pageContentHelper' => null,
 			'expectedResponse' => new InvariantException()
 		];
 		yield "page should be known after checkPageAccess" => [
@@ -95,8 +48,7 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'pageContentHelper' => $pageContentHelperWithIdentity,
-			'logger' => null,
+			'pageContentHelper' => 'identity',
 			'expectedResponse' => new InvariantException(),
 		];
 		yield "missing permissions returns 403" => [
@@ -104,26 +56,23 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'pageContentHelper' => $basePageContentHelper403,
-			'logger' => [ $this->createMock( LoggerInterface::class ), 403 ],
-			'expectedResponse' => $permissionDeniedException,
+			'pageContentHelper' => null,
+			'expectedResponse' => 403,
 		];
 		yield "missing page returns 404" => [
 			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'pageContentHelper' => $basePageContentHelper404,
-			'logger' => [ $this->createMock( LoggerInterface::class ), 404 ],
-			'expectedResponse' => $notFoundException
+			'pageContentHelper' => null,
+			'expectedResponse' => 404
 		];
 		yield "data builder gets invoked" => [
 			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'pageContentHelper' => $pageContentHelperWithIdentityAndPage,
-			'logger' => null,
+			'pageContentHelper' => 'identity+page',
 			'expectedResponse' => null
 		];
 	}
@@ -134,26 +83,49 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testExecute(
 		$requestData,
 		$pageContentHelper,
-		$logger,
 		$expectedResponse
 	) {
 		$request = new RequestData( $requestData );
 		$dataBuilder = $this->createMock( AttributionDataBuilder::class );
+		$helper = $this->createMock( PageContentHelper::class );
+		$helper->method( 'constructMetadata' )
+			->willReturn( [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ] );
+		$logger = null;
 
 		if ( $expectedResponse instanceof InvariantException ) {
 			$this->expectException( InvariantException::class );
-		}
-		if ( $logger ) {
+		} elseif ( is_int( $expectedResponse ) ) {
 			$this->expectException( LocalizedHttpException::class );
-			$this->expectExceptionCode( $logger[ 1 ] );
-			$logger = $logger[ 0 ];
+			$this->expectExceptionCode( $expectedResponse );
+			$logger = $this->createMock( LoggerInterface::class );
 			$logger->expects( $this->once() )->method( 'warning' );
+			$helper->method( 'checkAccess' )
+				->willThrowException( new LocalizedHttpException(
+					MessageValue::new( 'rest-permission-denied-title' )->plaintextParams( '' ),
+					$expectedResponse
+				) );
+		}
+		if ( $pageContentHelper !== null ) {
+			$helper->method( 'getPageIdentity' )
+				->willReturn( $this->createMock( PageIdentity::class ) );
+			if ( $pageContentHelper === 'identity+page' ) {
+				$helper->method( 'constructMetadata' )
+					->willReturn( [
+						'title' => 'Foo',
+						'license' => 'CC-BY-SA',
+						'latest' => [ 'timestamp' => '20250101000000' ]
+					] );
+				$existingPageRecord = $this->createMock( ExistingPageRecord::class );
+				$helper->method( 'getPage' )
+					->willReturn( $existingPageRecord );
+				$helper->method( 'getTitleText' )->willReturn( "titleText" );
+			}
 		}
 		if ( !$expectedResponse && !$logger ) {
 			$dataBuilder->expects( $this->once() )->method( 'getAttributionData' );
 		}
 
-		$handler = $this->newHandler( $pageContentHelper, $dataBuilder, $logger );
+		$handler = $this->newHandler( $helper, $dataBuilder, $logger );
 		$this->executeHandler( $handler, $request, [], [], [], [], null, null );
 	}
 }
