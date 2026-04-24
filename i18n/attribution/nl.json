@@ -38,5 +38,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Oproep tot actie voor donaties aan de Wikimedia Foundation",
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Oproep tot donaties voor een speciale campagne",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Oproepen tot actie voor deelname",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Oproep tot actie voor deelname aan de overlegpagina"
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Oproep tot actie voor deelname aan de overlegpagina",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Trendindicatoren laten zien wanneer Wikipedia-pagina's een hoger aantal paginaweergaven, bewerkingen of beide hebben gehad. Trends hangen vaak samen met actuele gebeurtenissen.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Geeft aan of een Wikipedia-pagina de afgelopen 24 uur tot de meest gelezen, meest bewerkte of beide pagina's van het project behoorde.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "De pagina staat momenteel in de top 1000 van meest gelezen pagina's van het wikiproject.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "De pagina staat momenteel in de top 100 van meest bewerkte pagina's van het wikiproject, gebaseerd op het aantal bewerkingen.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "De pagina staat momenteel in de top 1000 van meest gelezen en 100 van meest bewerkte pagina's van het wikiproject.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Geeft aan dat de pagina momenteel beter presteert dan gemiddeld wat betreft lees- en bewerkingspercentages.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "De pagina wordt momenteel vaker gelezen dan gemiddeld.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "De pagina ontvangt momenteel meer bewerkingen dan gemiddeld.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "De pagina vertoont momenteel meer lees- en bewerkingsactiviteit dan gemiddeld."
 }
