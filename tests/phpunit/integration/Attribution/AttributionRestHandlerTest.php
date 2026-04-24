@@ -82,49 +82,49 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		$pageContentHelperWithIdentityAndPage->method( 'getTitleText' )->willReturn( "titleText" );
 
 		yield "page identity should be known" => [
-			'$requestData' => [
+			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'$pageContentHelper' => $basePageContentHelper,
-			'$logger' => null,
-			'$expectedResponse' => new InvariantException()
+			'pageContentHelper' => $basePageContentHelper,
+			'logger' => null,
+			'expectedResponse' => new InvariantException()
 		];
 		yield "page should be known after checkPageAccess" => [
-			'$requestData' => [
+			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'$pageContentHelper' => $pageContentHelperWithIdentity,
-			'$logger' => null,
-			'$expectedResponse' => new InvariantException(),
+			'pageContentHelper' => $pageContentHelperWithIdentity,
+			'logger' => null,
+			'expectedResponse' => new InvariantException(),
 		];
 		yield "missing permissions returns 403" => [
-			'$requestData' => [
+			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'$pageContentHelper' => $basePageContentHelper403,
-			'$logger' => [ $this->createMock( LoggerInterface::class ), 403 ],
-			'$expectedResponse' => $permissionDeniedException,
+			'pageContentHelper' => $basePageContentHelper403,
+			'logger' => [ $this->createMock( LoggerInterface::class ), 403 ],
+			'expectedResponse' => $permissionDeniedException,
 		];
 		yield "missing page returns 404" => [
-			'$requestData' => [
+			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'$pageContentHelper' => $basePageContentHelper404,
-			'$logger' => [ $this->createMock( LoggerInterface::class ), 404 ],
-			'$expectedResponse' => $notFoundException
+			'pageContentHelper' => $basePageContentHelper404,
+			'logger' => [ $this->createMock( LoggerInterface::class ), 404 ],
+			'expectedResponse' => $notFoundException
 		];
 		yield "data builder gets invoked" => [
-			'$requestData' => [
+			'requestData' => [
 				'method' => 'GET',
 				'queryParams' => []
 			],
-			'$pageContentHelper' => $pageContentHelperWithIdentityAndPage,
-			'$logger' => null,
-			'$expectedResponse' => null
+			'pageContentHelper' => $pageContentHelperWithIdentityAndPage,
+			'logger' => null,
+			'expectedResponse' => null
 		];
 	}
 
