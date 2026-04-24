@@ -113,38 +113,38 @@ class AttributionDataBuilder {
 		// Article-only fields — only present when trust_and_relevance is expanded
 		if ( !$file && in_array( 'trust_and_relevance', $paramsToExpand ) ) {
 			if ( ( $base['trust_and_relevance']['page_views'] ?? null ) === null ) {
-				$missingFields[] = 'attribution_page_views';
+				$missingFields[] = 'page_views';
 			}
 			if ( ( $base['trust_and_relevance']['reference_count'] ?? null ) === null ) {
-				$missingFields[] = 'attribution_reference_count';
+				$missingFields[] = 'reference_count';
 			}
 		}
 
 		// File-only fields
 		if ( $file ) {
 			if ( $base['essential']['credit'] === null ) {
-				$missingFields[] = 'attribution_credit';
+				$missingFields[] = 'credit';
 			}
 			if ( ( $base['essential']['license']['title'] ?? null ) === null ) {
-				$missingFields[] = 'attribution_license_title';
+				$missingFields[] = 'license_title';
 			}
 			if ( ( $base['essential']['license']['url'] ?? null ) === null ) {
-				$missingFields[] = 'attribution_license_url';
+				$missingFields[] = 'license_url';
 			}
 		}
 
 		foreach ( $missingFields as $field ) {
-			$this->stats->getCounter( 'attribution_missing_data_total' )
+			$this->stats->getCounter( 'missing_data_total' )
 				->setLabel( 'field', $field )
 				->increment();
 		}
 
-		$counter = $this->stats->getCounter( 'attribution_request_total' );
+		$counter = $this->stats->getCounter( 'request_total' );
 		sort( $paramsToExpand );
 
-		$counter->setLabel( 'attribution_missing_fields', (string)count( $missingFields ) );
-		$counter->setLabel( 'attribution_expand', $paramsToExpand ? implode( ',', $paramsToExpand ) : 'none' );
-		$counter->setLabel( 'attribution_media_file', $file ? '1' : '0' );
+		$counter->setLabel( 'missing_fields', (string)count( $missingFields ) );
+		$counter->setLabel( 'expand', $paramsToExpand ? implode( ',', $paramsToExpand ) : 'none' );
+		$counter->setLabel( 'media_file', $file ? '1' : '0' );
 		$counter->increment();
 	}
 

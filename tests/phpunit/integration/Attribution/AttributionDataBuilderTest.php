@@ -565,7 +565,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$format = $this->createMock( FormatMetadata::class );
 		$builder->getAttributionData( $title, $page, $metadata, [], $authority, $format );
 
-		$this->assertSame( 1, $statsHelper->count( 'attribution_request_total' ) );
+		$this->assertSame( 1, $statsHelper->count( 'request_total' ) );
 	}
 
 	public function testMissingArticleFieldsEmitMissingDataCounters(): void {
@@ -581,11 +581,11 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 		$this->assertSame(
 			1,
-			$statsHelper->count( 'attribution_missing_data_total{field="attribution_page_views"}' )
+			$statsHelper->count( 'missing_data_total{field="page_views"}' )
 		);
 		$this->assertSame(
 			1,
-			$statsHelper->count( 'attribution_missing_data_total{field="attribution_reference_count"}' )
+			$statsHelper->count( 'missing_data_total{field="reference_count"}' )
 		);
 	}
 
@@ -606,15 +606,15 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 		$this->assertSame(
 			1,
-			$statsHelper->count( 'attribution_missing_data_total{field="attribution_credit"}' )
+			$statsHelper->count( 'missing_data_total{field="credit"}' )
 		);
 		$this->assertSame(
 			1,
-			$statsHelper->count( 'attribution_missing_data_total{field="attribution_license_title"}' )
+			$statsHelper->count( 'missing_data_total{field="license_title"}' )
 		);
 		$this->assertSame(
 			1,
-			$statsHelper->count( 'attribution_missing_data_total{field="attribution_license_url"}' )
+			$statsHelper->count( 'missing_data_total{field="license_url"}' )
 		);
 	}
 
