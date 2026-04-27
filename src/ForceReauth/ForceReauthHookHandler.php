@@ -2,7 +2,9 @@
 
 namespace MediaWiki\Extension\WikimediaCustomizations\ForceReauth;
 
+use CentralAuthTokenSessionProvider;
 use MediaWiki\Auth\AuthManager;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\AlternateEditHook;
 use MediaWiki\Permissions\Hook\GetUserPermissionsErrorsExpensiveHook;
 use MediaWiki\Permissions\PermissionManager;
@@ -28,7 +30,9 @@ class ForceReauthHookHandler implements
 		if (
 			$action === 'edit' &&
 			$title->isSiteJsConfigPage() &&
-			$this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) !== AuthManager::SEC_OK
+			( $this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) !== AuthManager::SEC_OK ||
+			RequestContext::getMain()->getRequest()->getSession()->getProvider()
+			 instanceof CentralAuthTokenSessionProvider )
 		) {
 			$result = [ 'userlogin-reauth', $user->getName() ];
 			return false;
