@@ -20,7 +20,9 @@ use Psr\Log\LoggerInterface;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Telemetry\TracerInterface;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * A handler that returns metadata attribution information about a page
@@ -31,16 +33,19 @@ use Wikimedia\Telemetry\TracerInterface;
 class AttributionRestHandler extends SimpleHandler {
 
 	private PageContentHelper $contentHelper;
+	private StatsFactory $statsFactory;
 	private const MAX_AGE_200 = 3600;
 
 	public function __construct(
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly AttributionDataBuilder $attributionDataBuilder,
 		private readonly Language $contentLanguage,
+		StatsFactory $statsFactory,
 		private readonly TracerInterface $tracer,
 		private ?LoggerInterface $logger = null,
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
+		$this->statsFactory = $statsFactory->withComponent( 'Attribution' );
 		$this->logger = $logger ?? LoggerFactory::getInstance( 'Attribution' );
 	}
 
@@ -114,33 +119,60 @@ class AttributionRestHandler extends SimpleHandler {
 		return null;
 	}
 
+	public function run(): Response {
+		// startedAt is used to calculate the total time to check whether we need to log request
+		$startedAt = ConvertibleTimestamp::hrtime();
+
+		$span = $this->tracer->createSpan( 'Attribution RestEndpoint' )->start();
+		$timer = $this->statsFactory->getTiming( 'article_attribution_duration' )->start();
+		$params = $this->getValidatedParams();
+		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
+		$paramsAsString = implode( ',', $paramsToExpand );
+		sort( $paramsToExpand );
+
+		try {
+			return $this->fetchAttribution( $paramsToExpand );
+		} finally {
+			$span->setAttributes( [
+				'title' => $this->contentHelper->getTitleText(),
+				'expand' => $paramsAsString
+			] );
+			$timer->setLabel(
+				'expand',
+				$paramsToExpand ? $paramsAsString : 'none'
+			);
+			$timer->stop();
+			$total = ConvertibleTimestamp::hrtime() - $startedAt;
+			if ( $total > 500_000_000 ) {
+				// 500 ms is a hard limit for the duration of the endpoint, log cases when this happens
+				// @see T421905 for more details
+				$this->logger->info( 'Metric: Attribution endpoint took too long to respond', [
+					'title' => $this->contentHelper->getTitleText(),
+					'total' => $total,
+					'expand' => $paramsAsString,
+				] );
+				$this->statsFactory
+					->getCounter( 'article_attribution_too_long' )
+					->increment();
+			}
+		}
+	}
+
 	/**
 	 * @throws LocalizedHttpException
 	 */
-	public function run(): Response {
+	private function fetchAttribution( array $paramsToExpand ): Response {
 		// Check access and existence of the page
 		$accessResultResponse = $this->checkPageAccess();
 		if ( $accessResultResponse !== null ) {
 			return $accessResultResponse;
 		}
-		$title = Title::newFromText( $this->contentHelper->getTitleText() );
-		$span = $this->tracer->createSpan( 'Attribution RestEndpoint' )->start();
 
 		$page = $this->contentHelper->getPage();
 		Assert::invariant( $page !== null, 'Page should be known after checkPageAccess()' );
-		$metadata = $this->contentHelper->constructMetadata();
-		// Get params to be expanded
-		$params = $this->getValidatedParams();
-		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
-		$span->setAttributes( [
-			'title' => $title->getPrefixedText(),
-			'expand' => implode( ',', $paramsToExpand )
-		] );
 
-		// Get the attribution data
-		// TODO: Spike in having the AttributionDataBuilder as a param passed to this class's
-		// constructor thereby deprecating the  UrlUtils, RepoGroup and PageViewService which
-		// are only used in this class to pass the the data builder
+		$title = Title::newFromText( $this->contentHelper->getTitleText() );
+		$metadata = $this->contentHelper->constructMetadata();
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setLanguage( $this->contentLanguage );
 		$format = new FormatMetadata();
@@ -161,6 +193,7 @@ class AttributionRestHandler extends SimpleHandler {
 				'public, max-age=' . self::MAX_AGE_200 . ', s-maxage=' . self::MAX_AGE_200
 			);
 		}
+
 		return $response;
 	}
 

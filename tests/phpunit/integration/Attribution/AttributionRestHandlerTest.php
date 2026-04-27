@@ -15,6 +15,7 @@ use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Assert\InvariantException;
 use Wikimedia\Message\MessageValue;
+use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Telemetry\NoopTracer;
 
 /**
@@ -30,7 +31,7 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		$noopTracer = new NoopTracer();
 		$language = $this->getServiceContainer()->getLanguageFactory()->getLanguage( 'en' );
 		return new AttributionRestHandler(
-			$helperFactory, $dataBuilder, $language, $noopTracer, $logger
+			$helperFactory, $dataBuilder, $language, StatsFactory::newNull(), $noopTracer, $logger
 		);
 	}
 

@@ -23,6 +23,7 @@
 						"PageRestHelperFactory",
 						"WikimediaCustomizations.AttributionDataBuilder",
 						"ContentLanguage",
+						"StatsFactory",
 						"Tracer"
 					]
 				}
