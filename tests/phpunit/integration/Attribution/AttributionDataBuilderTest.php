@@ -705,8 +705,11 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format, $message
 		);
 		$this->assertArrayHasKey( 'essential', $result );
-		$this->assertArrayHasKey( 'source_wiki', $result );
-		$this->assertArrayHasKey( 'site_name', $result['source_wiki'] );
-		$this->assertArrayHasKey( 'project_family', $result['source_wiki'] );
+		$this->assertArrayHasKey( 'source_wiki', $result['essential'] );
+		$this->assertArrayHasKey( 'site_name', $result['essential']['source_wiki'] );
+		$this->assertArrayHasKey( 'project_family', $result['essential']['source_wiki'] );
+		$this->assertArrayHasKey( 'site_id', $result['essential']['source_wiki'] );
+		$this->assertArrayHasKey( 'site_language', $result['essential']['source_wiki'] );
+		$this->assertArrayHasKey( 'page_language', $result['essential']['source_wiki'] );
 	}
 }

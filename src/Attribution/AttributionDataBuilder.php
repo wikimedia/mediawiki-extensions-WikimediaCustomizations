@@ -7,7 +7,6 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
-use MediaWiki\Language\Language;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -68,8 +67,6 @@ class AttributionDataBuilder {
 		if ( in_array( 'calls_to_action', $paramsToExpand ) ) {
 			$base[ 'calls_to_action' ] = $this->getCallsToAction( $title );
 		}
-
-		$base['source_wiki'] = $this->buildSourceWiki( $title->getPageLanguage() );
 
 		$this->trackResponseData( $title, $base, $file, $paramsToExpand );
 
@@ -142,11 +139,7 @@ class AttributionDataBuilder {
 			'license' => $metadata['license'],
 			'link' => $title->getCanonicalURL(),
 			'default_brand_marks' => $this->getSiteBrandMarksObject( $title->getPageLanguage()->getCode() ),
-			'source_wiki' => [
-				'site_id' => $this->dbname,
-				'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
-				'page_language' => $title->getPageLanguage()->getHtmlCode(),
-			],
+			'source_wiki' => $this->buildSourceWiki( $title )
 		];
 	}
 
@@ -186,21 +179,30 @@ class AttributionDataBuilder {
 	/**
 	 * Get the source wiki attribution data
 	 *
-	 * @return array site_name and project_name
+	 * @return array{
+	 *     site_name: string,
+	 *     project_family: string,
+	 *     site_id: string,
+	 *     site_language: string,
+	 *     page_language: string
+	 * }
 	 */
-	private function buildSourceWiki( Language $language ): array {
+	private function buildSourceWiki( Title $title ): array {
 		// If we can't resolve the wiki name, just use an empty string
 		$wikiNameMessage = new Message(
 			'project-localized-name-' . $this->dbname,
 			[],
-			$language
+			$title->getPageLanguage()
 		);
 
 		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
 
 		return [
 			'site_name' => $wikiName,
-			'project_family' => $this->getProjectFamily()
+			'project_family' => $this->getProjectFamily(),
+			'site_id' => $this->dbname,
+			'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
+			'page_language' => $title->getPageLanguage()->getHtmlCode(),
 		];
 	}
 
