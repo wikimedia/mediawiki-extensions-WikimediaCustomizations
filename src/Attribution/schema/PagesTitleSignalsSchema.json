@@ -3,63 +3,6 @@
 	"required": [
 		"essential"
 	],
-	"x-examples": {
-		"article": {
-			"summary": "Article (Earth, English Wikipedia)",
-			"value": {
-				"essential": {
-					"title": "Earth",
-					"license": {
-						"url": "https://creativecommons.org/licenses/by-sa/4.0/",
-						"title": "CC BY-SA 4.0"
-					},
-					"link": "https://en.wikipedia.org/wiki/Earth",
-					"default_brand_marks": [
-						{
-							"name": "Wikipedia",
-							"url": "https://en.wikipedia.org/static/images/project-logos/enwiki.png",
-							"type": "wordmark"
-						}
-					],
-					"source_wiki": {
-						"site_name": "Wikipedia",
-						"project_family": "wikipedia",
-						"site_id": "enwiki",
-						"site_language": "en",
-						"page_language": "en"
-					}
-				}
-			}
-		},
-		"media_file": {
-			"summary": "Media file (Wikimedia Commons)",
-			"value": {
-				"essential": {
-					"title": "File:Pale Blue Dot.png",
-					"credit": "NASA/JPL",
-					"license": {
-						"url": null,
-						"title": "Public Domain"
-					},
-					"link": "https://commons.wikimedia.org/wiki/File:Pale_Blue_Dot.png",
-					"default_brand_marks": [
-						{
-							"name": "Wikimedia Commons",
-							"url": "https://commons.wikimedia.org/static/images/project-logos/commonswiki.png",
-							"type": "wordmark"
-						}
-					],
-					"source_wiki": {
-						"site_name": "Wikimedia Commons",
-						"project_family": "commons",
-						"site_id": "commonswiki",
-						"site_language": "en",
-						"page_language": "en"
-					}
-				}
-			}
-		}
-	},
 	"properties": {
 		"essential": {
 			"type": "object",
@@ -74,12 +17,14 @@
 			"properties": {
 				"title": {
 					"type": "string",
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-title"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-title",
+					"example": "File:Fennec Fox Peek.jpg"
 				},
 				"credit": {
 					"type": "string",
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-credit",
-					"nullable": true
+					"nullable": true,
+					"example": "Anass ERRIHANI"
 				},
 				"license": {
 					"type": "object",
@@ -88,18 +33,21 @@
 						"url": {
 							"type": "string",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-url",
-							"nullable": true
+							"nullable": true,
+							"example": "https://creativecommons.org/licenses/by-sa/4.0"
 						},
 						"title": {
 							"type": "string",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title",
-							"nullable": true
+							"nullable": true,
+							"example": "CC BY-SA 4.0"
 						}
 					}
 				},
 				"link": {
 					"type": "string",
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-link"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-link",
+					"example": "https://commons.wikimedia.org/wiki/File:Fennec_Fox_Peek.jpg"
 				},
 				"default_brand_marks": {
 					"type": "array",
@@ -109,15 +57,18 @@
 						"properties": {
 							"name": {
 								"type": "string",
-								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name"
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name",
+								"example": "Default logo"
 							},
 							"url": {
 								"type": "string",
-								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url"
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url",
+								"example": "https://commons.wikimedia.org/static/images/project-logos/commonswiki.png"
 							},
 							"type": {
 								"type": "string",
-								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type"
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type",
+								"example": "logo"
 							}
 						}
 					}
@@ -128,23 +79,28 @@
 					"properties": {
 						"site_name": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name",
+							"example": "Wikimedia Commons"
 						},
 						"project_family": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family",
+							"example": "wikipedia"
 						},
 						"site_id": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id",
+							"example": "commonswiki"
 						},
 						"site_language": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language",
+							"example": "en"
 						},
 						"page_language": {
 							"type": "string",
-							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language"
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language",
+							"example": "en"
 						}
 					}
 				}
@@ -159,22 +115,26 @@
 			"properties": {
 				"last_updated": {
 					"type": "string",
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-last-modified"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-last-modified",
+					"example": "2026-02-08T14:50:07Z"
 				},
 				"page_views": {
 					"type": "number",
 					"nullable": true,
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-page-views"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-page-views",
+					"example": 3658
 				},
 				"contributor_counts": {
 					"type": "number",
 					"nullable": true,
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts",
+					"example": 142
 				},
 				"reference_count": {
 					"type": "integer",
 					"nullable": true,
-					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-reference-count"
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-reference-count",
+					"example": 308
 				},
 				"trending": {
 					"type": "object",
@@ -195,15 +155,18 @@
 							"properties": {
 								"read": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read",
+									"example": false
 								},
 								"edited": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited",
+									"example": false
 								},
 								"read_and_edited": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited",
+									"example": false
 								}
 							}
 						},
@@ -218,15 +181,18 @@
 							"properties": {
 								"read": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read",
+									"example": false
 								},
 								"edited": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited",
+									"example": false
 								},
 								"read_and_edited": {
 									"type": "boolean",
-									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited"
+									"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited",
+									"example": false
 								}
 							}
 						}
@@ -250,27 +216,54 @@
 							"type": "object",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://donate.wikimedia.org/"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Donate to Wikipedia"
+								},
+								"description": {
+									"type": "string",
+									"example": "Wikipedia is the backbone of the internet's knowledge."
+								}
 							}
 						},
 						"foundation": {
 							"type": "object",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://donate.wikimedia.org/"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Support the Wikimedia Foundation"
+								},
+								"description": {
+									"type": "string",
+									"example": "Wikimedia Foundation hosts the technology infrastructure that makes possible billions of visits to Wikipedia on a monthly basis."
+								}
 							}
 						},
 						"special": {
 							"type": "object",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://donate.wikipedia25.org/"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Celebrate 25 years of free knowledge"
+								},
+								"description": {
+									"type": "string",
+									"example": "After 25 year, Wikipedia is still here."
+								}
 							}
 						}
 					}
@@ -282,25 +275,52 @@
 						"download_app": {
 							"type": "object",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://play.google.com/store/apps/details?id=org.wikipedia"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Download the Wikipedia app"
+								},
+								"description": {
+									"type": "string",
+									"example": "Download the free Wikipedia app for the best way to explore knowledge on the go."
+								}
 							}
 						},
 						"create_account": {
 							"type": "object",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Create a Wikipedia account"
+								},
+								"description": {
+									"type": "string",
+									"example": "Create a free account and get more out of Wikipedia!"
+								}
 							}
 						},
 						"learn_more": {
 							"type": "object",
 							"properties": {
-								"url": { "type": "string" },
-								"link_text": { "type": "string" },
-								"description": { "type": "string" }
+								"url": {
+									"type": "string",
+									"example": "https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia"
+								},
+								"link_text": {
+									"type": "string",
+									"example": "Learn more about Wikipedia"
+								},
+								"description": {
+									"type": "string",
+									"example": "Wikipedia is a free encyclopedia, written collaboratively by the people who use it."
+								}
 							}
 						}
 					}
