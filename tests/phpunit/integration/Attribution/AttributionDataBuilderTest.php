@@ -72,7 +72,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		return $helper;
 	}
 
-	private function mockTitle(): Title {
+	private function mockTitle( $contentModel = null ): Title {
 		$title = $this->createMock( Title::class );
 		$language = $this->getMockBuilder( Language::class )->disableOriginalConstructor()->getMock();
 		$language->method( 'getCode' )->willReturn( 'en' );
@@ -80,6 +80,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$title->method( 'getPageLanguage' )->willReturn( $language );
 		$title->method( 'getCanonicalURL' )->willReturn( 'https://example.org/wiki/Foo' );
 		$title->method( 'getPrefixedDBkey' )->willReturn( 'Foo' );
+		$title->method( 'getContentModel' )->willReturn( $contentModel ?? CONTENT_MODEL_WIKITEXT );
 		return $title;
 	}
 
@@ -262,9 +263,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$page = $this->createMock( ExistingPageRecord::class );
 		$authority = $this->createMock( Authority::class );
 		$format = $this->createMock( FormatMetadata::class );
-		$message = $this->createMock( Message::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format, $message
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'calls_to_action', $result );
@@ -279,6 +279,21 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'create_account', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayHasKey( 'learn_more', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayNotHasKey( 'talk_page', $result['calls_to_action']['participation_ctas'] );
+	}
+
+	public function testCallsToActionDoesntContainParticipationForNonWikiText() {
+		$builder = $this->newDataBuilder();
+		$title = $this->mockTitle( CONTENT_MODEL_UNKNOWN );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+		);
+		$this->assertArrayHasKey( 'calls_to_action', $result );
+		$this->assertArrayHasKey( 'donation_ctas', $result['calls_to_action'] );
+		$this->assertArrayNotHasKey( 'participation_ctas', $result['calls_to_action'] );
 	}
 
 	public function testInjectedMetadata() {
@@ -524,6 +539,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$talkTitle = $this->createMock( Title::class );
 		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
 		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$talkTitle->method( 'getContentModel' )->willReturn( CONTENT_MODEL_WIKITEXT );
 		$title = $this->mockTitle();
 		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
@@ -553,6 +569,41 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'contributor_counts', $result['trust_and_relevance'] );
 		$this->assertArrayHasKey( 'page_views', $result['trust_and_relevance'] );
 		$this->assertArrayNotHasKey( 'credit', $result['essential'] );
+	}
+
+	public function testNonWikitextContentModelArticleSkipsSectionsFromTrustAndRelevance() {
+		$builder = $this->newDataBuilder();
+		$talkTitle = $this->createMock( Title::class );
+		$talkPageUrl = 'https://example.org/wiki/Talk:Foo';
+		$talkTitle->method( 'getCanonicalURL' )->willReturn( $talkPageUrl );
+		$title = $this->mockTitle( CONTENT_MODEL_UNKNOWN );
+		$title->method( 'getTalkPageIfDefined' )->willReturn( $talkTitle );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn(
+			[
+				'Artist' => [
+					'value' => 'artist'
+				],
+				'LicenseShortName' => [
+					'value' => 'shortname'
+				],
+				'LicenseUrl' => [
+					'value' => 'url'
+				]
+			]
+		);
+		$message = $this->createMock( Message::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
+		);
+		$this->assertArrayHasKey( 'trust_and_relevance', $result );
+		$this->assertArrayHasKey( 'last_updated', $result[ 'trust_and_relevance' ] );
+		$this->assertArrayNotHasKey( 'reference_count', $result['trust_and_relevance'] );
+		$this->assertArrayNotHasKey( 'contributor_counts', $result['trust_and_relevance'] );
+		$this->assertArrayNotHasKey( 'page_views', $result['trust_and_relevance'] );
 	}
 
 	public function testRequestTotalCounterIsEmittedOnEveryCall(): void {
@@ -586,6 +637,23 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			1,
 			$statsHelper->count( 'missing_data_total{field="reference_count"}' )
+		);
+	}
+
+	public function testMissingArticleFieldsDoesntEmitMissingDataCountersForNonWikiText(): void {
+		$statsHelper = $this->newStatsHelper();
+		// No PageViewService → page_views=null; default mock ReferenceCountProvider → reference_count=null
+		$builder = $this->newDataBuilder( null, null, null, $statsHelper->getStatsFactory() );
+		$title = $this->mockTitle( CONTENT_MODEL_UNKNOWN );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$builder->getAttributionData( $title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format );
+
+		$this->assertSame(
+			1.0,
+			$statsHelper->sum( 'request_total{missing_fields="0"}' )
 		);
 	}
 

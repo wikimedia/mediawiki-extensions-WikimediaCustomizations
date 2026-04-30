@@ -63,37 +63,15 @@ class AttributionDataBuilder {
 		// TODO: Add back the ALLOWED_EXPAND_KEYS constant.
 		// See  https://gerrit.wikimedia.org/r/c/mediawiki/extensions/WikimediaCustomizations/+/1239925
 		if ( in_array( 'trust_and_relevance', $paramsToExpand ) ) {
-			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $metadata );
-
-			// If this is an article we'll add the reference count, trending data, page views
-			// and contributor counts.
-			if ( !$file ) {
-				// Placeholder for the contributor counts will be implemented in a future version.
-				$base['trust_and_relevance']['contributor_counts'] = null;
-				$base['trust_and_relevance']['page_views'] = $this->getPageViews( $title );
-				$base['trust_and_relevance']['reference_count'] = $this->getReferenceCount( $page );
-				// TEMPORARY: placeholder for demo purposes only. See: T419157
-				$base['trust_and_relevance']['trending'] = [
-					'top' => [
-						'read' => false,
-						'edited' => false,
-						'read_and_edited' => false,
-					],
-					'relative' => [
-						'read' => false,
-						'edited' => false,
-						'read_and_edited' => false,
-					],
-				];
-			}
+			$base[ 'trust_and_relevance' ] = $this->getTrustAndRelevance( $page, $title, $metadata, $file );
 		}
 		if ( in_array( 'calls_to_action', $paramsToExpand ) ) {
-			$base[ 'calls_to_action' ] = $this->getCallsToAction();
+			$base[ 'calls_to_action' ] = $this->getCallsToAction( $title );
 		}
 
 		$base['source_wiki'] = $this->buildSourceWiki( $title->getPageLanguage() );
 
-		$this->trackResponseData( $base, $file, $paramsToExpand );
+		$this->trackResponseData( $title, $base, $file, $paramsToExpand );
 
 		return $base;
 	}
@@ -102,16 +80,19 @@ class AttributionDataBuilder {
 	 * Emit metrics and log for any nullable fields that returned null.
 	 * Intentionally missing data (e.g. contributor_counts) is excluded.
 	 *
+	 * @param Title $title The article we're building attribution data for
 	 * @param array $base The built attribution data array
 	 * @param File|null $file The file object if this is a file page, or null
 	 * @param array $paramsToExpand The list of requested expansion keys
 	 */
 	private function trackResponseData(
-		array $base, ?File $file, array $paramsToExpand
+		Title $title, array $base, ?File $file, array $paramsToExpand
 	): void {
+		$isArticleWithAttributionData = !$file && $this->includeExtendedAttribution( $title );
+
 		$missingFields = [];
 		// Article-only fields — only present when trust_and_relevance is expanded
-		if ( !$file && in_array( 'trust_and_relevance', $paramsToExpand ) ) {
+		if ( $isArticleWithAttributionData && in_array( 'trust_and_relevance', $paramsToExpand ) ) {
 			if ( ( $base['trust_and_relevance']['page_views'] ?? null ) === null ) {
 				$missingFields[] = 'page_views';
 			}
@@ -226,14 +207,40 @@ class AttributionDataBuilder {
 	/**
 	 * Get the trust and relevance data.
 	 *
-	 * @param array $metadata the content metadata
 	 * @return array The trust and relevance attribution data
 	 */
-	private function getTrustAndRelevance( array $metadata ): array {
+	private function getTrustAndRelevance(
+		ExistingPageRecord $page,
+		Title $title,
+		array $metadata,
+		?File $file
+	): array {
 		$span = $this->tracer->createSpan( 'Attribution TrustAndRelevance' )->start();
-		return [
+		$trustAndRelevance = [
 			'last_updated' => $metadata['latest']['timestamp']
 		];
+		// If this is an article we'll add the reference count, trending data, page views
+		// and contributor counts.
+		if ( !$file && $this->includeExtendedAttribution( $title ) ) {
+			// Placeholder for the contributor counts will be implemented in a future version.
+			$trustAndRelevance['contributor_counts'] = null;
+			$trustAndRelevance['page_views'] = $this->getPageViews( $title );
+			$trustAndRelevance['reference_count'] = $this->getReferenceCount( $page );
+			// TEMPORARY: placeholder for demo purposes only. See: T419157
+			$trustAndRelevance['trending'] = [
+				'top' => [
+					'read' => false,
+					'edited' => false,
+					'read_and_edited' => false,
+				],
+				'relative' => [
+					'read' => false,
+					'edited' => false,
+					'read_and_edited' => false,
+				],
+			];
+		}
+		return $trustAndRelevance;
 	}
 
 	/**
@@ -241,73 +248,72 @@ class AttributionDataBuilder {
 	 *
 	 * @return array The calls to action attribution data
 	 */
-	private function getCallsToAction(): array {
-		// TEMPORARY: placeholder for demo purposes only. See: T419157
-		$donationCtas = [
-			'default' => [
-				'url' => 'https://donate.wikimedia.org/w/index.php?title=Special:LandingPage'
-					. '&country=US&uselang=en&wmf_medium=sidebar&wmf_source=donate'
-					. '&wmf_campaign=en.wikipedia.org',
-				'link_text' => 'Donate to Wikipedia',
-				'description' => 'Wikipedia is the backbone of the internet\'s knowledge.'
-					. ' If everyone reading this gave just a few dollars, we\'d protect'
-					. ' the future of free knowledge for everyone for years to come,'
-					. ' in just a few hours.',
-			],
-			'foundation' => [
-				'url' => 'https://donate.wikimedia.org',
-				'link_text' => 'Support the Wikimedia Foundation',
-				'description' => 'Wikimedia Foundation hosts the technology infrastructure'
-					. ' that makes possible billions of visits to Wikipedia on a monthly basis.'
-					. ' Since our founding in 2003, we have supported the hundreds of thousands'
-					. ' of volunteer editors who edit, expand and curate the Wikimedia projects.',
-			],
-			'special' => [
-				'url' => 'https://donate.wikipedia25.org/',
-				'link_text' => 'Celebrate 25 years of free knowledge',
-				'description' => 'After 25 years, Wikipedia is still here. What started as a'
-					. ' wildly ambitious and probably impossible dream is now an essential'
-					. ' knowledge resource for humanity—funded by readers like you and filled'
-					. ' with knowledge shared by volunteers all over the world.',
-			],
-		];
-
-		// TEMPORARY: CTAs below have not yet been reviewed by owning teams. See: T419157
-		$participationCtas = [
-			'download_app' => [
-				// TEMPORARY: defaulting to Android; waiting on OS-aware link from apps team. See: T419157
-				'url' => 'https://play.google.com/store/apps/details?id=org.wikipedia',
-				'link_text' => 'Download the Wikipedia app',
-				'description' => 'Download the free Wikipedia app for the best way to explore'
-					. ' knowledge on the go. The app delivers a rich, smooth mobile experience'
-					. ' with exclusive features designed to make discovering, reading, and'
-					. ' engaging with the world\'s largest encyclopedia faster and more'
-					. ' enjoyable than ever.',
-			],
-			'create_account' => [
-				'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount',
-				'link_text' => 'Create a Wikipedia account',
-				'description' => 'Create a free account and get more out of Wikipedia!'
-					. ' While anyone can browse and even edit without signing in, an account'
-					. ' unlocks a richer experience for readers and gives contributors the'
-					. ' ability to build a reputation, save their work, and have a real say'
-					. ' in how the world\'s largest encyclopedia takes shape.',
-			],
-			'learn_more' => [
-				// TEMPORARY: should resolve to localised version if possible. See: T419157
-				'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia',
-				'link_text' => 'Learn more about Wikipedia',
-				'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
-					. ' by the people who use it. Since 2001, it has grown rapidly to become'
-					. ' the world\'s largest reference website. Come learn how you can help'
-					. ' shape its content and protect its future.',
-			],
-		];
-
-		return [
-			'donation_ctas' => $donationCtas,
-			'participation_ctas' => $participationCtas,
-		];
+	private function getCallsToAction( Title $title ): array {
+		$callsToAction = [
+			// TEMPORARY: placeholder for demo purposes only. See: T419157
+			'donation_ctas' => [
+				'default' => [
+					'url' => 'https://donate.wikimedia.org/w/index.php?title=Special:LandingPage'
+						. '&country=US&uselang=en&wmf_medium=sidebar&wmf_source=donate'
+						. '&wmf_campaign=en.wikipedia.org',
+					'link_text' => 'Donate to Wikipedia',
+					'description' => 'Wikipedia is the backbone of the internet\'s knowledge.'
+						. ' If everyone reading this gave just a few dollars, we\'d protect'
+						. ' the future of free knowledge for everyone for years to come,'
+						. ' in just a few hours.',
+				],
+				'foundation' => [
+					'url' => 'https://donate.wikimedia.org',
+					'link_text' => 'Support the Wikimedia Foundation',
+					'description' => 'Wikimedia Foundation hosts the technology infrastructure'
+						. ' that makes possible billions of visits to Wikipedia on a monthly basis.'
+						. ' Since our founding in 2003, we have supported the hundreds of thousands'
+						. ' of volunteer editors who edit, expand and curate the Wikimedia projects.',
+				],
+				'special' => [
+					'url' => 'https://donate.wikipedia25.org/',
+					'link_text' => 'Celebrate 25 years of free knowledge',
+					'description' => 'After 25 years, Wikipedia is still here. What started as a'
+						. ' wildly ambitious and probably impossible dream is now an essential'
+						. ' knowledge resource for humanity—funded by readers like you and filled'
+						. ' with knowledge shared by volunteers all over the world.',
+					],
+				]
+			];
+		if ( $this->includeExtendedAttribution( $title ) ) {
+			// TEMPORARY: CTAs below have not yet been reviewed by owning teams. See: T419157
+			$callsToAction['participation_ctas'] = [
+				'download_app' => [
+					// TEMPORARY: defaulting to Android; waiting on OS-aware link from apps team. See: T419157
+					'url' => 'https://play.google.com/store/apps/details?id=org.wikipedia',
+					'link_text' => 'Download the Wikipedia app',
+					'description' => 'Download the free Wikipedia app for the best way to explore'
+						. ' knowledge on the go. The app delivers a rich, smooth mobile experience'
+						. ' with exclusive features designed to make discovering, reading, and'
+						. ' engaging with the world\'s largest encyclopedia faster and more'
+						. ' enjoyable than ever.',
+				],
+				'create_account' => [
+					'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount',
+					'link_text' => 'Create a Wikipedia account',
+					'description' => 'Create a free account and get more out of Wikipedia!'
+						. ' While anyone can browse and even edit without signing in, an account'
+						. ' unlocks a richer experience for readers and gives contributors the'
+						. ' ability to build a reputation, save their work, and have a real say'
+						. ' in how the world\'s largest encyclopedia takes shape.',
+				],
+				'learn_more' => [
+					// TEMPORARY: should resolve to localised version if possible. See: T419157
+					'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia',
+					'link_text' => 'Learn more about Wikipedia',
+					'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
+						. ' by the people who use it. Since 2001, it has grown rapidly to become'
+						. ' the world\'s largest reference website. Come learn how you can help'
+						. ' shape its content and protect its future.',
+				],
+			];
+		}
+		return $callsToAction;
 	}
 
 	/**
@@ -469,5 +475,13 @@ class AttributionDataBuilder {
 	private function getProjectFamily() {
 		[ $site, ] = $this->siteConfig->siteFromDB( $this->dbname );
 		return $site ?? '';
+	}
+
+	/**
+	 * Whether to lookup all the possible signals ( like contributor counts, trending, etc )
+	 * Pages stored with different content models don't follow the traditional authorship model
+	 */
+	private function includeExtendedAttribution( Title $title ): bool {
+		return $title->getContentModel() === CONTENT_MODEL_WIKITEXT;
 	}
 }
