@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\ForceReauth;
 
 use CentralAuthTokenSessionProvider;
+use MediaWiki\Api\ApiMessage;
 use MediaWiki\Auth\AuthManager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\AlternateEditHook;
@@ -34,7 +35,9 @@ class ForceReauthHookHandler implements
 			RequestContext::getMain()->getRequest()->getSession()->getProvider()
 			 instanceof CentralAuthTokenSessionProvider )
 		) {
-			$result = [ 'userlogin-reauth', $user->getName() ];
+			$loginUrl = SpecialPage::getSafeTitleFor( 'Userlogin' )?->getFullURL( [ 'force' => 'editsitejs' ] );
+			$result = ApiMessage::create( [ 'wikimediacustomizations-forcereauth-error', $loginUrl ], 'reauthenticate',
+				[ 'operation' => 'editsitejs' ] );
 			return false;
 		}
 

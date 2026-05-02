@@ -5,5 +5,8 @@
 		]
 	},
 	"wikimediacustomizations-desc": "The WikimediaCustomization extension hosts Wikimedia-specific hooks, messages and other site customizations.",
-	"wikimediacustomizations-bademaildomain-error": "Email addresses using $1 are not supported. Please choose another email provider."
+
+	"wikimediacustomizations-bademaildomain-error": "Email addresses using $1 are not supported. Please choose another email provider.",
+
+	"wikimediacustomizations-forcereauth-error": "As a security measure, you have to reauthenticate before using this functionality. You can use this URL to reauthenticate: $1"
 }

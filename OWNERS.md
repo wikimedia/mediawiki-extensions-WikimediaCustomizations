@@ -16,6 +16,8 @@ this file documenting the ownership. E.g.
 >
 > [description of what the component does]
 
+(i18n files can be shared, since it takes extra administration to split those; but make sure you use a unique key prefix for each component.)
+
 The general expectation is the same as with deploying a new extension: you shouldn't do it unless
 your team is taking ownership of the code, or you have arranged ownership with some other team.
 
@@ -83,6 +85,7 @@ Historical context: T399632, T415588.
 
 * Folders:
   - src/Attribution
+  - i18n/attribution
   - tests/api-testing/Attribution
   - tests/phpunit/unit/Attribution
   - tests/phpunit/integration/Attribution
@@ -107,7 +110,7 @@ $wgRestSandboxSpecs['attribution.v0-beta'] = [
 * Dependencies: CentralAuth
 * Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
 
-Allows staff members to perform global bans on Wikimedia wikis. This was a gadget that 
+Allows staff members to perform global bans on Wikimedia wikis. This was a gadget that
 ported over here and was originally written by ladsgroup. See the ban policy at https://meta.wikimedia.org/wiki/WMF_Global_Ban_Policy
 
 ## ForceReauth
