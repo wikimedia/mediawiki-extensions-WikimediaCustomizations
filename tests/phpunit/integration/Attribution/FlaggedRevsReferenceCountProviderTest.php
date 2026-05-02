@@ -75,7 +75,7 @@ class FlaggedRevsReferenceCountProviderTest extends MediaWikiIntegrationTestCase
 		// The legacy parser encodes '_' as '&#95;' in id attributes.
 		// FlaggedRevs uses the legacy parser cache, so the HTML uses entity-encoded IDs.
 		$po = new ParserOutput();
-		$po->setRawText( 'id="cite&#95;note-foo id="cite&#95;note-bar' );
+		$po->setContentHolderText( 'id="cite&#95;note-foo id="cite&#95;note-bar' );
 
 		$provider = $this->newProvider( true, $this->newFactoryReturning( $po ) );
 		$this->assertSame( 2, $provider->getReferenceCount( $this->createMock( ExistingPageRecord::class ) ) );
@@ -102,7 +102,7 @@ class FlaggedRevsReferenceCountProviderTest extends MediaWikiIntegrationTestCase
 	public function testDisablesParsoidForFlaggedRevsCache() {
 		// Parsoid must NOT be enabled when querying the FlaggedRevs cache (T421011).
 		$po = new ParserOutput();
-		$po->setRawText( '' );
+		$po->setContentHolderText( '' );
 		$parserOptions = $this->createMock( ParserOptions::class );
 		$parserOptions->expects( $this->once() )->method( 'setUseParsoid' )->with( false );
 		$parserOptions->expects( $this->once() )->method( 'setRenderReason' )->with( 'attribution' );

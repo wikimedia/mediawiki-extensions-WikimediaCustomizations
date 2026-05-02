@@ -44,7 +44,7 @@ class ParsoidReferenceCountProviderTest extends MediaWikiUnitTestCase {
 	/** @dataProvider provideReferenceCountCases */
 	public function testCountsReferences( string $html, int $expected ): void {
 		$po = new ParserOutput();
-		$po->setRawText( $html );
+		$po->setContentHolderText( $html );
 		$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
 		$parserOutputAccess->method( 'getParserOutput' )->willReturn( Status::newGood( $po ) );
 
@@ -63,7 +63,7 @@ class ParsoidReferenceCountProviderTest extends MediaWikiUnitTestCase {
 
 	public function testEnablesParsoid() {
 		$po = new ParserOutput();
-		$po->setRawText( '' );
+		$po->setContentHolderText( '' );
 		$parserOutputAccess = $this->createMock( ParserOutputAccess::class );
 		$parserOutputAccess->method( 'getParserOutput' )->willReturn( Status::newGood( $po ) );
 		$parserOptions = $this->createMock( ParserOptions::class );
