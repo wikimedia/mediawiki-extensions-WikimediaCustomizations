@@ -38,5 +38,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Appello a action pro donation al Fundation Wikimedia",
 	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Appello a action pro donation pro un campania special",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Appellos a action pro participation",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Appello a action pro participation sur le pagina de discussion"
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Appello a action pro participation sur le pagina de discussion",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Le indicatores de tendentia monstra le momentos in le quales le articulos de Wikipedia ha habite plus visitas, modificationes, o ambes. Le activitate de tendentia sovente se correlata con le actualitate.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Indica si un articulo de Wikipedia ha essite inter le articulos le plus legite, le plus modificate, o ambes, durante le ultime 24 horas",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "Le pagina es actualmente inter le 1000 paginas le plus legite del projecto wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "Le pagina es actualmente inter le 100 paginas le plus modificate del projecto wiki, secundo le numero de modificationes.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "Le pagina es actualmente inter le 1000 le plus legite e le 100 le plus modificate del projecto wiki.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indica que le pagina actualmente supera su numero medie de lecturas e modificationes.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "Le pagina actualmente supera su numero medie de lecturas.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "Le pagina actualmente supera su numero medie de modificationes submittite.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Le pagina actualmente supera su activitate medie de lectura e de modification."
 }
