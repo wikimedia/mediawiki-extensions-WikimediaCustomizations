@@ -157,7 +157,7 @@ class AttributionDataBuilder {
 		 * case of early exits/exceptions/etc.
 		 */
 		$span = $this->tracer->createSpan( 'Attribution FileEssentials' )->start();
-		$timing = $this->stats->getTiming( 'get_ext_metadata_duration' )->start();
+		$timing = $this->stats->getTiming( 'get_ext_metadata_seconds' )->start();
 		$extMeta = $this->getExtMetaData( $file, $format );
 
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
@@ -169,8 +169,10 @@ class AttributionDataBuilder {
 			'title' => $licenseTitle,
 			'url' => $licenseUrl,
 		];
-		$timing->setLabel( 'has_credit', $artist ? '1' : '0' );
-		$timing->setLabel( 'has_license', $licenseTitle ? '1' : '0' );
+		$timing->setLabels( [
+			'has_credit' => $artist ? '1' : '0',
+			'has_license' => $licenseTitle ? '1' : '0'
+		] );
 		$timing->stop();
 
 		return $base;
@@ -373,11 +375,11 @@ class AttributionDataBuilder {
 		) {
 			return null;
 		}
-		$timing = $this->stats->getTiming( 'get_pageviews_duration' )->start();
+		$timing = $this->stats->getTiming( 'get_pageviews_seconds' )->start();
 		$status = $this->pageViewService->getPageData( [ $title ], 30, PageViewService::METRIC_VIEW );
 		if ( !$status->isOK() ) {
 			$timing->stop();
-			$this->stats->getCounter( 'pageviews_not_available' )->increment();
+			$this->stats->getCounter( 'pageviews_not_available_total' )->increment();
 			return null;
 		}
 		$data = $status->getValue();
@@ -427,7 +429,7 @@ class AttributionDataBuilder {
 		// if $html has any opening and closing tag, assume it is HTML and count the metric
 		// this is just for analytics, we don't need an exact match
 		if ( strpos( $html, '<' ) !== false && strpos( $html, '</' ) !== false ) {
-			$this->stats->getCounter( 'found_html_in_metadata' )->increment();
+			$this->stats->getCounter( 'found_html_in_metadata_total' )->increment();
 		}
 		$removed = false;
 		foreach ( [ 'span', 'div', 'p' ] as $tag ) {
@@ -447,7 +449,7 @@ class AttributionDataBuilder {
 			}
 		}
 		if ( $removed ) {
-			$this->stats->getCounter( 'html_display_none_removed' )->increment();
+			$this->stats->getCounter( 'html_display_none_removed_total' )->increment();
 		}
 		return $html;
 	}

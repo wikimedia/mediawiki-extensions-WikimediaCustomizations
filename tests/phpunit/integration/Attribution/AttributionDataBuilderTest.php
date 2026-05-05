@@ -158,7 +158,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
 		$this->assertSame( 6, $result['trust_and_relevance']['page_views'] );
 		$this->assertSame( '20250101000000', $result['trust_and_relevance']['last_updated'] );
-		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_duration' ) );
+		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_seconds' ) );
 	}
 
 	public function testPageViewsFailureIsTracked() {
@@ -184,13 +184,13 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$message = $this->createMock( Message::class );
 		$format = $this->createMock( FormatMetadata::class );
 		$result = $builder->getAttributionData(
-			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format, $message
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
 		);
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'trust_and_relevance', $result );
 		$this->assertArrayNotHasKey( 'calls_to_action', $result );
-		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_duration' ) );
-		$this->assertSame( 1, $statsHelper->count( 'pageviews_not_available' ) );
+		$this->assertSame( 1, $statsHelper->count( 'get_pageviews_seconds' ) );
+		$this->assertSame( 1, $statsHelper->count( 'pageviews_not_available_total' ) );
 	}
 
 	public function testTrustAndRelevanceReferenceCountOfZero() {
@@ -338,7 +338,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'license', $result['essential'] );
 		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
 		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
-		$this->assertSame( 1, $statsHelper->count( 'get_ext_metadata_duration' ) );
+		$this->assertSame( 1, $statsHelper->count( 'get_ext_metadata_seconds' ) );
 	}
 
 	/**
@@ -376,8 +376,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			$title, $page, $metadata, [], $authority, $format, $message
 		);
 		$this->assertSame( 'Unknown author', $result['essential']['credit'] );
-		$this->assertSame( 1, $statsHelper->count( 'found_html_in_metadata' ) );
-		$this->assertSame( 1, $statsHelper->count( 'html_display_none_removed' ) );
+		$this->assertSame( 1, $statsHelper->count( 'found_html_in_metadata_total' ) );
+		$this->assertSame( 1, $statsHelper->count( 'html_display_none_removed_total' ) );
 	}
 
 	/**

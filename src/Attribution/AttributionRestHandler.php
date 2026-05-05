@@ -124,7 +124,7 @@ class AttributionRestHandler extends SimpleHandler {
 		$startedAt = ConvertibleTimestamp::hrtime();
 
 		$span = $this->tracer->createSpan( 'Attribution RestEndpoint' )->start();
-		$timer = $this->statsFactory->getTiming( 'article_attribution_duration' )->start();
+		$timer = $this->statsFactory->getTiming( 'article_attribution_seconds' )->start();
 		$params = $this->getValidatedParams();
 		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
 		$paramsAsString = implode( ',', $paramsToExpand );
@@ -152,7 +152,7 @@ class AttributionRestHandler extends SimpleHandler {
 					'expand' => $paramsAsString,
 				] );
 				$this->statsFactory
-					->getCounter( 'article_attribution_too_long' )
+					->getCounter( 'article_attribution_too_long_total' )
 					->increment();
 			}
 		}
