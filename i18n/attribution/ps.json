@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"شاه زمان پټان"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "ځانگړي‌کونگ ای‌پي‌آی (ازمېښتي)",
+	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "د يو مخ د ځانگړي‌کونگ مالومات ترلاسه کړئ.",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "د ځانگړي‌کونگ مالومات",
+	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "د ځانگړي‌کونگ اړينې نښې",
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "مخ سرليک",
+	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "د دوتنې هنرمن يا ليکوال",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license": "د منځپانگې منښتليک",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "د منښتليک سپيناوي تړونی",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "د منښتليک نوم",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "مخ وېبتړ",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "د ويکي لپاره انځورنې او نښانونه",
+	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "برانډ نښې نوم"
+}
