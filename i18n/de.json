@@ -3,5 +3,6 @@
 		"authors": []
 	},
 	"wikimediacustomizations-desc": "Die WikimediaCustomization-Erweiterung hostet Wikimedia-spezifische Hooks, Meldungen und andere Website-Anpassungen.",
-	"wikimediacustomizations-bademaildomain-error": "E-Mail-Adressen mit der Bezeichnung $1 werden nicht unterstützt. Bitte wähle einen anderen E-Mail-Anbieter."
+	"wikimediacustomizations-bademaildomain-error": "E-Mail-Adressen mit der Bezeichnung $1 werden nicht unterstützt. Bitte wähle einen anderen E-Mail-Anbieter.",
+	"wikimediacustomizations-forcereauth-error": "Aus Sicherheitsgründen musst du dich vor der Nutzung dieser Funktion erneut authentifizieren. Verwende dazu bitte diese URL: $1"
 }
