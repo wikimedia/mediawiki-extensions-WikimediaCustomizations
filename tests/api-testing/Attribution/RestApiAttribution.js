@@ -130,4 +130,34 @@ describe( 'Attribution API tests', () => {
 		} );
 	} );
 
+	describe( 'GET /site/signals', () => {
+		it( 'Should successfully return a response', async () => {
+			const response = await client.get( 'site/signals' );
+
+			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
+
+			// eslint-disable-next-line no-unused-expressions
+			expect( response ).to.satisfyApiSpec;
+		} );
+
+		it( 'Should return essential properties', async () => {
+			const response = await client.get( 'site/signals' );
+			assert.deepEqual( response.status, 200 );
+			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
+
+			assert.isDefined( response.body.essential );
+			assert.isDefined( response.body.essential.license );
+			assert.isDefined( response.body.essential.link );
+			assert.isDefined( response.body.essential.default_brand_marks );
+			assert.isDefined( response.body.essential.source_wiki );
+
+			assert.isUndefined( response.body.essential.title );
+
+			// eslint-disable-next-line no-unused-expressions
+			expect( response ).to.satisfyApiSpec;
+		} );
+
+	} );
+
 } );

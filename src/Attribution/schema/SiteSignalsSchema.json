@@ -1,0 +1,110 @@
+{
+	"x-i18n-description": "wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc",
+	"required": [
+		"essential"
+	],
+	"x-examples": {
+		"enwikisource": {
+			"summary": "English Wikipedia",
+			"value": {
+				"essential": {
+					"license": {
+						"url": "https://creativecommons.org/licenses/by-sa/4.0/",
+						"title": "CC BY-SA 4.0"
+					},
+					"link": "https://en.wikipedia.org?wprov=afsw1",
+					"default_brand_marks": [
+						{
+							"name": "Wikipedia",
+							"url": "https://en.wikipedia.org/",
+							"type": "wordmark"
+						}
+					],
+					"source_wiki": {
+						"site_name": "Wikipedia",
+						"project_family": "wikipedia",
+						"site_id": "enwiki",
+						"site_language": "en"
+					}
+				}
+			}
+		}
+	},
+	"properties": {
+		"essential": {
+			"type": "object",
+			"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-essential",
+			"required": [
+				"license",
+				"link",
+				"default_brand_marks",
+				"source_wiki"
+			],
+			"properties": {
+				"license": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license",
+					"properties": {
+						"url": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-url",
+							"nullable": true
+						},
+						"title": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title",
+							"nullable": true
+						}
+					}
+				},
+				"link": {
+					"type": "string",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-link"
+				},
+				"default_brand_marks": {
+					"type": "array",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name"
+							},
+							"url": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url"
+							},
+							"type": {
+								"type": "string",
+								"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type"
+							}
+						}
+					}
+				},
+				"source_wiki": {
+					"type": "object",
+					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki",
+					"properties": {
+						"site_name": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-name"
+						},
+						"project_family": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-project-family"
+						},
+						"site_id": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id"
+						},
+						"site_language": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language"
+						}
+					}
+				}
+			}
+		}
+	}
+}

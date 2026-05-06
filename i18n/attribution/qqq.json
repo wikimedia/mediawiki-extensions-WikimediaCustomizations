@@ -47,5 +47,9 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "{{Experimental}} Description of the propertry that indicates if the page is outperforming its average read and edit rates. This property contains the following sub-properties: read, edited and read-and-edited.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "{{Experimental}}  Description of the propertry that indicates if the page is currently exceeding its average read rate.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "{{Experimental}}  Description of the propertry that indicates if the page has a higher rate of edits being submitted than its average.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "{{Experimental}}  Description of the propertry that indicates if the page has more read and edit activity than its average performance."
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "{{Experimental}}  Description of the propertry that indicates if the page has more read and edit activity than its average performance.",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "{{Experimental}} One-line summary of the endpoint for getting attribution information for a site.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "{{Experimental}} Description of the endpoint for getting attribution information for a site.",
+	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "{{Experimental}} Description of the schema for the Site Attribution API."
+
 }

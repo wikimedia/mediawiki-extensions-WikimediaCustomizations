@@ -7,6 +7,7 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
+use MediaWiki\Language\Language;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -48,7 +49,9 @@ class AttributionDataBuilder {
 		Authority $authority, FormatMetadata $format
 	): array {
 		$base = [];
-		$base[ 'essential' ] = $this->getEssential( $title, $metadata );
+		$base[ 'essential' ] = $this->getEssential(
+			$title->getCanonicalURL( 'wprov=afsw1' ), $title->getPageLanguage(), $metadata
+		);
 
 		// Start conditional response based on whether this is as file or an article.
 		// TODO: Do a generalized media checks to not show citations and pageviews for files
@@ -72,6 +75,18 @@ class AttributionDataBuilder {
 		$this->trackResponseData( $title, $base, $file, $paramsToExpand );
 
 		return $base;
+	}
+
+	public function getSiteAttributionData(): array {
+		// When constructing the Message object while building the source wiki,
+		// the Language $language param to Message is nullable. We propagate this null from here.
+		$siteEssentials = $this->getEssential(
+			Title::newMainPage()->getFullURL( 'wprov=afsw1' ),
+			null, null
+		);
+		return [
+			'essential' => $siteEssentials
+		];
 	}
 
 	/**
@@ -130,21 +145,39 @@ class AttributionDataBuilder {
 	/**
 	 * Get the essential attribution fields.
 	 *
-	 * @param Title $title The title of the wiki
-	 * @param array $metadata The page metadata
+	 * @param string $url The url of the wiki or site
+	 * @param ?Language $language The page language
+	 * @param ?array $metadata The page metadata
 	 * @return array The default essential attribution data
 	 */
-	private function getEssential( Title $title, array $metadata ): array {
-		return [
-			'title' => $metadata['title'],
-			'license' => [
-				'title' => LicenseHelper::mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
-				'url' => $metadata['license']['url'] ?? '',
-			],
-			'link' => $title->getCanonicalURL( 'wprov=afsw1' ),
-			'default_brand_marks' => $this->getSiteBrandMarksObject( $title->getPageLanguage()->getCode() ),
-			'source_wiki' => $this->buildSourceWiki( $title )
+	private function getEssential( string $url, ?Language $language, ?array $metadata ): array {
+		if ( $language ) {
+			$langCode = $language->getCode();
+		} else {
+			$langCode = $this->mainConfig->get( MainConfigNames::LanguageCode );
+		}
+
+		$essential = [
+			'link' => $url,
+			'default_brand_marks' => $this->getSiteBrandMarksObject( $langCode ),
+			'source_wiki' => $this->buildSourceWiki( $language )
 		];
+
+		if ( $metadata ) {
+			$essential['title'] = $metadata['title'];
+			$essential['license'] = [
+				'title' => LicenseHelper::mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
+				'url' => $metadata['license']['url'] ?? ''
+			];
+		} else {
+			$essential['license'] = [
+				'title' => LicenseHelper::mapLongNameToShortName(
+					$this->mainConfig->get( MainConfigNames::RightsText ) ?? ''
+				),
+				'url' => $this->mainConfig->get( MainConfigNames::RightsUrl )
+			];
+		}
+		return $essential;
 	}
 
 	/**
@@ -196,23 +229,27 @@ class AttributionDataBuilder {
 	 *     page_language: string
 	 * }
 	 */
-	private function buildSourceWiki( Title $title ): array {
+	private function buildSourceWiki( ?Language $language ): array {
 		// If we can't resolve the wiki name, just use an empty string
 		$wikiNameMessage = new Message(
 			'project-localized-name-' . $this->dbname,
 			[],
-			$title->getPageLanguage()
+			$language
 		);
 
 		$wikiName = !$wikiNameMessage->isBlank() ? $wikiNameMessage->plain() : '';
-
-		return [
+		$source_wiki = [
 			'site_name' => $wikiName,
 			'project_family' => $this->getProjectFamily(),
 			'site_id' => $this->dbname,
 			'site_language' => $this->mainConfig->get( MainConfigNames::LanguageCode ),
-			'page_language' => $title->getPageLanguage()->getHtmlCode(),
 		];
+
+		// We don't return page_language for sites.
+		if ( $language ) {
+			$source_wiki['page_language'] = $language->getHtmlCode();
+		}
+		return $source_wiki;
 	}
 
 	/**

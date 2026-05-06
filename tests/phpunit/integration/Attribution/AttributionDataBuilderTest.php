@@ -36,7 +36,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			[
 				[ MainConfigNames::DBname, 'enwiki' ],
 				[ MainConfigNames::LanguageCode, 'en' ],
-				[ MainConfigNames::Logos, false ]
+				[ MainConfigNames::Logos, false ],
+				[ MainConfigNames::CanonicalServer, 'https://example.org' ],
 			]
 		);
 		return $config;
@@ -726,5 +727,23 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'site_id', $result['essential']['source_wiki'] );
 		$this->assertArrayHasKey( 'site_language', $result['essential']['source_wiki'] );
 		$this->assertArrayHasKey( 'page_language', $result['essential']['source_wiki'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getSiteAttributionData()
+	 */
+	public function testGetSiteAttributionDataReturnsDefaultEssentials() {
+		$builder = $this->newDataBuilder();
+		$result = $builder->getSiteAttributionData();
+		$this->assertArrayHasKey( 'essential', $result );
+		$this->assertArrayHasKey( 'link', $result['essential'] );
+		$this->assertArrayHasKey( 'default_brand_marks', $result['essential'] );
+		$this->assertArrayHasKey( 'source_wiki', $result['essential'] );
+		$this->assertArrayHasKey( 'license', $result['essential'] );
+		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
+		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
+		$this->assertArrayNotHasKey( 'credit', $result['essential'] );
+		$this->assertArrayNotHasKey( 'title', $result['essential'] );
+		$this->assertArrayNotHasKey( 'page_language', $result['essential']['source_wiki'] );
 	}
 }

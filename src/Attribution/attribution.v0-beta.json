@@ -29,6 +29,20 @@
 					]
 				}
 			}
+		},
+		"/site/signals": {
+			"get": {
+				"x-i18n-summary": "wikimediacustomizations-attribution-endpoint-summ-get-site-signals",
+				"x-i18n-description": "wikimediacustomizations-attribution-endpoint-desc-get-site-signals",
+				"handler": {
+					"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Attribution\\SiteAttributionRestHandler",
+					"services": [
+						"WikimediaCustomizations.AttributionDataBuilder",
+						"StatsFactory",
+						"Tracer"
+					]
+				}
+			}
 		}
 	}
 }

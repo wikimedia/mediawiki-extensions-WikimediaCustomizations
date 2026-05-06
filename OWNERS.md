@@ -93,7 +93,7 @@ Historical context: T399632, T415588.
   - tests/phpunit/integration/Attribution
 * Contact: [MediaWiki Interfaces Team](https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team)
 
-Experimental REST API definition and related code for exposing structured attribution information about Wikimedia page or media, as defined by the Attribution Framework work.
+Experimental REST API definition and related code for exposing structured attribution information about Wikimedia page, media or site, as defined by the Attribution Framework work.
 
 To expose the REST endpoint in Special:RestSandbox, add this to `LocalSettings.php`:
 
