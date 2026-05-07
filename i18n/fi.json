@@ -4,5 +4,6 @@
 			"Samoasambia"
 		]
 	},
-	"wikimediacustomizations-bademaildomain-error": "Verkkotunnusta $1 käyttäviä sähköpostiosoitteita ei tueta. Valitse toinen sähköpostipalveluntarjoaja."
+	"wikimediacustomizations-bademaildomain-error": "Verkkotunnusta $1 käyttäviä sähköpostiosoitteita ei tueta. Valitse toinen sähköpostipalveluntarjoaja.",
+	"wikimediacustomizations-forcereauth-error": "Turvallisuussyistä sinun on tunnistauduttava uudelleen ennen tämän toiminnon käyttöä. Voit käyttää tätä URL-osoitetta uudelleentunnistautumiseen: $1"
 }

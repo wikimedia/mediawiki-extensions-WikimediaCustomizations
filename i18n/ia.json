@@ -5,5 +5,6 @@
 		]
 	},
 	"wikimediacustomizations-desc": "Le extension WikimediaCustomization alberga uncinos, messages e altere personalisationes de sito specific a Wikimedia.",
-	"wikimediacustomizations-bademaildomain-error": "Le adresses de e-mail que usa $1 non es supportate. Per favor usa un altere fornitor de e-mail."
+	"wikimediacustomizations-bademaildomain-error": "Le adresses de e-mail que usa $1 non es supportate. Per favor usa un altere fornitor de e-mail.",
+	"wikimediacustomizations-forcereauth-error": "Como mesura de securitate, tu debe reauthenticar te ante de usar iste functionalitate. Usa iste URL pro reauthenticar te: $1"
 }

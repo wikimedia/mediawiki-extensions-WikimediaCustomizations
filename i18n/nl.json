@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"HanV"
+			"HanV",
+			"Siebrand"
 		]
 	},
 	"wikimediacustomizations-desc": "De extensie WikimediaCustomization biedt Wikimedia-specifieke hooks, berichten en andere site-aanpassingen.",
-	"wikimediacustomizations-bademaildomain-error": "E-mailadressen met $1 worden niet ondersteund. Kies een andere e-mailprovider."
+	"wikimediacustomizations-bademaildomain-error": "E-mailadressen met $1 worden niet ondersteund. Kies een andere e-mailprovider.",
+	"wikimediacustomizations-forcereauth-error": "Als veiligheidsmaatregel moet u zich opnieuw aanmelden voordat u deze functionaliteit kunt gebruiken. U kunt deze url gebruiken om u opnieuw aan te melden: $1"
 }
