@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Nemoralis"
+			"Nemoralis",
+			"Əkrəm"
 		]
 	},
 	"wikimediacustomizations-desc": "WikimediaCustomization uzantısı Vikimediaya xas konfiqurasiyaları özündə birləşdirir.",
-	"wikimediacustomizations-bademaildomain-error": "$1 istifadə edən e-poçt ünvanları dəstəklənmir. Zəhmət olmasa, başqa bir e-poçt provayderi seçin."
+	"wikimediacustomizations-bademaildomain-error": "$1 istifadə edən e-poçt ünvanları dəstəklənmir. Zəhmət olmasa, başqa bir e-poçt provayderi seçin.",
+	"wikimediacustomizations-forcereauth-error": "Təhlükəsizlik tədbiri kimi, bu funksiyadan istifadə etməzdən əvvəl yenidən hesabınızı təsdiqləməyiniz tələb olunur. Bunun üçün bu keçiddən istifadə edə bilərsiniz: $1"
 }
