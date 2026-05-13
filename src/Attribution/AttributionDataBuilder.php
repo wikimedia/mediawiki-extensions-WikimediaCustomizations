@@ -142,7 +142,7 @@ class AttributionDataBuilder {
 				'title' => $licenceUrlHelper->mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
 				'url' => $metadata['license']['url'] ?? '',
 			],
-			'link' => $title->getCanonicalURL(),
+			'link' => $title->getCanonicalURL( 'wprov=afsw1' ),
 			'default_brand_marks' => $this->getSiteBrandMarksObject( $title->getPageLanguage()->getCode() ),
 			'source_wiki' => $this->buildSourceWiki( $title )
 		];
@@ -303,7 +303,7 @@ class AttributionDataBuilder {
 						. ' enjoyable than ever.',
 				],
 				'create_account' => [
-					'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount',
+					'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount?wprov=afcw1',
 					'link_text' => 'Create a Wikipedia account',
 					'description' => 'Create a free account and get more out of Wikipedia!'
 						. ' While anyone can browse and even edit without signing in, an account'
@@ -313,7 +313,7 @@ class AttributionDataBuilder {
 				],
 				'learn_more' => [
 					// TEMPORARY: should resolve to localised version if possible. See: T419157
-					'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia',
+					'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia?wprov=afcw1',
 					'link_text' => 'Learn more about Wikipedia',
 					'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
 						. ' by the people who use it. Since 2001, it has grown rapidly to become'
