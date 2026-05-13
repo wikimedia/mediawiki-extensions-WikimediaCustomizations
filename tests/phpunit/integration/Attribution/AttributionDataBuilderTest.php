@@ -94,7 +94,13 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 	public function testGetAttributionDataReturnsDefaultEssentials() {
 		$builder = $this->newDataBuilder();
 		$title = $this->mockTitle();
-		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$metadata = [
+			'title' => 'Foo',
+			'license' => [
+				'title' => 'CC-BY-SA',
+				'url' => 'http://example.com'
+			]
+		];
 		$page = $this->createMock( ExistingPageRecord::class );
 		$message = $this->createMock( Message::class );
 		$authority = $this->createMock( Authority::class );
@@ -103,7 +109,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'title', $result['essential'] );
 		$this->assertArrayHasKey( 'license', $result['essential'] );
-		$this->assertSame( 'CC-BY-SA', $result['essential']['license'] );
+		$this->assertSame( 'CC-BY-SA', $result['essential']['license']['title'] );
+		$this->assertSame( 'http://example.com', $result['essential']['license']['url'] );
 		$this->assertArrayHasKey( 'link', $result['essential'] );
 		$this->assertArrayHasKey( 'default_brand_marks', $result['essential'] );
 		$this->assertArrayHasKey( 'source_wiki', $result['essential'] );

@@ -135,9 +135,13 @@ class AttributionDataBuilder {
 	 * @return array The default essential attribution data
 	 */
 	private function getEssential( Title $title, array $metadata ): array {
+		$licenceUrlHelper = new LicenseHelper();
 		return [
 			'title' => $metadata['title'],
-			'license' => $metadata['license'],
+			'license' => [
+				'title' => $licenceUrlHelper->mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
+				'url' => $metadata['license']['url'] ?? '',
+			],
 			'link' => $title->getCanonicalURL(),
 			'default_brand_marks' => $this->getSiteBrandMarksObject( $title->getPageLanguage()->getCode() ),
 			'source_wiki' => $this->buildSourceWiki( $title )
