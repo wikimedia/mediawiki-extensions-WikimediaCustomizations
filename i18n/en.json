@@ -8,5 +8,10 @@
 
 	"wikimediacustomizations-bademaildomain-error": "Email addresses using $1 are not supported. Please choose another email provider.",
 
-	"wikimediacustomizations-forcereauth-error": "As a security measure, you have to reauthenticate before using this functionality. You can use this URL to reauthenticate: $1"
+	"wikimediacustomizations-forcereauth-error": "As a security measure, you have to reauthenticate before using this functionality. You can use this URL to reauthenticate: $1",
+
+	"wikimediacustomizations-donordelightbadge-popover-heading": "A little thank you badge for your donation!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "Your generosity helps keep Wikipedia free and open for people across the globe.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Try tapping it.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Remove badge"
 }

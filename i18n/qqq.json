@@ -6,5 +6,9 @@
 	},
 	"wikimediacustomizations-desc": "{{desc|name=WikimediaCustomizations|url=https://www.mediawiki.org/wiki/Extension:WikimediaCustomizations}}",
 	"wikimediacustomizations-bademaildomain-error": "Error message shown during registration or email address change when the email address is disallowed. $1 is the banned domain.",
-	"wikimediacustomizations-forcereauth-error": "Used as an error message when the user has to reauthenticate. $1 is the reauthentication link."
+	"wikimediacustomizations-forcereauth-error": "Used as an error message when the user has to reauthenticate. $1 is the reauthentication link.",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "Heading of the popover tooltip shown on the donor delight badge when a donor first encounters it.",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "Body text shown on the donor delight badge popover in experiment bucket B, with thank you message.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "Body text shown on the donor delight badge popover in experiment bucket C, inviting the donor to tap the badge.",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Label for the link shown at the bottom of the donor delight badge popover in experiment bucket B, which removes the badge from the page."
 }

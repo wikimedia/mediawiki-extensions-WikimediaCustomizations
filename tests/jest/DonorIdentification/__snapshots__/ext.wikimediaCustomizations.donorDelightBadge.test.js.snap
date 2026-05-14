@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DonorDelightBadge renders all appropriate elements 1`] = `
+<body>
+  
+		
+  <div
+    id="content"
+  >
+    
+			
+    <div
+      id="minerva-badge"
+    />
+    
+		
+    <div
+      id="minerva-badge-popover"
+    >
+      <h3 />
+      <p />
+    </div>
+    <button
+      id="minerva-badge-button-remove"
+    >
+      <span
+        class="minerva-icon minerva-icon--eyeClosed"
+      />
+    </button>
+  </div>
+  
+	
+</body>
+`;

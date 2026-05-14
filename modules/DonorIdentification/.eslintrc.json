@@ -1,0 +1,10 @@
+{
+	"extends": [
+		"../.eslintrc.json",
+		"wikimedia/client",
+		"wikimedia/mediawiki"
+	],
+	"rules": {
+		"mediawiki/no-nodelist-unsupported-methods": "off"
+	}
+}

@@ -84,6 +84,13 @@
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationHookHandler",
 			"services": []
 		},
+		"donoridentification-donorbadge": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationDonorBadgeHookHandler",
+			"services": [
+				"ExtensionRegistry",
+				"TestKitchen.ExperimentManager"
+			]
+		},
 		"emailauth": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler",
 			"factory": "MediaWiki\\Extension\\WikimediaCustomizations\\EmailAuth\\EmailAuthHookHandler::factory"
@@ -127,7 +134,7 @@
 		"GetSecurityLogContext": "privilegedgroups",
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": [ "officeban", "discord" ],
+		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
 		"getUserPermissionsErrorsExpensive": "forcereauth",
 		"AlternateEdit": "forcereauth"
 	},
@@ -142,6 +149,26 @@
 			],
 			"packageFiles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donor/index.js"
+			]
+		},
+		"ext.wikimediaCustomizations.donorDelightBadge.styles": {
+			"styles": [
+				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge.styles/styles.less"
+			]
+		},
+		"ext.wikimediaCustomizations.donorDelightBadge": {
+			"dependencies": [
+				"ext.wikimediaCustomizations.donor",
+				"mediawiki.util"
+			],
+			"packageFiles": [
+				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/index.js"
+			],
+			"messages": [
+				"wikimediacustomizations-donordelightbadge-popover-heading",
+				"wikimediacustomizations-donordelightbadge-popover-body-b",
+				"wikimediacustomizations-donordelightbadge-popover-body-c",
+				"wikimediacustomizations-donordelightbadge-remove-btn"
 			]
 		},
 		"ext.wikimediaCustomizations.officeBan": {
