@@ -10,5 +10,15 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "라이선스 제목",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "문서 URL",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-id": "위키 식별자",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "기여자 수"
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "기여자 수",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "기부를 위한 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "기부를 위한 기본 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "위키미디어 재단 기부를 위한 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "특별 캠페인을 위한 기부를 위한 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "참여를 위한 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "토론 문서 참여를 위한 행동 유도",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "해당 문서는 현재 위키 프로젝트에서 가장 많이 읽힌 문서 1000위 안에 속해 있습니다.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "해당 문서는 현재 위키 프로젝트에서 편집 횟수 기준으로 100위 안에 속해 있습니다.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "해당 문서는 현재 위키 프로젝트에서 가장 많이 읽힌 문서 1000위, 편집 횟수 100위 안에 속해 있습니다."
 }
