@@ -168,6 +168,10 @@ class AttributionDataBuilder {
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
 		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
 		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
+		if ( $licenseTitle !== null ) {
+			$licenseHelper = new LicenseHelper();
+			$licenseTitle = $licenseHelper->normalizeShortLicenseName( $licenseTitle );
+		}
 
 		$base['essential']['credit'] = $artist;
 		$base['essential']['license'] = [
