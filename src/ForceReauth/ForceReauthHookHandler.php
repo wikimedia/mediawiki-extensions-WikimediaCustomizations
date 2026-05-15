@@ -10,6 +10,8 @@ use MediaWiki\Hook\AlternateEditHook;
 use MediaWiki\Permissions\Hook\GetUserPermissionsErrorsExpensiveHook;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 
 class ForceReauthHookHandler implements
 	GetUserPermissionsErrorsExpensiveHook,
@@ -17,8 +19,32 @@ class ForceReauthHookHandler implements
 {
 	public function __construct(
 		private readonly AuthManager $authManager,
-		private readonly PermissionManager $permManager,
+		private readonly PermissionManager $permManager
 	) {
+	}
+
+	/**
+	 * check if a title is a site/user JS/CSS conf page or raw html msg
+	 *
+	 * @param Title $title
+	 * @param User $user
+	 * @return bool|string Returns false or a permissions string based upon check
+	 */
+	private function isSiteOrUserConfigPage( $title, $user ) {
+		// - for site js, also check raw html messages, as those are not covered
+		// by isSiteJsConfigPage()
+		// - for user js and css, only check that another users' js or css page
+		// is being edited
+		$permission = false;
+		if ( $title->isSiteJsConfigPage() || $title->isRawHtmlMessage() || $title->isSiteCssConfigPage() ) {
+			$permission = 'editsitejscss';
+		} elseif (
+			( $title->isUserJsConfigPage() || $title->isUserCssConfigPage() ) &&
+			$title->getRootText() !== $user->getName()
+		) {
+			$permission = 'edituserjscss';
+		}
+		return $permission;
 	}
 
 	/** @inheritDoc */
@@ -28,17 +54,18 @@ class ForceReauthHookHandler implements
 		$action,
 		&$result
 	) {
-		if (
-			$action === 'edit' &&
-			( $title->isSiteJsConfigPage() || $title->isRawHtmlMessage() ) &&
-			( $this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) !== AuthManager::SEC_OK ||
-			RequestContext::getMain()->getRequest()->getSession()->getProvider()
-			 instanceof CentralAuthTokenSessionProvider )
-		) {
+		$mustReauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
+		$secSensitiveOperation = (bool)$mustReauthPermission ?
+			$this->authManager->securitySensitiveOperationStatus( $mustReauthPermission ) !== AuthManager::SEC_OK :
+			false;
+		$isCentralAuthToken = RequestContext::getMain()->getRequest()->getSession()->getProvider()
+			instanceof CentralAuthTokenSessionProvider;
+
+		if ( $action === 'edit' && (bool)$mustReauthPermission && ( $secSensitiveOperation || $isCentralAuthToken ) ) {
 			$loginUrl = SpecialPage::getSafeTitleFor( 'Userlogin' )
-				?->getFullURL( [ 'force' => 'editsitejs' ], proto: PROTO_CURRENT );
+				?->getFullURL( [ 'force' => $mustReauthPermission ], proto: PROTO_CURRENT );
 			$result = ApiMessage::create( [ 'wikimediacustomizations-forcereauth-error', $loginUrl ], 'reauthenticate',
-				[ 'operation' => 'editsitejs' ] );
+				[ 'operation' => $mustReauthPermission ] );
 			return false;
 		}
 
@@ -52,11 +79,17 @@ class ForceReauthHookHandler implements
 		$request = $context->getRequest();
 		$user    = $context->getUser();
 
+		$mustReauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
+		$secSensitiveOperation = (bool)$mustReauthPermission ?
+			$this->authManager->securitySensitiveOperationStatus( $mustReauthPermission ) !== AuthManager::SEC_OK :
+			false;
+		$userCanEdit = $this->permManager->userCan( 'edit', $user, $title, PermissionManager::RIGOR_QUICK );
+
 		if (
-			( $title->isSiteJsConfigPage() || $title->isRawHtmlMessage() ) &&
 			!$request->wasPosted() &&
-			$this->permManager->userCan( 'edit', $user, $title, PermissionManager::RIGOR_QUICK ) &&
-			$this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) === AuthManager::SEC_REAUTH
+			$userCanEdit &&
+			$secSensitiveOperation &&
+			(bool)$mustReauthPermission
 		) {
 			$queryParams = $request->getQueryValues();
 
@@ -64,7 +97,7 @@ class ForceReauthHookHandler implements
 				SpecialPage::getTitleFor( 'Userlogin' )->getFullUrl( [
 					'returnto'      => $title->getPrefixedDBkey(),
 					'returntoquery' => wfArrayToCgi( array_diff_key( $queryParams, [ 'title' => true ] ) ),
-					'force'         => 'editsitejs',
+					'force'         => $mustReauthPermission,
 				] )
 			);
 
