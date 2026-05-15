@@ -12,16 +12,14 @@ class LicenceHelperTest extends MediaWikiUnitTestCase {
 
 	public function testMapLongNameToShortNameCorrectlyReturnsKnowLicense(): void {
 		$license = 'Creative Commons Attribution-Share Alike 4.0';
-		$sut = new LicenseHelper();
 
-		$this->assertSame( 'CC BY-SA 4.0', $sut->mapLongNameToShortName( $license ) );
+		$this->assertSame( 'CC BY-SA 4.0', LicenseHelper::mapLongNameToShortName( $license ) );
 	}
 
 	public function testMapLongNameToShortNameReturnsLongNameWhenLicenseIsUknown(): void {
 		$license = 'Attribution NonCommercial ShareAlike 4.0 International';
-		$sut = new LicenseHelper();
 
-		$this->assertSame( $license, $sut->mapLongNameToShortName( $license ) );
+		$this->assertSame( $license, LicenseHelper::mapLongNameToShortName( $license ) );
 	}
 
 	public static function provideLicenseShortNameNormalization(): \Generator {
@@ -70,8 +68,7 @@ class LicenceHelperTest extends MediaWikiUnitTestCase {
 	/**
 	 * @dataProvider provideLicenseShortNameNormalization
 	 */
-	public function testLicenseShortNameNormalization( $shortname, $expected, $messageIfFailed ) {
-		$sut = new LicenseHelper();
-		$this->assertSame( $expected, $sut->normalizeShortLicenseName( $shortname ), $messageIfFailed );
+	public function testLicenseShortNameNormalization( $short, $expected, $messageIfFailed ) {
+		$this->assertSame( $expected, LicenseHelper::normalizeShortLicenseName( $short ), $messageIfFailed );
 	}
 }

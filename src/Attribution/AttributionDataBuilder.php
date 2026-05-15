@@ -135,11 +135,10 @@ class AttributionDataBuilder {
 	 * @return array The default essential attribution data
 	 */
 	private function getEssential( Title $title, array $metadata ): array {
-		$licenceUrlHelper = new LicenseHelper();
 		return [
 			'title' => $metadata['title'],
 			'license' => [
-				'title' => $licenceUrlHelper->mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
+				'title' => LicenseHelper::mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
 				'url' => $metadata['license']['url'] ?? '',
 			],
 			'link' => $title->getCanonicalURL( 'wprov=afsw1' ),
@@ -169,8 +168,7 @@ class AttributionDataBuilder {
 		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
 		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
 		if ( $licenseTitle !== null ) {
-			$licenseHelper = new LicenseHelper();
-			$licenseTitle = $licenseHelper->normalizeShortLicenseName( $licenseTitle );
+			$licenseTitle = LicenseHelper::normalizeShortLicenseName( $licenseTitle );
 		}
 
 		$base['essential']['credit'] = $artist;
