@@ -52,7 +52,7 @@ class BadEmailDomainChecker {
 				] );
 				return [];
 			}
-			$domains = array_filter( explode( PHP_EOL, $text ), static fn ( $l ) => strlen( $l ) > 0 );
+			$domains = array_filter( explode( "\n", $text ), static fn ( $l ) => strlen( $l ) > 0 );
 			return array_fill_keys( $domains, true );
 		} );
 	}
