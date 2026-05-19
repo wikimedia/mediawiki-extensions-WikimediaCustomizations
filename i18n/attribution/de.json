@@ -14,7 +14,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Die Lizenz des Inhalts",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Link zu den Lizenzdetails",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Lizenzname",
-	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Seiten-URL",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Seiten-URL. Der URL-Wert enthält einen Wikimedia-spezifischen Herkunftsparameter („wprov“). Dies hilft Wikimedia dabei, die Wirksamkeit von Aufrufen zur Mitwirkung zu bewerten, ohne die Zielseite oder die Quellenangaben zu verändern. Wir empfehlen, den Parameter nach Möglichkeit beizubehalten.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Symbole und Logos für das Wiki",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Markenname",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-url": "URL zum Herunterladen des Markenzeichens",

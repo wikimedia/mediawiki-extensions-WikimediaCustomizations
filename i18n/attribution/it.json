@@ -12,7 +12,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Licenza contenuto",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Collegamento ai dettagli della licenza",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Nome della licenza",
-	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL della pagina",
+	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL della pagina. Il valore dell'URL include un parametro di provenienza specifico di Wikimedia (`wprov`). Questo aiuta Wikimedia a valutare l'efficacia degli inviti all'azione per la partecipazione, senza modificare la pagina di destinazione o i dati di attribuzione. Si consiglia di mantenere il parametro quando possibile.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Icone e loghi per il wiki",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-type": "Tipo di marchio, come 'icona', 'logo' o 'audio'",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki": "Dettagli sul wiki",
