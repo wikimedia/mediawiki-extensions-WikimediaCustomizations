@@ -266,9 +266,7 @@ class AttributionDataBuilder {
 			// TEMPORARY: placeholder for demo purposes only. See: T419157
 			'donation_ctas' => [
 				'default' => [
-					'url' => 'https://donate.wikimedia.org/w/index.php?title=Special:LandingPage'
-						. '&country=US&uselang=en&wmf_medium=sidebar&wmf_source=donate'
-						. '&wmf_campaign=en.wikipedia.org',
+					'url' => 'https://donate.wikimedia.org/w/index.php',
 					'link_text' => 'Donate to Wikipedia',
 					'description' => 'Wikipedia is the backbone of the internet\'s knowledge.'
 						. ' If everyone reading this gave just a few dollars, we\'d protect'
@@ -276,7 +274,7 @@ class AttributionDataBuilder {
 						. ' in just a few hours.',
 				],
 				'foundation' => [
-					'url' => 'https://donate.wikimedia.org',
+					'url' => 'https://wikimediafoundation.org/give/',
 					'link_text' => 'Support the Wikimedia Foundation',
 					'description' => 'Wikimedia Foundation hosts the technology infrastructure'
 						. ' that makes possible billions of visits to Wikipedia on a monthly basis.'
