@@ -8,6 +8,7 @@ $dirs = [
 	'../../extensions/cldr',
 	'../../extensions/EmailAuth',
 	'../../extensions/FlaggedRevs',
+	'../../extensions/GlobalPreferences',
 	'../../extensions/IPReputation',
 	'../../extensions/LoginNotify',
 	'../../extensions/OATHAuth',
