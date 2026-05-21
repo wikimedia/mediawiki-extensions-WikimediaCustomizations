@@ -22,6 +22,15 @@ function init() {
 	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
 	removeBtn.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-remove-btn' );
 
+	// dismiss popover when clicking outside of it or the badge
+	document.body.addEventListener( 'click', ( e ) => {
+		if ( !popover.classList.contains( 'is-hidden' ) ) {
+			if ( !badge.contains( e.target ) && !popover.contains( e.target ) ) {
+				popover.classList.toggle( 'is-hidden' );
+			}
+		}
+	} );
+
 	if ( mw.config.get( 'wgDonorDelightBadgeBucket' ) === 'b' ) {
 		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
 		removeBtn.id = 'minerva-badge-popover-remove-btn';
@@ -32,12 +41,17 @@ function init() {
 			badge.classList.add( 'is-hidden' );
 			setTimeout( () => badge.remove(), 300 );
 		} );
+		badge.focus();
+		badge.addEventListener( 'click', () => {
+			popover.classList.toggle( 'is-hidden' );
+		} );
 		popover.appendChild( removeBtn );
 		return;
 	}
 	if ( mw.config.get( 'wgDonorDelightBadgeBucket' ) === 'c' ) {
-		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
+		popoverBody.innerHTML = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
 		removeBtn.id = 'minerva-badge-button-remove';
+		removeBtn.className = 'cdx-button';
 		const removeIcon = document.createElement( 'span' );
 		removeIcon.className = 'minerva-icon minerva-icon--eyeClosed';
 		removeBtn.prepend( removeIcon );
@@ -269,6 +283,8 @@ function init() {
 		}
 		tapCooldown = true;
 		badge.classList.add( 'is-cooldown' );
+		removeBtn.classList.remove( 'is-hidden' );
+		removeBtn.classList.add( 'is-visible' );
 
 		// Cancel pending burst timers from the previous tap but keep existing hearts flying.
 		activeTimers.forEach( ( id ) => clearTimeout( id ) );
@@ -306,7 +322,7 @@ function init() {
 
 		const lastBurst = BURST_OFFSETS[ BURST_OFFSETS.length - 1 ];
 		const doneId = setTimeout( () => {
-			removeBtn.classList.add( 'is-visible' );
+			removeBtn.classList.add( 'is-hidden' );
 		}, lastBurst + DURATION + POST_BURST_DELAY );
 		activeTimers.push( doneId );
 
