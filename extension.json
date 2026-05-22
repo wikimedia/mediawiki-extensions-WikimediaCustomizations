@@ -87,7 +87,9 @@
 		"donoridentification-donorbadge": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationDonorBadgeHookHandler",
 			"services": [
-				"ExtensionRegistry",
+				"ExtensionRegistry"
+			],
+			"optional_services": [
 				"TestKitchen.ExperimentManager"
 			]
 		},
