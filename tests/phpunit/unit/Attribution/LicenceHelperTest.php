@@ -24,7 +24,7 @@ class LicenceHelperTest extends MediaWikiUnitTestCase {
 		$this->assertSame( $license, $sut->mapLongNameToShortName( $license ) );
 	}
 
-	public function provideLicenseShortNameNormalization(): \Generator {
+	public static function provideLicenseShortNameNormalization(): \Generator {
 		// format is `shortname`, `expected`, `message`
 		// https://commons.wikimedia.org/wiki/Template:Fair_use
 		yield [ 'Fair Use', 'Fair Use', 'Fair Use should be kept as is' ];
