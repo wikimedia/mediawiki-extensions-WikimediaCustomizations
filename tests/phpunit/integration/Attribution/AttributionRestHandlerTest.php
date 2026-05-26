@@ -4,11 +4,15 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Tests\Attribution;
 
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionRestHandler;
+use MediaWiki\FileRepo\File\File;
+use MediaWiki\FileRepo\FileRepo;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Page\PageIdentity;
 use MediaWiki\Rest\Handler\Helper\PageContentHelper;
 use MediaWiki\Rest\Handler\Helper\PageRestHelperFactory;
 use MediaWiki\Rest\LocalizedHttpException;
+use MediaWiki\Rest\Module\Module;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWikiIntegrationTestCase;
@@ -30,8 +34,15 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		$helperFactory->method( 'newPageContentHelper' )->willReturn( $pageContentHelper );
 		$noopTracer = new NoopTracer();
 		$language = $this->getServiceContainer()->getLanguageFactory()->getLanguage( 'en' );
+		$repoGroup = $this->getServiceContainer()->getRepoGroup();
 		return new AttributionRestHandler(
-			$helperFactory, $dataBuilder, $language, StatsFactory::newNull(), $noopTracer, $logger
+			$helperFactory,
+			$dataBuilder,
+			$repoGroup,
+			$language,
+			StatsFactory::newNull(),
+			$noopTracer,
+			$logger
 		);
 	}
 
@@ -128,5 +139,46 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$handler = $this->newHandler( $helper, $dataBuilder, $logger );
 		$this->executeHandler( $handler, $request, [], [], [], [], null, null );
+	}
+
+	public function testRedirectOn404ForForeignFile() {
+		$titleText = 'File:Foreign.png';
+		$request = new RequestData( [
+			'method' => 'GET',
+			'queryParams' => [ 'expand' => 'latest' ]
+		] );
+
+		$helper = $this->createMock( PageContentHelper::class );
+		$helper->method( 'getTitleText' )->willReturn( $titleText );
+		$helper->method( 'checkAccess' )
+			->willThrowException( new LocalizedHttpException( new MessageValue( 'test' ), 404 ) );
+
+		$dataBuilder = $this->createMock( AttributionDataBuilder::class );
+
+		// Mock File and Repo
+		$file = $this->createMock( File::class );
+		$file->method( 'isLocal' )->willReturn( false );
+		$repo = $this->createMock( FileRepo::class );
+		$repo->method( 'makeUrl' )->willReturn( 'https://commons.wikimedia.org/w/rest.php' );
+		$file->method( 'getRepo' )->willReturn( $repo );
+
+		// Mock RepoGroup
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$this->setService( 'RepoGroup', $repoGroup );
+
+		$handler = $this->newHandler( $helper, $dataBuilder );
+
+		// We need to set the module and path on the handler for the redirect logic
+		$module = $this->createMock( Module::class );
+		$config = [
+			'path' => 'attribution/v0-beta/pages/{title}/signals'
+		];
+
+		$response = $this->executeHandler( $handler, $request, $config, [], [], [], null, null, $module );
+		$expectedUrl = 'https://commons.wikimedia.org/w/rest.php';
+		$expectedUrl .= '/attribution/v0-beta/pages/File%3AForeign.png/signals?expand=latest';
+		$this->assertSame( 301, $response->getStatusCode() );
+		$this->assertSame( $expectedUrl, $response->getHeaderLine( 'Location' ) );
 	}
 }

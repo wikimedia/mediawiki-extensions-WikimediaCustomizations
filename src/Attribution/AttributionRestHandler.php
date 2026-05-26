@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Media\FormatMetadata;
@@ -39,6 +40,7 @@ class AttributionRestHandler extends SimpleHandler {
 	public function __construct(
 		private readonly PageRestHelperFactory $helperFactory,
 		private readonly AttributionDataBuilder $attributionDataBuilder,
+		private readonly RepoGroup $repoGroup,
 		private readonly Language $contentLanguage,
 		StatsFactory $statsFactory,
 		private readonly TracerInterface $tracer,
@@ -132,6 +134,28 @@ class AttributionRestHandler extends SimpleHandler {
 
 		try {
 			return $this->fetchAttribution( $paramsToExpand );
+		} catch ( LocalizedHttpException $e ) {
+			if ( $e->getCode() === 404 ) {
+				$title = Title::newFromText( $this->contentHelper->getTitleText() );
+				if ( $title && $title->inNamespace( NS_FILE ) ) {
+					$file = $this->repoGroup->findFile( $title );
+					if ( $file && !$file->isLocal() ) {
+						$repo = $file->getRepo();
+						$baseUrl = $repo->makeUrl( '', 'rest' );
+						if ( $baseUrl ) {
+							$restPath = '/' . $this->getModule()->getPathPrefix() . $this->getPath();
+							$actualPath = str_replace(
+								'{title}',
+								rawurlencode( $title->getPrefixedDBkey() ),
+								$restPath
+							);
+							$url = wfAppendQuery( $baseUrl . $actualPath, $this->getRequest()->getQueryParams() );
+							return $this->getResponseFactory()->createRedirect( $url, 301 );
+						}
+					}
+				}
+			}
+			throw $e;
 		} finally {
 			$span->setAttributes( [
 				'title' => $this->contentHelper->getTitleText(),
