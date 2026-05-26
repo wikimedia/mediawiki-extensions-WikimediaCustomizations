@@ -30,7 +30,7 @@ class ForceReauthHookHandler implements
 	) {
 		if (
 			$action === 'edit' &&
-			$title->isSiteJsConfigPage() &&
+			( $title->isSiteJsConfigPage() || $title->isRawHtmlMessage() ) &&
 			( $this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) !== AuthManager::SEC_OK ||
 			RequestContext::getMain()->getRequest()->getSession()->getProvider()
 			 instanceof CentralAuthTokenSessionProvider )
@@ -52,7 +52,7 @@ class ForceReauthHookHandler implements
 		$user    = $context->getUser();
 
 		if (
-			$title->isSiteJsConfigPage() &&
+			( $title->isSiteJsConfigPage() || $title->isRawHtmlMessage() ) &&
 			!$request->wasPosted() &&
 			$this->permManager->userCan( 'edit', $user, $title, PermissionManager::RIGOR_QUICK ) &&
 			$this->authManager->securitySensitiveOperationStatus( 'editsitejs' ) === AuthManager::SEC_REAUTH
