@@ -27,14 +27,12 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 				// Badge and delightful animation styles.
 				$out->addHtmlClasses( 'wikimedia-donor-badge-' . $experiment->getAssignedGroup() );
 				$out->addModuleStyles( 'ext.wikimediaCustomizations.donorDelightBadge.styles' );
-				if ( $experiment->isAssignedGroup( 'control' ) ) {
-					return;
-				}
 				// Badge and delightful animation script.
 				$out->addModules( 'ext.wikimediaCustomizations.donorDelightBadge' );
+
 				$out->addJsConfigVars(
 					'wgDonorDelightBadgeBucket',
-					$experiment->isAssignedGroup( 'treatment-b-simple' ) ? 'b' : 'c'
+					$experiment->getAssignedGroup()
 				);
 			}
 		}

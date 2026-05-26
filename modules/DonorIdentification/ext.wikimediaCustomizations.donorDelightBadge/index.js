@@ -1,5 +1,7 @@
+const donor = require( 'ext.wikimediaCustomizations.donor' );
+const bucket = mw.config.get( 'wgDonorDelightBadgeBucket' );
+
 function init() {
-	const donor = require( 'ext.wikimediaCustomizations.donor' );
 	// This module has been loaded in an error state. We will later remove this
 	// and ensure the module has not been loaded at all
 	if ( document.documentElement.classList.contains( 'wikimedia-donor-badge-' ) ) {
@@ -7,12 +9,25 @@ function init() {
 		return;
 	}
 
-	if ( donor.recentlyDonated() ) {
-		mw.user.clientPrefs.set( 'minerva-badge', '1' );
-	}
-
 	const badge = document.getElementById( 'minerva-badge' );
 	if ( !badge ) {
+		return;
+	}
+
+	if ( donor.recentlyDonated() ) {
+		if ( bucket === 'control' ) {
+			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
+		} else {
+			mw.user.clientPrefs.set( 'minerva-badge', '1' );
+		}
+	}
+	if ( mw.user.clientPrefs.get( 'minerva-badge' ) !== '0' ) {
+		// Send the exposure event. Note this shows for any user who
+		// changed the default value of the badge from 0 to either
+		// disabled (control) or 1 (treatment)
+		mw.hook( 'wikimediaCustomizations.donor.recentDonor' ).fire();
+	}
+	if ( bucket === 'control' ) {
 		return;
 	}
 
@@ -37,7 +52,7 @@ function init() {
 		}
 	} );
 
-	if ( mw.config.get( 'wgDonorDelightBadgeBucket' ) === 'b' ) {
+	if ( bucket === 'treatment-b-simple' ) {
 		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
 		removeBtn.id = 'minerva-badge-popover-remove-btn';
 		removeBtn.className = 'cdx-button cdx-button--size-small cdx-button--weight-quiet cdx-button--action-progressive';
@@ -56,7 +71,7 @@ function init() {
 		popover.appendChild( removeBtn );
 		return;
 	}
-	if ( mw.config.get( 'wgDonorDelightBadgeBucket' ) === 'c' ) {
+	if ( bucket === 'treatment-c-delightful' ) {
 		popoverBody.innerHTML = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
 		removeBtn.id = 'minerva-badge-button-remove';
 		removeBtn.className = 'cdx-button';

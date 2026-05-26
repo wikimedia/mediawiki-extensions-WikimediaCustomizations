@@ -18,6 +18,10 @@ const BURST_SIZE = 19;
 const MAX_HEARTS = 70;
 
 const MODULE_PATH = '../../../modules/DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/index.js';
+const RECENT_DONOR_HOOK = 'wikimediaCustomizations.donor.recentDonor';
+const GROUP_CONTROL = 'control';
+const GROUP_TREATMENT_B = 'treatment-b-simple';
+const GROUP_TREATMENT_C = 'treatment-c-delightful';
 
 function setupDOM() {
 	document.body.innerHTML = `
@@ -25,6 +29,16 @@ function setupDOM() {
 			<div id="minerva-badge"></div>
 		</div>
 	`;
+}
+
+function createClientPrefs( initialMinervaBadge = '0' ) {
+	const state = { 'minerva-badge': initialMinervaBadge };
+	return {
+		set: jest.fn( ( key, value ) => {
+			state[ key ] = value;
+		} ),
+		get: jest.fn( ( key ) => state[ key ] )
+	};
 }
 
 describe( 'DonorDelightBadge', () => {
@@ -55,11 +69,14 @@ describe( 'DonorDelightBadge', () => {
 
 		setupDOM();
 		global.mw = {
-			config: { get: jest.fn( () => 'c' ) },
+			config: { get: jest.fn( () => GROUP_TREATMENT_C ) },
+			hook: jest.fn( () => ( {
+				add: jest.fn(),
+				fire: jest.fn()
+			} ) ),
 			msg: jest.fn( () => '' ),
-			user: { clientPrefs: { set: jest.fn() } },
-			util: { $content: [ document.getElementById( 'content' ) ] },
-			hook: jest.fn( () => ( { fire: jest.fn() } ) )
+			user: { clientPrefs: createClientPrefs() },
+			util: { $content: [ document.getElementById( 'content' ) ] }
 		};
 		global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
 
@@ -101,13 +118,114 @@ describe( 'DonorDelightBadge', () => {
 
 	} );
 
+	describe( 'recent donor hook', () => {
+		test( 'fires when user recently donated (control)', () => {
+			jest.resetModules();
+			require( 'ext.wikimediaCustomizations.donor' ).recentlyDonated.mockReturnValue( true );
+
+			const fire = jest.fn();
+			setupDOM();
+			global.mw = {
+				config: { get: jest.fn( () => GROUP_CONTROL ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire
+				} ) ),
+				user: { clientPrefs: createClientPrefs() }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
+
+			require( MODULE_PATH );
+
+			expect( global.mw.hook ).toHaveBeenCalledWith( RECENT_DONOR_HOOK );
+			expect( fire ).toHaveBeenCalled();
+			expect( document.getElementById( 'minerva-badge-popover' ) ).toBeNull();
+		} );
+
+		test( 'fires when user recently donated (treatment)', () => {
+			jest.resetModules();
+			require( 'ext.wikimediaCustomizations.donor' ).recentlyDonated.mockReturnValue( true );
+
+			const fire = jest.fn();
+			setupDOM();
+			global.mw = {
+				config: { get: jest.fn( ( key ) => key === 'wgDonorDelightBadgeBucket' ? GROUP_TREATMENT_C : undefined ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire
+				} ) ),
+				msg: jest.fn( () => '' ),
+				user: { clientPrefs: createClientPrefs() },
+				util: { $content: [ document.getElementById( 'content' ) ] }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
+
+			require( MODULE_PATH );
+
+			expect( global.mw.hook ).toHaveBeenCalledWith( RECENT_DONOR_HOOK );
+			expect( fire ).toHaveBeenCalled();
+		} );
+
+		test( 'does not fire when user has not recently donated', () => {
+			jest.resetModules();
+			setupDOM();
+
+			const fire = jest.fn();
+			global.mw = {
+				config: { get: jest.fn( () => GROUP_CONTROL ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire
+				} ) ),
+				user: { clientPrefs: createClientPrefs() }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
+
+			require( MODULE_PATH );
+
+			expect( global.mw.hook ).not.toHaveBeenCalled();
+			expect( fire ).not.toHaveBeenCalled();
+		} );
+
+		test( 'sets disabled client preference for control when recently donated', () => {
+			jest.resetModules();
+			require( 'ext.wikimediaCustomizations.donor' ).recentlyDonated.mockReturnValue( true );
+
+			const clientPrefs = createClientPrefs();
+			setupDOM();
+			global.mw = {
+				config: { get: jest.fn( () => GROUP_CONTROL ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire: jest.fn()
+				} ) ),
+				user: { clientPrefs }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
+
+			require( MODULE_PATH );
+
+			expect( clientPrefs.set ).toHaveBeenCalledWith( 'minerva-badge', 'disabled' );
+		} );
+	} );
+
 	// Client preference.
 	describe( 'client preference', () => {
 		test( 'sets minerva-badge preference when user recently donated', () => {
 			jest.resetModules();
 			require( 'ext.wikimediaCustomizations.donor' ).recentlyDonated.mockReturnValue( true );
 			setupDOM();
-			global.mw.util.$content = [ document.getElementById( 'content' ) ];
+			global.mw = {
+				config: { get: jest.fn( () => GROUP_TREATMENT_C ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire: jest.fn()
+				} ) ),
+				msg: jest.fn( () => '' ),
+				user: { clientPrefs: createClientPrefs() },
+				util: { $content: [ document.getElementById( 'content' ) ] }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
 			require( MODULE_PATH );
 			expect( global.mw.user.clientPrefs.set ).toHaveBeenCalledWith( 'minerva-badge', '1' );
 		} );
@@ -125,21 +243,10 @@ describe( 'DonorDelightBadge', () => {
 		} );
 	} );
 
-	describe( 'click fallback', () => {
-		test( 'fires hearts on click', () => {
-			jest.resetModules();
-			const savedPointerEvent = window.PointerEvent;
-			delete window.PointerEvent;
-
-			setupDOM();
-			global.mw.util.$content = [ document.getElementById( 'content' ) ];
-			require( MODULE_PATH );
-			badge = document.getElementById( 'minerva-badge' );
-
-			badge.dispatchEvent( new Event( 'click' ) );
+	describe( 'click', () => {
+		test( 'fires hearts on badge click', () => {
+			fireBadgeTap();
 			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
-
-			window.PointerEvent = savedPointerEvent;
 		} );
 	} );
 
@@ -262,7 +369,17 @@ describe( 'DonorDelightBadge', () => {
 			jest.spyOn( Math, 'random' ).mockReturnValue( 0 );
 			jest.resetModules();
 			setupDOM();
-			global.mw.util.$content = [ document.getElementById( 'content' ) ];
+			global.mw = {
+				config: { get: jest.fn( () => GROUP_TREATMENT_C ) },
+				hook: jest.fn( () => ( {
+					add: jest.fn(),
+					fire: jest.fn()
+				} ) ),
+				msg: jest.fn( () => '' ),
+				user: { clientPrefs: createClientPrefs() },
+				util: { $content: [ document.getElementById( 'content' ) ] }
+			};
+			global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
 			require( MODULE_PATH );
 			badge = document.getElementById( 'minerva-badge' );
 			contentBox = global.mw.util.$content[ 0 ];
@@ -384,7 +501,7 @@ describe( 'DonorDelightBadge', () => {
 
 		beforeEach( () => {
 			jest.resetModules();
-			global.mw.config.get.mockReturnValue( 'b' );
+			global.mw.config.get.mockReturnValue( GROUP_TREATMENT_B );
 			global.mw.msg.mockClear();
 			setupDOM();
 			global.mw.util.$content = [ document.getElementById( 'content' ) ];
@@ -431,8 +548,8 @@ describe( 'DonorDelightBadge', () => {
 			expect( document.getElementById( 'minerva-badge' ) ).toBeNull();
 		} );
 
-		test( 'tapping badge does not fire hearts', () => {
-			badge.dispatchEvent( new Event( 'touchstart', { cancelable: true, bubbles: true } ) );
+		test( 'clicking badge does not fire hearts', () => {
+			badge.dispatchEvent( new Event( 'click', { bubbles: true } ) );
 			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( false );
 			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBe( 0 );
 		} );
