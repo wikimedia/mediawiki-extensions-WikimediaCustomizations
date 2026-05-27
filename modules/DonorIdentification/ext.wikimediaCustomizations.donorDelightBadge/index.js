@@ -40,10 +40,12 @@ function init() {
 			popover.remove();
 			badge.classList.add( 'is-hidden' );
 			setTimeout( () => badge.remove(), 300 );
+			mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
 		} );
 		badge.focus();
 		badge.addEventListener( 'click', () => {
 			popover.classList.toggle( 'is-hidden' );
+			mw.hook( 'wikimediaCustomizations.donorDelightBadge.click' ).fire();
 		} );
 		popover.appendChild( removeBtn );
 		return;
@@ -334,24 +336,10 @@ function init() {
 		activeTimers.push( cooldownId );
 	}
 
-	badge.addEventListener( 'touchstart', ( e ) => {
-		e.preventDefault();
+	badge.addEventListener( 'click', () => {
 		fireHearts();
-	}, { passive: false } );
-
-	if ( window.PointerEvent ) {
-		// Pointer Events supported — handles mouse and stylus, skips touch (handled above).
-		badge.addEventListener( 'pointerdown', ( e ) => {
-			if ( e.pointerType === 'touch' ) {
-				return;
-			}
-			fireHearts();
-		} );
-	} else {
-		// Fallback for browsers without Pointer Events (e.g. old Android WebView).
-		// tapCooldown handles the double-fire from touchstart + click on mobile.
-		badge.addEventListener( 'click', fireHearts );
-	}
+		mw.hook( 'wikimediaCustomizations.donorDelightBadge.click' ).fire();
+	} );
 
 	removeBtn.addEventListener( 'click', () => {
 		hidden = true;
@@ -362,6 +350,7 @@ function init() {
 			badge.remove();
 			removeBtn.remove();
 		}, HIDE_DURATION );
+		mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
 	} );
 }
 

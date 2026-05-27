@@ -58,7 +58,8 @@ describe( 'DonorDelightBadge', () => {
 			config: { get: jest.fn( () => 'c' ) },
 			msg: jest.fn( () => '' ),
 			user: { clientPrefs: { set: jest.fn() } },
-			util: { $content: [ document.getElementById( 'content' ) ] }
+			util: { $content: [ document.getElementById( 'content' ) ] },
+			hook: jest.fn( () => ( { fire: jest.fn() } ) )
 		};
 		global.$ = jest.fn().mockImplementation( ( cb ) => cb() );
 
@@ -80,7 +81,7 @@ describe( 'DonorDelightBadge', () => {
 	}
 
 	function fireBadgeTap() {
-		badge.dispatchEvent( new Event( 'touchstart', { cancelable: true, bubbles: true } ) );
+		badge.dispatchEvent( new Event( 'click' ) );
 	}
 
 	describe( 'renders', () => {
@@ -124,32 +125,8 @@ describe( 'DonorDelightBadge', () => {
 		} );
 	} );
 
-	// `touchstart`
-	describe( 'touchstart', () => {
-		test( 'calls preventDefault and fires hearts', () => {
-			const e = new Event( 'touchstart', { cancelable: true, bubbles: true } );
-			const preventDefaultSpy = jest.spyOn( e, 'preventDefault' );
-			badge.dispatchEvent( e );
-			expect( preventDefaultSpy ).toHaveBeenCalled();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
-		} );
-	} );
-
-	// `pointerdown`
-	describe( 'pointerdown (with PointerEvent support)', () => {
-		test( 'fires hearts for non-touch pointer types', () => {
-			badge.dispatchEvent( new PointerEvent( 'pointerdown', { pointerType: 'mouse' } ) );
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
-		} );
-
-		test( 'ignores touch pointer type (handled by touchstart instead)', () => {
-			badge.dispatchEvent( new PointerEvent( 'pointerdown', { pointerType: 'touch' } ) );
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( false );
-		} );
-	} );
-
-	describe( 'click fallback (without PointerEvent support)', () => {
-		test( 'fires hearts on click when PointerEvent is unavailable', () => {
+	describe( 'click fallback', () => {
+		test( 'fires hearts on click', () => {
 			jest.resetModules();
 			const savedPointerEvent = window.PointerEvent;
 			delete window.PointerEvent;
