@@ -8,7 +8,7 @@ const chaiResponseValidator = require( 'chai-openapi-response-validator' ).defau
 describe( 'Attribution API tests', () => {
 	let mindy;
 	const title = utils.title( 'AttributionTest_' );
-	const baseURL = '/rest.php/attribution/v0-beta';
+	const baseURL = 'rest.php/attribution/v0-beta/';
 	const client = new REST( baseURL );
 
 	before( async () => {
