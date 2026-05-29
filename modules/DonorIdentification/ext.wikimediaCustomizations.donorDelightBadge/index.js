@@ -1,7 +1,10 @@
 const donor = require( 'ext.wikimediaCustomizations.donor' );
 const bucket = mw.config.get( 'wgDonorDelightBadgeBucket' );
 
+// Activate badge for donors, read client preference.
 function init() {
+	let minervaBadgePref = mw.user.clientPrefs.get( 'minerva-badge' );
+
 	// This module has been loaded in an error state. We will later remove this
 	// and ensure the module has not been loaded at all
 	if ( document.documentElement.classList.contains( 'wikimedia-donor-badge-' ) ) {
@@ -14,20 +17,26 @@ function init() {
 		return;
 	}
 
+	// `minervaBadgePref` falsy covers both `false` (pref never set) and `0` (default).
 	if ( donor.recentlyDonated() ) {
 		if ( bucket === 'control' ) {
 			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-		} else {
+		} else if ( !minervaBadgePref || minervaBadgePref === '0' ) {
 			mw.user.clientPrefs.set( 'minerva-badge', '1' );
 		}
+		minervaBadgePref = mw.user.clientPrefs.get( 'minerva-badge' );
 	}
-	if ( mw.user.clientPrefs.get( 'minerva-badge' ) !== '0' ) {
-		// Send the exposure event. Note this shows for any user who
-		// changed the default value of the badge from 0 to either
-		// disabled (control) or 1 (treatment)
-		mw.hook( 'wikimediaCustomizations.donor.recentDonor' ).fire();
+
+	if ( minervaBadgePref !== '0' ) {
+		const wasBadgeUserDisabled = bucket !== 'control' && minervaBadgePref === 'disabled';
+		// Send the exposure event. Note this shows for any user who changed the default value of
+		// the badge from 0 to either `disabled` (control) or `1` (treatment).
+		// Per data analytics, it won't be logged as `experiment_exposure` if a user has
+		// clicked 'hide badge', but user's visit will be logged with a `page_visit` event.
+		mw.hook( 'wikimediaCustomizations.donor.recentDonor' ).fire( wasBadgeUserDisabled );
 	}
-	if ( bucket === 'control' ) {
+
+	if ( bucket === 'control' || minervaBadgePref === 'disabled' ) {
 		return;
 	}
 
@@ -59,6 +68,8 @@ function init() {
 		removeBtn.addEventListener( 'click', ( e ) => {
 			e.preventDefault();
 			popover.remove();
+			// persist change on next screen
+			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
 			badge.classList.add( 'is-hidden' );
 			setTimeout( () => badge.remove(), 300 );
 			mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
@@ -365,6 +376,7 @@ function init() {
 	removeBtn.addEventListener( 'click', () => {
 		hidden = true;
 		stopAnimation( contentBox );
+		mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
 		badge.classList.add( 'is-hidden' );
 		removeBtn.classList.add( 'is-hidden' );
 		setTimeout( () => {
