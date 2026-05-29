@@ -1,5 +1,11 @@
 function init() {
 	const donor = require( 'ext.wikimediaCustomizations.donor' );
+	// This module has been loaded in an error state. We will later remove this
+	// and ensure the module has not been loaded at all
+	if ( document.documentElement.classList.contains( 'wikimedia-donor-badge-' ) ) {
+		mw.user.clientPrefs.set( 'minerva-badge', '0' );
+		return;
+	}
 
 	if ( donor.recentlyDonated() ) {
 		mw.user.clientPrefs.set( 'minerva-badge', '1' );
