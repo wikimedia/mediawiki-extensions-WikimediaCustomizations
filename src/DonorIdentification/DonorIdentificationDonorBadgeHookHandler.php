@@ -21,6 +21,7 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 			if (
 				// Limit to experiment treatment groups and ensure showing only to anonymous users.
 				$experiment &&
+				$experiment->getAssignedGroup() !== null &&
 				$out->getSkin()->getSkinName() === 'minerva' &&
 				$out->getUser()->isAnon()
 			) {

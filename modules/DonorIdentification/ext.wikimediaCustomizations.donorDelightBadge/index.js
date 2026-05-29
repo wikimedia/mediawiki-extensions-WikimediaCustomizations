@@ -8,6 +8,8 @@ function init() {
 
 	// This module has been loaded in an error state. We will later remove this
 	// and ensure the module has not been loaded at all
+	// FIXME: This can be removed once I38df62d5a8c85f61ff237a7bc909e930717d6c04 has
+	// been in production for 2 weeks.
 	if ( document.documentElement.classList.contains( 'wikimedia-donor-badge-' ) ) {
 		mw.user.clientPrefs.set( 'minerva-badge', '0' );
 		return;
