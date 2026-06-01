@@ -60,7 +60,8 @@ class SyncDonorStatus extends Maintenance {
 			// row has been validated, extract the two values
 			[ $email, $donor_status_id ] = $row;
 
-			$this->outputIfVerbose( "read email: $email, donor status id: $donor_status_id" );
+			// we don't want to output email addresses, because they may not have opted in to identification
+			$this->outputIfVerbose( "read email: [redacted], donor status id: $donor_status_id" );
 
 			// if the corresponding bucket doesn't already exist, create it
 			if ( !array_key_exists( $donor_status_id, $buckets ) ) {

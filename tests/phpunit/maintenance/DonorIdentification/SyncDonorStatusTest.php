@@ -901,4 +901,36 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 			->from( 'global_preferences' )
 			->assertFieldValue( '{"value":1}' );
 	}
+
+	/**
+	 * Ensure no emails are output by the script
+	 *
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::execute
+	 */
+	public function testExecute_noEmailsOutput() {
+		$this->expectOutputRegex( '/^((?!test@email\.com).)*$/s' );
+
+		$user = new TestUser( 'Test', 'test', 'test@email.com' );
+		$user->getUser()->setEmailAuthenticationTimestamp( 1 );
+
+		$global_user = CentralAuthTestUser::newFromTestUser( $user );
+		$global_user->save( $this->getDb() );
+
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'global_preferences' )
+			->row( [
+				'gp_user' => $global_user->getCentralUser()->getId(),
+				'gp_property' => 'wikimedia-donor',
+				'gp_value' => '{"value":1}'
+			] )
+			->execute();
+
+		$temp = $this->getNewTempFile();
+		file_put_contents( $temp, "test@email.com,2" );
+
+		$this->maintenance->setArg( 'file', $temp );
+		$this->maintenance->setOption( 'verbose', true );
+
+		$this->maintenance->execute();
+	}
 }
