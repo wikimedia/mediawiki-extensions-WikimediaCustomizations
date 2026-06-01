@@ -161,7 +161,8 @@
 		"ext.wikimediaCustomizations.donorDelightBadge": {
 			"dependencies": [
 				"ext.wikimediaCustomizations.donor",
-				"mediawiki.util"
+				"mediawiki.util",
+				"mediawiki.user"
 			],
 			"packageFiles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/index.js"
