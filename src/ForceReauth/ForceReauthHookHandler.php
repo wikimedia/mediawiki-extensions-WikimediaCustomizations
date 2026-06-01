@@ -35,7 +35,8 @@ class ForceReauthHookHandler implements
 			RequestContext::getMain()->getRequest()->getSession()->getProvider()
 			 instanceof CentralAuthTokenSessionProvider )
 		) {
-			$loginUrl = SpecialPage::getSafeTitleFor( 'Userlogin' )?->getFullURL( [ 'force' => 'editsitejs' ] );
+			$loginUrl = SpecialPage::getSafeTitleFor( 'Userlogin' )
+				?->getFullURL( [ 'force' => 'editsitejs' ], proto: PROTO_CURRENT );
 			$result = ApiMessage::create( [ 'wikimediacustomizations-forcereauth-error', $loginUrl ], 'reauthenticate',
 				[ 'operation' => 'editsitejs' ] );
 			return false;
