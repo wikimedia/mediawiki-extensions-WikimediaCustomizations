@@ -1,4 +1,9 @@
-/* Donor Delight Badge. */
+/*
+ * Donor Delight Badge. WE 3.5.5.
+ * Experimental badge for donors to show appreciation for their support.
+ * Only shown to a small test group of donors.
+ * Refer to T424069.
+ */
 @import 'mediawiki.skin.variables.less';
 
 /* stylelint-disable selector-class-pattern, selector-max-id */
@@ -7,7 +12,7 @@
 	position: relative;
 }
 
-/* Badge button. */
+// Badge button.
 #minerva-badge {
 	.cdx-mixin-button-layout-flush( 'end', true, 'large' );
 
@@ -27,7 +32,7 @@
 	.cdx-mixin-css-icon( @cdx-icon-heart );
 }
 
-/* Popover. */
+// Popover.
 #minerva-badge-popover {
 	background-color: @background-color-base;
 	position: absolute;
@@ -109,7 +114,7 @@
 	}
 }
 
-/* Remove badge pill button. */
+// Remove badge pill button.
 #minerva-badge-button-remove {
 	position: fixed;
 	color: @color-progressive;
@@ -150,7 +155,7 @@
 		}
 
 		.minerva-badge-container {
-			width: 100%;
+			width: @size-full;
 			display: flex;
 			justify-content: flex-end;
 		}
@@ -167,10 +172,10 @@
 
 /* stylelint-enable selector-max-id */
 
-/* Flying hearts — pure CSS border-radius shape, no SVG, no extra DOM nodes.
-	Classic two parts method: the element itself is one; ::before is the other.
-	Both are square (width = height), rotated so the point faces down.
-	The wrapper is sized via JS (width/height), everything inside scales to 100%. */
+// Flying hearts — pure CSS border-radius shape, no SVG, no extra DOM nodes.
+// Classic two parts method: the element itself is one; ::before is the other.
+// Both are square (width = height), rotated so the point faces down.
+// The wrapper is sized via JS (width/height), everything inside scales to 100%.
 .fly-heart-box {
 	position: absolute;
 	top: 4rem;
@@ -183,7 +188,7 @@
 	will-change: transform, opacity;
 }
 
-/* The heart shape bottom. */
+// The heart shape bottom.
 .fly-heart {
 	background-color: #d74032;
 	display: block;
