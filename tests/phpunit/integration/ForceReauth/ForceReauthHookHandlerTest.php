@@ -66,25 +66,25 @@ class ForceReauthHookHandlerTest extends MediaWikiIntegrationTestCase {
 	public static function providePageScenarios(): array {
 		return [
 			'Site JS configuration' => [
-				'type' => 'sitejs', 'rootText' => 'MediaWiki', 'userName' => 'SomeBody123', 'hookReturn' => false
+				'pageType' => 'sitejs', 'rootText' => 'MediaWiki', 'userName' => 'SomeBody123', 'hookReturn' => false
 			],
 			'Site CSS configuration' => [
-				'type' => 'sitecss', 'rootText' => 'MediaWiki', 'userName' => 'SomeBody123', 'hookReturn' => false
+				'pageType' => 'sitecss', 'rootText' => 'MediaWiki', 'userName' => 'SomeBody123', 'hookReturn' => false
 			],
 			'User JS config page' => [
-				'type' => 'userjs', 'rootText' => 'SomeBody789', 'userName' => 'SomeBody123', 'hookReturn' => false
+				'pageType' => 'userjs', 'rootText' => 'SomeBody789', 'userName' => 'SomeBody123', 'hookReturn' => false
 			],
 			'User CSS config page' => [
-				'type' => 'usercss', 'rootText' => 'SomeBody789', 'userName' => 'SomeBody123', 'hookReturn' => false
+				'pageType' => 'usercss', 'rootText' => 'SomeBody789', 'userName' => 'SomeBody123', 'hookReturn' => false
 			],
 			'Current user editing their own user JS page' => [
-				'type' => 'userjs', 'rootText' => 'SomeBody123', 'userName' => 'SomeBody123', 'hookReturn' => true
+				'pageType' => 'userjs', 'rootText' => 'SomeBody123', 'userName' => 'SomeBody123', 'hookReturn' => true
 			],
 			'Current user editing their own user CSS page' => [
-				'type' => 'usercss', 'rootText' => 'SomeBody123', 'userName' => 'SomeBody123', 'hookReturn' => true
+				'pageType' => 'usercss', 'rootText' => 'SomeBody123', 'userName' => 'SomeBody123', 'hookReturn' => true
 			],
 			'Standard wiki page' => [
-				'type' => 'std', 'rootText' => 'A_Test_Root_Page', 'userName' => 'SomeBody123', 'hookReturn' => true
+				'pageType' => 'std', 'rootText' => 'A_Test_Root_Page', 'userName' => 'SomeBody123', 'hookReturn' => true
 			],
 		];
 	}
