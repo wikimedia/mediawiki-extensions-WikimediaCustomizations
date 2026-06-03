@@ -15,6 +15,7 @@ exports[`DonorDelightBadge renders all appropriate elements 1`] = `
     
 		
     <div
+      class=""
       id="minerva-badge-popover"
     >
       <h3 />

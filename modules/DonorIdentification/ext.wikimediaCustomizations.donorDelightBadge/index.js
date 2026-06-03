@@ -4,6 +4,7 @@ const bucket = mw.config.get( 'wgDonorDelightBadgeBucket' );
 // Activate badge for donors, read client preference.
 function init() {
 	let minervaBadgePref = mw.user.clientPrefs.get( 'minerva-badge' );
+	const isFirstVisit = minervaBadgePref === '0';
 
 	// This module has been loaded in an error state. We will later remove this
 	// and ensure the module has not been loaded at all
@@ -49,6 +50,7 @@ function init() {
 	badge.parentNode.appendChild( popover );
 
 	popover.id = 'minerva-badge-popover';
+	popover.className = ( isFirstVisit ) ? '' : 'is-hidden';
 	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
 	removeBtn.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-remove-btn' );
 
