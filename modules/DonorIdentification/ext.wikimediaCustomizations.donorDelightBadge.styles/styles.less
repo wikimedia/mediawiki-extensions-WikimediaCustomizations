@@ -10,6 +10,17 @@
 
 .minerva-badge-container {
 	position: relative;
+
+	// Disable the badge if the user was bucketed in treatment and then
+	// moved to control.
+	.ext-wc-donor-badge-control & {
+		display: none;
+	}
+
+	// Enable the display of the badge tablet and desktop. Compare mobile further down.
+	.minerva-badge-clientpref-1 .minerva-badge-container {
+		display: block;
+	}
 }
 
 // Badge button.
@@ -156,6 +167,7 @@
 
 		.minerva-badge-container {
 			width: @size-full;
+			// Enable the display of the badge on mobile.
 			display: flex;
 			justify-content: flex-end;
 		}
@@ -223,12 +235,4 @@
 		left: @size-half;
 		top: 0;
 	}
-}
-
-// Disable the badge if the user was bucketed in treatment and then
-// moved to control.
-/* stylelint-disable-next-line selector-max-id */
-.ext-wc-donor-badge-control #minerva-badge {
-	/* stylelint-disable-next-line declaration-no-important */
-	display: none !important;
 }
