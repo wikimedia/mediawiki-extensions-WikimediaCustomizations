@@ -544,17 +544,10 @@ describe( 'DonorDelightBadge', () => {
 			);
 		} );
 
-		test( 'clicking remove link removes the popover and adds is-hidden to badge', () => {
+		test( 'clicking remove link removes the popover', () => {
 			popoverRemoveBtn.dispatchEvent( new Event( 'click', { cancelable: true } ) );
 			expect( document.getElementById( 'minerva-badge-popover' ) ).toBeNull();
-			expect( badge.classList.contains( HIDDEN_CLASS ) ).toBe( true );
-		} );
 
-		test( 'clicking remove link removes badge from DOM after 300ms', () => {
-			popoverRemoveBtn.dispatchEvent( new Event( 'click', { cancelable: true } ) );
-			expect( document.getElementById( 'minerva-badge' ) ).not.toBeNull();
-			jest.advanceTimersByTime( HIDE_DURATION + 1 );
-			expect( document.getElementById( 'minerva-badge' ) ).toBeNull();
 		} );
 
 		test( 'clicking badge does not fire hearts', () => {

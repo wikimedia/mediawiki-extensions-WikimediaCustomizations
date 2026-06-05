@@ -7,6 +7,49 @@ const VISIBLE_CLASS = 'ext-wc-is-visible';
 const COOLDOWN_CLASS = 'ext-wc-is-cooldown';
 const HIDDEN_CLASS = 'ext-wc-is-hidden';
 
+function makePopover( badge ) {
+	const popover = document.createElement( 'div' );
+	const popoverHeading = document.createElement( 'h3' );
+	const popoverBody = document.createElement( 'p' );
+	popover.id = 'minerva-badge-popover';
+	if ( bucket === 'treatment-b-simple' ) {
+		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
+	} else if ( bucket === 'treatment-c-delightful' ) {
+		popoverBody.innerHTML = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
+	}
+	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
+	popover.appendChild( popoverHeading );
+	popover.appendChild( popoverBody );
+
+	// dismiss popover when clicking outside of it or the badge
+	document.body.addEventListener( 'click', ( e ) => {
+		if ( popover.parentElement && !popover.classList.contains( HIDDEN_CLASS ) ) {
+			if ( !badge.contains( e.target ) && !popover.contains( e.target ) ) {
+				popover.classList.toggle( HIDDEN_CLASS );
+			}
+		}
+	} );
+
+	return popover;
+}
+
+function makeRemoveButton() {
+	const removeBtn = document.createElement( 'button' );
+	removeBtn.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-remove-btn' );
+	if ( bucket === 'treatment-b-simple' ) {
+		removeBtn.id = 'minerva-badge-popover-remove-btn';
+		removeBtn.className = 'cdx-button cdx-button--size-small cdx-button--weight-quiet cdx-button--action-progressive';
+	}
+	if ( bucket === 'treatment-c-delightful' ) {
+		removeBtn.id = 'minerva-badge-button-remove';
+		removeBtn.className = 'cdx-button';
+		const removeIcon = document.createElement( 'span' );
+		removeIcon.className = 'minerva-icon minerva-icon--eyeClosed';
+		removeBtn.prepend( removeIcon );
+	}
+	return removeBtn;
+}
+
 // Activate badge for donors, read client preference.
 function init() {
 	let minervaBadgePref = mw.user.clientPrefs.get( 'minerva-badge' );
@@ -49,59 +92,35 @@ function init() {
 		return;
 	}
 
-	const popover = document.createElement( 'div' );
-	const popoverHeading = document.createElement( 'h3' );
-	const popoverBody = document.createElement( 'p' );
-	const removeBtn = document.createElement( 'button' );
-	popover.appendChild( popoverHeading );
-	popover.appendChild( popoverBody );
-	badge.parentNode.appendChild( popover );
+	const removeBtn = makeRemoveButton();
+	const popover = makePopover( badge );
 
-	popover.id = 'minerva-badge-popover';
-	popover.className = ( isFirstVisit ) ? '' : HIDDEN_CLASS;
-	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
-	removeBtn.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-remove-btn' );
-
-	// dismiss popover when clicking outside of it or the badge
-	document.body.addEventListener( 'click', ( e ) => {
-		if ( !popover.classList.contains( HIDDEN_CLASS ) ) {
-			if ( !badge.contains( e.target ) && !popover.contains( e.target ) ) {
-				popover.classList.toggle( HIDDEN_CLASS );
-			}
-		}
-	} );
+	if ( isFirstVisit ) {
+		badge.parentNode.appendChild( popover );
+	}
 
 	if ( bucket === 'treatment-b-simple' ) {
-		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
-		removeBtn.id = 'minerva-badge-popover-remove-btn';
-		removeBtn.className = 'cdx-button cdx-button--size-small cdx-button--weight-quiet cdx-button--action-progressive';
 		removeBtn.addEventListener( 'click', ( e ) => {
 			e.preventDefault();
 			popover.remove();
 			// persist change on next screen
 			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-			badge.classList.add( HIDDEN_CLASS );
-			setTimeout( () => badge.remove(), 300 );
 			mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
 		} );
-		badge.focus();
 		badge.addEventListener( 'click', () => {
-			popover.classList.toggle( HIDDEN_CLASS );
+			if ( !popover.parentNode ) {
+				badge.parentNode.appendChild( popover );
+			} else {
+				popover.classList.toggle( HIDDEN_CLASS );
+			}
 			mw.hook( 'wikimediaCustomizations.donorDelightBadge.click' ).fire();
 		} );
 		popover.appendChild( removeBtn );
 		return;
 	}
-	if ( bucket === 'treatment-c-delightful' ) {
-		popoverBody.innerHTML = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
-		removeBtn.id = 'minerva-badge-button-remove';
-		removeBtn.className = 'cdx-button';
-		const removeIcon = document.createElement( 'span' );
-		removeIcon.className = 'minerva-icon minerva-icon--eyeClosed';
-		removeBtn.prepend( removeIcon );
-		badge.parentNode.appendChild( removeBtn );
-	}
 
+	// 'treatment-c-delightful' bucket
+	badge.parentNode.appendChild( removeBtn );
 	const contentBox = mw.util.$content[ 0 ];
 
 	// Number of taps between colored burst cycles (every nth tap uses palette colors).
