@@ -46,6 +46,7 @@ class EmailAuthHookHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->markTestSkippedIfExtensionNotLoaded( 'OATHAuth' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'LoginNotify' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'cldr' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'WikimediaEvents' );
 
 		parent::setUp();
 
