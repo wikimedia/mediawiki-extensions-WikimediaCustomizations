@@ -1,5 +1,11 @@
 const donor = require( 'ext.wikimediaCustomizations.donor' );
 const bucket = mw.config.get( 'wgDonorDelightBadgeBucket' );
+const FLY_HEART_BOX_CLASS = 'ext-wc-fly-heart-box';
+const FLY_HEART_CLASS = 'ext-wc-fly-heart';
+const FLY_HEART_BOX_SELECTOR = `.${ FLY_HEART_BOX_CLASS }`;
+const VISIBLE_CLASS = 'ext-wc-is-visible';
+const COOLDOWN_CLASS = 'ext-wc-is-cooldown';
+const HIDDEN_CLASS = 'ext-wc-is-hidden';
 
 // Activate badge for donors, read client preference.
 function init() {
@@ -52,15 +58,15 @@ function init() {
 	badge.parentNode.appendChild( popover );
 
 	popover.id = 'minerva-badge-popover';
-	popover.className = ( isFirstVisit ) ? '' : 'is-hidden';
+	popover.className = ( isFirstVisit ) ? '' : HIDDEN_CLASS;
 	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
 	removeBtn.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-remove-btn' );
 
 	// dismiss popover when clicking outside of it or the badge
 	document.body.addEventListener( 'click', ( e ) => {
-		if ( !popover.classList.contains( 'is-hidden' ) ) {
+		if ( !popover.classList.contains( HIDDEN_CLASS ) ) {
 			if ( !badge.contains( e.target ) && !popover.contains( e.target ) ) {
-				popover.classList.toggle( 'is-hidden' );
+				popover.classList.toggle( HIDDEN_CLASS );
 			}
 		}
 	} );
@@ -74,13 +80,13 @@ function init() {
 			popover.remove();
 			// persist change on next screen
 			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-			badge.classList.add( 'is-hidden' );
+			badge.classList.add( HIDDEN_CLASS );
 			setTimeout( () => badge.remove(), 300 );
 			mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
 		} );
 		badge.focus();
 		badge.addEventListener( 'click', () => {
-			popover.classList.toggle( 'is-hidden' );
+			popover.classList.toggle( HIDDEN_CLASS );
 			mw.hook( 'wikimediaCustomizations.donorDelightBadge.click' ).fire();
 		} );
 		popover.appendChild( removeBtn );
@@ -220,7 +226,7 @@ function init() {
 		configs.forEach( ( { size, count } ) => {
 			for ( let i = 0; i < count; i++ ) {
 				const box = document.createElement( 'div' );
-				box.className = 'fly-heart-box';
+				box.className = FLY_HEART_BOX_CLASS;
 				box.style.width = size + 'px';
 				box.style.height = size + 'px';
 				box.style.left = ( origin.x - size / 2 ) + 'px';
@@ -228,7 +234,7 @@ function init() {
 				box.style.opacity = '0';
 
 				const heart = document.createElement( 'div' );
-				heart.className = 'fly-heart';
+				heart.className = FLY_HEART_CLASS;
 
 				if ( useColor ) {
 					const targetColor = COLOR_PALETTE[ Math.floor(
@@ -307,7 +313,7 @@ function init() {
 		activeTimers = [];
 
 		// Mark cancelled so requestAnimationFrame tick loops stop, then fade out and remove.
-		container.querySelectorAll( '.fly-heart-box' ).forEach( ( el ) => {
+		container.querySelectorAll( FLY_HEART_BOX_SELECTOR ).forEach( ( el ) => {
 			cancelledHearts.add( el );
 			el.style.transition = 'opacity 0.4s ease';
 			el.style.opacity = '0';
@@ -320,9 +326,9 @@ function init() {
 			return;
 		}
 		tapCooldown = true;
-		badge.classList.add( 'is-cooldown' );
-		removeBtn.classList.remove( 'is-hidden' );
-		removeBtn.classList.add( 'is-visible' );
+		badge.classList.add( COOLDOWN_CLASS );
+		removeBtn.classList.remove( HIDDEN_CLASS );
+		removeBtn.classList.add( VISIBLE_CLASS );
 
 		// Cancel pending burst timers from the previous tap but keep existing hearts flying.
 		activeTimers.forEach( ( id ) => clearTimeout( id ) );
@@ -333,7 +339,7 @@ function init() {
 		}
 
 		// Discard oldest hearts if adding a new burst would exceed the cap.
-		const live = Array.from( contentBox.querySelectorAll( '.fly-heart-box' ) );
+		const live = Array.from( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ) );
 		const overflow = ( live.length + BURST_SIZE ) - MAX_HEARTS;
 		if ( overflow > 0 ) {
 			live.slice( 0, overflow ).forEach( ( el ) => {
@@ -360,14 +366,14 @@ function init() {
 
 		const lastBurst = BURST_OFFSETS[ BURST_OFFSETS.length - 1 ];
 		const doneId = setTimeout( () => {
-			removeBtn.classList.add( 'is-hidden' );
+			removeBtn.classList.add( HIDDEN_CLASS );
 		}, lastBurst + DURATION + POST_BURST_DELAY );
 		activeTimers.push( doneId );
 
 		// Unlock after last burst offset + TAP_DELAY so rapid taps feel intentional.
 		const cooldownId = setTimeout( () => {
 			tapCooldown = false;
-			badge.classList.remove( 'is-cooldown' );
+			badge.classList.remove( COOLDOWN_CLASS );
 		}, lastBurst + TAP_DELAY );
 		activeTimers.push( cooldownId );
 	}
@@ -381,8 +387,8 @@ function init() {
 		hidden = true;
 		stopAnimation( contentBox );
 		mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-		badge.classList.add( 'is-hidden' );
-		removeBtn.classList.add( 'is-hidden' );
+		badge.classList.add( HIDDEN_CLASS );
+		removeBtn.classList.add( HIDDEN_CLASS );
 		setTimeout( () => {
 			badge.remove();
 			removeBtn.remove();

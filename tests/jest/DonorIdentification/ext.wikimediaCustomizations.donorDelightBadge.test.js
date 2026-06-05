@@ -23,6 +23,15 @@ const GROUP_CONTROL = 'control';
 const GROUP_TREATMENT_B = 'treatment-b-simple';
 const GROUP_TREATMENT_C = 'treatment-c-delightful';
 
+// CSS class constants mirrored from the module.
+const FLY_HEART_BOX_CLASS = 'ext-wc-fly-heart-box';
+const FLY_HEART_CLASS = 'ext-wc-fly-heart';
+const FLY_HEART_BOX_SELECTOR = `.${ FLY_HEART_BOX_CLASS }`;
+const FLY_HEART_SELECTOR = `.${ FLY_HEART_CLASS }`;
+const VISIBLE_CLASS = 'ext-wc-is-visible';
+const COOLDOWN_CLASS = 'ext-wc-is-cooldown';
+const HIDDEN_CLASS = 'ext-wc-is-hidden';
+
 function setupDOM() {
 	document.body.innerHTML = `
 		<div id="content">
@@ -239,14 +248,14 @@ describe( 'DonorDelightBadge', () => {
 	describe( 'auto-initialization', () => {
 		test( 'attaches listeners when badge element is present', () => {
 			fireBadgeTap();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( true );
 		} );
 	} );
 
 	describe( 'click', () => {
 		test( 'fires hearts on badge click', () => {
 			fireBadgeTap();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( true );
 		} );
 	} );
 
@@ -254,7 +263,7 @@ describe( 'DonorDelightBadge', () => {
 	describe( 'fireHearts', () => {
 		test( 'adds is-cooldown class to badge', () => {
 			fireBadgeTap();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( true );
 		} );
 
 		test( 'removes popover when it has a parentNode', () => {
@@ -272,13 +281,13 @@ describe( 'DonorDelightBadge', () => {
 			removeBtn.dispatchEvent( new Event( 'click' ) );
 			// `hidden = true;` next tap must be a no-op.
 			fireBadgeTap();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( false );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( false );
 		} );
 
 		test( 'does nothing during tapCooldown', () => {
 			fireBadgeTap();
 			popover.remove();
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( true );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( true );
 			// Second tap while cooldown is active should be silently dropped.
 			fireBadgeTap();
 			// Still no burst timers for the second tap; `requestAnimationFrame` queue
@@ -291,14 +300,14 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			const lastBurst = BURST_OFFSETS[ BURST_OFFSETS.length - 1 ];
 			jest.advanceTimersByTime( lastBurst + TAP_DELAY );
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( false );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( false );
 		} );
 
 		test( 'shows remove button after last burst + DURATION + POST_BURST_DELAY', () => {
 			fireBadgeTap();
 			const lastBurst = BURST_OFFSETS[ BURST_OFFSETS.length - 1 ];
 			jest.advanceTimersByTime( lastBurst + DURATION + POST_BURST_DELAY );
-			expect( removeBtn.classList.contains( 'is-visible' ) ).toBe( true );
+			expect( removeBtn.classList.contains( VISIBLE_CLASS ) ).toBe( true );
 		} );
 
 		test( 'discards oldest hearts when overflow cap is exceeded', () => {
@@ -307,7 +316,7 @@ describe( 'DonorDelightBadge', () => {
 			const hearts = [];
 			for ( let i = 0; i < liveCount; i++ ) {
 				const el = document.createElement( 'div' );
-				el.className = 'fly-heart-box';
+				el.className = FLY_HEART_BOX_CLASS;
 				contentBox.appendChild( el );
 				hearts.push( el );
 			}
@@ -327,7 +336,7 @@ describe( 'DonorDelightBadge', () => {
 			const liveCount = 60;
 			for ( let i = 0; i < liveCount; i++ ) {
 				const el = document.createElement( 'div' );
-				el.className = 'fly-heart-box';
+				el.className = FLY_HEART_BOX_CLASS;
 				el.id = `pre-heart-${ i }`;
 				contentBox.appendChild( el );
 			}
@@ -345,7 +354,7 @@ describe( 'DonorDelightBadge', () => {
 
 		test( 'does not discard hearts when under the cap', () => {
 			const el = document.createElement( 'div' );
-			el.className = 'fly-heart-box';
+			el.className = FLY_HEART_BOX_CLASS;
 			contentBox.appendChild( el );
 
 			// 1 + 19 - 70 = -50 < 0, no overflow.
@@ -357,7 +366,7 @@ describe( 'DonorDelightBadge', () => {
 		test( 'creates fly-heart-box elements on burst fire', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBeGreaterThan( 0 );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeGreaterThan( 0 );
 		} );
 	} );
 
@@ -394,7 +403,7 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + COLOR_TRANSITION_DELAY + 1 );
 
-			const colored = Array.from( contentBox.querySelectorAll( '.fly-heart' ) ).filter(
+			const colored = Array.from( contentBox.querySelectorAll( FLY_HEART_SELECTOR ) ).filter(
 				( h ) => h.style.backgroundColor !== ''
 			);
 			expect( colored.length ).toBeGreaterThan( 0 );
@@ -404,7 +413,7 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + COLOR_TRANSITION_DELAY + 1 );
 
-			const colored = Array.from( contentBox.querySelectorAll( '.fly-heart' ) ).filter(
+			const colored = Array.from( contentBox.querySelectorAll( FLY_HEART_SELECTOR ) ).filter(
 				( h ) => h.style.backgroundColor !== ''
 			);
 			expect( colored.length ).toBe( 0 );
@@ -417,11 +426,11 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
 
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBeGreaterThan( 0 );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeGreaterThan( 0 );
 
 			removeBtn.dispatchEvent( new Event( 'click' ) );
 
-			contentBox.querySelectorAll( '.fly-heart-box' ).forEach( ( el ) => {
+			contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).forEach( ( el ) => {
 				expect( el.style.opacity ).toBe( '0' );
 			} );
 		} );
@@ -433,7 +442,7 @@ describe( 'DonorDelightBadge', () => {
 			removeBtn.dispatchEvent( new Event( 'click' ) );
 			jest.advanceTimersByTime( STOP_FADE_DURATION + 1 );
 
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBe( 0 );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( 0 );
 		} );
 
 		test( 'cancels pending burst timers', () => {
@@ -443,7 +452,7 @@ describe( 'DonorDelightBadge', () => {
 			// Advance past all burst offsets — no new hearts should appear because timers
 			// were cleared by stopAnimation.
 			jest.advanceTimersByTime( BURST_OFFSETS[ BURST_OFFSETS.length - 1 ] + 1 );
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBe( 0 );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( 0 );
 		} );
 	} );
 
@@ -461,10 +470,10 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
 
-			const heartCount = contentBox.querySelectorAll( '.fly-heart-box' ).length;
+			const heartCount = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
 			flushRAF( mockNow + 1000 ); // elapsed = 1000 < DURATION(2500), t ≈ 0.4
 			// Hearts still in DOM and RAF re-queued.
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBe( heartCount );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( heartCount );
 			expect( rafCallbacks.length ).toBeGreaterThan( 0 );
 		} );
 
@@ -472,9 +481,9 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
 
-			const heartCountBefore = contentBox.querySelectorAll( '.fly-heart-box' ).length;
+			const heartCountBefore = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
 			flushRAF( mockNow + DURATION ); // elapsed = DURATION, t = 1 → el.remove()
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBeLessThan( heartCountBefore );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeLessThan( heartCountBefore );
 		} );
 
 		test( 'cancelled hearts skip the tick loop after stopAnimation', () => {
@@ -484,12 +493,12 @@ describe( 'DonorDelightBadge', () => {
 			removeBtn.dispatchEvent( new Event( 'click' ) );
 
 			const opacitySnapshot = Array.from(
-				contentBox.querySelectorAll( '.fly-heart-box' )
+				contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR )
 			).map( ( h ) => h.style.opacity );
 
 			// Flushing RAF on cancelled hearts must not alter opacity or transform.
 			flushRAF( mockNow + DURATION );
-			contentBox.querySelectorAll( '.fly-heart-box' ).forEach( ( el, i ) => {
+			contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).forEach( ( el, i ) => {
 				expect( el.style.opacity ).toBe( opacitySnapshot[ i ] );
 			} );
 		} );
@@ -538,7 +547,7 @@ describe( 'DonorDelightBadge', () => {
 		test( 'clicking remove link removes the popover and adds is-hidden to badge', () => {
 			popoverRemoveBtn.dispatchEvent( new Event( 'click', { cancelable: true } ) );
 			expect( document.getElementById( 'minerva-badge-popover' ) ).toBeNull();
-			expect( badge.classList.contains( 'is-hidden' ) ).toBe( true );
+			expect( badge.classList.contains( HIDDEN_CLASS ) ).toBe( true );
 		} );
 
 		test( 'clicking remove link removes badge from DOM after 300ms', () => {
@@ -550,8 +559,8 @@ describe( 'DonorDelightBadge', () => {
 
 		test( 'clicking badge does not fire hearts', () => {
 			badge.dispatchEvent( new Event( 'click', { bubbles: true } ) );
-			expect( badge.classList.contains( 'is-cooldown' ) ).toBe( false );
-			expect( contentBox.querySelectorAll( '.fly-heart-box' ).length ).toBe( 0 );
+			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( false );
+			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( 0 );
 		} );
 	} );
 
@@ -559,8 +568,8 @@ describe( 'DonorDelightBadge', () => {
 	describe( 'remove button click', () => {
 		test( 'adds is-hidden class to badge and remove button', () => {
 			removeBtn.dispatchEvent( new Event( 'click' ) );
-			expect( badge.classList.contains( 'is-hidden' ) ).toBe( true );
-			expect( removeBtn.classList.contains( 'is-hidden' ) ).toBe( true );
+			expect( badge.classList.contains( HIDDEN_CLASS ) ).toBe( true );
+			expect( removeBtn.classList.contains( HIDDEN_CLASS ) ).toBe( true );
 		} );
 
 		test( 'removes badge and remove button from the DOM after HIDE_DURATION', () => {

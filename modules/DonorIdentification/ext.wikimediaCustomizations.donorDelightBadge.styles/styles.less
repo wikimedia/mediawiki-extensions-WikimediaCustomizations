@@ -6,7 +6,7 @@
  */
 @import 'mediawiki.skin.variables.less';
 
-/* stylelint-disable selector-class-pattern, selector-max-id */
+/* stylelint-disable selector-max-id */
 
 .minerva-badge-container {
 	position: relative;
@@ -16,11 +16,11 @@
 #minerva-badge {
 	.cdx-mixin-button-layout-flush( 'end', true, 'large' );
 
-	&.is-cooldown {
+	&.ext-wc-is-cooldown {
 		pointer-events: none;
 	}
 
-	&.is-hidden {
+	&.ext-wc-is-hidden {
 		transition-property: opacity, transform;
 		transition-duration: @transition-duration-medium;
 		opacity: 0;
@@ -52,7 +52,7 @@
 	animation: popoverIn @transition-duration-medium cubic-bezier( 0.34, 1.3, 0.64, 1 ) forwards;
 	white-space: normal;
 
-	&.is-hidden {
+	&.ext-wc-is-hidden {
 		animation: popoverOut @transition-duration-medium cubic-bezier( 0.34, 1.3, 0.64, 1 ) forwards;
 	}
 
@@ -131,12 +131,12 @@
 	transition-timing-function: @transition-timing-function-user;
 	white-space: nowrap;
 
-	&.is-visible {
+	&.ext-wc-is-visible {
 		opacity: @opacity-base;
 		transform: translateX( -50% ) translateY( 0 );
 	}
 
-	&.is-hidden {
+	&.ext-wc-is-hidden {
 		opacity: 0;
 		transform: translateX( -50% ) translateY( 40px );
 	}
@@ -176,7 +176,7 @@
 // Classic two parts method: the element itself is one; ::before is the other.
 // Both are square (width = height), rotated so the point faces down.
 // The wrapper is sized via JS (width/height), everything inside scales to 100%.
-.fly-heart-box {
+.ext-wc-fly-heart-box {
 	position: absolute;
 	top: 4rem;
 	left: 4rem;
@@ -189,7 +189,7 @@
 }
 
 // The heart shape bottom.
-.fly-heart {
+.ext-wc-fly-heart {
 	background-color: #d74032;
 	display: block;
 	position: absolute;
@@ -203,33 +203,32 @@
 	box-shadow: 0 0 2px 2px rgba( 255, 255, 255, 0.1 );
 	transform: rotate( -45deg );
 	transition: background-color 0.6s ease;
-}
 
-.fly-heart::before,
-.fly-heart::after {
-	content: '';
-	background-color: inherit;
-	position: absolute;
-	width: @size-full;
-	height: @size-full;
-	border-radius: @border-radius-circle;
-}
+	&::before,
+	&::after {
+		content: '';
+		background-color: inherit;
+		position: absolute;
+		width: @size-full;
+		height: @size-full;
+		border-radius: @border-radius-circle;
+	}
 
-.fly-heart::before {
-	top: -@size-half;
-	left: 0;
-}
+	&::before {
+		top: -@size-half;
+		left: 0;
+	}
 
-.fly-heart::after {
-	left: @size-half;
-	top: 0;
+	&::after {
+		left: @size-half;
+		top: 0;
+	}
 }
 
 // Disable the badge if the user was bucketed in treatment and then
-// moved to control
+// moved to control.
 /* stylelint-disable-next-line selector-max-id */
-.wikimedia-donor-badge-control #minerva-badge {
+.ext-wc-donor-badge-control #minerva-badge {
 	/* stylelint-disable-next-line declaration-no-important */
 	display: none !important;
 }
-/* stylelint-enable selector-class-pattern */
