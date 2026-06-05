@@ -142,6 +142,8 @@ class ForceReauthHookHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnGetUserPermissionsErrorsExpensiveWithCentralAuth(): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+
 		// Force an instance where CentralAuth session forces a block even if SEC_OK is true
 		$title = $this->createMockTitle( true, 'MediaWiki' );
 		$user = $this->createMock( User::class );
