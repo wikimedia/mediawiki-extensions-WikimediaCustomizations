@@ -97,6 +97,7 @@ describe( 'DonorDelightBadge', () => {
 				add: jest.fn(),
 				fire: jest.fn()
 			} ) ),
+			message: jest.fn( () => ( { parse: jest.fn( () => '' ) } ) ),
 			msg: jest.fn( () => '' ),
 			user: { clientPrefs: createClientPrefs() },
 			util: { $content: [ document.getElementById( 'content' ) ] }
@@ -177,6 +178,7 @@ describe( 'DonorDelightBadge', () => {
 					add: jest.fn(),
 					fire
 				} ) ),
+				message: jest.fn( () => ( { parse: jest.fn( () => '' ) } ) ),
 				msg: jest.fn( () => '' ),
 				user: { clientPrefs: createClientPrefs() },
 				util: { $content: [ document.getElementById( 'content' ) ] }
@@ -244,6 +246,7 @@ describe( 'DonorDelightBadge', () => {
 					add: jest.fn(),
 					fire: jest.fn()
 				} ) ),
+				message: jest.fn( () => ( { parse: jest.fn( () => '' ) } ) ),
 				msg: jest.fn( () => '' ),
 				user: { clientPrefs: createClientPrefs() },
 				util: { $content: [ document.getElementById( 'content' ) ] }
@@ -398,6 +401,7 @@ describe( 'DonorDelightBadge', () => {
 					add: jest.fn(),
 					fire: jest.fn()
 				} ) ),
+				message: jest.fn( () => ( { parse: jest.fn( () => '' ) } ) ),
 				msg: jest.fn( () => '' ),
 				user: { clientPrefs: createClientPrefs() },
 				util: { $content: [ document.getElementById( 'content' ) ] }

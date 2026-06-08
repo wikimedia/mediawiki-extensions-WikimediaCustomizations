@@ -20,7 +20,7 @@ function makePopover( badge ) {
 	if ( bucket === 'treatment-b-simple' ) {
 		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
 	} else if ( bucket === 'treatment-c-delightful' ) {
-		popoverBody.innerHTML = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-c' );
+		popoverBody.innerHTML = mw.message( 'wikimediacustomizations-donordelightbadge-popover-body-c' ).parse();
 	}
 	popoverHeading.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-heading' );
 	popover.appendChild( popoverHeading );
