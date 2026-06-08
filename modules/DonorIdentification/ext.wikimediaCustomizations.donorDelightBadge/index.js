@@ -1,4 +1,7 @@
+const { createMwApp } = require( 'vue' );
 const donor = require( 'ext.wikimediaCustomizations.donor' );
+const ConfirmationDialog = require( './ConfirmationDialog.vue' );
+
 const bucket = mw.config.get( 'wgDonorDelightBadgeBucket' );
 const FLY_HEART_BOX_CLASS = 'ext-wc-fly-heart-box';
 const FLY_HEART_CLASS = 'ext-wc-fly-heart';
@@ -6,6 +9,8 @@ const FLY_HEART_BOX_SELECTOR = `.${ FLY_HEART_BOX_CLASS }`;
 const VISIBLE_CLASS = 'ext-wc-is-visible';
 const COOLDOWN_CLASS = 'ext-wc-is-cooldown';
 const HIDDEN_CLASS = 'ext-wc-is-hidden';
+// Dismiss transition for badge/minerva-badge-button-remove before removal (matches CSS `0.3s`).
+const HIDE_DURATION = 300;
 
 function makePopover( badge ) {
 	const popover = document.createElement( 'div' );
@@ -92,6 +97,7 @@ function init() {
 		return;
 	}
 
+	let badgeIsHidden = false;
 	const removeBtn = makeRemoveButton();
 	const popover = makePopover( badge );
 
@@ -99,13 +105,45 @@ function init() {
 		badge.parentNode.appendChild( popover );
 	}
 
+	function launchConfirmationDialog() {
+		const dialogContainer = document.createElement( 'div' );
+		document.body.appendChild( dialogContainer );
+
+		const dialogApp = createMwApp( ConfirmationDialog, {
+			onDialogClose: ( hideBadgeConfirmed ) => cleanup( hideBadgeConfirmed )
+		} );
+		dialogApp.mount( dialogContainer );
+
+		/**
+		 * Runs when the confirmation dialog closes.
+		 *
+		 * @param {boolean} hideBadgeConfirmed Whether the user confirmed they want the badge hidden.
+		 */
+		function cleanup( hideBadgeConfirmed ) {
+			dialogApp.unmount();
+			dialogContainer.remove();
+
+			if ( hideBadgeConfirmed ) {
+				// Hide badge now.
+				setTimeout( () => {
+					badge.remove();
+					removeBtn.remove();
+				}, HIDE_DURATION );
+				// Extra check to prevent animation from firing.
+				badgeIsHidden = true;
+				// Hide badge permanently.
+				mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
+				// Fire hook for instrumentation.
+				mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
+			}
+		}
+	}
+
 	if ( bucket === 'treatment-b-simple' ) {
 		removeBtn.addEventListener( 'click', ( e ) => {
 			e.preventDefault();
 			popover.remove();
-			// persist change on next screen
-			mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-			mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
+			launchConfirmationDialog();
 		} );
 		badge.addEventListener( 'click', () => {
 			if ( !popover.parentNode ) {
@@ -128,7 +166,6 @@ function init() {
 	const COLOR_TAP_MIN = 4;
 	const COLOR_TAP_MAX = 7;
 
-	let hidden = false;
 	let tapCount = 0;
 	// First color tap at a random 4–7th tap.
 	let nextColorTap = nextColorInterval();
@@ -180,8 +217,6 @@ function init() {
 	const DISCARD_FADE_DURATION = 200;
 	// Fade duration when stopping all animation (matches `opacity 0.4s`).
 	const STOP_FADE_DURATION = 400;
-	// Dismiss transition for badge/minerva-badge-button-remove before removal (matches CSS `0.3s`).
-	const HIDE_DURATION = 300;
 
 	// Harmonious palette: orange, pink, yellow, red.
 	// Spawn hearts in a random palette color and transition to red on every 5th tap.
@@ -341,7 +376,7 @@ function init() {
 	}
 
 	function fireHearts() {
-		if ( hidden || tapCooldown ) {
+		if ( badgeIsHidden || tapCooldown ) {
 			return;
 		}
 		tapCooldown = true;
@@ -403,16 +438,10 @@ function init() {
 	} );
 
 	removeBtn.addEventListener( 'click', () => {
-		hidden = true;
+		launchConfirmationDialog();
+		// While the confirmation dialog is open, stop animation and hide remove button.
 		stopAnimation( contentBox );
-		mw.user.clientPrefs.set( 'minerva-badge', 'disabled' );
-		badge.classList.add( HIDDEN_CLASS );
 		removeBtn.classList.add( HIDDEN_CLASS );
-		setTimeout( () => {
-			badge.remove();
-			removeBtn.remove();
-		}, HIDE_DURATION );
-		mw.hook( 'wikimediaCustomizations.donorDelightBadge.hide' ).fire();
 	} );
 }
 

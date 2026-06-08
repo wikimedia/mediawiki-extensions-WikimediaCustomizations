@@ -159,19 +159,29 @@
 			]
 		},
 		"ext.wikimediaCustomizations.donorDelightBadge": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexComponents": [
+				"CdxDialog"
+			],
 			"dependencies": [
 				"ext.wikimediaCustomizations.donor",
 				"mediawiki.util",
-				"mediawiki.user"
+				"mediawiki.user",
+				"vue"
 			],
 			"packageFiles": [
-				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/index.js"
+				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/index.js",
+				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/ConfirmationDialog.vue"
 			],
 			"messages": [
 				"wikimediacustomizations-donordelightbadge-popover-heading",
 				"wikimediacustomizations-donordelightbadge-popover-body-b",
 				"wikimediacustomizations-donordelightbadge-popover-body-c",
-				"wikimediacustomizations-donordelightbadge-remove-btn"
+				"wikimediacustomizations-donordelightbadge-remove-btn",
+				"wikimediacustomizations-donordelightbadge-dialog-title",
+				"wikimediacustomizations-donordelightbadge-dialog-body",
+				"wikimediacustomizations-donordelightbadge-dialog-primary-action",
+				"wikimediacustomizations-donordelightbadge-dialog-default-action"
 			]
 		},
 		"ext.wikimediaCustomizations.officeBan": {

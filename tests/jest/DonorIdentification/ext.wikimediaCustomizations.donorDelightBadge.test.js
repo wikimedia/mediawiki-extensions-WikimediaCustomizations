@@ -4,6 +4,21 @@ jest.mock( 'ext.wikimediaCustomizations.donor', () => ( {
 	recentlyDonated: jest.fn( () => false )
 } ), { virtual: true } );
 
+const mockDialogMount = jest.fn();
+const mockDialogUnmount = jest.fn();
+let mockDialogProps;
+const mockCreateMwApp = jest.fn( ( _component, props ) => {
+	mockDialogProps = props;
+	return { mount: mockDialogMount, unmount: mockDialogUnmount };
+} );
+
+jest.mock( 'vue', () => ( { createMwApp: mockCreateMwApp } ), { virtual: true } );
+
+jest.mock(
+	'../../../modules/DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/ConfirmationDialog.vue',
+	() => ( {} )
+);
+
 // Constants mirrored from the module for use in timing calculations.
 const DURATION = 2500;
 const HIDE_DURATION = 300;
@@ -30,7 +45,6 @@ const FLY_HEART_BOX_SELECTOR = `.${ FLY_HEART_BOX_CLASS }`;
 const FLY_HEART_SELECTOR = `.${ FLY_HEART_CLASS }`;
 const VISIBLE_CLASS = 'ext-wc-is-visible';
 const COOLDOWN_CLASS = 'ext-wc-is-cooldown';
-const HIDDEN_CLASS = 'ext-wc-is-hidden';
 
 function setupDOM() {
 	document.body.innerHTML = `
@@ -279,7 +293,7 @@ describe( 'DonorDelightBadge', () => {
 
 		test( 'does nothing when already hidden', () => {
 			removeBtn.dispatchEvent( new Event( 'click' ) );
-			// `hidden = true;` next tap must be a no-op.
+			mockDialogProps.onDialogClose( true );
 			fireBadgeTap();
 			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( false );
 		} );
@@ -555,23 +569,145 @@ describe( 'DonorDelightBadge', () => {
 			expect( badge.classList.contains( COOLDOWN_CLASS ) ).toBe( false );
 			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( 0 );
 		} );
+
+		describe( 'confirmation dialog', () => {
+			beforeEach( () => {
+				mockCreateMwApp.mockClear();
+				mockDialogMount.mockClear();
+				mockDialogUnmount.mockClear();
+			} );
+
+			describe( 'when the remove button is clicked', () => {
+				it( 'launches the dialog', () => {
+					popoverRemoveBtn.dispatchEvent( new Event( 'click' ) );
+					expect( mockCreateMwApp ).toHaveBeenCalledTimes( 1 );
+					expect( mockDialogMount ).toHaveBeenCalledTimes( 1 );
+				} );
+			} );
+
+			describe( 'when hiding the badge is confirmed', () => {
+				beforeEach( () => {
+					popoverRemoveBtn.dispatchEvent( new Event( 'click' ) );
+					mockDialogProps.onDialogClose( true );
+				} );
+
+				it( 'unmounts the dialog app', () => {
+					expect( mockDialogUnmount ).toHaveBeenCalledTimes( 1 );
+				} );
+
+				it( 'sets the minerva-badge preference to disabled and fires the hide hook', () => {
+					expect( global.mw.user.clientPrefs.set ).toHaveBeenCalledWith(
+						'minerva-badge', 'disabled'
+					);
+					expect( global.mw.hook ).toHaveBeenCalledWith(
+						'wikimediaCustomizations.donorDelightBadge.hide'
+					);
+				} );
+
+				it( 'removes the badge from the DOM', () => {
+					jest.advanceTimersByTime( HIDE_DURATION + 1 );
+					expect( document.getElementById( 'minerva-badge' ) ).toBeNull();
+				} );
+			} );
+
+			describe( 'when hiding the badge is dismissed', () => {
+				beforeEach( () => {
+					popoverRemoveBtn.dispatchEvent( new Event( 'click' ) );
+					global.mw.user.clientPrefs.set.mockClear();
+					global.mw.hook.mockClear();
+					mockDialogProps.onDialogClose( false );
+				} );
+
+				it( 'unmounts the dialog app', () => {
+					expect( mockDialogUnmount ).toHaveBeenCalledTimes( 1 );
+				} );
+
+				it( 'does not change the preference, fire the hook, nor remove the badge', () => {
+					expect( global.mw.user.clientPrefs.set ).not.toHaveBeenCalledWith(
+						'minerva-badge', 'disabled'
+					);
+					expect( global.mw.hook ).not.toHaveBeenCalledWith(
+						'wikimediaCustomizations.donorDelightBadge.hide'
+					);
+					jest.advanceTimersByTime( HIDE_DURATION + 1 );
+					expect( document.getElementById( 'minerva-badge' ) ).not.toBeNull();
+				} );
+			} );
+		} );
 	} );
 
-	// Remove button.
-	describe( 'remove button click', () => {
-		test( 'adds is-hidden class to badge and remove button', () => {
-			removeBtn.dispatchEvent( new Event( 'click' ) );
-			expect( badge.classList.contains( HIDDEN_CLASS ) ).toBe( true );
-			expect( removeBtn.classList.contains( HIDDEN_CLASS ) ).toBe( true );
-		} );
+	describe( 'bucket C', () => {
+		describe( 'confirmation dialog', () => {
+			describe( 'when the remove button is clicked', () => {
+				it( 'launches the dialog', () => {
+					removeBtn.dispatchEvent( new Event( 'click' ) );
+					expect( mockCreateMwApp ).toHaveBeenCalledTimes( 1 );
+					expect( mockDialogMount ).toHaveBeenCalledTimes( 1 );
+				} );
 
-		test( 'removes badge and remove button from the DOM after HIDE_DURATION', () => {
-			removeBtn.dispatchEvent( new Event( 'click' ) );
-			expect( document.getElementById( 'minerva-badge' ) ).not.toBeNull();
+				it( 'stops in-flight heart animation', () => {
+					fireBadgeTap();
+					jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
+					expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length )
+						.toBeGreaterThan( 0 );
 
-			jest.advanceTimersByTime( HIDE_DURATION + 1 );
-			expect( document.getElementById( 'minerva-badge' ) ).toBeNull();
-			expect( document.getElementById( 'minerva-badge-button-remove' ) ).toBeNull();
+					removeBtn.dispatchEvent( new Event( 'click' ) );
+
+					contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).forEach( ( el ) => {
+						expect( el.style.opacity ).toBe( '0' );
+					} );
+				} );
+			} );
+
+			describe( 'when hiding the badge is confirmed', () => {
+				beforeEach( () => {
+					removeBtn.dispatchEvent( new Event( 'click' ) );
+					mockDialogProps.onDialogClose( true );
+				} );
+
+				it( 'unmounts the dialog app', () => {
+					expect( mockDialogUnmount ).toHaveBeenCalledTimes( 1 );
+				} );
+
+				it( 'sets the minerva-badge preference to disabled and fires the hide hook', () => {
+					expect( global.mw.user.clientPrefs.set ).toHaveBeenCalledWith(
+						'minerva-badge', 'disabled'
+					);
+					expect( global.mw.hook ).toHaveBeenCalledWith(
+						'wikimediaCustomizations.donorDelightBadge.hide'
+					);
+				} );
+
+				test( 'removes badge and remove button from the DOM', () => {
+					jest.advanceTimersByTime( HIDE_DURATION + 1 );
+					expect( document.getElementById( 'minerva-badge' ) ).toBeNull();
+					expect( document.getElementById( 'minerva-badge-button-remove' ) ).toBeNull();
+				} );
+			} );
+
+			describe( 'when hiding the badge is dismissed', () => {
+				beforeEach( () => {
+					removeBtn.dispatchEvent( new Event( 'click' ) );
+					global.mw.user.clientPrefs.set.mockClear();
+					global.mw.hook.mockClear();
+					mockDialogProps.onDialogClose( false );
+				} );
+
+				it( 'unmounts the dialog app', () => {
+					expect( mockDialogUnmount ).toHaveBeenCalledTimes( 1 );
+				} );
+
+				it( 'does not change the preference, fire the hook, nor remove the badge', () => {
+					expect( global.mw.user.clientPrefs.set ).not.toHaveBeenCalledWith(
+						'minerva-badge', 'disabled'
+					);
+					expect( global.mw.hook ).not.toHaveBeenCalledWith(
+						'wikimediaCustomizations.donorDelightBadge.hide'
+					);
+					jest.advanceTimersByTime( HIDE_DURATION + 1 );
+					expect( document.getElementById( 'minerva-badge' ) ).not.toBeNull();
+				} );
+			} );
 		} );
 	} );
 } );
