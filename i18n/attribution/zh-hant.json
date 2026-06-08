@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"LowensteinYang"
+		]
+	},
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "頁面的歸屬資訊。",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "取得網站的歸屬資訊。",
+	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "歸屬標示是維基媒體計畫在內容出現在外部語境時，能保持可被看見的個別元素。這些標示能直接標明來源並提供存取管道，同時呈現額外資訊，協助終端使用者評估並與所接觸的知識互動。\n\n任何維基媒體網站或計畫的歸屬標示皆可被擷取。",
+	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "網站的歸屬資訊。"
+}

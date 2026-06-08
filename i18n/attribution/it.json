@@ -5,7 +5,7 @@
 			"FL2226"
 		]
 	},
-	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Informazioni di attribuzione",
+	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Informazioni di attribuzione per una pagina.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Segnali di attribuzione essenziali",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Titolo della pagina",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Artista o autore del file",
@@ -23,5 +23,6 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Segnali di fiducia e rilevanza",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Data e ora dell'ultimo aggiornamento in formato ISO 8601",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Numero di visualizzazioni della pagina negli ultimi 30 giorni",
-	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Numero di riferimenti citati. Questa proprietà viene omessa per le pagine di file e può essere 'null' se non è possibile determinarne il conteggio."
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Numero di riferimenti citati. Questa proprietà viene omessa per le pagine di file e può essere 'null' se non è possibile determinarne il conteggio.",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "Ottieni informazioni di attribuzione per un sito."
 }

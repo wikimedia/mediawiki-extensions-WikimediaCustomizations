@@ -51,5 +51,4 @@
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "{{Experimental}} One-line summary of the endpoint for getting attribution information for a site.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "{{Experimental}} Description of the endpoint for getting attribution information for a site.",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "{{Experimental}} Description of the schema for the Site Attribution API."
-
 }
