@@ -12,6 +12,10 @@
 			"url": "https://www.mediawiki.org/wiki/Talk:Attribution_API"
 		}
 	},
+	"externalDocs": {
+		"description": "API documentation",
+		"url": "https://www.mediawiki.org/wiki/API:REST_API"
+	},
 	"paths": {
 		"/pages/{title}/signals": {
 			"get": {
