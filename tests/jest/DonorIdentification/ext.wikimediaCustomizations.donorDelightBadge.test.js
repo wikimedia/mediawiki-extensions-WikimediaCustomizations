@@ -383,7 +383,8 @@ describe( 'DonorDelightBadge', () => {
 		test( 'creates fly-heart-box elements on burst fire', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
-			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeGreaterThan( 0 );
+			const heartBoxes = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR );
+			expect( heartBoxes.length ).toBeGreaterThan( 0 );
 		} );
 	} );
 
@@ -444,7 +445,8 @@ describe( 'DonorDelightBadge', () => {
 			fireBadgeTap();
 			jest.advanceTimersByTime( BURST_OFFSETS[ 0 ] + 1 );
 
-			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeGreaterThan( 0 );
+			const heartBoxCount = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
+			expect( heartBoxCount ).toBeGreaterThan( 0 );
 
 			removeBtn.dispatchEvent( new Event( 'click' ) );
 
@@ -491,7 +493,8 @@ describe( 'DonorDelightBadge', () => {
 			const heartCount = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
 			flushRAF( mockNow + 1000 ); // elapsed = 1000 < DURATION(2500), t ≈ 0.4
 			// Hearts still in DOM and RAF re-queued.
-			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBe( heartCount );
+			const currentCount = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
+			expect( currentCount ).toBe( heartCount );
 			expect( rafCallbacks.length ).toBeGreaterThan( 0 );
 		} );
 
@@ -501,7 +504,8 @@ describe( 'DonorDelightBadge', () => {
 
 			const heartCountBefore = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
 			flushRAF( mockNow + DURATION ); // elapsed = DURATION, t = 1 → el.remove()
-			expect( contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length ).toBeLessThan( heartCountBefore );
+			const heartCountAfter = contentBox.querySelectorAll( FLY_HEART_BOX_SELECTOR ).length;
+			expect( heartCountAfter ).toBeLessThan( heartCountBefore );
 		} );
 
 		test( 'cancelled hearts skip the tick loop after stopAnimation', () => {
