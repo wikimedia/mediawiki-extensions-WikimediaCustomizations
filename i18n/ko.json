@@ -10,5 +10,9 @@
 	"wikimediacustomizations-donordelightbadge-popover-heading": "기부에 대한 작은 감사의 배지입니다!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "여러분의 관대함은 위키백과가 전세계 사람들에게 계속해서 자유롭고 열려있게 하는데 도움이 됩니다.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>탭 해보세요.</b>",
-	"wikimediacustomizations-donordelightbadge-remove-btn": "배지 제거"
+	"wikimediacustomizations-donordelightbadge-remove-btn": "배지 제거",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "이 배지를 숨깁니까?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "이 하트는 기부에 대한 감사의 표시입니다. 숨기면 화면에서 사라지고 다시 복원할 수 없습니다.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "네, 배지를 숨깁니다",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "그대로 둡니다"
 }
