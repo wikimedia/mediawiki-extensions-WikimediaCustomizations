@@ -21,7 +21,7 @@ exports[`DonorDelightBadge renders all appropriate elements 1`] = `
       <p />
     </div>
     <button
-      class="cdx-button"
+      class="cdx-button cdx-button--action-progressive"
       id="minerva-badge-button-remove"
     >
       <span

@@ -47,7 +47,7 @@ function makeRemoveButton() {
 	}
 	if ( bucket === 'treatment-c-delightful' ) {
 		removeBtn.id = 'minerva-badge-button-remove';
-		removeBtn.className = 'cdx-button';
+		removeBtn.className = 'cdx-button cdx-button--action-progressive';
 		const removeIcon = document.createElement( 'span' );
 		removeIcon.className = 'minerva-icon minerva-icon--eyeClosed';
 		removeBtn.prepend( removeIcon );

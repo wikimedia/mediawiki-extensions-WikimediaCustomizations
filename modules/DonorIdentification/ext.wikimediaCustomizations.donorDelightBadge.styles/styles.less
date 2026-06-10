@@ -30,10 +30,6 @@
 #minerva-badge {
 	.cdx-mixin-button-layout-flush( 'end', true, 'large' );
 
-	&:hover {
-		background-color: @background-color-transparent;
-	}
-
 	&.ext-wc-is-cooldown {
 		pointer-events: none;
 	}
@@ -54,7 +50,7 @@
 	background: @background-color-transparent @background-image-donor-delight-badge no-repeat center / contain;
 
 	.minerva-badge:active & {
-		filter: drop-shadow( 0 var( --spacing-6, 1px ) var( --spacing-25, 2px ) rgba( 0, 0, 0, 0.12 ) );
+		filter: drop-shadow( 0 @spacing-6 @spacing-25 @box-shadow-color-alpha-base );
 	}
 }
 
@@ -63,8 +59,8 @@
 	min-width: 35px;
 	min-height: 32px;
 	transition-property: filter;
-	transition-duration: var( --transition-duration-medium, 100ms );
-	transition-timing-function: var( --transition-timing-function-user, ease );
+	transition-duration: @transition-duration-medium;
+	transition-timing-function: @transition-timing-function-user;
 }
 
 // Styles for badge image in the "remove" confirmation dialog.
@@ -82,9 +78,10 @@
 #minerva-badge-popover {
 	background-color: @background-color-base;
 	position: absolute;
-	top: 3.5rem;
-	right: -1.4rem;
-	width: 15rem;
+	// Equal to Minerva header.
+	top: 3.375rem;
+	right: calc( @size-75 * -1 );
+	width: 14rem;
 	border: @border-subtle;
 	border-radius: @border-radius-base;
 	box-shadow: @box-shadow-medium;
@@ -106,7 +103,7 @@
 		content: '';
 		position: absolute;
 		top: -7.5px;
-		right: @spacing-150;
+		right: @spacing-75;
 		width: 14px;
 		height: 14px;
 		background-color: @background-color-base;
@@ -162,11 +159,9 @@
 // Remove badge pill button.
 #minerva-badge-button-remove {
 	position: fixed;
-	color: @color-progressive;
 	bottom: @spacing-200;
 	left: @size-half;
 	transform: translateX( -50% ) translateY( 80px );
-	border: @border-subtle;
 	border-radius: @border-radius-pill;
 	z-index: @z-index-above-content;
 	box-shadow: @box-shadow-drop-medium;
@@ -211,7 +206,7 @@
 		}
 
 		#minerva-badge-popover {
-			right: -0.7rem;
+			right: 0;
 		}
 	}
 }
