@@ -212,7 +212,7 @@ function init() {
 		( s, { count } ) => s + count, 0 ), 0
 	);
 	// Extra delay after the last burst completes before showing the remove button.
-	const POST_BURST_DELAY = 80;
+	const POST_BURST_DELAY = 3200;
 	// Fade duration when discarding overflow hearts (matches `opacity 0.2s` in stopAnimation).
 	const DISCARD_FADE_DURATION = 200;
 	// Fade duration when stopping all animation (matches `opacity 0.4s`).
