@@ -11,8 +11,8 @@
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Body text shown on the donor delight badge popover in experiment bucket B, with thank you message.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "Body text shown on the donor delight badge popover in experiment bucket C, inviting the donor to tap the badge.",
 	"wikimediacustomizations-donordelightbadge-remove-btn": "Label for the link shown at the bottom of the donor delight badge popover in experiment bucket B, which removes the badge from the page.",
-	"wikimediacustomizations-donordelightbadge-dialog-title": "Title of the confirmation dialog shown after clicking the remove button",
-	"wikimediacustomizations-donordelightbadge-dialog-body": "Body text of the confirmation dialog shown after clicking the remove button",
-	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Label of the button to confirm hiding the badge in the confirmation dialog shown after clicking the remove button",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Title of the confirmation dialog shown after clicking the remove badge button",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Body text of the confirmation dialog shown after clicking the remove badge button",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Label of the button to confirm removing the badge in the confirmation dialog shown after clicking the remove button",
 	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Label of the button to keep the badge in the confirmation dialog shown after clicking the remove button"
 }
