@@ -47,5 +47,8 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indica que le pagina actualmente supera su numero medie de lecturas e modificationes.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "Le pagina actualmente supera su numero medie de lecturas.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "Le pagina actualmente supera su numero medie de modificationes submittite.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Le pagina actualmente supera su activitate medie de lectura e de modification."
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Le pagina actualmente supera su activitate medie de lectura e de modification.",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "Obtener informationes de attribution pro un sito.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "Signales de attribution es le elementos individual que mantene le projectos de Wikimedia visibile quando lor contento es presentate in contextos externe. Le signales monstra un recognoscentia directe, forni accesso al fontes, e presenta informationes additional que adjuta le usatores a evalutar le cognoscentia que illes incontra e a interager con illo.\n\nLe signales de attribution de sito pote esser extrahite pro qualcunque sito o projecto de Wikimedia.",
+	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "Information de attribution pro un sito."
 }

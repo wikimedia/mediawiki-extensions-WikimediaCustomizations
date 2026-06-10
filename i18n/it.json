@@ -4,5 +4,9 @@
 			"Beta16"
 		]
 	},
-	"wikimediacustomizations-donordelightbadge-remove-btn": "Rimuovi distintivo"
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Rimuovi distintivo",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Nascondere questo distintivo?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Questo cuore è un distintivo di ringraziamento per la tua donazione. Nascondendolo, non sarà più visibile e non potrai più ripristinarlo.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Sì, nascondi il distintivo",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Tienilo"
 }

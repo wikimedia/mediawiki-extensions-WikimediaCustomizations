@@ -11,5 +11,9 @@
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Een klein bedankje voor uw donatie!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Uw vrijgevigheid helpt Wikipedia vrij en toegankelijk te houden voor mensen over de hele wereld.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Probeer erop te tikken.</b>",
-	"wikimediacustomizations-donordelightbadge-remove-btn": "Badge verwijderen"
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Badge verwijderen",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Deze badge verbergen?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Dit hartje is een blijk van waardering voor uw donatie. Wanneer u het verbergt, verdwijnt het uit beeld en kunt u het niet meer terughalen.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Ja, verberg de badge",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Houd de badge zichtbaar"
 }
