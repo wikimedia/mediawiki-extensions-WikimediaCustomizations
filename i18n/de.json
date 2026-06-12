@@ -9,8 +9,8 @@
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Ihre Großzügigkeit hilft, Wikipedia für Menschen auf der ganzen Welt frei und offen zu halten.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Versuchen Sie, darauf zu tippen.</b>",
 	"wikimediacustomizations-donordelightbadge-remove-btn": "Abzeichen entfernen",
-	"wikimediacustomizations-donordelightbadge-dialog-title": "Dieses Abzeichen ausblenden?",
-	"wikimediacustomizations-donordelightbadge-dialog-body": "Dieses Herz ist ein Dankeschön für deine Spende. Wenn du es ausblendest, wird es aus deiner Ansicht entfernt und du kannst es nicht mehr wiederherstellen.",
-	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Ja, versteck das Abzeichen.",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Dieses Abzeichen entfernen?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Dieses Herz ist ein Dankeschön für deine Spende. Das Abzeichen kann nach dem Entfernen nicht wiederhergestellt werden.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Abzeichen entfernen",
 	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Behalte es"
 }
