@@ -10,11 +10,13 @@ exports[`DonorDelightBadge renders all appropriate elements 1`] = `
     
 			
     <div
+      aria-label=""
       id="minerva-badge"
     />
     
 		
     <div
+      aria-hidden="true"
       id="minerva-badge-popover"
     >
       <h3 />

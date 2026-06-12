@@ -186,6 +186,7 @@
 				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge/ConfirmationDialog.vue"
 			],
 			"messages": [
+				"wikimediacustomizations-donordelightbadge-badge-label",
 				"wikimediacustomizations-donordelightbadge-popover-heading",
 				"wikimediacustomizations-donordelightbadge-popover-body-b",
 				"wikimediacustomizations-donordelightbadge-popover-body-c",
