@@ -17,6 +17,7 @@ function makePopover( badge ) {
 	const popoverHeading = document.createElement( 'h3' );
 	const popoverBody = document.createElement( 'p' );
 	popover.id = 'minerva-badge-popover';
+	popover.setAttribute( 'aria-hidden', 'true' );
 	if ( bucket === 'treatment-b-simple' ) {
 		popoverBody.textContent = mw.msg( 'wikimediacustomizations-donordelightbadge-popover-body-b' );
 	} else if ( bucket === 'treatment-c-delightful' ) {
@@ -96,6 +97,10 @@ function init() {
 	if ( bucket === 'control' || minervaBadgePref === 'disabled' ) {
 		return;
 	}
+
+	// Give the badge an accessible name. The popover and animation are `aria-hidden`, so
+	// assistive technology users who activate the button won't receive unexpected announcements.
+	badge.setAttribute( 'aria-label', mw.msg( 'wikimediacustomizations-donordelightbadge-badge-label' ) );
 
 	let badgeIsHidden = false;
 	const removeBtn = makeRemoveButton();
