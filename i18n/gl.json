@@ -11,8 +11,8 @@
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "A túa xenerosidade axuda a manter a Wikipedia gratuíta e aberta para persoas de todo o mundo.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Intenta tocala.</b>",
 	"wikimediacustomizations-donordelightbadge-remove-btn": "Eliminar a insignia",
-	"wikimediacustomizations-donordelightbadge-dialog-title": "Queres agochar a insignia?",
-	"wikimediacustomizations-donordelightbadge-dialog-body": "Este corazón é unha insignia de agradecemento pola túa doazón. Se a agochas, non estará á vista e non poderás restaurala.",
-	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Si, agochar a insignia",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Queres eliminar a insignia?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Este corazón é unha insignia de agradecemento pola túa doazón. A insignia non se pode restaurar unha vez eliminada.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Eliminar a insignia",
 	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Mantela"
 }
