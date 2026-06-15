@@ -62,6 +62,10 @@
 				"metaTagName": null,
 				"wprov": null
 			}
+		},
+		"WMCNoReferrerDomains": {
+			"description": "List of external link domains that should get rel=\"noreferrer noopener\", so the browser omits the Referer header when following the link. Subdomains match. See T429090.",
+			"value": []
 		}
 	},
 	"DefaultUserOptions": {
@@ -126,6 +130,13 @@
 				"AuthManager",
 				"PermissionManager"
 			]
+		},
+		"noreferrerlinks": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\NoReferrerLinks\\NoReferrerLinksHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config",
+				"UrlUtils"
+			]
 		}
 	},
 	"Hooks": {
@@ -138,7 +149,8 @@
 		"GetSessionJwtData": "ratelimit",
 		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
 		"getUserPermissionsErrorsExpensive": "forcereauth",
-		"AlternateEdit": "forcereauth"
+		"AlternateEdit": "forcereauth",
+		"LinkerMakeExternalLinkWithContext": "noreferrerlinks"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
