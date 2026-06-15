@@ -54,18 +54,22 @@ class ForceReauthHookHandler implements
 		$action,
 		&$result
 	) {
-		$mustReauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
-		$secSensitiveOperation = (bool)$mustReauthPermission ?
-			$this->authManager->securitySensitiveOperationStatus( $mustReauthPermission ) !== AuthManager::SEC_OK :
-			false;
+		$reauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
 		$isCentralAuthToken = RequestContext::getMain()->getRequest()->getSession()->getProvider()
 			instanceof CentralAuthTokenSessionProvider;
 
-		if ( $action === 'edit' && (bool)$mustReauthPermission && ( $secSensitiveOperation || $isCentralAuthToken ) ) {
+		if (
+			$action === 'edit' &&
+			(bool)$reauthPermission &&
+			(
+				$isCentralAuthToken ||
+				$this->authManager->securitySensitiveOperationStatus( $reauthPermission ) !== AuthManager::SEC_OK
+			)
+		) {
 			$loginUrl = SpecialPage::getSafeTitleFor( 'Userlogin' )
-				?->getFullURL( [ 'force' => $mustReauthPermission ], proto: PROTO_CURRENT );
+				?->getFullURL( [ 'force' => $reauthPermission ], proto: PROTO_CURRENT );
 			$result = ApiMessage::create( [ 'wikimediacustomizations-forcereauth-error', $loginUrl ], 'reauthenticate',
-				[ 'operation' => $mustReauthPermission ] );
+				[ 'operation' => $reauthPermission ] );
 			return false;
 		}
 
@@ -79,17 +83,14 @@ class ForceReauthHookHandler implements
 		$request = $context->getRequest();
 		$user    = $context->getUser();
 
-		$mustReauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
-		$secSensitiveOperation = (bool)$mustReauthPermission ?
-			$this->authManager->securitySensitiveOperationStatus( $mustReauthPermission ) !== AuthManager::SEC_OK :
-			false;
+		$reauthPermission = $this->isSiteOrUserConfigPage( $title, $user );
 		$userCanEdit = $this->permManager->userCan( 'edit', $user, $title, PermissionManager::RIGOR_QUICK );
 
 		if (
 			!$request->wasPosted() &&
 			$userCanEdit &&
-			$secSensitiveOperation &&
-			(bool)$mustReauthPermission
+			(bool)$reauthPermission &&
+			$this->authManager->securitySensitiveOperationStatus( $reauthPermission ) !== AuthManager::SEC_OK
 		) {
 			$queryParams = $request->getQueryValues();
 
@@ -97,7 +98,7 @@ class ForceReauthHookHandler implements
 				SpecialPage::getTitleFor( 'Userlogin' )->getFullUrl( [
 					'returnto'      => $title->getPrefixedDBkey(),
 					'returntoquery' => wfArrayToCgi( array_diff_key( $queryParams, [ 'title' => true ] ) ),
-					'force'         => $mustReauthPermission,
+					'force'         => $reauthPermission,
 				] )
 			);
 
