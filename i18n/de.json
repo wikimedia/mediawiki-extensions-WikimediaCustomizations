@@ -5,6 +5,7 @@
 	"wikimediacustomizations-desc": "Die WikimediaCustomization-Erweiterung hostet Wikimedia-spezifische Hooks, Meldungen und andere Website-Anpassungen.",
 	"wikimediacustomizations-bademaildomain-error": "E-Mail-Adressen mit der Bezeichnung $1 werden nicht unterstützt. Bitte wähle einen anderen E-Mail-Anbieter.",
 	"wikimediacustomizations-forcereauth-error": "Aus Sicherheitsgründen musst du dich vor der Nutzung dieser Funktion erneut authentifizieren. Verwende dazu bitte diese URL: $1",
+	"wikimediacustomizations-donordelightbadge-badge-label": "Wikiherz-Abzeichen für Ihre Spende",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Ein kleines Dankeschön für Ihre Spende!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Ihre Großzügigkeit hilft, Wikipedia für Menschen auf der ganzen Welt frei und offen zu halten.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Versuchen Sie, darauf zu tippen.</b>",

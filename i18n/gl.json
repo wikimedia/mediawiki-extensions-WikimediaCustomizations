@@ -7,6 +7,7 @@
 	"wikimediacustomizations-desc": "A extensión WikimediaCustomization aloxa asociadores, mensaxes e outras personalizacións do sitio específicos da Wikimedia.",
 	"wikimediacustomizations-bademaildomain-error": "Non se admiten os enderezos de correo electrónico que usan o dominio «$1». Escolle outro provedor de correo electrónico.",
 	"wikimediacustomizations-forcereauth-error": "Como medida de seguridade, debes volver autenticarte antes de usar esta funcionalidade. Podes usar este enderezo URL para facelo: $1",
+	"wikimediacustomizations-donordelightbadge-badge-label": "Insignia de wikicorazón pola túa doazón",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Unha pequena insignia de agradecemento pola túa doazón!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "A túa xenerosidade axuda a manter a Wikipedia gratuíta e aberta para persoas de todo o mundo.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Intenta tocala.</b>",
