@@ -124,13 +124,6 @@
 				"ExtensionRegistry"
 			]
 		},
-		"forcereauth": {
-			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\ForceReauth\\ForceReauthHookHandler",
-			"services": [
-				"AuthManager",
-				"PermissionManager"
-			]
-		},
 		"noreferrerlinks": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\NoReferrerLinks\\NoReferrerLinksHookHandler",
 			"services": [
@@ -148,8 +141,6 @@
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
 		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
-		"getUserPermissionsErrorsExpensive": "forcereauth",
-		"AlternateEdit": "forcereauth",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks"
 	},
 	"ResourceFileModulePaths": {
