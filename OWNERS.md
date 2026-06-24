@@ -131,5 +131,11 @@ ported over here and was originally written by ladsgroup. See the ban policy at 
 
 Support for Discord's HTML header that allows us to customize page previews.
 
+## SuggestedInvestigations
+* Folders:
+  - src/SuggestedInvestigations
+* Contact: https://www.mediawiki.org/wiki/Product_Safety_and_Integrity
+
+Wikimedia-specific overrides to the SuggestedInvestigations feature.
 
 ## ...
