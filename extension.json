@@ -137,6 +137,9 @@
 				"WikimediaCustomizations.Config",
 				"UrlUtils"
 			]
+		},
+		"suggestedinvestigations": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\SuggestedInvestigations\\SuggestedInvestigationsHookHandler"
 		}
 	},
 	"Hooks": {
@@ -150,7 +153,8 @@
 		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
 		"ChangeAuthenticationDataAudit": "securitylogs",
-		"AuthManagerLoginAuthenticateAudit": "securitylogs"
+		"AuthManagerLoginAuthenticateAudit": "securitylogs",
+		"CheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay": "suggestedinvestigations"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
