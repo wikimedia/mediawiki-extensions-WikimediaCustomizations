@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+		]
+	},
+	"special-restsandbox": "Title of Special:RestSandbox, also shown in the listing of special pages",
+	"wikimediacustomizations-restsandbox-text": "Message shown at the top of Special:RestSandbox.",
+	"wikimediacustomizations-restsandbox-disclaimer": "Message shown on non-English wikis near the top of Special:RestSandbox.",
+	"wikimediacustomizations-restsandbox-select-api": "Message shown at the top of Special:RestSandbox, next to the selector for choosing an API.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Message shown on Special:RestSandbox when no API specs have been configured.",
+	"wikimediacustomizations-restsandbox-no-such-api": "Message shown on Special:RestSandbox when an unknown API is requested. \n\nParameters: $1 - The unknown API identifier",
+	"wikimediacustomizations-restsandbox-jsonly": "Message shown on Special:RestSandbox if the browser has JavaScript disabled."
+}

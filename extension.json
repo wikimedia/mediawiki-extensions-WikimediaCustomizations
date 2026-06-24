@@ -210,8 +210,27 @@
 				"mediawiki.ForeignApi",
 				"codex-styles"
 			]
+		},
+		"ext.wikimediaCustomizations.special.restsandbox.styles": {
+			"styles": [
+				"RestSandbox/ext.wikimediaCustomizations.special.restsandbox/restsandbox.css"
+			]
+		},
+		"ext.wikimediaCustomizations.special.restsandbox": {
+			"packageFiles": [
+				"RestSandbox/ext.wikimediaCustomizations.special.restsandbox/restsandbox.js",
+				"lib/swagger-ui/swagger-ui-bundle.js",
+				"lib/swagger-ui/swagger-ui-standalone-preset.js"
+			],
+			"styles": [
+				"lib/swagger-ui/swagger-ui.css"
+			],
+			"dependencies": [
+				"ext.wikimediaCustomizations.special.restsandbox.styles"
+			]
 		}
 	},
+	"ForeignResourcesDir": "modules/lib",
 	"AuthManagerAutoConfig": {
 		"preauth": {
 			"BadEmailDomainPreAuthenticationProvider": {
@@ -223,10 +242,21 @@
 			}
 		}
 	},
+	"SpecialPages": {
+		"RestSandbox": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\RestSandbox\\SpecialRestSandbox",
+			"services": [
+				"UrlUtils",
+				"MessageFormatterFactory",
+				"LocalServerObjectCache"
+			]
+		}
+	},
 	"MessagesDirs": {
 		"WikimediaCustomizations": [
 			"i18n",
-			"i18n/attribution"
+			"i18n/attribution",
+			"i18n/restsandbox"
 		]
 	},
 	"RestModuleFiles": [
