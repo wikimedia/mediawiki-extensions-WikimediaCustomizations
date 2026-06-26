@@ -26,7 +26,11 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 				$out->getUser()->isAnon()
 			) {
 				// Badge and delightful animation styles.
-				$out->addHtmlClasses( 'ext-wc-donor-badge-' . $experiment->getAssignedGroup() );
+				$out->addHtmlClasses( [
+					// Allows us to distinguish between Minerva pre and post T428220
+					'ext-wc-donor-badge-new',
+					'ext-wc-donor-badge-' . $experiment->getAssignedGroup()
+				] );
 				$out->addModuleStyles( 'ext.wikimediaCustomizations.donorDelightBadge.styles' );
 				// Badge and delightful animation script.
 				$out->addModules( 'ext.wikimediaCustomizations.donorDelightBadge' );

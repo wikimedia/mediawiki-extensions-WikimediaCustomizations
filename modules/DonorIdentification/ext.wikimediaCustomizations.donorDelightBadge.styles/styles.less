@@ -28,7 +28,11 @@
 
 // Badge button.
 #minerva-badge {
-	.cdx-mixin-button-layout-flush( 'end', true, 'large' );
+	// FIXME: Delete 2 weeks after this comment was introduced.
+	// Cached pages will not have the new user login button so flush when absent
+	html:not( .ext-wc-donor-badge-new ) {
+		.cdx-mixin-button-layout-flush( 'end', true, 'large' );
+	}
 
 	&.ext-wc-is-cooldown {
 		pointer-events: none;
@@ -190,7 +194,7 @@
 @media ( max-width: @max-width-breakpoint-mobile ) {
 	.minerva-badge-clientpref-1:not( .ext-wc-donor-badge-control ) .minerva-header {
 		.minerva-search-form {
-			order: 1;
+			order: 2;
 			flex-grow: 0;
 			width: initial;
 		}
@@ -208,6 +212,16 @@
 
 		#minerva-badge-popover {
 			right: 0;
+		}
+	}
+
+	.ext-wc-donor-badge-new.minerva-badge-clientpref-1:not( .ext-wc-donor-badge-control ) {
+		.minerva-user-navigation {
+			order: 2;
+		}
+
+		.minerva-search-form {
+			order: 1;
 		}
 	}
 }
