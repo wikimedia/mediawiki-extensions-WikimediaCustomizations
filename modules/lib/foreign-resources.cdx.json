@@ -2,13 +2,13 @@
 	"$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
 	"bomFormat": "CycloneDX",
 	"specVersion": "1.6",
-	"serialNumber": "urn:uuid:6910b6ed-8fc4-4fe3-86f8-794637a63bda",
+	"serialNumber": "urn:uuid:ad556401-5725-4c85-92a9-3d9b0922b72a",
 	"version": 1,
 	"components": [
 		{
 			"type": "library",
 			"name": "swagger-ui",
-			"version": "4.15.5",
+			"version": "5.32.6",
 			"licenses": [
 				{
 					"license": {
