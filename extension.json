@@ -119,7 +119,11 @@
 			]
 		},
 		"securitylogs": {
-			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\SecurityLogs\\SecurityLogsHookHandler"
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\SecurityLogs\\SecurityLogsHookHandler",
+			"services": [
+				"UserIdentityLookup",
+				"FormatterFactory"
+			]
 		},
 		"officeban": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\OfficeBan\\OfficeBanHookHandler",

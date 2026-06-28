@@ -7,12 +7,16 @@ use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\GetSecurityLogContextHook;
+use MediaWiki\Language\FormatterFactory;
 use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\SpecialPage\Hook\ChangeAuthenticationDataAuditHook;
 use MediaWiki\Status\Status;
+use MediaWiki\Status\StatusFormatter;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
+use Psr\Log\LoggerInterface;
 
 /**
  * Various security related Logstash logging hooks:
@@ -26,6 +30,12 @@ class SecurityLogsHookHandler implements
 	AuthManagerLoginAuthenticateAuditHook,
 	ChangeAuthenticationDataAuditHook
 {
+
+	public function __construct(
+		private UserIdentityLookup $userIdentityLookup,
+		private FormatterFactory $formatterFactory
+	) {
+	}
 
 	/** @inheritDoc */
 	public function onGetSecurityLogContext( array $info, array &$context ): void {
@@ -67,9 +77,7 @@ class SecurityLogsHookHandler implements
 	public function onAuthManagerLoginAuthenticateAudit( $response, $user, $username, $extraData ) {
 		$guessed = false;
 		if ( !$user && $username ) {
-			$user = MediaWikiServices::getInstance()
-				->getUserFactory()
-				->newFromName( $username );
+			$user = $this->userIdentityLookup->getUserIdentityByName( $username );
 			$guessed = true;
 		}
 		if ( !$user || !in_array( $response->status,
@@ -78,7 +86,7 @@ class SecurityLogsHookHandler implements
 			return;
 		}
 
-		$context = RequestContext::getMain()->getRequest()->getSecurityLogContext( $user );
+		$context = $this->getSecurityLogContext( $user );
 		$privileged = $context['user_is_privileged'];
 		$successful = $response->status === AuthenticationResponse::PASS;
 		$message = $response->message ? Message::newFromSpecifier( $response->message ) : null;
@@ -87,7 +95,7 @@ class SecurityLogsHookHandler implements
 		if ( $privileged ) {
 			$channel .= '-priv';
 		}
-		$logger = LoggerFactory::getInstance( $channel );
+		$logger = $this->getLogger( $channel );
 		$verb = $successful ? 'succeeded' : 'failed';
 
 		$logger->info( "Login $verb for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}", [
@@ -105,15 +113,13 @@ class SecurityLogsHookHandler implements
 
 	/** @inheritDoc */
 	public function onChangeAuthenticationDataAudit( $req, $status ) {
-		$user = MediaWikiServices::getInstance()
-			->getUserIdentityLookup()
-			->getUserIdentityByName( $req->username );
+		$user = $this->userIdentityLookup->getUserIdentityByName( $req->username );
 		$status = Status::wrap( $status );
 		if ( $req instanceof PasswordAuthenticationRequest ) {
-			$context = RequestContext::getMain()->getRequest()->getSecurityLogContext( $user );
+			$context = $this->getSecurityLogContext( $user );
 			$privileged = $context['user_is_privileged'];
 			if ( $privileged ) {
-				$logger = LoggerFactory::getInstance( 'badpass' );
+				$logger = $this->getLogger( 'badpass' );
 				$logger->info(
 					'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
 					[
@@ -124,10 +130,22 @@ class SecurityLogsHookHandler implements
 						'priv' => 'elevated',
 						'status' => $status->isGood()
 							? 'ok'
-							: $status->getWikiText( false, false, 'en' ),
+							: $this->getStatusFormatter()->getWikiText( $status, [ 'lang' => 'en' ] ),
 					] + $context );
 			}
 		}
+	}
+
+	protected function getLogger( string $channel ): LoggerInterface {
+		return LoggerFactory::getInstance( $channel );
+	}
+
+	protected function getSecurityLogContext( ?UserIdentity $user ): array {
+		return RequestContext::getMain()->getRequest()->getSecurityLogContext( $user );
+	}
+
+	protected function getStatusFormatter(): StatusFormatter {
+		return $this->formatterFactory->getStatusFormatter( RequestContext::getMain() );
 	}
 
 }
