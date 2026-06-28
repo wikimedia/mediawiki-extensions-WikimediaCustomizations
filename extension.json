@@ -118,6 +118,9 @@
 				"ExtensionRegistry"
 			]
 		},
+		"securitylogs": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\SecurityLogs\\SecurityLogsHookHandler"
+		},
 		"officeban": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\OfficeBan\\OfficeBanHookHandler",
 			"services": [
@@ -144,13 +147,15 @@
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
 		"MediaWikiServices": "privilegedgroups-noservices",
-		"GetSecurityLogContext": "privilegedgroups",
+		"GetSecurityLogContext": [ "privilegedgroups", "securitylogs" ],
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
 		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
 		"getUserPermissionsErrorsExpensive": "forcereauth",
 		"AlternateEdit": "forcereauth",
-		"LinkerMakeExternalLinkWithContext": "noreferrerlinks"
+		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
+		"ChangeAuthenticationDataAudit": "securitylogs",
+		"AuthManagerLoginAuthenticateAudit": "securitylogs"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
