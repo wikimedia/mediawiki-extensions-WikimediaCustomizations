@@ -83,6 +83,15 @@ Adds a rate limit class ('rlc') field to JWTs associated with login sessions.
 Used to enforce low-level rate limits (outside of MediaWiki).
 Historical context: T399632, T415588.
 
+## SecurityLogs
+
+* Folders:
+  - src/SecurityLogs
+  - tests/phpunit/unit/SecurityLogs
+* Contact: UNOWNED (unowned code moved from operations/mediawiki-config)
+
+Adds more security-related Logstash logging and enriches some existing logs.
+
 ## Attribution API
 
 * Folders:
