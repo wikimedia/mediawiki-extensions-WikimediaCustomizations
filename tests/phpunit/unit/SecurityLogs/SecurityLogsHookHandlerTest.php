@@ -118,8 +118,6 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 		$privilegedSecurityLogContext = [ 'user_is_privileged' => true ] + $normalSecurityLogContext;
 
 		$expectedContextBase = [
-			'name' => 'SomeUser',
-			'clientip' => '1.2.3.4',
 			'guessed' => false,
 			'securityLevel' => '-',
 			'failReasons' => [],
@@ -244,18 +242,13 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 		];
 		$privilegedSecurityLogContext = [ 'user_is_privileged' => true ] + $normalSecurityLogContext;
 
-		$expectedContextBase = [
-			'name' => 'SomeUser',
-			'clientip' => '1.2.3.4',
-		];
-
 		yield 'normal user, successful password change' => [
 			$req,
 			$goodStatus,
 			$normalSecurityLogContext,
 			'badpass',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
-			$normalSecurityLogContext + $expectedContextBase + [
+			$normalSecurityLogContext + [
 				'priv' => 'normal',
 				'status' => 'ok',
 			],
@@ -266,7 +259,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			$normalSecurityLogContext,
 			'badpass',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
-			$normalSecurityLogContext + $expectedContextBase + [
+			$normalSecurityLogContext + [
 				'priv' => 'normal',
 				'status' => 'invalid-password',
 			],
@@ -277,7 +270,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			$privilegedSecurityLogContext,
 			'badpass-priv',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
-			$privilegedSecurityLogContext + $expectedContextBase + [
+			$privilegedSecurityLogContext + [
 				'priv' => 'elevated',
 				'status' => 'ok',
 			],
@@ -288,7 +281,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			$privilegedSecurityLogContext,
 			'badpass-priv',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
-			$privilegedSecurityLogContext + $expectedContextBase + [
+			$privilegedSecurityLogContext + [
 				'priv' => 'elevated',
 				'status' => 'invalid-password',
 			],

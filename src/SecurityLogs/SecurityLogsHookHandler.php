@@ -102,10 +102,6 @@ class SecurityLogsHookHandler implements
 
 		$logger->info( "$action $verb for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}", [
 			'successful' => $successful,
-			// Backwards compatibility
-			'name' => $context['user'],
-			// Backwards compatibility
-			'clientip' => $context['clientIp'],
 			'priv' => ( $privileged ? 'elevated' : 'normal' ),
 			'guessed' => $guessed,
 			'msgname' => $message?->getKey() ?? '-',
@@ -126,10 +122,6 @@ class SecurityLogsHookHandler implements
 			$logger->info(
 				'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
 				[
-					// Backwards compatibility
-					'name' => $context['user'],
-					// Backwards compatibility
-					'clientip' => $context['clientIp'],
 					'priv' => ( $privileged ? 'elevated' : 'normal' ),
 					'status' => $status->isGood()
 						? 'ok'
