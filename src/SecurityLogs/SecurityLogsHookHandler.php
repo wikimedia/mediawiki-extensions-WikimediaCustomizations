@@ -90,15 +90,17 @@ class SecurityLogsHookHandler implements
 		$privileged = $context['user_is_privileged'];
 		$successful = $response->status === AuthenticationResponse::PASS;
 		$message = $response->message ? Message::newFromSpecifier( $response->message ) : null;
+		$failReasons = $response->failReasons ?? [];
 
 		$channel = $successful ? 'goodpass' : 'badpass';
 		if ( $privileged ) {
 			$channel .= '-priv';
 		}
 		$logger = $this->getLogger( $channel );
+		$action = isset( $extraData['securityLevel'] ) ? 'Reauthentication' : 'Login';
 		$verb = $successful ? 'succeeded' : 'failed';
 
-		$logger->info( "Login $verb for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}", [
+		$logger->info( "$action $verb for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}", [
 			'successful' => $successful,
 			// Backwards compatibility
 			'name' => $context['user'],
@@ -108,6 +110,8 @@ class SecurityLogsHookHandler implements
 			'guessed' => $guessed,
 			'msgname' => $message?->getKey() ?? '-',
 			'messagestr' => $message?->inLanguage( 'en' )?->text() ?? '',
+			'securityLevel' => $extraData['securityLevel'] ?? '-',
+			'failReasons' => $failReasons,
 		] + $context );
 	}
 
@@ -118,21 +122,19 @@ class SecurityLogsHookHandler implements
 		if ( $req instanceof PasswordAuthenticationRequest ) {
 			$context = $this->getSecurityLogContext( $user );
 			$privileged = $context['user_is_privileged'];
-			if ( $privileged ) {
-				$logger = $this->getLogger( 'badpass' );
-				$logger->info(
-					'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
-					[
-						// Backwards compatibility
-						'name' => $context['user'],
-						// Backwards compatibility
-						'clientip' => $context['clientIp'],
-						'priv' => 'elevated',
-						'status' => $status->isGood()
-							? 'ok'
-							: $this->getStatusFormatter()->getWikiText( $status, [ 'lang' => 'en' ] ),
-					] + $context );
-			}
+			$logger = $this->getLogger( $privileged ? 'badpass-priv' : 'badpass' );
+			$logger->info(
+				'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
+				[
+					// Backwards compatibility
+					'name' => $context['user'],
+					// Backwards compatibility
+					'clientip' => $context['clientIp'],
+					'priv' => ( $privileged ? 'elevated' : 'normal' ),
+					'status' => $status->isGood()
+						? 'ok'
+						: $this->getStatusFormatter()->getWikiText( $status, [ 'lang' => 'en' ] ),
+				] + $context );
 		}
 	}
 

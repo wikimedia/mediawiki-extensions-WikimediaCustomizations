@@ -121,6 +121,8 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			'name' => 'SomeUser',
 			'clientip' => '1.2.3.4',
 			'guessed' => false,
+			'securityLevel' => '-',
+			'failReasons' => [],
 		];
 		$expectedContextGood = $expectedContextBase + [
 				'successful' => true,
@@ -159,10 +161,25 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			'Login failed for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}',
 			[ 'priv' => 'normal' ] + $normalSecurityLogContext + $expectedContextFailed,
 		];
+		yield 'successful reauthentication' => [
+			$pass, /*guessed:*/false, $privilegedSecurityLogContext, 'goodpass-priv',
+			'Reauthentication succeeded for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}',
+			[ 'priv' => 'elevated', 'securityLevel' => 'admin' ] + $privilegedSecurityLogContext
+				+ $expectedContextGood,
+			/*extraData:*/[ 'securityLevel' => 'admin' ],
+		];
+		yield 'failed reauthentication' => [
+			$fail, /*guessed:*/true, $privilegedSecurityLogContext, 'badpass-priv',
+			'Reauthentication failed for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}',
+			[ 'priv' => 'elevated', 'guessed' => true, 'securityLevel' => 'admin' ]
+				+ $privilegedSecurityLogContext + $expectedContextFailed,
+			/*extraData:*/[ 'securityLevel' => 'admin' ],
+		];
 		yield 'failed with extra reasons' => [
 			$failWithExtraReasons, /*guessed:*/true, $privilegedSecurityLogContext, 'badpass-priv',
 			'Login failed for {priv} {user} from {clientIp} - {ua} - {geocookie}: {messagestr}',
-			[ 'priv' => 'elevated', 'guessed' => true ] + $privilegedSecurityLogContext + $expectedContextFailed,
+			[ 'priv' => 'elevated', 'guessed' => true, 'failReasons' => [ 'reason1', 'reason2' ] ]
+				+ $privilegedSecurityLogContext + $expectedContextFailed,
 		];
 		// phpcs:enable MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment
 	}
@@ -177,6 +194,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 		string $expectedLogChannel,
 		?string $expectedLogMessage,
 		?array $expectedLogContext = null,
+		?array $extraData = [],
 	): void {
 		$logger = new TestLogger( collect: true, collectContext: true );
 		$userIdentity = UserIdentityValue::newRegistered( 1, 'SomeUser' );
@@ -196,7 +214,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			loggers: [ $expectedLogChannel => $logger ],
 			securityLogContext: $securityLogContext,
 		);
-		$handler->onAuthManagerLoginAuthenticateAudit( $response, $user, 'SomeUser', [] );
+		$handler->onAuthManagerLoginAuthenticateAudit( $response, $user, 'SomeUser', $extraData );
 		if ( $expectedLogMessage ) {
 			$this->assertCount( 1, $logger->getBuffer() );
 			[ $level, $logMessage, $logContext ] = $logger->getBuffer()[0];
@@ -236,20 +254,28 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			$goodStatus,
 			$normalSecurityLogContext,
 			'badpass',
-			null,
+			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
+			$normalSecurityLogContext + $expectedContextBase + [
+				'priv' => 'normal',
+				'status' => 'ok',
+			],
 		];
 		yield 'normal user, failed password change' => [
 			$req,
 			$failedStatus,
 			$normalSecurityLogContext,
 			'badpass',
-			null,
+			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
+			$normalSecurityLogContext + $expectedContextBase + [
+				'priv' => 'normal',
+				'status' => 'invalid-password',
+			],
 		];
 		yield 'privileged user, successful password change' => [
 			$req,
 			$goodStatus,
 			$privilegedSecurityLogContext,
-			'badpass',
+			'badpass-priv',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
 			$privilegedSecurityLogContext + $expectedContextBase + [
 				'priv' => 'elevated',
@@ -260,7 +286,7 @@ class SecurityLogsHookHandlerTest extends MediaWikiUnitTestCase {
 			$req,
 			$failedStatus,
 			$privilegedSecurityLogContext,
-			'badpass',
+			'badpass-priv',
 			'Password change in prefs for {priv} {user}: {status} - {clientIp} - {ua} - {geocookie}',
 			$privilegedSecurityLogContext + $expectedContextBase + [
 				'priv' => 'elevated',
