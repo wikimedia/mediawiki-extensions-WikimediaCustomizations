@@ -47,11 +47,6 @@ class DiscordHookHandler implements BeforePageDisplayHook {
 			return;
 		}
 
-		$discordMetaTagName = $discordConfig['metaTagName'] ?? null;
-		if ( !$discordMetaTagName ) {
-			return;
-		}
-
 		$urlUtils = MediaWikiServices::getInstance()->getURLUtils();
 		$parsedUrl = $urlUtils->parse( $baseUrl );
 
@@ -64,9 +59,11 @@ class DiscordHookHandler implements BeforePageDisplayHook {
 		$parsedUrl['query'] = http_build_query( $serviceArguments );
 		$previewUrl = $urlUtils->assemble( $parsedUrl );
 
-		$out->addMeta(
-			$discordMetaTagName,
-			$previewUrl
-		);
+		$linkArr = [
+			'rel' => "discord:component-embed",
+			'type' => 'application/json',
+			'href' => $previewUrl,
+		];
+		$out->addLink( $linkArr );
 	}
 }

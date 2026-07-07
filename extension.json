@@ -56,10 +56,9 @@
 			"value": "https://upload.wikimedia.org/wikipedia/commons/9/91/Wikimedia_Sonic_Logo_-_4-seconds.wav"
 		},
 		"WMCDiscord": {
-			"description": "Configuration for the Discord preview generation service. Includes the base URL for the service, the name of the meta tag to use when adding preview URLs to pages, and the wprov value to use for analytics.",
+			"description": "Configuration for the Discord preview generation service. Includes the base URL for the service and the wprov value to use for analytics.",
 			"value": {
 				"baseUrl": null,
-				"metaTagName": null,
 				"wprov": null
 			}
 		},
