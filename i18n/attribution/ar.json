@@ -47,5 +47,8 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "يشير هذا إلى أن الصفحة تتفوق حاليًا على متوسط معدلات القراءة والتحرير الخاصة بها.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "تتجاوز الصفحة حاليًا معدل قراءتها المتوسط.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "تشهد الصفحة حاليًا معدلًا أعلى من التعديلات المقدمة مقارنة بمتوسطها.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "تشهد الصفحة حاليًا نشاط قراءة وتعديل يفوق متوسط أدائها."
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "تشهد الصفحة حاليًا نشاط قراءة وتعديل يفوق متوسط أدائها.",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "احصل على معلومات الإسناد لموقع ما.",
+	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "إشارات الإسناد هي العناصر الفردية التي تُبقي مشاريع ويكيميديا مرئية عند عرض محتواها في سياقات خارجية. توفر هذه الإشارات إقرارًا مباشرًا بالمصادر وإمكانية الوصول إليها، كما تُقدم معلومات إضافية تُساعد المستخدمين النهائيين على تقييم المعرفة التي يصادفونها والتفاعل معها. يمكن استخراج إشارات إسناد الموقع لأي موقع أو مشروع في ويكيميديا.",
+	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "معلومات الإسناد لموقع إلكتروني."
 }

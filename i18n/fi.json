@@ -5,7 +5,6 @@
 		]
 	},
 	"wikimediacustomizations-bademaildomain-error": "Verkkotunnusta $1 käyttäviä sähköpostiosoitteita ei tueta. Valitse toinen sähköpostipalveluntarjoaja.",
-	"wikimediacustomizations-forcereauth-error": "Turvallisuussyistä sinun on tunnistauduttava uudelleen ennen tämän toiminnon käyttöä. Voit käyttää tätä URL-osoitetta uudelleentunnistautumiseen: $1",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Pieni kiitosmerkki lahjoituksestasi!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Anteliaisuutesi auttaa pitämään Wikipedian vapaana ja avoimena ihmisille ympäri maailman.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Kokeile napauttaa sitä.</b>",

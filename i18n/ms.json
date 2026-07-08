@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hakimi97"
+		]
+	},
+	"wikimediacustomizations-desc": "Sambungan WikimediaCustomization menempatkan cangkuk, mesej dan penyesuaian tapak lain yang khusus untuk Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "Alamat e-mel yang menggunakan $1 tidak disokong. Sila pilih pembekal e-mel lain.",
+	"wikimediacustomizations-donordelightbadge-badge-label": "Lencana Wikiheart untuk dermaan anda",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "Sedikit lencana terima kasih atas sumbangan anda!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "Kemurahan hati anda bantu untuk memastikan Wikipedia bebas dan terbuka untuk orang ramai di seluruh dunia.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Cuba ketiknya.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Alih keluar lencana",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Alih keluar lencana ini?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Lencana hati ini merupakan tanda terima kasih atas sumbangan anda. Lencana ini tidak boleh dipulihkan selepas ia dialih keluar.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Alih keluar lencana",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Simpan lencana ini"
+}

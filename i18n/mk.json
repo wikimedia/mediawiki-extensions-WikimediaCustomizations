@@ -6,7 +6,6 @@
 	},
 	"wikimediacustomizations-desc": "Додатокот WikimediaCustomization вдомува пресретници, пораки и други прилагодувања посебно наменети за Викимедија",
 	"wikimediacustomizations-bademaildomain-error": "Е-поштенските адреси со $1 не се поддржани. Изберете друга.",
-	"wikimediacustomizations-forcereauth-error": "Како безбедноста мерка ќе треба да се презаверите пред да ја користите ова функција. За таа цел можете да се послужите со оваа URL: $1",
 	"wikimediacustomizations-donordelightbadge-badge-label": "Значка Викисрце за вашиот прилог",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Мала благорадност за вашиот прилог!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Вашата великодушност ни помага Википедија да остане слободна, бесплатна и отворена за сите ширум светот.",

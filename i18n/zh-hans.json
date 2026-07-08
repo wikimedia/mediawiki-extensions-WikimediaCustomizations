@@ -2,11 +2,15 @@
 	"@metadata": {
 		"authors": [
 			"0x48fe75df30",
-			"Ouclie"
+			"Ouclie",
+			"沈澄心"
 		]
 	},
 	"wikimediacustomizations-desc": "WikimediaCustomization（维基媒体自定义）扩展功能托管了Wikimedia（维基媒体）特有的钩子、消息和其他网站自定义功能。",
 	"wikimediacustomizations-bademaildomain-error": "不支持使用$1域名的电子邮件地址。请选择其他电子邮件服务提供商。",
-	"wikimediacustomizations-forcereauth-error": "出于安全考虑，您必须先重新进行身份验证才能使用此功能。您可以使用此URL重新进行身份验证：$1",
-	"wikimediacustomizations-donordelightbadge-popover-heading": "感谢您的捐赠，特此颁发一枚小小的感谢徽章！"
+	"wikimediacustomizations-donordelightbadge-popover-heading": "感谢您的捐赠，特此颁发一枚小小的感谢徽章！",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "移除徽章",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "移除此徽章？",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "移除徽章",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "留着它"
 }

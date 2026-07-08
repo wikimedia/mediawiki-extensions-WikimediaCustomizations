@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"ArcaneIE"
+			"ArcaneIE",
+			"StanProg"
 		]
 	},
-	"wikimediacustomizations-donordelightbadge-badge-label": "Значка на Wikiheart за вашето дарение"
+	"wikimediacustomizations-donordelightbadge-badge-label": "Значка „Уикисърце“ за вашето дарение"
 }

@@ -5,5 +5,14 @@
 		]
 	},
 	"wikimediacustomizations-desc": "يستضيف ملحق WikimediaCustomization روابط ورسائل وتخصيصات أخرى خاصة بموقع ويكيميديا.",
-	"wikimediacustomizations-bademaildomain-error": "لا ندعم عناوين البريد الإلكتروني التي تبدأ بـ $1 . يرجى اختيار مزود خدمة بريد إلكتروني آخر."
+	"wikimediacustomizations-bademaildomain-error": "لا ندعم عناوين البريد الإلكتروني التي تبدأ بـ $1 . يرجى اختيار مزود خدمة بريد إلكتروني آخر.",
+	"wikimediacustomizations-donordelightbadge-badge-label": "شارة ويكي هارت لتبرعك",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "شارة شكر صغيرة لتبرعك!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "إن كرمكم يساعد في إبقاء ويكيبيديا مجانية ومفتوحة للناس في جميع أنحاء العالم.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>حاول النقر عليه.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "إزالة الشارة",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "هل تريد إزالة هذه الشارة؟",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "هذا القلب هو شارة شكر على تبرعك. لا يمكن استعادة الشارة بعد إزالتها.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "إزالة الشارة",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "احتفظ به"
 }
