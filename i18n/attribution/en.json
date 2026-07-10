@@ -16,6 +16,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Content license",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Link to license details",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "License name",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-short": "License short name / abbreviation",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Page URL. The URL value includes a Wikimedia-specific provenance parameter (`wprov`). This helps Wikimedia evaluate whether participation calls to action are effective, without changing the destination page or attribution data. We recommend keeping the parameter when possible.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Icons and logos for the wiki",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Brand mark name",

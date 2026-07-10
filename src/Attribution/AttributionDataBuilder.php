@@ -119,10 +119,13 @@ class AttributionDataBuilder {
 			if ( $base['essential']['credit'] === null ) {
 				$missingFields[] = 'credit';
 			}
-			if ( ( $base['essential']['license']['title'] ?? null ) === null ) {
+			if ( !( $base['essential']['license']['title'] ?? null ) ) {
 				$missingFields[] = 'license_title';
 			}
-			if ( ( $base['essential']['license']['url'] ?? null ) === null ) {
+			if ( !( $base['essential']['license']['short'] ?? null ) ) {
+				$missingFields[] = 'license_short';
+			}
+			if ( !( $base['essential']['license']['url'] ?? null ) ) {
 				$missingFields[] = 'license_url';
 			}
 		}
@@ -164,16 +167,21 @@ class AttributionDataBuilder {
 		];
 
 		if ( $metadata ) {
+			// The long name is coded in configs and it's in form of a long name
+			// @see https://gerrit.wikimedia.org/g/operations/mediawiki-config/+/13a82461205f68d39f947898df784e9faa0f6c8a/wmf-config/InitialiseSettings.php#12184
+			$longName = $metadata['license']['title'] ?? '';
+
 			$essential['title'] = $metadata['title'];
 			$essential['license'] = [
-				'title' => LicenseHelper::mapLongNameToShortName( $metadata['license']['title'] ?? '' ),
-				'url' => $metadata['license']['url'] ?? ''
+				'title' => $longName,
+				'short' => LicenseHelper::mapLongNameToShortName( $longName ),
+				'url' => $metadata['license']['url'] ?? '',
 			];
 		} else {
+			$longName = $this->mainConfig->get( MainConfigNames::RightsText ) ?? '';
 			$essential['license'] = [
-				'title' => LicenseHelper::mapLongNameToShortName(
-					$this->mainConfig->get( MainConfigNames::RightsText ) ?? ''
-				),
+				'title' => $longName,
+				'short' => LicenseHelper::mapLongNameToShortName( $longName ),
 				'url' => $this->mainConfig->get( MainConfigNames::RightsUrl )
 			];
 		}
@@ -198,20 +206,23 @@ class AttributionDataBuilder {
 		$extMeta = $this->getExtMetaData( $file, $format );
 
 		$artist       = $this->getExtMetaValue( $extMeta, 'Artist' );
-		$licenseTitle = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
+		$licenseTitle = $this->getExtMetaValue( $extMeta, 'License' );
 		$licenseUrl   = $this->getExtMetaValue( $extMeta, 'LicenseUrl' );
-		if ( $licenseTitle !== null ) {
-			$licenseTitle = LicenseHelper::normalizeShortLicenseName( $licenseTitle );
+		$licenseShort = $this->getExtMetaValue( $extMeta, 'LicenseShortName' );
+
+		if ( $licenseShort !== null ) {
+			$licenseShort = LicenseHelper::normalizeShortLicenseName( $licenseShort );
 		}
 
 		$base['essential']['credit'] = $artist;
 		$base['essential']['license'] = [
 			'title' => $licenseTitle,
+			'short' => $licenseShort,
 			'url' => $licenseUrl,
 		];
 		$timing->setLabels( [
 			'has_credit' => $artist ? '1' : '0',
-			'has_license' => $licenseTitle ? '1' : '0'
+			'has_license' => $licenseShort ? '1' : '0'
 		] );
 		$timing->stop();
 

@@ -16,6 +16,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "{{Experimental}} Description of the property for the license of the file.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "{{Experimental}} Description of the property for the URL of the license.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "{{Experimental}} Description of the property for the title of the license.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-short": "{{Experimental}} Description of the property for the abbreviation/short form of the license title.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "{{Experimental}} Description of the property for the link to the page. This additionally includes information regarding wprov parameter, and explaining that additional parameter is used to track feature adoption.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "{{Experimental}} Description of the property for the site brand marks of the page.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "{{Experimental}} Description of the property for the name of the site brand mark.",

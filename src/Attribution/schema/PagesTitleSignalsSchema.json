@@ -40,6 +40,12 @@
 							"type": "string",
 							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-title",
 							"nullable": true,
+							"example": "Creative Commons Attribution-ShareAlike 4.0"
+						},
+						"short": {
+							"type": "string",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-license-short",
+							"nullable": true,
 							"example": "CC BY-SA 4.0"
 						}
 					}

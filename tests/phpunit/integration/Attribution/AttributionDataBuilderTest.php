@@ -98,7 +98,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$metadata = [
 			'title' => 'Foo',
 			'license' => [
-				'title' => 'CC-BY-SA',
+				'title' => 'Creative Commons Attribution-Share Alike 4.0',
 				'url' => 'http://example.com'
 			]
 		];
@@ -110,7 +110,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'essential', $result );
 		$this->assertArrayHasKey( 'title', $result['essential'] );
 		$this->assertArrayHasKey( 'license', $result['essential'] );
-		$this->assertSame( 'CC-BY-SA', $result['essential']['license']['title'] );
+		$this->assertSame( 'Creative Commons Attribution-Share Alike 4.0', $result['essential']['license']['title'] );
+		$this->assertSame( 'CC BY-SA 4.0', $result['essential']['license']['short'] );
 		$this->assertSame( 'http://example.com', $result['essential']['license']['url'] );
 		$this->assertArrayHasKey( 'link', $result['essential'] );
 		$this->assertArrayHasKey( 'default_brand_marks', $result['essential'] );
@@ -339,10 +340,13 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 					'value' => 'artist'
 				],
 				'LicenseShortName' => [
-					'value' => 'shortname'
+					'value' => 'CC BY 4.0'
 				],
 				'LicenseUrl' => [
-					'value' => 'url'
+					'value' => 'https://example.org/wiki/Foo'
+				],
+				'License' => [
+					'value' => 'Creative Commons Attribution 4.0'
 				]
 			]
 		);
@@ -355,6 +359,10 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'title', $result['essential']['license'] );
 		$this->assertArrayHasKey( 'url', $result['essential']['license'] );
 		$this->assertSame( 1, $statsHelper->count( 'get_ext_metadata_seconds' ) );
+
+		$this->assertSame( 'CC BY 4.0', $result['essential']['license']['short'] );
+		$this->assertSame( 'Creative Commons Attribution 4.0', $result['essential']['license']['title'] );
+		$this->assertSame( 'https://example.org/wiki/Foo', $result['essential']['license']['url'] );
 	}
 
 	/**
