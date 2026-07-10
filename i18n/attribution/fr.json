@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jérémy-Günther-Heinz Jähnick"
+			"Jérémy-Günther-Heinz Jähnick",
+			"SleaY"
 		]
 	},
-	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Titre de la page"
+	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Titre de la page",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Appel à action",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Appel à l'action pour des dons"
 }
