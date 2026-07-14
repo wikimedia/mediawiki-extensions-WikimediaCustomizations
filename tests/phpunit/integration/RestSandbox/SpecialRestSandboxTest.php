@@ -9,7 +9,7 @@ use MediaWiki\Tests\Specials\SpecialPageTestBase;
 /**
  * TODO: Add tests confirming the interactive portion of the sandbox loads properly
  *
- * @covers \MediaWiki\Specials\SpecialRestSandbox
+ * @covers \MediaWiki\Extension\WikimediaCustomizations\RestSandbox\SpecialRestSandbox
  */
 class SpecialRestSandboxTest extends SpecialPageTestBase {
 	protected function setUp(): void {
