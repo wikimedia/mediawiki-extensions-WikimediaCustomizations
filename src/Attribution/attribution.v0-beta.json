@@ -28,6 +28,7 @@
 						"WikimediaCustomizations.AttributionDataBuilder",
 						"RepoGroup",
 						"ContentLanguage",
+						"NamespaceInfo",
 						"StatsFactory",
 						"Tracer"
 					]

@@ -35,11 +35,14 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		$noopTracer = new NoopTracer();
 		$language = $this->getServiceContainer()->getLanguageFactory()->getLanguage( 'en' );
 		$repoGroup = $this->getServiceContainer()->getRepoGroup();
+		$nsInfo = $this->getServiceContainer()->getNamespaceInfo();
+
 		return new AttributionRestHandler(
 			$helperFactory,
 			$dataBuilder,
 			$repoGroup,
 			$language,
+			$nsInfo,
 			StatsFactory::newNull(),
 			$noopTracer,
 			$logger

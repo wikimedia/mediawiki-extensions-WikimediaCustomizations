@@ -16,6 +16,7 @@ use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
 use MediaWiki\Rest\ResponseHeaders;
 use MediaWiki\Rest\SimpleHandler;
+use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Assert\Assert;
@@ -42,6 +43,7 @@ class AttributionRestHandler extends SimpleHandler {
 		private readonly AttributionDataBuilder $attributionDataBuilder,
 		private readonly RepoGroup $repoGroup,
 		private readonly Language $contentLanguage,
+		private readonly NamespaceInfo $namespaceInfo,
 		StatsFactory $statsFactory,
 		private readonly TracerInterface $tracer,
 		private ?LoggerInterface $logger = null,
@@ -129,7 +131,6 @@ class AttributionRestHandler extends SimpleHandler {
 		$timer = $this->statsFactory->getTiming( 'article_attribution_seconds' )->start();
 		$params = $this->getValidatedParams();
 		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
-		$paramsAsString = implode( ',', $paramsToExpand );
 		sort( $paramsToExpand );
 
 		try {
@@ -157,26 +158,39 @@ class AttributionRestHandler extends SimpleHandler {
 			}
 			throw $e;
 		} finally {
+			$paramsAsString = implode( ',', $paramsToExpand );
+			$titleText = $this->contentHelper->getTitleText();
+			$title = Title::newFromText( $titleText );
+			$namespace = 'n_a';
+			if ( $title !== null ) {
+				$canonical = $this->namespaceInfo->getCanonicalName( $title->getNamespace() );
+				if ( $canonical !== false ) {
+					$namespace = $canonical === '' ? 'main' : strtolower( $canonical );
+				}
+			}
+
 			$span->setAttributes( [
-				'title' => $this->contentHelper->getTitleText(),
+				'title' => $titleText,
 				'expand' => $paramsAsString
 			] );
-			$timer->setLabel(
-				'expand',
-				$paramsToExpand ? $paramsAsString : 'none'
-			);
+			$timer->setLabels( [
+				'expand' => $paramsToExpand ? $paramsAsString : 'none',
+				'namespace' => $namespace
+			] );
+
 			$timer->stop();
 			$total = ConvertibleTimestamp::hrtime() - $startedAt;
 			if ( $total > 500_000_000 ) {
 				// 500 ms is a hard limit for the duration of the endpoint, log cases when this happens
 				// @see T421905 for more details
 				$this->logger->info( 'Metric: Attribution endpoint took too long to respond', [
-					'title' => $this->contentHelper->getTitleText(),
+					'title' => $titleText,
 					'total' => $total,
 					'expand' => $paramsAsString,
 				] );
 				$this->statsFactory
 					->getCounter( 'article_attribution_too_long_total' )
+					->setLabel( 'namespace', $namespace )
 					->increment();
 			}
 		}
