@@ -56,10 +56,11 @@
 			"value": "https://upload.wikimedia.org/wikipedia/commons/9/91/Wikimedia_Sonic_Logo_-_4-seconds.wav"
 		},
 		"WMCDiscord": {
-			"description": "Configuration for the Discord preview generation service. Includes the base URL for the service and the wprov value to use for analytics.",
+			"description": "Configuration for the Discord preview generation service.",
 			"value": {
 				"baseUrl": null,
-				"wprov": null
+				"wprov": null,
+				"surveyCoverage": 0
 			}
 		},
 		"WMCDiscordPreviewEnabled": {
@@ -79,6 +80,13 @@
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Discord\\DiscordHookHandler",
 			"services": [
 				"WikimediaCustomizations.Config"
+			]
+		},
+		"discordsurvey": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Discord\\DiscordSurveyHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config",
+				"ExtensionRegistry"
 			]
 		},
 		"bademaildomain": {
@@ -153,7 +161,8 @@
 		"GetSecurityLogContext": [ "privilegedgroups", "securitylogs" ],
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": [ "officeban", "discord", "donoridentification-donorbadge" ],
+		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge" ],
+		"QuickSurveysEnabled": "discordsurvey",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
 		"ChangeAuthenticationDataAudit": "securitylogs",
 		"AuthManagerLoginAuthenticateAudit": "securitylogs",
@@ -164,6 +173,18 @@
 		"remoteExtPath": "WikimediaCustomizations/modules"
 	},
 	"ResourceModules": {
+		"ext.wikimediaCustomizations.discordSurvey": {
+			"dependencies": [
+				"mediawiki.page.ready"
+			],
+			"packageFiles": [
+				"Discord/ext.wikimediaCustomizations.discordSurvey/index.js",
+				{
+					"name": "Discord/ext.wikimediaCustomizations.discordSurvey/config.json",
+					"callback": "MediaWiki\\Extension\\WikimediaCustomizations\\Discord\\DiscordSurveyHookHandler::getSurveyClientConfig"
+				}
+			]
+		},
 		"ext.wikimediaCustomizations.donor": {
 			"dependencies": [
 				"mediawiki.cookie"
@@ -259,6 +280,7 @@
 		"WikimediaCustomizations": [
 			"i18n",
 			"i18n/attribution",
+			"i18n/discord",
 			"i18n/restsandbox"
 		]
 	},

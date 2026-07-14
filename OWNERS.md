@@ -127,9 +127,16 @@ ported over here and was originally written by ladsgroup. See the ban policy at 
 ## Discord
 * Folders:
   - src/Discord
+  - modules/Discord
+  - i18n/discord
+* Dependencies: QuickSurveys (optional).
 * Contact: https://www.mediawiki.org/wiki/Future_Audiences
 
 Support for Discord's HTML header that allows us to customize page previews.
+
+Also registers a QuickSurvey shown to a sample of readers who arrive via
+Discord preview links (T431352). The survey code is temporary and should be
+removed once the survey concludes.
 
 ## SuggestedInvestigations
 * Folders:

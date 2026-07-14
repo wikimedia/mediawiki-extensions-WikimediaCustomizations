@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eric Gardner"
+		]
+	},
+	"wikimediacustomizations-discordsurvey-question": "Why did you come to Wikipedia (select all that apply)",
+	"wikimediacustomizations-discordsurvey-answer-trust": "Trust in Wikipedia as a source",
+	"wikimediacustomizations-discordsurvey-answer-learn-more": "Learn more about a topic",
+	"wikimediacustomizations-discordsurvey-answer-verify": "Verify information",
+	"wikimediacustomizations-discordsurvey-answer-contribute": "Edit/contribute more information",
+	"wikimediacustomizations-discordsurvey-answer-donate": "Donate",
+	"wikimediacustomizations-discordsurvey-answer-share": "Share with other people",
+	"wikimediacustomizations-discordsurvey-answer-other": "Other",
+	"wikimediacustomizations-discordsurvey-answer-other-placeholder": "Please describe your reason here",
+	"wikimediacustomizations-discordsurvey-privacy-policy": "For more information, see this survey's [https://foundation.wikimedia.org/wiki/Legal:Quick_Survey_Privacy_Statement privacy statement]."
+}

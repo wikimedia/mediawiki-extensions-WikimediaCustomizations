@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eric Gardner"
+		]
+	},
+	"wikimediacustomizations-discordsurvey-question": "Multi-select question shown in a QuickSurvey to readers who arrived on the page from a Discord preview link, asking why they came to Wikipedia. Placeholder wording pending final survey content.",
+	"wikimediacustomizations-discordsurvey-answer-trust": "Survey answer: the reader came to Wikipedia because they trust it as a source.",
+	"wikimediacustomizations-discordsurvey-answer-learn-more": "Survey answer: the reader wants to learn more about the topic.",
+	"wikimediacustomizations-discordsurvey-answer-verify": "Survey answer: the reader is verifying information.",
+	"wikimediacustomizations-discordsurvey-answer-contribute": "Survey answer: the reader is interested in editing or contributing information.",
+	"wikimediacustomizations-discordsurvey-answer-donate": "Survey answer: the reader is interested in donating.",
+	"wikimediacustomizations-discordsurvey-answer-share": "Survey answer: the reader wants to share the content with other people.",
+	"wikimediacustomizations-discordsurvey-answer-other": "Survey answer: the reader came for some other reason",
+	"wikimediacustomizations-discordsurvey-answer-other-placeholder": "Placeholder text prompting the user to describe their reason",
+	"wikimediacustomizations-discordsurvey-privacy-policy": "Footer of the survey dialog, linking to the generic QuickSurveys privacy statement on the Wikimedia Foundation wiki."
+}
