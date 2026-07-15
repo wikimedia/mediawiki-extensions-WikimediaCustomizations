@@ -16,6 +16,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Licenza do contido",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Ligazón aos detalles da licenza",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Nome da licenza",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-short": "Nome curto/Abreviatura da licenza",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "URL da páxina. O valor do enderezo URL inclúe un parámetro de procedencia específico da Wikimedia (`wprov`). Isto axuda á Wikimedia a avaliar se as chamadas á acción para a participación son efectivas sen cambiar a páxina de destino ou os datos de recoñecemento. Recomendamos manter o parámetro sempre que sexa posible.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Iconas e logotipos do wiki",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Nome da marca",
