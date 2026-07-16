@@ -29,14 +29,14 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Јазик на содржината на страницата, форматиран како јазичен код",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Сигнали на доверба и релевантност",
 	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Број на учесници",
-	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Датум на последната измена на страницата.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Датум и време на последната поднова во ISO 8601-формат",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Број на посети на страницата во последниве 30 дена.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Бројтона наводи на страницата. Ова својство се изоставува за податотечни страници и може да биде нула ако не може да се утврди бројот.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Информации за повикот за страницата.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Објекти на повик за дарување за страницата.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "Стандардна URL за повиок.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "URL за повик за дарување на Фондацијата.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "URL за повик за дарување на Фондацијата за посебни пригоди.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Бројот на наводи. Ова својство се изоставува за податотечни страници и може да биде „null“ ако не може да се утврди бројот.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Повици за дејство",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Повици за дарување",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "Стандарден повик за дарување.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Повик за дарување на Фондацијата Викимедија.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Повик за дарување за специјален поход",
 	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Објекти на повик за учество за страницата.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "URL на разговорната страница на повикот."
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Повик за учество на разговорната страница"
 }

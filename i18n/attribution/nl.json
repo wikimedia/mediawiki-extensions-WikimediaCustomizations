@@ -16,6 +16,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "Inhoudslicentie",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "Koppeling naar licentiegegevens",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "Licentienaam",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-short": "Korte naam/afkorting van de licentie",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "Pagina-url. De url-waarde bevat een Wikimedia-specifieke herkomstparameter (`wprov`). Hiermee kan Wikimedia beoordelen of oproepen tot deelname effectief zijn, zonder de bestemmingspagina of de bronvermelding te wijzigen. We raden aan de parameter zoveel mogelijk te behouden.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "Pictogrammen en logo's voor de wiki",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "Merknaam",
