@@ -3,7 +3,7 @@
 		"authors": [
 		]
 	},
-	"special-restsandbox": "REST Sandbox",
+	"restsandbox": "REST Sandbox",
 	"wikimediacustomizations-restsandbox-text": "Use this page to experiment with the MediaWiki REST APIs. API calls made through the sandbox interface will interact with live wiki content and may modify the wiki. Refer to the [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API API documentation] for further details about API usage.",
 	"wikimediacustomizations-restsandbox-disclaimer": "Have feedback about this sandbox? Please leave it [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox here].<br />Note: sandbox UI and navigation items do not yet support translation.",
 	"wikimediacustomizations-restsandbox-select-api": "Choose the API to explore.",

@@ -258,6 +258,9 @@
 			"i18n/restsandbox"
 		]
 	},
+	"ExtensionMessagesFiles": {
+		"WikimediaCustomizationsRestSandboxAliases": "RestSandbox.alias.php"
+	},
 	"RestModuleFiles": [
 		"src/Attribution/attribution.v0-beta.json"
 	],
