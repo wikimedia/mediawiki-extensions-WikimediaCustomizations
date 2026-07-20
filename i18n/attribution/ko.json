@@ -17,6 +17,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-license": "콘텐츠 라이선스",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-url": "라이선스 세부 정보 링크",
 	"wikimediacustomizations-attribution-get-pages-signals-property-license-title": "라이선스 제목",
+	"wikimediacustomizations-attribution-get-pages-signals-property-license-short": "라이선스 약칭 / 약자",
 	"wikimediacustomizations-attribution-get-pages-signals-property-link": "문서 URL입니다. 이 URL 값에는 위키미디어 전용 출처 매개변수(`wprov`)가 포함되어 있습니다. 이 매개변수는 대상 문서나 출처 정보를 변경하지 않으면서도 위키미디어가 행동 유도 문구가 효과적인지 평가하는 데 도움이 됩니다. 가능하면 이 매개변수를 유지하는 것이 좋습니다.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks": "위키의 아이콘과 로고",
 	"wikimediacustomizations-attribution-get-pages-signals-property-default-brand-marks-name": "므랜드 마크 이름",
