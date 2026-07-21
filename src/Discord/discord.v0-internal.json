@@ -1,0 +1,33 @@
+{
+	"mwapi": "1.1.0",
+	"moduleId": "discord/v0-internal",
+	"info": {
+		"version": "0.1.0-internal",
+		"title": "Discord Preview API",
+		"contact": {
+			"name": "Future Audiences Team",
+			"url": "https://www.mediawiki.org/wiki/Talk:Future_Audiences"
+		}
+	},
+	"externalDocs": {
+		"description": "Discord preview project page",
+		"url": "https://meta.wikimedia.org/wiki/Future_Audiences/Discord_previews"
+	},
+	"paths": {
+		"/discord-preview": {
+			"get": {
+				"handler": {
+					"class": "MediaWiki\\Extension\\WikimediaCustomizations\\Discord\\DiscordPreviewRestHandler",
+					"services": [
+						"PageRestHelperFactory",
+						"TitleFactory",
+						"UrlUtils",
+						"ParserOutputAccess",
+						"PageProps",
+						"RepoGroup"
+					]
+				}
+			}
+		}
+	}
+}

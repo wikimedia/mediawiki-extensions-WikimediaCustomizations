@@ -262,7 +262,8 @@
 		"WikimediaCustomizationsRestSandboxAliases": "RestSandbox.alias.php"
 	},
 	"RestModuleFiles": [
-		"src/Attribution/attribution.v0-beta.json"
+		"src/Attribution/attribution.v0-beta.json",
+		"src/Discord/discord.v0-internal.json"
 	],
 	"manifest_version": 2
 }
