@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Discord;
 use LogicException;
 use MediaWiki\Config\Config;
 use MediaWiki\Content\WikiTextStructure;
+use MediaWiki\Extension\ParserMigration\Oracle;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Page\PageProps;
@@ -41,6 +42,7 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 		private readonly RepoGroup $repoGroup,
 		private readonly WANObjectCache $cache,
 		private readonly Config $config,
+		private readonly ?Oracle $parserMigrationOracle,
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
 	}
@@ -93,9 +95,22 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 	 * @return string|null The extract, or null if none could be produced
 	 */
 	private function buildExtract( ExistingPageRecord $page ): ?string {
+		$parserOptions = ParserOptions::newFromAnon();
+		// Follow the parser that ParserMigration selects for anonymous
+		// article views, so that on Parsoid-default wikis this reuses the
+		// ParserCache entry those views populate instead of triggering a
+		// redundant legacy parse
+		if ( $this->parserMigrationOracle ) {
+			$title = $this->titleFactory->newFromPageIdentity( $page );
+			if ( $title->hasContentModel( CONTENT_MODEL_WIKITEXT ) &&
+				$this->parserMigrationOracle->isParsoidDefaultFor( $title )
+			) {
+				$parserOptions->setUseParsoid();
+			}
+		}
 		$status = $this->parserOutputAccess->getParserOutput(
 			$page,
-			ParserOptions::newFromAnon(),
+			$parserOptions,
 			null,
 			ParserOutputAccess::OPT_FOR_ARTICLE_VIEW
 		);

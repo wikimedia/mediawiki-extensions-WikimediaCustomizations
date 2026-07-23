@@ -27,6 +27,9 @@
 						"RepoGroup",
 						"MainWANObjectCache",
 						"WikimediaCustomizations.Config"
+					],
+					"optional_services": [
+						"ParserMigration.Oracle"
 					]
 				}
 			}

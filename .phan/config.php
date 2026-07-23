@@ -15,6 +15,7 @@ $dirs = [
 	'../../extensions/LoginNotify',
 	'../../extensions/OATHAuth',
 	'../../extensions/PageViewInfo',
+	'../../extensions/ParserMigration',
 	'../../extensions/WikimediaEvents',
 ];
 
