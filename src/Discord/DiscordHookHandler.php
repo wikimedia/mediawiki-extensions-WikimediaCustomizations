@@ -52,7 +52,6 @@ class DiscordHookHandler implements BeforePageDisplayHook {
 
 		$serviceArguments = [
 			'title' => $title->getPrefixedText(),
-			'wprov' => $discordConfig['wprov'] ?? null,
 			'db' => $dbname,
 			'lang' => $lang
 		];

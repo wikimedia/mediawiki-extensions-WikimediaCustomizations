@@ -178,23 +178,18 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 			return $this->getResponseFactory()->createHttpError( 404 );
 		}
 		$title = $this->titleFactory->newFromPageIdentity( $page );
-		$url = $title->getFullUrl();
 		$formattedTitle = $title->getPrefixedText();
+
+		// Discord needs an absolute URL; production $wgServer is protocol-relative
+		$url = $title->getFullUrl( '', false, PROTO_CANONICAL );
+		// Tag outgoing article links with the configured wprov analytics value
+		$wprov = $this->config->get( 'WMCDiscord' )['wprov'] ?? null;
+		if ( $wprov !== null && $wprov !== '' ) {
+			$url = wfAppendQuery( $url, [ 'wprov' => $wprov ] );
+		}
 
 		$extract = $this->escapeMarkdown( $this->fetchExtract( $page ) ?? '' );
 		$thumbnail = $this->fetchThumbnailUrl( $page );
-
-		// Tack the wprov tracking param onto the URL, preserving any query params
-		$wprov = $params['wprov'] ?? null;
-		if ( $wprov !== null && $wprov !== '' ) {
-			$parsedUrl = $this->urlUtils->parse( $url );
-			if ( $parsedUrl !== null ) {
-				$query = wfCgiToArray( $parsedUrl['query'] ?? '' );
-				$query['wprov'] = $wprov;
-				$parsedUrl['query'] = wfArrayToCgi( $query );
-				$url = $this->urlUtils->assemble( $parsedUrl );
-			}
-		}
 
 		$components = [];
 		// An unencoded ')' in the URL would end the markdown link early
@@ -222,11 +217,6 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 				ParamValidator::PARAM_TYPE => 'string',
 				ParamValidator::PARAM_REQUIRED => true,
 			],
-			'wprov' => [
-				Handler::PARAM_SOURCE => 'query',
-				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => false,
-			]
 		];
 	}
 }
