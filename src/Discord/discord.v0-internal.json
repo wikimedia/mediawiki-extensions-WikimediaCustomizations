@@ -25,7 +25,8 @@
 						"ParserOutputAccess",
 						"PageProps",
 						"RepoGroup",
-						"MainWANObjectCache"
+						"MainWANObjectCache",
+						"WikimediaCustomizations.Config"
 					]
 				}
 			}

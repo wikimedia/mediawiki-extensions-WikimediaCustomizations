@@ -62,6 +62,10 @@
 				"wprov": null
 			}
 		},
+		"WMCDiscordPreviewEnabled": {
+			"description": "Whether to serve the Discord preview REST endpoint. Disabled by default; enable it per wiki through site configuration. Turning it off again disables the endpoint immediately, without a code deploy.",
+			"value": false
+		},
 		"WMCNoReferrerDomains": {
 			"description": "List of external link domains that should get rel=\"noreferrer noopener\", so the browser omits the Referer header when following the link. Subdomains match. See T429090.",
 			"value": []

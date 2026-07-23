@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Discord;
 
 use LogicException;
+use MediaWiki\Config\Config;
 use MediaWiki\Content\WikiTextStructure;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Page\ExistingPageRecord;
@@ -39,6 +40,7 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 		private readonly PageProps $pageProps,
 		private readonly RepoGroup $repoGroup,
 		private readonly WANObjectCache $cache,
+		private readonly Config $config,
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
 	}
@@ -144,6 +146,11 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 	}
 
 	public function run(): Response {
+		if ( !$this->config->get( 'WMCDiscordPreviewEnabled' ) ) {
+			return $this->getResponseFactory()
+				->createHttpError( 404, [ 'message' => 'This feature is currently disabled' ] );
+		}
+
 		$params = $this->getValidatedParams();
 
 		$titleString = $params['title'];
