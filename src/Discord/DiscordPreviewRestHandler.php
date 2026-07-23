@@ -16,6 +16,7 @@ use MediaWiki\Rest\Response;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\Utils\UrlUtils;
+use Wikimedia\ObjectCache\WANObjectCache;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
@@ -25,6 +26,9 @@ use Wikimedia\ParamValidator\ParamValidator;
  * @unstable
  */
 class DiscordPreviewRestHandler extends SimpleHandler {
+	/** Bump to invalidate cached extracts when the extract format changes */
+	private const CACHE_VERSION = 1;
+
 	private PageContentHelper $contentHelper;
 
 	public function __construct(
@@ -34,6 +38,7 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 		private readonly ParserOutputAccess $parserOutputAccess,
 		private readonly PageProps $pageProps,
 		private readonly RepoGroup $repoGroup,
+		private readonly WANObjectCache $cache,
 	) {
 		$this->contentHelper = $helperFactory->newPageContentHelper();
 	}
@@ -52,11 +57,40 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 	}
 
 	/**
-	 * Builds a plain-text extract from the page's rendered HTML
+	 * Fetches the plain-text extract for the page, memoized in WANObjectCache
+	 * so that repeat requests for the same rendering of a page skip the
+	 * HTML-to-text pass
 	 * @param ExistingPageRecord $page The page to extract from
 	 * @return string|null The extract, or null if none could be produced
 	 */
 	private function fetchExtract( ExistingPageRecord $page ): ?string {
+		$extract = $this->cache->getWithSetCallback(
+			// page_touched changes whenever the page must be re-rendered
+			// (edits, template changes, purges), so each rendering gets its
+			// own key and superseded entries just age out via the TTL
+			$this->cache->makeKey(
+				'WikimediaCustomizations',
+				'discord-preview-extract',
+				self::CACHE_VERSION,
+				$page->getId(),
+				$page->getTouched()
+			),
+			WANObjectCache::TTL_DAY,
+			function () use ( $page ): string {
+				// "No extract" must be cached too; '' represents it because
+				// WANObjectCache reserves false as its cache-miss value
+				return $this->buildExtract( $page ) ?? '';
+			}
+		);
+		return $extract === '' ? null : $extract;
+	}
+
+	/**
+	 * Builds a plain-text extract from the page's rendered HTML
+	 * @param ExistingPageRecord $page The page to extract from
+	 * @return string|null The extract, or null if none could be produced
+	 */
+	private function buildExtract( ExistingPageRecord $page ): ?string {
 		$status = $this->parserOutputAccess->getParserOutput(
 			$page,
 			ParserOptions::newFromAnon(),

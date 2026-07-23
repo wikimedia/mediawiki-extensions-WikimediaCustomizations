@@ -24,7 +24,8 @@
 						"UrlUtils",
 						"ParserOutputAccess",
 						"PageProps",
-						"RepoGroup"
+						"RepoGroup",
+						"MainWANObjectCache"
 					]
 				}
 			}
