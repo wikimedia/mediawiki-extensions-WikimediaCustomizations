@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Repakr"
+		]
+	},
+	"wikimediacustomizations-desc": "Розширення WikimediaCustomization містить специфічні для Вікімедіа хуки, повідомлення та інші налаштування сайту.",
+	"wikimediacustomizations-bademaildomain-error": "Адреси електронної пошти, що використовують $1, не підтримуються. Виберіть іншого постачальника послуг електронної пошти.",
+	"wikimediacustomizations-donordelightbadge-badge-label": "Значок Вікісерця за вашу пожертву",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "Невеликий значок подяки за вашу пожертву!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "Ваша щедрість допомагає Вікіпедії залишатися вільною та відкритою для людей у всьому світі.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Спробуйте натиснути на нього.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Вилучити значок",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Вилучити цей значок?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Це серце — значок подяки Вам за Вашу пожертву. Значок не можна відновити після його вилучення.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Вилучити значок",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Залишити його"
+}

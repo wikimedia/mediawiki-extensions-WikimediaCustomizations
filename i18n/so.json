@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612"
+		]
+	},
+	"wikimediacustomizations-desc": "Kordhinta WikimediaCustomization waxay martigelisaa qabatooyin, farriimo, iyo habaynta kale ee goobta ee u gaarka ah Wikimedia.",
+	"wikimediacustomizations-bademaildomain-error": "Cinwaannada iimaylka ee isticmaala $1 lama taageero. Fadlan dooro adeeg bixiye iimayl oo kale.",
+	"wikimediacustomizations-donordelightbadge-badge-label": "Astaanta Wikiheart ee deeqdaada",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "Astaanta mahadcelinta yar ee deeqdaada!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "Deeqsinimadaadu waxay ka caawisaa in Wikipedia ay ahaato mid bilaash ah oo furan dadka ku nool dunida oo dhan.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Isku day inaad taabato.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Ka saar astaanta",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "Ma ka saaraysaa astaantan?",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "Wadnahani waa astaanta mahadcelinta deeqdaada. Astaanta lama soo celin karo marka laga saaro.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Ka saar astaanta",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Hayso"
+}
