@@ -52,7 +52,11 @@ class SuggestedInvestigationsHookHandler implements CheckUserSuggestedInvestigat
 			'&user=' . urlencode( $user2 ) .
 			'&startDate=' . $startTime .
 			'&endDate=' . $endTime;
-		$newMessage = new RawMessage( '[$1 $2]', [ $linkHref, $originalMessage ] );
+		$msgText = '<span ' .
+		'class="mw-usertoollinks-interaction-timeline mw-checkuser-suggestedinvestigations-custom-instrument" ' .
+		'data-subtype="interaction-timeline"' .
+		'>[$1 $2]</span>';
+		$newMessage = new RawMessage( $msgText, [ $linkHref, $originalMessage ] );
 		$metadataItem->overrideMessage( $newMessage );
 	}
 }
