@@ -2,15 +2,20 @@
 	"@metadata": {
 		"authors": [
 			"0x48fe75df30",
+			"GuoPC",
 			"Ouclie",
 			"沈澄心"
 		]
 	},
 	"wikimediacustomizations-desc": "WikimediaCustomization（维基媒体自定义）扩展功能托管了Wikimedia（维基媒体）特有的钩子、消息和其他网站自定义功能。",
 	"wikimediacustomizations-bademaildomain-error": "不支持使用$1域名的电子邮件地址。请选择其他电子邮件服务提供商。",
+	"wikimediacustomizations-donordelightbadge-badge-label": "因您的捐赠而颁发的Wikiheart徽章",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "感谢您的捐赠，特此颁发一枚小小的感谢徽章！",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "您的慷慨捐赠有助于让维基百科持续为世界各地的人们提供自由开放的访问服务。",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>试着点击它。</b>",
 	"wikimediacustomizations-donordelightbadge-remove-btn": "移除徽章",
 	"wikimediacustomizations-donordelightbadge-dialog-title": "移除此徽章？",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "这颗爱心是为感谢您的捐赠而颁发的徽章。徽章一旦移除便无法恢复。",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "移除徽章",
 	"wikimediacustomizations-donordelightbadge-dialog-default-action": "留着它"
 }
