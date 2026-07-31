@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Repakr"
+		]
+	},
+	"wikimediacustomizations-desc": "Розширення WikimediaCustomization містить специфічні для Вікімедіа хуки, повідомлення та інші налаштування сайту.",
+	"wikimediacustomizations-bademaildomain-error": "Адреси електронної пошти, що використовують $1, не підтримуються. Виберіть іншого постачальника послуг електронної пошти."
+}
