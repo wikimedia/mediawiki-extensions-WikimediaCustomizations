@@ -102,10 +102,10 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 		// redundant legacy parse
 		if ( $this->parserMigrationOracle ) {
 			$title = $this->titleFactory->newFromPageIdentity( $page );
-			if ( $title->hasContentModel( CONTENT_MODEL_WIKITEXT ) &&
-				$this->parserMigrationOracle->isParsoidDefaultFor( $title )
-			) {
-				$parserOptions->setUseParsoid();
+			if ( $title->hasContentModel( CONTENT_MODEL_WIKITEXT ) ) {
+				$parserOptions->setUseParsoid(
+					$this->parserMigrationOracle->isParsoidDefaultFor( $title )
+				);
 			}
 		}
 		$status = $this->parserOutputAccess->getParserOutput(
