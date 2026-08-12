@@ -148,7 +148,7 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 		$titleText = 'File:Foreign.png';
 		$request = new RequestData( [
 			'method' => 'GET',
-			'queryParams' => [ 'expand' => 'latest' ]
+			'queryParams' => [ 'expand' => 'trust_and_relevance' ]
 		] );
 
 		$helper = $this->createMock( PageContentHelper::class );
@@ -180,7 +180,7 @@ class AttributionRestHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$response = $this->executeHandler( $handler, $request, $config, [], [], [], null, null, $module );
 		$expectedUrl = 'https://commons.wikimedia.org/w/rest.php';
-		$expectedUrl .= '/attribution/v0-beta/pages/File%3AForeign.png/signals?expand=latest';
+		$expectedUrl .= '/attribution/v0-beta/pages/File%3AForeign.png/signals?expand=trust_and_relevance';
 		$this->assertSame( 301, $response->getStatusCode() );
 		$this->assertSame( $expectedUrl, $response->getHeaderLine( 'Location' ) );
 	}

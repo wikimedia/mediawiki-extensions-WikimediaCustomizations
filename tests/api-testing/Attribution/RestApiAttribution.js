@@ -110,7 +110,7 @@ describe( 'Attribution API tests', () => {
 		} );
 
 		it( 'Should respect expand parameter and return both trust_and_relevance and calls_to_action properties', async () => {
-			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance,calls_to_action` );
+			const response = await client.get( `pages/${ title }/signals?expand=trust_and_relevance%7Ccalls_to_action` );
 			assert.deepEqual( response.status, 200 );
 			assert.equal( response.headers[ 'cache-control' ], 'public, max-age=3600, s-maxage=3600' );
 

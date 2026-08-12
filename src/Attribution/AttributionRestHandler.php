@@ -60,7 +60,8 @@ class AttributionRestHandler extends SimpleHandler {
 				Handler::PARAM_DESCRIPTION => new MessageValue(
 					'wikimediacustomizations-attribution-get-pages-signals-param-expand'
 				),
-				ParamValidator::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_TYPE => [ 'trust_and_relevance', 'calls_to_action' ],
+				ParamValidator::PARAM_ISMULTI => true,
 				ParamValidator::PARAM_REQUIRED => false,
 			],
 		] );
@@ -130,7 +131,7 @@ class AttributionRestHandler extends SimpleHandler {
 		$span = $this->tracer->createSpan( 'Attribution RestEndpoint' )->start();
 		$timer = $this->statsFactory->getTiming( 'article_attribution_seconds' )->start();
 		$params = $this->getValidatedParams();
-		$paramsToExpand = isset( $params['expand'] ) ? explode( ',', $params['expand'] ) : [];
+		$paramsToExpand = $params['expand'] ?? [];
 		sort( $paramsToExpand );
 
 		try {
