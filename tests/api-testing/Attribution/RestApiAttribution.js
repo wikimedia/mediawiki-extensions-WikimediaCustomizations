@@ -99,7 +99,6 @@ describe( 'Attribution API tests', () => {
 
 			assert.isDefined( response.body.calls_to_action.donation_ctas );
 			assert.isDefined( response.body.calls_to_action.participation_ctas );
-			assert.isDefined( response.body.calls_to_action.participation_ctas.download_app );
 			assert.isDefined( response.body.calls_to_action.participation_ctas.create_account );
 			assert.isDefined( response.body.calls_to_action.participation_ctas.learn_more );
 
@@ -116,7 +115,6 @@ describe( 'Attribution API tests', () => {
 
 			assert.isDefined( response.body.calls_to_action.donation_ctas );
 			assert.isDefined( response.body.calls_to_action.participation_ctas );
-			assert.isDefined( response.body.calls_to_action.participation_ctas.download_app );
 			assert.isDefined( response.body.calls_to_action.participation_ctas.create_account );
 			assert.isDefined( response.body.calls_to_action.participation_ctas.learn_more );
 

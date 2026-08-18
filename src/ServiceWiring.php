@@ -61,6 +61,7 @@ return [
 			LoggerFactory::getInstance( 'Attribution' ),
 			$statsFactory,
 			$referenceCountProvider,
+			$services->getLanguageNameUtils(),
 			$pageViewService
 		);
 	},

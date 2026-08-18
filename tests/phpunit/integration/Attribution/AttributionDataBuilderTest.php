@@ -11,6 +11,7 @@ use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountResult
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
+use MediaWiki\Languages\LanguageNameUtils;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -30,11 +31,11 @@ use Wikimedia\Telemetry\NoopTracer;
  */
 class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
-	private function mockConfig(): Config {
+	private function mockConfig( string $dbname = 'enwiki' ): Config {
 		$config = $this->createMock( Config::class );
 		$config->method( 'get' )->willReturnMap(
 			[
-				[ MainConfigNames::DBname, 'enwiki' ],
+				[ MainConfigNames::DBname, $dbname ],
 				[ MainConfigNames::LanguageCode, 'en' ],
 				[ MainConfigNames::Logos, false ],
 				[ MainConfigNames::CanonicalServer, 'https://example.org' ],
@@ -47,9 +48,12 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		?PageViewService $pageViewService = null,
 		?ReferenceCountProvider $referenceCountProvider = null,
 		?RepoGroup $repoGroup = null,
-		?StatsFactory $statsFactory = null
+		?StatsFactory $statsFactory = null,
+		?Config $config = null,
+		?SiteConfiguration $siteConfig = null,
+		?LanguageNameUtils $languageNameUtils = null
 	): AttributionDataBuilder {
-		$config = $this->mockConfig();
+		$config = $config ?? $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
 		if ( !$referenceCountProvider ) {
 			$referenceCountProvider = $this->createMock( ReferenceCountProvider::class );
@@ -61,13 +65,17 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			$repoGroup = $this->createMock( RepoGroup::class );
 		}
 		$noopTracer = new NoopTracer();
-		$siteConfig = $this->createMock( SiteConfiguration::class );
-		$siteConfig->method( 'siteFromDB' )
-			->willReturn( [ 'wiki', 'unittest' ] );
+		if ( !$siteConfig ) {
+			$siteConfig = $this->createMock( SiteConfiguration::class );
+			$siteConfig->method( 'siteFromDB' )
+				->willReturn( [ 'wikipedia', 'en' ] );
+		}
+		$languageNameUtils ??= $this->getServiceContainer()->getLanguageNameUtils();
 
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
-			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $referenceCountProvider, $pageViewService
+			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $referenceCountProvider,
+			$languageNameUtils, $pageViewService
 		);
 	}
 
@@ -295,7 +303,101 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayHasKey( 'create_account', $result['calls_to_action']['participation_ctas'] );
 		$this->assertArrayHasKey( 'learn_more', $result['calls_to_action']['participation_ctas'] );
-		$this->assertArrayNotHasKey( 'talk_page', $result['calls_to_action']['participation_ctas'] );
+	}
+
+	public static function provideCallsToActionDownloadAppByProject(): array {
+		return [
+			'Wikipedia (enwiki) has download_app' => [
+				'dbname' => 'enwiki',
+				'site' => 'wikipedia',
+				'lang' => 'en',
+				'expectDownloadApp' => true,
+			],
+			'Simple Wikipedia (simplewiki) has download_app' => [
+				'dbname' => 'simplewiki',
+				'site' => 'wikipedia',
+				'lang' => 'simple',
+				'expectDownloadApp' => true,
+			],
+			'Test Wikipedia (testwiki) has download_app' => [
+				'dbname' => 'testwiki',
+				'site' => 'wikipedia',
+				'lang' => 'test',
+				'expectDownloadApp' => true,
+			],
+			'Wiktionary (enwiktionary) does not have download_app' => [
+				'dbname' => 'enwiktionary',
+				'site' => 'wiktionary',
+				'lang' => 'en',
+				'expectDownloadApp' => false,
+			],
+			'Wikisource (enwikisource) does not have download_app' => [
+				'dbname' => 'enwikisource',
+				'site' => 'wikisource',
+				'lang' => 'en',
+				'expectDownloadApp' => false,
+			],
+			'Commons (commonswiki) does not have download_app' => [
+				'dbname' => 'commonswiki',
+				'site' => 'wikipedia',
+				'lang' => 'commons',
+				'expectDownloadApp' => false,
+			],
+			'Wikidata (wikidatawiki) does not have download_app' => [
+				'dbname' => 'wikidatawiki',
+				'site' => 'wikipedia',
+				'lang' => 'wikidata',
+				'expectDownloadApp' => false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideCallsToActionDownloadAppByProject
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getCallsToAction()
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::isWikipediaProject()
+	 */
+	public function testCallsToActionDownloadAppByProject(
+		string $dbname,
+		string $site,
+		string $lang,
+		bool $expectDownloadApp
+	) {
+		$config = $this->mockConfig( $dbname );
+		$siteConfig = $this->createMock( SiteConfiguration::class );
+		$siteConfig->method( 'siteFromDB' )
+			->with( $dbname )
+			->willReturn( [ $site, $lang ] );
+
+		$builder = $this->newDataBuilder(
+			null,
+			null,
+			null,
+			null,
+			$config,
+			$siteConfig
+		);
+
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+		);
+
+		$this->assertArrayHasKey( 'calls_to_action', $result );
+		$this->assertArrayHasKey( 'participation_ctas', $result['calls_to_action'] );
+		$this->assertArrayHasKey( 'create_account', $result['calls_to_action']['participation_ctas'] );
+		$this->assertArrayHasKey( 'learn_more', $result['calls_to_action']['participation_ctas'] );
+
+		if ( $expectDownloadApp ) {
+			$this->assertArrayHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
+		} else {
+			$this->assertArrayNotHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
+		}
 	}
 
 	public function testCallsToActionDoesntContainParticipationForNonWikiText() {

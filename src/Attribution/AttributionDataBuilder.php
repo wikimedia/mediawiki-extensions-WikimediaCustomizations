@@ -8,6 +8,7 @@ use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
+use MediaWiki\Languages\LanguageNameUtils;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
@@ -39,6 +40,7 @@ class AttributionDataBuilder {
 		private readonly LoggerInterface $logger,
 		private readonly StatsFactory $stats,
 		private readonly ReferenceCountProvider $referenceCountProvider,
+		private readonly LanguageNameUtils $languageNameUtils,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
@@ -339,8 +341,9 @@ class AttributionDataBuilder {
 			];
 		if ( $this->includeExtendedAttribution( $title ) ) {
 			// TEMPORARY: CTAs below have not yet been reviewed by owning teams. See: T419157
-			$callsToAction['participation_ctas'] = [
-				'download_app' => [
+			$participationCtas = [];
+			if ( $this->isWikipediaProject() ) {
+				$participationCtas['download_app'] = [
 					// TEMPORARY: defaulting to Android; waiting on OS-aware link from apps team. See: T419157
 					'url' => 'https://play.google.com/store/apps/details?id=org.wikipedia',
 					'link_text' => 'Download the Wikipedia app',
@@ -349,26 +352,27 @@ class AttributionDataBuilder {
 						. ' with exclusive features designed to make discovering, reading, and'
 						. ' engaging with the world\'s largest encyclopedia faster and more'
 						. ' enjoyable than ever.',
-				],
-				'create_account' => [
-					'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount?wprov=afcw1',
-					'link_text' => 'Create a Wikipedia account',
-					'description' => 'Create a free account and get more out of Wikipedia!'
-						. ' While anyone can browse and even edit without signing in, an account'
-						. ' unlocks a richer experience for readers and gives contributors the'
-						. ' ability to build a reputation, save their work, and have a real say'
-						. ' in how the world\'s largest encyclopedia takes shape.',
-				],
-				'learn_more' => [
-					// TEMPORARY: should resolve to localised version if possible. See: T419157
-					'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia?wprov=afcw1',
-					'link_text' => 'Learn more about Wikipedia',
-					'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
-						. ' by the people who use it. Since 2001, it has grown rapidly to become'
-						. ' the world\'s largest reference website. Come learn how you can help'
-						. ' shape its content and protect its future.',
-				],
+				];
+			}
+			$participationCtas['create_account'] = [
+				'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount?wprov=afcw1',
+				'link_text' => 'Create a Wikipedia account',
+				'description' => 'Create a free account and get more out of Wikipedia!'
+					. ' While anyone can browse and even edit without signing in, an account'
+					. ' unlocks a richer experience for readers and gives contributors the'
+					. ' ability to build a reputation, save their work, and have a real say'
+					. ' in how the world\'s largest encyclopedia takes shape.',
 			];
+			$participationCtas['learn_more'] = [
+				// TEMPORARY: should resolve to localised version if possible. See: T419157
+				'url' => 'https://en.wikipedia.org/wiki/Help:Introduction_to_Wikipedia?wprov=afcw1',
+				'link_text' => 'Learn more about Wikipedia',
+				'description' => 'Wikipedia is a free encyclopedia, written collaboratively'
+					. ' by the people who use it. Since 2001, it has grown rapidly to become'
+					. ' the world\'s largest reference website. Come learn how you can help'
+					. ' shape its content and protect its future.',
+			];
+			$callsToAction['participation_ctas'] = $participationCtas;
 		}
 		return $callsToAction;
 	}
@@ -533,6 +537,19 @@ class AttributionDataBuilder {
 			->observeNanoseconds( ConvertibleTimestamp::hrtime() - $startTime );
 		$span->setAttributes( [ 'source' => $countResult->getSource() ] );
 		return $countResult->getReferenceCount();
+	}
+
+	/**
+	 * Check if the current wiki is an actual Wikipedia project (e.g. enwiki, dewiki, simplewiki)
+	 * and not a sister project (e.g. wiktionary, wikisource) or specialized project (e.g. commons, wikidata).
+	 */
+	private function isWikipediaProject(): bool {
+		[ $site, $lang ] = $this->siteConfig->siteFromDB( $this->dbname );
+		if ( $site !== 'wikipedia' && $site !== 'wiki' ) {
+			return false;
+		}
+		return $this->languageNameUtils->isKnownLanguageTag( $lang )
+			|| in_array( $lang, [ 'simple', 'test', 'test2' ], true );
 	}
 
 	/**
