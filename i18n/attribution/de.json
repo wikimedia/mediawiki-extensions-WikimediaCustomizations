@@ -7,7 +7,7 @@
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Ruft die Attributionsinformationen für eine Seite ab.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Ruft die Attributionsinformationen für eine Seite ab.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Attributions-Information für eine Seite.",
-	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Ermöglicht es dem Aufrufer, zusätzliche Signalarten in die Antwort aufzunehmen, entsprechend den Kategorien des [Attribution Frameworks](https://wikimedia-attribution.toolforge.org/). Standardmäßig werden nur „Essential“-Signale zurückgegeben. Zusätzliche Kategorien können als durch Kommas getrennte Liste angegeben werden. Mögliche Werte: „trust_and_relevance“, „calls_to_action“.",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "Ermöglicht es dem Aufrufer, zusätzliche Signalarten in die Antwort aufzunehmen, entsprechend den Kategorien des [Attribution Frameworks](https://wikimedia-attribution.toolforge.org/). Standardmäßig werden nur „Essential“-Signale zurückgegeben. Weitere Kategorien können als durch Pipe-Zeichen getrennte Liste angegeben werden (oder durch Wiederholung des Abfrageparameters „expand“). Mögliche Werte: „trust_and_relevance“, „calls_to_action“.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "Wesentliche Attributionssignale",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "Seitentitel",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "Der Künstler oder Autor der Datei",
