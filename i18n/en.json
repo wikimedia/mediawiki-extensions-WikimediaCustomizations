@@ -8,6 +8,10 @@
 
 	"wikimediacustomizations-bademaildomain-error": "Email addresses using $1 are not supported. Please choose another email provider.",
 
+	"prefs-donor": "Donor status",
+	"wikimediacustomizations-donor-identify-label": "Would you like us to remember that you donated on your Wikipedia account? Toggling this off will remove this recognition and is irreversible.",
+	"wikimediacustomizations-donor-identify-help": "By linking an account, you agree to the Wikimedia Foundation offering you donor-related experiences by privately recognizing you as a supporter on {{SITENAME}}'s website and apps while you are signed in. [https://foundation.wikimedia.org/wiki/Legal:Donor%20experiences Learn more].",
+
 	"wikimediacustomizations-donordelightbadge-badge-label": "Wikiheart badge for your donation",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "A little thank you badge for your donation!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Your generosity helps keep Wikipedia free and open for people across the globe.",

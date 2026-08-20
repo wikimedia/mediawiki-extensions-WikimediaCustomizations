@@ -97,7 +97,9 @@
 		},
 		"donoridentification": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationHookHandler",
-			"services": []
+			"services": [
+				"UserOptionsManager"
+			]
 		},
 		"donoridentification-donorbadge": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\DonorIdentification\\DonorIdentificationDonorBadgeHookHandler",
