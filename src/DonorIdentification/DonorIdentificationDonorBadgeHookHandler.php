@@ -17,6 +17,18 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 	public function onBeforePageDisplay( $out, $skin ): void {
 		if ( ExtensionRegistry::getInstance()->isLoaded( 'TestKitchen' ) ) {
 			$experimentManager = MediaWikiServices::getInstance()->getService( 'TestKitchen.ExperimentManager' );
+
+			// Non-caching experiment
+			// No need to check TestKitchen extension or make changes to page output
+			if (
+				$out->getSkin()->getSkinName() === 'minerva' &&
+				$out->getTitle() &&
+				$out->getTitle()->getNamespace() === NS_MAIN
+			) {
+				$out->addModules( 'ext.wikimediaCustomizations.donorAccountCreation' );
+			}
+
+			// Caching experiments
 			$experiment = $experimentManager->getExperiment( 'donor-delight-badge' );
 			if (
 				// Limit to experiment treatment groups and ensure showing only to anonymous users.
@@ -42,5 +54,4 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 			}
 		}
 	}
-
 }

@@ -17,5 +17,16 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Title of the confirmation dialog shown after clicking the remove badge button",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Body text of the confirmation dialog shown after clicking the remove badge button",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Label of the button to confirm removing the badge in the confirmation dialog shown after clicking the remove button",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Label of the button to keep the badge in the confirmation dialog shown after clicking the remove button"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Label of the button to keep the badge in the confirmation dialog shown after clicking the remove button",
+	"wc-donor-account-creation-dialog-title": "Title of the account creation dialog",
+	"wc-donor-account-creation-dialog-subtitle": "Subtitle of the account creation dialog",
+	"wc-donor-account-creation-dialog-body": "Main body text of the account creation dialog",
+	"wc-donor-account-creation-dialog-learn": "Learn more text for the account creation dialog",
+	"wc-donor-account-creation-dialog-benefits-label": "Benefits label in the treatment version of the account creation dialog",
+	"wc-donor-account-creation-dialog-benefits-list-1": "List item 1 of benefits in the treatment version of the account creation dialog",
+	"wc-donor-account-creation-dialog-benefits-list-2": "List item 1 of benefits in the treatment version of the account creation dialog",
+	"wc-donor-account-creation-dialog-benefits-list-3": "List item 1 of benefits in the treatment version of the account creation dialog",
+	"wc-donor-account-creation-dialog-yes": "User consents to the account creation dialog",
+	"wc-donor-account-creation-dialog-no": "User declines the account creation dialog",
+	"wc-donor-account-creation-dialog-later": "User chooses to be reminded later in the account creation dialog"
 }

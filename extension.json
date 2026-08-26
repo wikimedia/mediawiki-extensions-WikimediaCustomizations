@@ -198,6 +198,45 @@
 				"DonorIdentification/ext.wikimediaCustomizations.donor/relationships.json"
 			]
 		},
+		"ext.wikimediaCustomizations.donorAccountCreation": {
+			"dependencies": [
+				"mediawiki.api",
+				"mediawiki.user",
+				"mediawiki.util",
+				"ext.wikimediaEvents.testKitchen",
+				"ext.wikimediaCustomizations.donor"
+			],
+			"packageFiles": [
+				"DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation/index.js"
+			]
+		},
+		"ext.wikimediaCustomizations.donorAccountCreation.dialog": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"codexComponents": [
+				"CdxButton",
+				"CdxDialog"
+			],
+			"dependencies": [
+				"vue"
+			],
+			"packageFiles": [
+				"DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation.dialog/dialog.js",
+				"DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation.dialog/AccountCreationDialog.vue"
+			],
+			"messages": [
+				"wc-donor-account-creation-dialog-title",
+				"wc-donor-account-creation-dialog-subtitle",
+				"wc-donor-account-creation-dialog-benefits-label",
+				"wc-donor-account-creation-dialog-benefits-list-1",
+				"wc-donor-account-creation-dialog-benefits-list-2",
+				"wc-donor-account-creation-dialog-benefits-list-3",
+				"wc-donor-account-creation-dialog-body",
+				"wc-donor-account-creation-dialog-learn",
+				"wc-donor-account-creation-dialog-yes",
+				"wc-donor-account-creation-dialog-no",
+				"wc-donor-account-creation-dialog-later"
+			]
+		},
 		"ext.wikimediaCustomizations.donorDelightBadge.styles": {
 			"styles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donorDelightBadge.styles/styles.less"

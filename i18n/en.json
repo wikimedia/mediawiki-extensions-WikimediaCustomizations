@@ -20,5 +20,16 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Remove this badge?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "This heart is a thank you badge for your donation. The badge cannot be restored after it is removed.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Remove badge",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Keep it"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Keep it",
+	"wc-donor-account-creation-dialog-title": "Would you like us to remember that you donated on your Wikipedia account?",
+	"wc-donor-account-creation-dialog-subtitle": "Thank you for your recent donation to Wikipedia!",
+	"wc-donor-account-creation-dialog-body": "By linking an account, you agree to the Wikimedia Foundation offering you donor-related experiences by privately recognizing you as a supporter on Wikipedia’s website and apps while you are signed in!",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences Learn more]",
+	"wc-donor-account-creation-dialog-benefits-label": "By linking an account, you can:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "Stop seeing generic fundraising appeals",
+	"wc-donor-account-creation-dialog-benefits-list-2": "Receive updates about the impact of your support",
+	"wc-donor-account-creation-dialog-benefits-list-3": "Unlock features across Wikipedia’s website and apps",
+	"wc-donor-account-creation-dialog-yes": "Yes",
+	"wc-donor-account-creation-dialog-no": "No thanks",
+	"wc-donor-account-creation-dialog-later": "Remind me later"
 }
