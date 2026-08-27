@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"شاه زمان پټان"
+		]
+	},
+	"wikimediacustomizations-desc": "د ويکي‌رسنۍ‌دوديزولو شاتاړی د ويکي‌رسنۍ ځانگړو چنگکونو، پيغامونو او نورو وېبځي دوديزونو کوربه‌توب کوي.",
+	"wikimediacustomizations-bademaildomain-error": "هغه برېښليک پتې چې $1 کاروي، نه ملاتړ کېږي. مهرباني وکړئ بل برېښليک چمتو کوونکی غوره کړئ.",
+	"wikimediacustomizations-donordelightbadge-badge-label": "ستاسو د بسپنې لپاره د ويکي‌زړه ستاين‌نښه",
+	"wikimediacustomizations-donordelightbadge-popover-heading": "ستاسو د بسپنې لپاره د مننې يوه کوچنۍ ستاين‌نښه!",
+	"wikimediacustomizations-donordelightbadge-popover-body-b": "ستاسو سخاوت د ويکي‌پېډيا د زاد او په ټوله نړۍ کې د خلکو لپاره پرانېستې ساتلو کې مرسته کوي.",
+	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>هڅه وکړئ چې ويې ټپوئ.</b>",
+	"wikimediacustomizations-donordelightbadge-remove-btn": "ستاين‌نښه لرې‌کول",
+	"wikimediacustomizations-donordelightbadge-dialog-title": "دا ستاين‌نښه لرې کړي؟",
+	"wikimediacustomizations-donordelightbadge-dialog-body": "دا زړه ستاسو د بسپنې لپاره د مننې ستاين‌نښه ده. دا ستاين‌نښه له لرې‌کولو وروسته بېرته زېرمه کېدای نشي.",
+	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "ستاين‌نښه لرې‌کول",
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "ويې ساته"
+}
