@@ -187,10 +187,13 @@
 		},
 		"ext.wikimediaCustomizations.donor": {
 			"dependencies": [
-				"mediawiki.cookie"
+				"mediawiki.api",
+				"mediawiki.cookie",
+				"mediawiki.user"
 			],
 			"packageFiles": [
-				"DonorIdentification/ext.wikimediaCustomizations.donor/index.js"
+				"DonorIdentification/ext.wikimediaCustomizations.donor/index.js",
+				"DonorIdentification/ext.wikimediaCustomizations.donor/relationships.json"
 			]
 		},
 		"ext.wikimediaCustomizations.donorDelightBadge.styles": {
