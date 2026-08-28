@@ -11,6 +11,7 @@
 	"prefs-donor": "Donor status",
 	"wikimediacustomizations-donor-identify-label": "Would you like us to remember that you donated on your Wikipedia account? Toggling this off will remove this recognition and is irreversible.",
 	"wikimediacustomizations-donor-identify-help": "By linking an account, you agree to the Wikimedia Foundation offering you donor-related experiences by privately recognizing you as a supporter on {{SITENAME}}'s website and apps while you are signed in. [https://foundation.wikimedia.org/wiki/Legal:Donor%20experiences Learn more].",
+	"wikimediacustomizations-donor-unlink-confirm": "Are you sure you want to unlink your account as a donor? Doing so will mean you need to make a new donation to restore it.",
 
 	"wikimediacustomizations-donordelightbadge-badge-label": "Wikiheart badge for your donation",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "A little thank you badge for your donation!",

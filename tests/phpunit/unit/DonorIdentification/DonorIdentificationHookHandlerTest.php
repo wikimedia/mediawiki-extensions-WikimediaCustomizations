@@ -5,6 +5,9 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Tests\DonorIdentification;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\WikimediaCustomizations\DonorIdentification\DonorIdentificationHookHandler;
 use MediaWiki\Extension\WikimediaCustomizations\DonorIdentification\DonorPreferenceFilter;
+use MediaWiki\Output\OutputPage;
+use MediaWiki\Skin\Skin;
+use MediaWiki\Title\Title;
 use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\User;
 use MediaWikiUnitTestCase;
@@ -135,6 +138,77 @@ class DonorIdentificationHookHandlerTest extends MediaWikiUnitTestCase {
 		return [
 			'exact prefix' => [ 'reader-donor-account' ],
 			'prefixed variant' => [ 'reader-donor-account-2026' ],
+		];
+	}
+
+	public function testOnBeforePageDisplayWithNullTitle(): void {
+		$out = $this->createMock( OutputPage::class );
+		$out->method( 'getTitle' )->willReturn( null );
+		$out->expects( $this->never() )->method( 'addModules' );
+
+		$this->newHookHandler( $this->createMock( UserOptionsManager::class ) )
+			->onBeforePageDisplay( $out, $this->createMock( Skin::class ) );
+	}
+
+	public function testOnBeforePageDisplayOnNonPreferencesPage(): void {
+		$title = $this->createMock( Title::class );
+		$title->method( 'isSpecial' )->willReturn( false );
+
+		$out = $this->createMock( OutputPage::class );
+		$out->method( 'getTitle' )->willReturn( $title );
+		$out->expects( $this->never() )->method( 'addModules' );
+
+		$this->newHookHandler( $this->createMock( UserOptionsManager::class ) )
+			->onBeforePageDisplay( $out, $this->createMock( Skin::class ) );
+	}
+
+	/**
+	 * @dataProvider providePreferencesSpecialPages
+	 */
+	public function testOnBeforePageDisplayWithoutDonorStatus( string $specialPage ): void {
+		$title = $this->createMock( Title::class );
+		$title->method( 'isSpecial' )->willReturnCallback(
+			static fn ( string $page ) => $page === $specialPage
+		);
+
+		$optionsManager = $this->createMock( UserOptionsManager::class );
+		$optionsManager->method( 'getOption' )->willReturn( '' );
+
+		$out = $this->createMock( OutputPage::class );
+		$out->method( 'getTitle' )->willReturn( $title );
+		$out->method( 'getUser' )->willReturn( $this->createMock( User::class ) );
+		$out->expects( $this->never() )->method( 'addModules' );
+
+		$this->newHookHandler( $optionsManager )
+			->onBeforePageDisplay( $out, $this->createMock( Skin::class ) );
+	}
+
+	/**
+	 * @dataProvider providePreferencesSpecialPages
+	 */
+	public function testOnBeforePageDisplayWithDonorStatus( string $specialPage ): void {
+		$title = $this->createMock( Title::class );
+		$title->method( 'isSpecial' )->willReturnCallback(
+			static fn ( string $page ) => $page === $specialPage
+		);
+
+		$optionsManager = $this->createMock( UserOptionsManager::class );
+		$optionsManager->method( 'getOption' )->willReturn( '{"value":1}' );
+
+		$out = $this->createMock( OutputPage::class );
+		$out->method( 'getTitle' )->willReturn( $title );
+		$out->method( 'getUser' )->willReturn( $this->createMock( User::class ) );
+		$out->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.wikimediaCustomizations.preferences' );
+
+		$this->newHookHandler( $optionsManager )
+			->onBeforePageDisplay( $out, $this->createMock( Skin::class ) );
+	}
+
+	public static function providePreferencesSpecialPages(): array {
+		return [
+			'Preferences' => [ 'Preferences' ],
+			'GlobalPreferences' => [ 'GlobalPreferences' ],
 		];
 	}
 }
