@@ -73,7 +73,7 @@
 		}
 	},
 	"DefaultUserOptions": {
-		"wikimedia-donor": "{ \"value\": 0 }"
+		"wikimedia-donor": ""
 	},
 	"HookHandlers": {
 		"discord": {

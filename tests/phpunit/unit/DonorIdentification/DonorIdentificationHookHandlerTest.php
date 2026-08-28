@@ -13,6 +13,7 @@ class DonorIdentificationHookHandlerTest extends MediaWikiUnitTestCase {
 
 	public function testValidateDonorPreferenceValue(): void {
 		$hookHandler = new DonorIdentificationHookHandler();
+		$this->assertTrue( $hookHandler::validateDonorPreferenceValue( '' ) );
 		$this->assertTrue( $hookHandler::validateDonorPreferenceValue( '{ "value": 0 }' ) );
 		$this->assertTrue( $hookHandler::validateDonorPreferenceValue( '{ "value": 100 }' ) );
 		$this->assertTrue( $hookHandler::validateDonorPreferenceValue( '{ "value": 100, "consent": "2025" }' ) );

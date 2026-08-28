@@ -13,6 +13,9 @@ class DonorIdentificationHookHandler implements
 	 * @return bool
 	 */
 	public static function validateDonorPreferenceValue( string $prefValue ) {
+		if ( $prefValue === '' ) {
+			return true;
+		}
 		$decoded = json_decode( $prefValue, true );
 		if ( $decoded && isset( $decoded['value'] ) ) {
 			$value = $decoded['value'];

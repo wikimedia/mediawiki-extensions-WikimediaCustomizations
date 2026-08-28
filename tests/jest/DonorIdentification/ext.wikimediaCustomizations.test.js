@@ -142,6 +142,9 @@ describe( 'DonorIdentification', () => {
 			global.mw.user.options.get.mockReturnValue( null );
 			expect( hasConsented() ).toBe( false );
 
+			global.mw.user.options.get.mockReturnValue( '' );
+			expect( hasConsented() ).toBe( false );
+
 			global.mw.user.options.get.mockReturnValue( 'not-json' );
 			expect( hasConsented() ).toBe( false );
 		} );
@@ -297,7 +300,6 @@ describe( 'DonorIdentification', () => {
 		} );
 
 		test( 'clears the preference and updates clientpref classes', async () => {
-			jest.spyOn( Date, 'now' ).mockReturnValue( 1700000000000 );
 			const { saveOption, optionValues } = setupMw();
 			global.mw.user.options.get.mockReturnValue( donorOption( relationships.Recent ) );
 			document.documentElement.classList.add(
@@ -307,17 +309,13 @@ describe( 'DonorIdentification', () => {
 			revokeConsent();
 			await Promise.resolve();
 
-			const expected = JSON.stringify( {
-				value: 0,
-				timestamp: 1700000000000
-			} );
 			expect( saveOption ).toHaveBeenCalledWith(
 				DONOR_KEY,
-				expected,
+				'',
 				{ global: 'create' }
 			);
-			expect( optionValues[ DONOR_KEY ] ).toBe( expected );
-			expect( global.mw.user.options.set ).toHaveBeenCalledWith( DONOR_KEY, expected );
+			expect( optionValues[ DONOR_KEY ] ).toBe( '' );
+			expect( global.mw.user.options.set ).toHaveBeenCalledWith( DONOR_KEY, '' );
 			expect( document.documentElement.classList.contains(
 				`wikimedia-donor-clientpref-${ relationships.Recent }`
 			) ).toBe( false );

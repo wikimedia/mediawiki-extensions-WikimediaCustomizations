@@ -64,7 +64,7 @@ const recentlyDonated = ( maxDays ) => {
 const hasConsented = () => getDonorRelationship() > 0;
 
 /**
- * @param {number} value the new relationship status code (0 = no consent).
+ * @param {number|false} value the new relationship status code, or false to clear.
  * @param {Object} [data] optional fields merged into the saved consent object
  *  (e.g. `{ campaign: 'x' }`). `value` and `timestamp` always take precedence.
  */
@@ -72,9 +72,9 @@ const storeDonorData = ( value, data ) => {
 	requireNamedUser();
 	const currentRelationship = getDonorRelationship();
 	// value/timestamp last so callers cannot overwrite core consent fields via data.
-	const prefValue = JSON.stringify(
-		Object.assign( {}, data, { value, timestamp: Date.now() } )
-	);
+	const prefValue = value ?
+		JSON.stringify( Object.assign( {}, data, { value, timestamp: Date.now() } ) ) :
+		'';
 	const a = new mw.Api();
 	// Note: global override not needed here, since its always a global.
 	a.saveOption( DONOR_KEY, prefValue, {
@@ -84,7 +84,7 @@ const storeDonorData = ( value, data ) => {
 		mw.user.options.set( DONOR_KEY, prefValue );
 		const docClassList = document.documentElement.classList;
 		docClassList.remove( `wikimedia-donor-clientpref-${ currentRelationship }` );
-		docClassList.add( `wikimedia-donor-clientpref-${ value }` );
+		docClassList.add( `wikimedia-donor-clientpref-${ value || 0 }` );
 	} );
 };
 
@@ -99,7 +99,7 @@ const isRelationship = ( type ) => {
 
 module.exports = {
 	revokeConsent: () => {
-		storeDonorData( 0 );
+		storeDonorData( false );
 	},
 	/**
 	 * Grant consent. Optional data (e.g. `{ campaign: 'x' }`) is merged into the

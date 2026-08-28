@@ -289,6 +289,17 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	}
 
 	/**
+	 * If the value is an empty string (never consented), return false
+	 *
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::checkCurrentPreference
+	 */
+	public function testCheckCurrentPreference_emptyString() {
+		$ret = $this->maintenance->checkCurrentPreference( '' );
+
+		$this->assertFalse( $ret );
+	}
+
+	/**
 	 * If the value is not zero, return true
 	 *
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::checkCurrentPreference

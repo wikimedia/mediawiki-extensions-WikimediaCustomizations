@@ -176,6 +176,10 @@ class SyncDonorStatus extends Maintenance {
 	 * @return bool - whether the donor has given permission to be identified or not
 	 */
 	public function checkCurrentPreference( string $json ): bool {
+		if ( $json === '' ) {
+			return false;
+		}
+
 		// attempt to decode preference value as json
 		$preference = json_decode( $json, true );
 
