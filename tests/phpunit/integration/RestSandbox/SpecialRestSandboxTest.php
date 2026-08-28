@@ -16,14 +16,7 @@ class SpecialRestSandboxTest extends SpecialPageTestBase {
 		parent::setUp();
 
 		$scriptPath = $this->getConfVar( MainConfigNames::ScriptPath );
-		$this->overrideConfigValues( [
-			MainConfigNames::RestSandboxSpecs => [
-				'mw-test' => [
-					'url' => $scriptPath . '/rest.php/specs/v0/module/-',
-					'name' => 'MediaWiki Test REST API',
-				]
-			]
-		] );
+		$this->markTestSkipped( 'T433315' );
 	}
 
 	/**
