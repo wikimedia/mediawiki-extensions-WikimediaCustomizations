@@ -180,7 +180,7 @@
 		"GetSecurityLogContext": [ "privilegedgroups", "securitylogs" ],
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge" ],
+		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge", "donoridentification" ],
 		"QuickSurveysEnabled": "discordsurvey",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
 		"ChangeAuthenticationDataAudit": "securitylogs",
@@ -213,6 +213,17 @@
 			"packageFiles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donor/index.js",
 				"DonorIdentification/ext.wikimediaCustomizations.donor/relationships.json"
+			]
+		},
+		"ext.wikimediaCustomizations.preferences": {
+			"dependencies": [
+				"oojs-ui-windows"
+			],
+			"packageFiles": [
+				"DonorIdentification/ext.wikimediaCustomizations.preferences/index.js"
+			],
+			"messages": [
+				"wikimediacustomizations-donor-unlink-confirm"
 			]
 		},
 		"ext.wikimediaCustomizations.donorAccountCreation": {

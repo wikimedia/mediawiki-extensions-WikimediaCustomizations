@@ -5,6 +5,7 @@ use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\TestKitchen\Sdk\ExperimentManager;
 use MediaWiki\Hook\UserLoginCompleteHook;
+use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\User;
@@ -12,7 +13,8 @@ use MediaWiki\User\User;
 class DonorIdentificationHookHandler implements
 	GetPreferencesHook,
 	LocalUserCreatedHook,
-	UserLoginCompleteHook
+	UserLoginCompleteHook,
+	BeforePageDisplayHook
 {
 	/**
 	 * Name of the user option in which donor identification is stored
@@ -135,5 +137,29 @@ class DonorIdentificationHookHandler implements
 		}
 
 		$this->setDonorStatusFromCampaign( $user );
+	}
+
+	/**
+	 * Load the unlink-confirmation script on the preferences pages where the
+	 * donor checkbox is offered. The module gates itself on the checkbox being
+	 * present, and we only bother loading it when the user actually has a donor
+	 * status to unlink.
+	 *
+	 * @inheritDoc
+	 */
+	public function onBeforePageDisplay( $out, $skin ): void {
+		$title = $out->getTitle();
+		if ( $title === null ||
+			!( $title->isSpecial( 'Preferences' ) || $title->isSpecial( 'GlobalPreferences' ) )
+		) {
+			return;
+		}
+
+		$donorStatus = (string)$this->userOptionsManager->getOption( $out->getUser(), self::DONOR_PREF );
+		if ( $donorStatus === '' ) {
+			return;
+		}
+
+		$out->addModules( 'ext.wikimediaCustomizations.preferences' );
 	}
 }
