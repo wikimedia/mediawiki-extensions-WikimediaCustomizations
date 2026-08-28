@@ -5,7 +5,7 @@
 		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Приложник за припис (Бета)",
-	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Приложникот за припис дава добро структурирани приписни податоци за содржини на сите Викимедиини проекти. За повеќе информации околу упатствата за припис, очекувањата и стилските водичи за пренамена на Викимедиината содржина, погледајте го [https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html Attribution Framework].",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Приложникот за припис дава добро структурирани приписни податоци за содржини на сите Викимедиини проекти. За повеќе информации околу приложникот за припис, погледајте ја [документацијата на mediawiki.org]. За повеќе информации за насоките за припис, очекувањата и стилските водичи при пренамена на Викимедиината содржина, погл. [Attribution Framework](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html).\n\nИмате прашањеа или коментари за приложников? Помогнете ни да ги обликуваме искуството и функционалноста додека трае бета-периодот со тоа што ќе се [приклучите во дискусиите](https://www.mediawiki.org/wiki/Talk:Attribution_API).",
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "Дај приписни информации за страница.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "Дај приписни информации за страница.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "Шемата за приложникот за припис.",

@@ -5,6 +5,7 @@
 		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "ځانگړي‌کونگ ای‌پي‌آی (ازمېښتي)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "د ځانگړي‌کونگ کاريال‌بهير‌مخبڼه د ويکي‌رسنۍ پروژو په اوږدو کې د منځپانگې لپاره د ځانگړي‌کونگ ښه اومتوکي چمتو کوي. د ځانگړي‌کونگ کاريال‌بهير‌مخبڼې په اړه د نورو مالوماتو لپاره [په mediawiki.org کې لاسوندونه](https://www.mediawiki.org/wiki/Special:MyLanguage/Attribution_API) وگورئ. د ويکي‌رسنۍ منځپانگې بياکارولو پرمهال د ځانگړي‌کونگ لارښودکرښې، تمه ښودبڼې لارښوونې او نورو مالوماتو په اړه [د ځانگړي‌کونگ کارچوکاټ] (https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html) وگورئ.\n\nد دې کاريال‌بهير‌مخبڼې په اړه کومه پوښتنه يا انگېرنه لرئ؟ د ازمېښتي دورې په اوږدو کې د تجربې او کارچارو بڼه کې د [شننې سره يوځای کېدو سره] (https://www.mediawiki.org/wiki/Talk:Attribution_API) مرسته وکړئ.",
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "د يو مخ د ځانگړي‌کونگ مالومات ترلاسه کړئ.",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "د ځانگړي‌کونگ مالومات",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "د ځانگړي‌کونگ اړينې نښې",
