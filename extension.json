@@ -157,6 +157,8 @@
 	},
 	"Hooks": {
 		"GetPreferences": "donoridentification",
+		"LocalUserCreated": "donoridentification",
+		"UserLoginComplete": "donoridentification",
 		"UserCanChangeEmail": "bademaildomain",
 		"EmailAuthRequireToken": "emailauth",
 		"MediaWikiServices": "privilegedgroups-noservices",
