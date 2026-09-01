@@ -3,10 +3,10 @@
 		v-model:open="open"
 		class="ext-wc-donor-account-creation-dialog"
 		:title="titleText"
+		:subtitle="subtitleText"
 		:use-close-button="false"
 	>
 		<div class="ext-wc-donor-account-creation-dialog__body">
-			<p class="ext-wc-donor-account-creation-dialog__thanks">{{ subtitleText }}</p>
 			<div
 				v-if="group === 'treatment'"
 				class="ext-wc-donor-account-creation-dialog__benefits">
@@ -142,16 +142,6 @@ module.exports = exports = {
 		gap: @spacing-100;
 	}
 
-	&__thanks {
-		color: @color-subtle;
-
-		/* stylelint-disable-next-line selector-class-pattern */
-		.content & {
-			// Remove Minerva default margins.
-			margin: 0;
-		}
-	}
-
 	&__actions {
 		display: flex;
 		flex-flow: column;
@@ -166,6 +156,10 @@ module.exports = exports = {
 
 	.cdx-dialog__header {
 		border-bottom: 0;
+
+		&__subtitle {
+			margin-top: @spacing-100;
+		}
 	}
 
 	li {
