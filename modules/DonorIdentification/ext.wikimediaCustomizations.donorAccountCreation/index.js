@@ -38,10 +38,11 @@ async function init() {
 	}
 
 	const campaign = mw.util.getParamValue( 'campaign' );
-	const group = await getVariantGroup();
+	const hasCampaignOverride = ( campaign && campaign.includes( DEFAULT_CAMPAIGN ) );
+	const group = hasCampaignOverride ? 'treatment' : await getVariantGroup();
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
-	const isEligible = ( campaign && campaign.includes( DEFAULT_CAMPAIGN ) ) ||
-		( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay );
+	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay );
+
 	// temporary accounts and anonymous users are always lacking consent
 	const lackingConsent = !mw.user.isNamed() || !donor.hasConsented();
 

@@ -210,7 +210,7 @@ describe( 'donorAccountCreation init', () => {
 
 	describe( 'experiment', () => {
 		test( 'requests the donor-status-consent experiment group', async () => {
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: true } );
+			setupMw( { isNamed: true } );
 			await init();
 			expect( mw.testKitchen.getExperiment ).toHaveBeenCalledWith( 'donor-status-consent' );
 		} );
