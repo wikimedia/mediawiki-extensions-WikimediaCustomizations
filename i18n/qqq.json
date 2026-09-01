@@ -28,5 +28,6 @@
 	"wc-donor-account-creation-dialog-benefits-list-3": "List item 1 of benefits in the treatment version of the account creation dialog",
 	"wc-donor-account-creation-dialog-yes": "User consents to the account creation dialog",
 	"wc-donor-account-creation-dialog-no": "User declines the account creation dialog",
-	"wc-donor-account-creation-dialog-later": "User chooses to be reminded later in the account creation dialog"
+	"wc-donor-account-creation-dialog-later": "User chooses to be reminded later in the account creation dialog",
+	"wc-donor-account-creation-success-message": "Message for the success toast after user links account to donations"
 }

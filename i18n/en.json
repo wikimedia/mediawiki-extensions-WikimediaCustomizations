@@ -31,5 +31,6 @@
 	"wc-donor-account-creation-dialog-benefits-list-3": "Unlock features across Wikipedia’s website and apps",
 	"wc-donor-account-creation-dialog-yes": "Yes",
 	"wc-donor-account-creation-dialog-no": "No thanks",
-	"wc-donor-account-creation-dialog-later": "Remind me later"
+	"wc-donor-account-creation-dialog-later": "Remind me later",
+	"wc-donor-account-creation-success-message": "Your account will now remember that you have donated. You can unlink at any time in [[Special:Preferences#mw-prefsection-personal-email|settings]]."
 }

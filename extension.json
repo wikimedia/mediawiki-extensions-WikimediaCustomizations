@@ -205,11 +205,15 @@
 				"mediawiki.api",
 				"mediawiki.user",
 				"mediawiki.util",
+				"mediawiki.storage",
 				"ext.wikimediaEvents.testKitchen",
 				"ext.wikimediaCustomizations.donor"
 			],
 			"packageFiles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation/index.js"
+			],
+			"messages": [
+				"wc-donor-account-creation-success-message"
 			]
 		},
 		"ext.wikimediaCustomizations.donorAccountCreation.dialog": {
@@ -219,7 +223,10 @@
 				"CdxDialog"
 			],
 			"dependencies": [
-				"vue"
+				"vue",
+				"mediawiki.user",
+				"mediawiki.notification",
+				"mediawiki.storage"
 			],
 			"packageFiles": [
 				"DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation.dialog/dialog.js",
@@ -236,7 +243,8 @@
 				"wc-donor-account-creation-dialog-learn",
 				"wc-donor-account-creation-dialog-yes",
 				"wc-donor-account-creation-dialog-no",
-				"wc-donor-account-creation-dialog-later"
+				"wc-donor-account-creation-dialog-later",
+				"wc-donor-account-creation-success-message"
 			]
 		},
 		"ext.wikimediaCustomizations.donorDelightBadge.styles": {

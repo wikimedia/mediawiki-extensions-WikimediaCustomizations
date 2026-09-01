@@ -27,12 +27,20 @@
 
 		<div class="ext-wc-donor-account-creation-dialog__actions">
 			<cdx-button
+				v-if="userIsAuthenticated"
 				weight="primary"
 				action="progressive"
 				@click="yesClick"
 			>
 				{{ yesBtnText }}
 			</cdx-button>
+			<a
+				v-else
+				:class="fakeButtonClasses"
+				:href="createAccountLink"
+			>
+				{{ yesBtnText }}
+			</a>
 			<cdx-button @click="noClick">
 				{{ noBtnText }}
 			</cdx-button>
@@ -51,7 +59,7 @@ const { computed, ref } = require( 'vue' );
 const { CdxDialog, CdxButton } = require( '../../codex.js' );
 
 /**
- * Confirmation dialog inviting recent donors to create an account.
+ * Confirmation dialog inviting recent donors to create an account or link an existing account.
  */
 // @vue/component
 module.exports = exports = {
@@ -61,10 +69,30 @@ module.exports = exports = {
 		CdxButton
 	},
 	props: {
+		/**
+		 * Experiment group.
+		 */
 		group: {
 			type: String,
 			default: 'treatment'
 		},
+		/**
+		 * Campaign machine name from query string.
+		 */
+		campaign: {
+			type: String,
+			default: ''
+		},
+		/**
+		 * Local storage key for whether to suppress this dialog.
+		 */
+		storageKey: {
+			type: String,
+			required: true
+		},
+		/**
+		 * Function to run on dialog close.
+		 */
 		onClose: {
 			type: Function,
 			default: () => {}
@@ -72,6 +100,21 @@ module.exports = exports = {
 	},
 	setup( props ) {
 		const open = ref( true );
+		const userIsAuthenticated = computed( () => mw.user.isNamed() );
+		const fakeButtonClasses = [
+			'cdx-button',
+			'cdx-button--fake-button',
+			'cdx-button--fake-button--enabled',
+			'cdx-button--action-progressive',
+			'cdx-button--weight-primary'
+		];
+		const returnTo = mw.config.get( 'wgPageName' );
+		const createAccountLink = computed( () => mw.util.getUrl( 'Special:CreateAccount', {
+			returnto: returnTo,
+			returntoquery: 'newdonoraccount=1',
+			campaign: props.campaign,
+			showlogin: 1
+		} ) );
 
 		const titleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-title' ) );
 		const subtitleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-subtitle' ) );
@@ -85,29 +128,53 @@ module.exports = exports = {
 		const noBtnText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-no' ) );
 		const laterBtnText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-later' ) );
 
-		// "Yes" — user consents to account creation.
-		function yesClick() {
-			// @todo: wire up account creation consent.
-			// eslint-disable-next-line no-alert
-			alert( 'todo' );
-		}
-
-		// "No thanks" - dismisses the dialog.
-		function noClick() {
+		/**
+		 * Close dialog and unmount the app.
+		 */
+		function closeDialog() {
 			open.value = false;
 			props.onClose();
 		}
 
-		// "Remind me later" — dismiss the dialog for now.
+		/**
+		 * Handle authenticated user's consent to link their account.
+		 */
+		function yesClick() {
+			// Record consent, notify the user, and close the dialog.
+			require( 'ext.wikimediaCustomizations.donor' ).consent( {
+				campaign: props.campaign
+			} );
+
+			// Suppress this dialog with no expiry (in case user revokes consent later).
+			mw.storage.set( props.storageKey, '1' );
+
+			mw.notify( mw.message( 'wc-donor-account-creation-success-message' ) );
+			closeDialog();
+		}
+
+		/**
+		 * Handle refusal of consent.
+		 */
+		function noClick() {
+			// Suppress this dialog with no expiration date.
+			mw.storage.set( props.storageKey, '1' );
+			closeDialog();
+		}
+
+		/**
+		 * Handle "remind me later".
+		 */
 		function laterClick() {
-			// @todo: wire up remind-me-later handling.
-			// eslint-disable-next-line no-alert
-			alert( 'todo' );
-			noClick();
+			// Suppress this dialog for 3 hours.
+			mw.storage.set( props.storageKey, '1', 60 * 60 * 3 );
+			closeDialog();
 		}
 
 		return {
 			open,
+			userIsAuthenticated,
+			fakeButtonClasses,
+			createAccountLink,
 			titleText,
 			subtitleText,
 			bodyText,
