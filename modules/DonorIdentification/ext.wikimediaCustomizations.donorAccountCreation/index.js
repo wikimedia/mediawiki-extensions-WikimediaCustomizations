@@ -42,7 +42,8 @@ async function init() {
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
 	const isEligible = ( campaign && campaign.includes( DEFAULT_CAMPAIGN ) ) ||
 		( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay );
-	const lackingConsent = mw.user.isAnon() || !donor.hasConsented();
+	// temporary accounts and anonymous users are always lacking consent
+	const lackingConsent = !mw.user.isNamed() || !donor.hasConsented();
 
 	if ( isEligible && lackingConsent ) {
 		// Don't show dialog to logged out and temp users that don't have permissions.
