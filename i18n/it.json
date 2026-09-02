@@ -8,5 +8,8 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Rimuovere questo distintivo?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Questo cuore è un distintivo di ringraziamento per la tua donazione. Il distintivo non può essere ripristinato una volta rimosso.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Rimuovi distintivo",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Tienilo"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Tienilo",
+	"wc-donor-account-creation-dialog-subtitle": "Grazie per la tua recente donazione a Wikipedia!",
+	"wc-donor-account-creation-dialog-yes": "Sì",
+	"wc-donor-account-creation-dialog-later": "Ricordamelo più tardi"
 }

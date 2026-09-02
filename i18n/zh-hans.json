@@ -4,11 +4,15 @@
 			"0x48fe75df30",
 			"GuoPC",
 			"Ouclie",
+			"Shizhao",
 			"沈澄心"
 		]
 	},
 	"wikimediacustomizations-desc": "WikimediaCustomization（维基媒体自定义）扩展功能托管了Wikimedia（维基媒体）特有的钩子、消息和其他网站自定义功能。",
 	"wikimediacustomizations-bademaildomain-error": "不支持使用$1域名的电子邮件地址。请选择其他电子邮件服务提供商。",
+	"prefs-donor": "捐赠者身份",
+	"wikimediacustomizations-donor-identify-label": "您是否希望我们在您的维基百科账户上记住您曾捐款？关闭此选项将移除此记录，且无法撤销。",
+	"wikimediacustomizations-donor-identify-help": "关联账户即表示您同意维基媒体基金会在您登录期间，通过在其网站和应用上私下表彰您为支持者，为您提供与捐赠者相关的体验。[https://foundation.wikimedia.org/wiki/Legal:Donor%20experiences 了解更多]。",
 	"wikimediacustomizations-donordelightbadge-badge-label": "因您的捐赠而颁发的Wikiheart徽章",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "感谢您的捐赠，特此颁发一枚小小的感谢徽章！",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "您的慷慨捐赠有助于让维基百科持续为世界各地的人们提供自由开放的访问服务。",
@@ -17,5 +21,17 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "移除此徽章？",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "这颗爱心是为感谢您的捐赠而颁发的徽章。徽章一旦移除便无法恢复。",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "移除徽章",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "留着它"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "留着它",
+	"wc-donor-account-creation-dialog-title": "您希望我们记住您通过维基百科账户进行的捐赠吗？",
+	"wc-donor-account-creation-dialog-subtitle": "感谢您最近对维基百科的捐赠！",
+	"wc-donor-account-creation-dialog-body": "通过关联帐户，您同意维基媒体基金会在您登录期间，通过在维基百科网站和应用上私下表彰您为支持者，为您提供与捐赠者相关的体验。",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences 了解更多]",
+	"wc-donor-account-creation-dialog-benefits-label": "通过关联账户，您可以：",
+	"wc-donor-account-creation-dialog-benefits-list-1": "停止看到千篇一律的筹款呼吁",
+	"wc-donor-account-creation-dialog-benefits-list-2": "接收有关您的支持所产生的影响的最新信息。",
+	"wc-donor-account-creation-dialog-benefits-list-3": "解锁维基百科网站和应用中的各项功能",
+	"wc-donor-account-creation-dialog-yes": "是",
+	"wc-donor-account-creation-dialog-no": "不用了，谢谢",
+	"wc-donor-account-creation-dialog-later": "稍后提醒我",
+	"wc-donor-account-creation-success-message": "您的账户现在会记住您已捐款。您可以随时在[[Special:Preferences#mw-prefsection-personal-email|设置]]中取消关联。"
 }

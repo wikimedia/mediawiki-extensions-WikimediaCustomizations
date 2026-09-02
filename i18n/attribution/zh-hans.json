@@ -4,6 +4,7 @@
 			"0x48fe75df30",
 			"Gsdn",
 			"GuoPC",
+			"Shizhao",
 			"沈澄心"
 		]
 	},
@@ -12,7 +13,7 @@
 	"wikimediacustomizations-attribution-endpoint-summ-get-pages-signals": "获取页面的归属信息。",
 	"wikimediacustomizations-attribution-endpoint-desc-get-pages-signals": "获取页面的归属信息。",
 	"wikimediacustomizations-attribution-endpoint-get-pages-signals-schema-desc": "页面的归属信息。",
-	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "允许调用者在返回结果中依照[归属框架](https://wikimedia-attribution.toolforge.org/)分类包含额外的信号类型。默认仅返回`Essential`信号。额外分类可通过以逗号分隔的列表指定。可用的值包括：`trust_and_relevance`、`calls_to_action`。",
+	"wikimediacustomizations-attribution-get-pages-signals-param-expand": "允许调用者在响应中包含其他类型的信号，遵循[署名框架](https://wikimedia-attribution.toolforge.org/)的分类。默认情况下，仅返回“基本”信号。其他类别可以指定为竖线分隔的列表（或通过重复使用“expand”查询参数）。可用值：`trust_and_relevance`、`calls_to_action`。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-essential": "必要归属信息",
 	"wikimediacustomizations-attribution-get-pages-signals-property-title": "页面标题",
 	"wikimediacustomizations-attribution-get-pages-signals-property-credit": "文件创作者或著作者",
