@@ -17,5 +17,17 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Ma ka saaraysaa astaantan?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Wadnahani waa astaanta mahadcelinta deeqdaada. Astaanta lama soo celin karo marka laga saaro.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Ka saar astaanta",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Hayso"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Hayso",
+	"wc-donor-account-creation-dialog-title": "Ma jeclaan lahayd inaan xusuusanno inaad ku deeqday akoonkaaga Wikipedia?",
+	"wc-donor-account-creation-dialog-subtitle": "Waad ku mahadsan tahay deeqdii aad dhawaan siisay Wikipedia!",
+	"wc-donor-account-creation-dialog-body": "Markaad akoon ku xirto, waxaad oggolaanaysaa in Wikimedia Foundation ay ku siiso adeegyo la xiriira deeq-bixiyayaasha iyadoo si gaar ah kuugu aqoonsanaysa taageere ahaan bogga internetka iyo abka Wikipedia inta aad ku jirto akoonkaaga.",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences Wax badan ka baro]",
+	"wc-donor-account-creation-dialog-benefits-label": "Markaad akoon ku xirto, waxaad awoodi kartaa:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "Jooji inaad aragto baaqyada guud ee deeq bixinta",
+	"wc-donor-account-creation-dialog-benefits-list-2": "Hel warbixinno ku saabsan saamaynta taageeradaada",
+	"wc-donor-account-creation-dialog-benefits-list-3": "Hel astaamo dheeraad ah oo laga heli karo mareegta iyo abka Wikipedia",
+	"wc-donor-account-creation-dialog-yes": "Haa",
+	"wc-donor-account-creation-dialog-no": "Maya mahadsanid",
+	"wc-donor-account-creation-dialog-later": "I xasuusi mar dambe",
+	"wc-donor-account-creation-success-message": "Akoonkaaga hadda wuxuu xusuusan doonaa inaad ku deeqday. Waxaad ka jari kartaa xiriirka wakhti kasta [[Special:Preferences#mw-prefsection-personal-email|dejimaha]]."
 }

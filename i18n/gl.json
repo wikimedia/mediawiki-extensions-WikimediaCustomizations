@@ -17,5 +17,17 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Queres eliminar a insignia?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Este corazón é unha insignia de agradecemento pola túa doazón. A insignia non se pode restaurar unha vez eliminada.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Eliminar a insignia",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Mantela"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Mantela",
+	"wc-donor-account-creation-dialog-title": "Queres que lembremos que doaches na túa conta da Wikipedia?",
+	"wc-donor-account-creation-dialog-subtitle": "Grazas pola túa recente doazón á Wikipedia!",
+	"wc-donor-account-creation-dialog-body": "Ao vencellares unha conta, aceptas que a Fundación Wikimedia che ofreza experiencias relacionadas cos doantes ao recoñecerte de forma privada como colaborador no sitio web e nas aplicacións da Wikipedia mentres teñas a sesión iniciada.",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences Máis información]",
+	"wc-donor-account-creation-dialog-benefits-label": "Ao vencellares unha conta, podes:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "Deixar de ver solicitudes xenéricas da recadación de fondos",
+	"wc-donor-account-creation-dialog-benefits-list-2": "Recibir actualizacións sobre o impacto do teu apoio",
+	"wc-donor-account-creation-dialog-benefits-list-3": "Desbloquear funcións no sitio web e nas aplicacións da Wikipedia",
+	"wc-donor-account-creation-dialog-yes": "Si",
+	"wc-donor-account-creation-dialog-no": "Non, grazas",
+	"wc-donor-account-creation-dialog-later": "Lembrádemo máis tarde",
+	"wc-donor-account-creation-success-message": "A túa conta lembrará que doaches. Podes desvencellarte en calquera momento na [[Special:Preferences#mw-prefsection-personal-email|configuración]]."
 }

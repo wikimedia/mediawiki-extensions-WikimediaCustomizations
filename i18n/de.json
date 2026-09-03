@@ -15,5 +15,17 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Dieses Abzeichen entfernen?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Dieses Herz ist ein Dankeschön für deine Spende. Das Abzeichen kann nach dem Entfernen nicht wiederhergestellt werden.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Abzeichen entfernen",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Behalte es"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Behalte es",
+	"wc-donor-account-creation-dialog-title": "Möchten Sie, dass wir uns daran erinnern, dass Sie über Ihr Wikipedia-Konto gespendet haben?",
+	"wc-donor-account-creation-dialog-subtitle": "Vielen Dank für Ihre kürzliche Spende an Wikipedia!",
+	"wc-donor-account-creation-dialog-body": "Durch die Verknüpfung Ihres Kontos erklären Sie sich damit einverstanden, dass die Wikimedia Foundation Ihnen Spender-bezogene Erlebnisse bietet, indem sie Sie auf der Website und in den Apps von Wikipedia privat als Unterstützer ausweist, solange Sie angemeldet sind.",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences Mehr erfahren]",
+	"wc-donor-account-creation-dialog-benefits-label": "Durch die Verknüpfung eines Kontos können Sie:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "Keine pauschalen Spendenaufrufe mehr",
+	"wc-donor-account-creation-dialog-benefits-list-2": "Erhalten Sie regelmäßige Updates über die Auswirkungen Ihrer Unterstützung",
+	"wc-donor-account-creation-dialog-benefits-list-3": "Schalten Sie Funktionen auf der Wikipedia-Website und in den Apps frei.",
+	"wc-donor-account-creation-dialog-yes": "Ja",
+	"wc-donor-account-creation-dialog-no": "Nein danke",
+	"wc-donor-account-creation-dialog-later": "Erinnere mich später daran",
+	"wc-donor-account-creation-success-message": "Ihr Konto merkt sich nun, dass Sie gespendet haben. Sie können die Verknüpfung jederzeit in den [[Special:Preferences#mw-prefsection-personal-email|Benutzereinstellungen]] aufheben."
 }
