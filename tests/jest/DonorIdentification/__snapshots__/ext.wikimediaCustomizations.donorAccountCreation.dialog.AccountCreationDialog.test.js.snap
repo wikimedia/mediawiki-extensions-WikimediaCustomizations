@@ -45,32 +45,34 @@ exports[`AccountCreationDialog for anonymous users matches the snapshot 1`] = `
         </p>
       </div>
     </div>
-    <div
-      class="ext-wc-donor-account-creation-dialog__actions"
-    >
-      <a
-        class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--action-progressive cdx-button--weight-primary"
-        href="/wiki/Special:CreateAccount?returnto=Test_Page"
-      >
-        wc-donor-account-creation-dialog-yes
-      </a>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-no
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-later
-        
-      </button>
-    </div>
     
   </div>
+  
+  <div
+    class="ext-wc-donor-account-creation-dialog__actions"
+  >
+    <a
+      class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--action-progressive cdx-button--weight-primary"
+      href="/wiki/Special:CreateAccount?returnto=Test_Page"
+    >
+      wc-donor-account-creation-dialog-yes
+    </a>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-no
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-later
+      
+    </button>
+  </div>
+  
 </div>
 `;
 
@@ -119,33 +121,35 @@ exports[`AccountCreationDialog for authenticated users matches the snapshot 1`] 
         </p>
       </div>
     </div>
-    <div
-      class="ext-wc-donor-account-creation-dialog__actions"
-    >
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-yes
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-no
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-later
-        
-      </button>
-    </div>
     
   </div>
+  
+  <div
+    class="ext-wc-donor-account-creation-dialog__actions"
+  >
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-yes
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-no
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-later
+      
+    </button>
+  </div>
+  
 </div>
 `;
 
@@ -177,33 +181,35 @@ exports[`AccountCreationDialog for users in the control group matches the snapsh
         </p>
       </div>
     </div>
-    <div
-      class="ext-wc-donor-account-creation-dialog__actions"
-    >
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-yes
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-no
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-later
-        
-      </button>
-    </div>
     
   </div>
+  
+  <div
+    class="ext-wc-donor-account-creation-dialog__actions"
+  >
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-yes
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-no
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-later
+      
+    </button>
+  </div>
+  
 </div>
 `;
 
@@ -252,32 +258,34 @@ exports[`AccountCreationDialog for users in the treatment group matches the snap
         </p>
       </div>
     </div>
-    <div
-      class="ext-wc-donor-account-creation-dialog__actions"
-    >
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-yes
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-no
-        
-      </button>
-      <button
-        class="cdx-button"
-      >
-        
-        wc-donor-account-creation-dialog-later
-        
-      </button>
-    </div>
     
   </div>
+  
+  <div
+    class="ext-wc-donor-account-creation-dialog__actions"
+  >
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-yes
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-no
+      
+    </button>
+    <button
+      class="cdx-button"
+    >
+      
+      wc-donor-account-creation-dialog-later
+      
+    </button>
+  </div>
+  
 </div>
 `;

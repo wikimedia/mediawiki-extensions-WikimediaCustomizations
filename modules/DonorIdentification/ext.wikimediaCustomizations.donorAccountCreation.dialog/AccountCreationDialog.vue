@@ -26,32 +26,34 @@
 			</div>
 		</div>
 
-		<div class="ext-wc-donor-account-creation-dialog__actions">
-			<cdx-button
-				v-if="userIsAuthenticated"
-				weight="primary"
-				action="progressive"
-				@click="yesClick"
-			>
-				{{ yesBtnText }}
-			</cdx-button>
-			<a
-				v-else
-				:class="fakeButtonClasses"
-				:href="createAccountLink"
-			>
-				{{ yesBtnText }}
-			</a>
-			<cdx-button @click="noClick">
-				{{ noBtnText }}
-			</cdx-button>
-			<cdx-button
-				weight="quiet"
-				@click="laterClick"
-			>
-				{{ laterBtnText }}
-			</cdx-button>
-		</div>
+		<template #footer>
+			<div class="ext-wc-donor-account-creation-dialog__actions">
+				<cdx-button
+					v-if="userIsAuthenticated"
+					weight="primary"
+					action="progressive"
+					@click="yesClick"
+				>
+					{{ yesBtnText }}
+				</cdx-button>
+				<a
+					v-else
+					:class="fakeButtonClasses"
+					:href="createAccountLink"
+				>
+					{{ yesBtnText }}
+				</a>
+				<cdx-button @click="noClick">
+					{{ noBtnText }}
+				</cdx-button>
+				<cdx-button
+					weight="quiet"
+					@click="laterClick"
+				>
+					{{ laterBtnText }}
+				</cdx-button>
+			</div>
+		</template>
 	</cdx-dialog>
 </template>
 
@@ -226,7 +228,7 @@ module.exports = exports = {
 		border-bottom: 0;
 
 		&__subtitle {
-			margin-top: @spacing-100;
+			margin-top: @spacing-50;
 		}
 	}
 

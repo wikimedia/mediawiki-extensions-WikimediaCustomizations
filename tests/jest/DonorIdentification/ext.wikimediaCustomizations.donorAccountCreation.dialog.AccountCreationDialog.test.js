@@ -25,6 +25,7 @@ const cdxDialogStub = {
 		<div v-if="open" class="cdx-dialog" role="dialog">
 			<header class="cdx-dialog__header">{{ title }}</header>
 			<div class="cdx-dialog__body"><slot /></div>
+			<slot name="footer" />
 		</div>
 	`
 };
