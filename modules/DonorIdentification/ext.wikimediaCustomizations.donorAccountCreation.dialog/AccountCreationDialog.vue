@@ -5,6 +5,7 @@
 		:title="titleText"
 		:subtitle="subtitleText"
 		:use-close-button="false"
+		@update:open="laterClick"
 	>
 		<div class="ext-wc-donor-account-creation-dialog__body">
 			<div

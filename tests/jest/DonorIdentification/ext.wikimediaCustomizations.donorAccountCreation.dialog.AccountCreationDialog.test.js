@@ -186,4 +186,29 @@ describe( 'AccountCreationDialog', () => {
 			expect( wrapper.findComponent( cdxDialogStub ).props( 'open' ) ).toBe( false );
 		} );
 	} );
+
+	describe( 'when the dialog is closed via Esc or backdrop click', () => {
+		test( 'sets the suppress-overlay storage flag with a 3-hour expiry', () => {
+			wrapper = mountDialog();
+			wrapper.findComponent( cdxDialogStub ).vm.$emit( 'update:open', false );
+
+			expect( mw.storage.set ).toHaveBeenCalledWith( STORAGE_KEY, '1', 60 * 60 * 3 );
+		} );
+
+		test( 'does not record donor consent', () => {
+			wrapper = mountDialog();
+			wrapper.findComponent( cdxDialogStub ).vm.$emit( 'update:open', false );
+
+			expect( mockConsent ).not.toHaveBeenCalled();
+			expect( mw.notify ).not.toHaveBeenCalled();
+		} );
+
+		test( 'invokes the caller-supplied onClose', () => {
+			const onClose = jest.fn();
+			wrapper = mountDialog( { onClose } );
+			wrapper.findComponent( cdxDialogStub ).vm.$emit( 'update:open', false );
+
+			expect( onClose ).toHaveBeenCalledTimes( 1 );
+		} );
+	} );
 } );
