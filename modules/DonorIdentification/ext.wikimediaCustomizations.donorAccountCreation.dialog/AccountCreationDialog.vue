@@ -73,6 +73,13 @@ module.exports = exports = {
 	},
 	props: {
 		/**
+		 * Experiment name (if active)
+		 */
+		experiment: {
+			type: String,
+			default: ''
+		},
+		/**
 		 * Experiment group.
 		 */
 		group: {
@@ -145,7 +152,10 @@ module.exports = exports = {
 		function yesClick() {
 			// Record consent, notify the user, and close the dialog.
 			require( 'ext.wikimediaCustomizations.donor' ).consent( {
-				campaign: props.campaign
+				// consistent with DonorIdentificationHookHandler::setDonorStatusFromCampaign
+				source: props.experiment ?
+					`${ props.campaign }/${ props.experiment }/${ props.group }` :
+					props.campaign
 			} );
 
 			// Suppress this dialog with no expiry (in case user revokes consent later).

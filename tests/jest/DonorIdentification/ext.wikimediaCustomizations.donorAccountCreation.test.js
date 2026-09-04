@@ -23,6 +23,7 @@ const DIALOG_MODULE = 'ext.wikimediaCustomizations.donorAccountCreation.dialog';
 const DEFAULT_CAMPAIGN = 'reader-donor-account';
 const STORAGE_KEY_SUPPRESS_OVERLAY = 'wc-donor-account-creation-suppress-consent-overlay';
 const SUCCESS_MESSAGE_KEY = 'wc-donor-account-creation-success-message';
+const EXPERIMENT_NAME = 'donor-status-consent';
 
 // init() fires the dialog launch on an un-awaited loader.using().then() chain,
 // so yield once after it resolves to let that microtask settle.
@@ -97,6 +98,7 @@ describe( 'donorAccountCreation init', () => {
 			expect( mw.loader.using ).toHaveBeenCalledWith( DIALOG_MODULE );
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
+				experiment: EXPERIMENT_NAME,
 				campaign: `foo-${ DEFAULT_CAMPAIGN }-bar`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
@@ -111,6 +113,7 @@ describe( 'donorAccountCreation init', () => {
 			// Falls back to the default campaign when no param is present.
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
+				experiment: EXPERIMENT_NAME,
 				campaign: DEFAULT_CAMPAIGN,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );

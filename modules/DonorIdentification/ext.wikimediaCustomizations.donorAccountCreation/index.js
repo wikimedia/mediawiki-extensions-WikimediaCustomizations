@@ -39,7 +39,9 @@ async function init() {
 
 	const campaign = mw.util.getParamValue( 'campaign' );
 	const hasCampaignOverride = ( campaign && campaign.includes( DEFAULT_CAMPAIGN ) );
-	const group = hasCampaignOverride ? 'treatment' : await getVariantGroup();
+	const variantGroup = await getVariantGroup();
+	const experiment = variantGroup ? EXPERIMENT_NAME : '';
+	const group = hasCampaignOverride ? 'treatment' : variantGroup;
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
 	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay );
 
@@ -61,6 +63,7 @@ async function init() {
 			.then( ( req ) => {
 				req( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' ).launch( {
 					group,
+					experiment,
 					campaign: campaign || DEFAULT_CAMPAIGN,
 					storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 				} );

@@ -122,7 +122,7 @@ describe( 'AccountCreationDialog', () => {
 
 			test( 'records donor consent with the current campaign', () => {
 				expect( mockConsent ).toHaveBeenCalledWith( {
-					campaign: 'reader-donor-account'
+					source: 'reader-donor-account'
 				} );
 			} );
 
