@@ -5,7 +5,6 @@ namespace MediaWiki\Tests\Maintenance;
 use CentralAuthTestUser;
 use GlobalPreferences\GlobalPreferencesServices;
 use MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus;
-use MediaWiki\MediaWikiServices;
 use SplFileObject;
 use TestUser;
 
@@ -28,7 +27,7 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	 * @return IDatabase
 	 */
 	protected function getDb() {
-		return GlobalPreferencesServices::wrap( MediaWikiServices::getInstance() )
+		return GlobalPreferencesServices::wrap( $this->getServiceContainer() )
 			->getGlobalPreferencesConnectionProvider()
 			->getPrimaryDatabase();
 	}
