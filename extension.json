@@ -20,6 +20,9 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\WikimediaCustomizations\\": "src/"
 	},
+	"AutoloadClasses": {
+		"MediaWiki\\Extension\\WikimediaCustomizations\\Maintenance\\DonorIdentification\\SyncDonorStatus": "maintenance/DonorIdentification/syncDonorStatus.php"
+	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
 	],

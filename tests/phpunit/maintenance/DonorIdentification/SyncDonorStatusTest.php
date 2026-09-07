@@ -1,14 +1,13 @@
 <?php
 
-namespace MediaWiki\Tests\Maintenance;
+namespace MediaWiki\Extension\WikimediaCustomizations\Tests;
 
 use CentralAuthTestUser;
 use GlobalPreferences\GlobalPreferencesServices;
 use MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus;
+use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use SplFileObject;
 use TestUser;
-
-require_once __DIR__ . '/../../../../maintenance/DonorIdentification/syncDonorStatus.php';
 
 /**
  * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus
