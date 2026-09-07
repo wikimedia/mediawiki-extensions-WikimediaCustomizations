@@ -18,5 +18,17 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Deze badge verwijderen?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Dit hartje is een blijk van waardering voor uw donatie. De badge kan niet meer worden hersteld nadat deze is verwijderd.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "Badge verwijderen",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Houd de badge zichtbaar"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "Houd de badge zichtbaar",
+	"wc-donor-account-creation-dialog-title": "Wilt u dat we onthouden dat u een donatie heeft gedaan via uw Wikipedia-account?",
+	"wc-donor-account-creation-dialog-subtitle": "Hartelijk dank voor uw recente donatie aan Wikipedia!",
+	"wc-donor-account-creation-dialog-body": "Door een account te koppelen, gaat u ermee akkoord dat de Wikimedia Foundation uw donatiegerelateerde ervaringen aanbiedt door u, zolang u bent aangemeld, privé te herkennen als supporter op de website en in de apps van Wikipedia.",
+	"wc-donor-account-creation-dialog-learn": "[https://foundation.wikimedia.org/wiki/Legal:Donor_experiences Meer informatie]",
+	"wc-donor-account-creation-dialog-benefits-label": "Door een account te koppelen, kunt u:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "Generieke fondsenwervingsoproepen niet langer laten weergeven",
+	"wc-donor-account-creation-dialog-benefits-list-2": "Nieuws ontvangen over de impact van uw steun",
+	"wc-donor-account-creation-dialog-benefits-list-3": "Functies op de website en in de apps van Wikipedia ontgrendelen",
+	"wc-donor-account-creation-dialog-yes": "Ja",
+	"wc-donor-account-creation-dialog-no": "Nee, bedankt",
+	"wc-donor-account-creation-dialog-later": "Herinner me er later aan",
+	"wc-donor-account-creation-success-message": "Uw account onthoudt nu dat u hebt gedoneerd. Uw kunt de koppeling op elk moment ongedaan maken in uw [[Special:Preferences#mw-prefsection-personal-email|instellingen]]."
 }

@@ -8,5 +8,8 @@
 	"wikimediacustomizations-donordelightbadge-popover-heading": "Pieni kiitosmerkki lahjoituksestasi!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Anteliaisuutesi auttaa pitämään Wikipedian vapaana ja avoimena ihmisille ympäri maailman.",
 	"wikimediacustomizations-donordelightbadge-popover-body-c": "<b>Kokeile napauttaa sitä.</b>",
-	"wikimediacustomizations-donordelightbadge-remove-btn": "Poista merkki"
+	"wikimediacustomizations-donordelightbadge-remove-btn": "Poista merkki",
+	"wc-donor-account-creation-dialog-yes": "Kyllä",
+	"wc-donor-account-creation-dialog-no": "Ei kiitos",
+	"wc-donor-account-creation-dialog-later": "Muistuta myöhemmin"
 }
