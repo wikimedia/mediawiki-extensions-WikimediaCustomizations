@@ -5,6 +5,7 @@ use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuild
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
+use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
 use MediaWiki\Extension\WikimediaCustomizations\PrivilegedGroups\PrivilegedGroups;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
@@ -63,6 +64,15 @@ return [
 			$referenceCountProvider,
 			$services->getLanguageNameUtils(),
 			$pageViewService
+		);
+	},
+
+	'WikimediaCustomizations.PageviewTrendingRelativeStore' => static function (
+		MediaWikiServices $services
+	): PageviewTrendingRelativeStore {
+		return new PageviewTrendingRelativeStore(
+			$services->getMainObjectStash(),
+			$services->getWANObjectCache()
 		);
 	},
 

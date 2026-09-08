@@ -26,6 +26,15 @@
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
 	],
+	"JobClasses": {
+		"pageviewTrendingRelativeUpdate": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\PageTrending\\PageviewTrendingRelativeUpdateJob",
+			"services": [
+				"WikimediaCustomizations.PageviewTrendingRelativeStore"
+			],
+			"needsPage": false
+		}
+	},
 	"ConfigRegistry": {
 		"WikimediaCustomizations": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},

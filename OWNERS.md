@@ -145,4 +145,13 @@ removed once the survey concludes.
 
 Wikimedia-specific overrides to the SuggestedInvestigations feature.
 
+## PageTrending
+
+* Folders:
+  - src/PageTrending
+* Dependencies: EventBus.
+* Contact: [Data Platform Engineering](https://www.mediawiki.org/wiki/Data_Platform_Engineering)
+
+Stores the set of pages currently trending relative to their own baseline pageviews.
+
 ## ...
