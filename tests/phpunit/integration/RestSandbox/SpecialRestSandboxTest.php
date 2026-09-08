@@ -16,7 +16,19 @@ class SpecialRestSandboxTest extends SpecialPageTestBase {
 		parent::setUp();
 
 		$scriptPath = $this->getConfVar( MainConfigNames::ScriptPath );
-		$this->markTestSkipped( 'T433315' );
+		$this->overrideConfigValues( [
+			MainConfigNames::RestExternalModules => [
+				'mwtest/v1' => [
+					'info' => [
+						'version' => '1.0.0',
+						'title' => 'MediaWiki Test REST API',
+					 ],
+					'base' => 'https://www.wikidata.org/w/rest.php/wikibase/v1/',
+					'spec' => $scriptPath . '/rest.php/specs/v0/module/-',
+					'url' => $scriptPath . '/rest.php/',
+				]
+			]
+		] );
 	}
 
 	/**
