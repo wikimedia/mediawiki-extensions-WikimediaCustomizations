@@ -66,6 +66,14 @@ describe( 'donorAccountCreation init', () => {
 				isNamed: jest.fn( () => overrides.isNamed !== undefined ? overrides.isNamed : true ),
 				isAnon: jest.fn( () => overrides.isAnon !== undefined ? overrides.isAnon : true )
 			},
+			config: {
+				get: jest.fn( ( key ) => {
+					if ( key === 'skin' ) {
+						return overrides.skin !== undefined ? overrides.skin : 'minerva';
+					}
+					return null;
+				} )
+			},
 			storage: {
 				get: jest.fn( ( key ) => {
 					if ( key === STORAGE_KEY_SUPPRESS_OVERLAY ) {
@@ -92,7 +100,8 @@ describe( 'donorAccountCreation init', () => {
 
 	describe( 'eligibility', () => {
 		test( 'launches the dialog when the campaign param matches', async () => {
-			setupMw( { campaign: `foo-${ DEFAULT_CAMPAIGN }-bar`, isNamed: true } );
+			setupMw( { campaign: `foo-${ DEFAULT_CAMPAIGN }-bar`, isNamed: true,
+				skin: 'minerva' } );
 			await init();
 			await nextTick();
 			expect( mw.loader.using ).toHaveBeenCalledWith( DIALOG_MODULE );

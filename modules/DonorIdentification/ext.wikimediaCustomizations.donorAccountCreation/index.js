@@ -43,7 +43,8 @@ async function init() {
 	const experiment = variantGroup ? EXPERIMENT_NAME : '';
 	const group = hasCampaignOverride ? 'treatment' : variantGroup;
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
-	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay );
+	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay &&
+		mw.config.get( 'skin' ) === 'minerva' );
 
 	// temporary accounts and anonymous users are always lacking consent
 	const lackingConsent = !mw.user.isNamed() || !donor.hasConsented();
