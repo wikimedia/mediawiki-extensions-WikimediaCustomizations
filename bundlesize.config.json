@@ -1,0 +1,10 @@
+[
+	{
+		"resourceModule": "ext.wikimediaCustomizations.donorAccountCreation",
+		"maxSize": null
+	},
+	{
+		"resourceModule": "ext.wikimediaCustomizations.donor",
+		"maxSize": null
+	}
+]

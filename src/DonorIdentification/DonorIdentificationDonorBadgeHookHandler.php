@@ -21,7 +21,6 @@ class DonorIdentificationDonorBadgeHookHandler implements BeforePageDisplayHook 
 			// Non-caching experiment
 			// No need to check TestKitchen extension or make changes to page output
 			if (
-				$out->getSkin()->getSkinName() === 'minerva' &&
 				$out->getTitle() &&
 				$out->getTitle()->getNamespace() === NS_MAIN
 			) {
