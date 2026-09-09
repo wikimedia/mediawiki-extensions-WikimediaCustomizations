@@ -20,10 +20,9 @@ jest.mock( 'ext.wikimediaCustomizations.donor', () => ( {
 const { init } = require( '../../../modules/DonorIdentification/ext.wikimediaCustomizations.donorAccountCreation/index.js' );
 
 const DIALOG_MODULE = 'ext.wikimediaCustomizations.donorAccountCreation.dialog';
-const DEFAULT_CAMPAIGN = 'reader-donor-account';
+const CAMPAIGN_PREFIX = 'reader-donor-account';
 const STORAGE_KEY_SUPPRESS_OVERLAY = 'wc-donor-account-creation-suppress-consent-overlay';
 const SUCCESS_MESSAGE_KEY = 'wc-donor-account-creation-success-message';
-const EXPERIMENT_NAME = 'donor-status-consent';
 
 // init() fires the dialog launch on an un-awaited loader.using().then() chain,
 // so yield once after it resolves to let that microtask settle.
@@ -100,15 +99,14 @@ describe( 'donorAccountCreation init', () => {
 
 	describe( 'eligibility', () => {
 		test( 'launches the dialog when the campaign param matches', async () => {
-			setupMw( { campaign: `foo-${ DEFAULT_CAMPAIGN }-bar`, isNamed: true,
+			setupMw( { campaign: `foo-${ CAMPAIGN_PREFIX }-bar`, isNamed: true,
 				skin: 'minerva' } );
 			await init();
 			await nextTick();
 			expect( mw.loader.using ).toHaveBeenCalledWith( DIALOG_MODULE );
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
-				experiment: EXPERIMENT_NAME,
-				campaign: `foo-${ DEFAULT_CAMPAIGN }-bar`,
+				campaign: `foo-${ CAMPAIGN_PREFIX }-bar`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
 		} );
@@ -122,8 +120,7 @@ describe( 'donorAccountCreation init', () => {
 			// Falls back to the default campaign when no param is present.
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
-				experiment: EXPERIMENT_NAME,
-				campaign: DEFAULT_CAMPAIGN,
+				campaign: `${ CAMPAIGN_PREFIX }-dsc-t`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
 		} );
@@ -146,7 +143,7 @@ describe( 'donorAccountCreation init', () => {
 
 		test( 'does not launch when the user has already consented', async () => {
 			mockHasConsented.mockReturnValue( true );
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: true, isAnon: false } );
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: true, isAnon: false } );
 			await init();
 			await nextTick();
 			expect( mockLaunch ).not.toHaveBeenCalled();
@@ -168,7 +165,7 @@ describe( 'donorAccountCreation init', () => {
 
 		test( 'launches when the campaign matches even if the storage flag is set', async () => {
 			setupMw( {
-				campaign: DEFAULT_CAMPAIGN,
+				campaign: CAMPAIGN_PREFIX,
 				isNamed: true,
 				suppressOverlay: '1'
 			} );
@@ -181,7 +178,7 @@ describe( 'donorAccountCreation init', () => {
 
 	describe( 'account-creation check for IP blocked users', () => {
 		test( 'launches when an anonymous user can create an account', async () => {
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: false } );
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: false } );
 			await init();
 			await nextTick();
 			expect( mw.Api ).toHaveBeenCalled();
@@ -194,7 +191,7 @@ describe( 'donorAccountCreation init', () => {
 		} );
 
 		test( 'does not launch when an anonymous user cannot create an account', async () => {
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: false } );
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: false } );
 			mockAjax.mockReturnValue( Promise.resolve( {
 				query: { userinfo: { cancreateaccount: false } }
 			} ) );
@@ -204,7 +201,7 @@ describe( 'donorAccountCreation init', () => {
 		} );
 
 		test( 'treats a missing userinfo query as able to create an account', async () => {
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: false } );
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: false } );
 			mockAjax.mockReturnValue( Promise.resolve( {} ) );
 			await init();
 			await nextTick();
@@ -212,7 +209,7 @@ describe( 'donorAccountCreation init', () => {
 		} );
 
 		test( 'skips the account-creation check for named users', async () => {
-			setupMw( { campaign: DEFAULT_CAMPAIGN, isNamed: true } );
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: true } );
 			await init();
 			await nextTick();
 			expect( mw.Api ).not.toHaveBeenCalled();
@@ -273,7 +270,7 @@ describe( 'donorAccountCreation init', () => {
 			mockRecentlyDonated.mockReturnValue( true );
 			setupMw( {
 				newdonoraccount: '1',
-				campaign: DEFAULT_CAMPAIGN,
+				campaign: CAMPAIGN_PREFIX,
 				isNamed: true
 			} );
 			await init();

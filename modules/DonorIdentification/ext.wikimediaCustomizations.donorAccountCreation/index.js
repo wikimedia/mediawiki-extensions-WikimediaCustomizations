@@ -1,7 +1,7 @@
 const donor = require( 'ext.wikimediaCustomizations.donor' );
 const EXPERIMENT_NAME = 'donor-status-consent';
 // Default campaign used to attribute account creations from this dialog.
-const DEFAULT_CAMPAIGN = 'reader-donor-account';
+const CAMPAIGN_PREFIX = 'reader-donor-account';
 const STORAGE_KEY_SUPPRESS_OVERLAY = 'wc-donor-account-creation-suppress-consent-overlay';
 
 async function getVariantGroup() {
@@ -37,11 +37,9 @@ async function init() {
 		return;
 	}
 
-	const campaign = mw.util.getParamValue( 'campaign' );
-	const hasCampaignOverride = ( campaign && campaign.includes( DEFAULT_CAMPAIGN ) );
-	const variantGroup = await getVariantGroup();
-	const experiment = variantGroup ? EXPERIMENT_NAME : '';
-	const group = hasCampaignOverride ? 'treatment' : variantGroup;
+	const campaignParam = mw.util.getParamValue( 'campaign' );
+	const hasCampaignOverride = ( campaignParam && campaignParam.includes( CAMPAIGN_PREFIX ) );
+	const group = hasCampaignOverride ? 'treatment' : await getVariantGroup();
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
 	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay &&
 		mw.config.get( 'skin' ) === 'minerva' );
@@ -59,13 +57,18 @@ async function init() {
 			}
 		}
 
+		const campaign = campaignParam ||
+			// Campaign needs to be limited to 40 characters!
+			// (See Extension:Campaign CampaignsAuthenticationRequest)
+			// Since CAMPAIGN_PREFIX is 20 characters, experiment and group are abbreviated to
+			// fit this limit.
+			( group ? `${ CAMPAIGN_PREFIX }-dsc-${ group.charAt( 0 ) }` : null );
 		// Lazy load the confirmation dialog module, then render it.
 		mw.loader.using( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' )
 			.then( ( req ) => {
 				req( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' ).launch( {
 					group,
-					experiment,
-					campaign: campaign || DEFAULT_CAMPAIGN,
+					campaign,
 					storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 				} );
 			} );

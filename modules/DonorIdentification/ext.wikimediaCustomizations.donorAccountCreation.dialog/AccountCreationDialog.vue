@@ -9,7 +9,7 @@
 	>
 		<div class="ext-wc-donor-account-creation-dialog__body">
 			<div
-				v-if="group === 'treatment'"
+				v-if="group !== 'control'"
 				class="ext-wc-donor-account-creation-dialog__benefits">
 				<p v-html="benefitsLabelText"></p>
 				<ul>
@@ -73,18 +73,11 @@ module.exports = exports = {
 	},
 	props: {
 		/**
-		 * Experiment name (if active)
-		 */
-		experiment: {
-			type: String,
-			default: ''
-		},
-		/**
 		 * Experiment group.
 		 */
 		group: {
 			type: String,
-			default: 'treatment'
+			default: ''
 		},
 		/**
 		 * Campaign machine name from query string.
@@ -153,9 +146,7 @@ module.exports = exports = {
 			// Record consent, notify the user, and close the dialog.
 			require( 'ext.wikimediaCustomizations.donor' ).consent( {
 				// consistent with DonorIdentificationHookHandler::setDonorStatusFromCampaign
-				source: props.experiment ?
-					`${ props.campaign }/${ props.experiment }/${ props.group }` :
-					props.campaign
+				source: props.campaign
 			} );
 
 			// Suppress this dialog with no expiry (in case user revokes consent later).
