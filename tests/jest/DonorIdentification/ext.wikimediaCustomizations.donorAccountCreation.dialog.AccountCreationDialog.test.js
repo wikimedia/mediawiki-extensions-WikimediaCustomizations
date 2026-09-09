@@ -78,7 +78,10 @@ describe( 'AccountCreationDialog', () => {
 			storage: {
 				set: jest.fn()
 			},
-			notify: jest.fn()
+			notify: jest.fn(),
+			hook: jest.fn( () => ( {
+				fire: jest.fn()
+			} ) )
 		};
 	} );
 

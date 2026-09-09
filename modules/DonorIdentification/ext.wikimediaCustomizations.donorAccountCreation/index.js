@@ -4,11 +4,6 @@ const EXPERIMENT_NAME = 'donor-status-consent';
 const CAMPAIGN_PREFIX = 'reader-donor-account';
 const STORAGE_KEY_SUPPRESS_OVERLAY = 'wc-donor-account-creation-suppress-consent-overlay';
 
-async function getVariantGroup() {
-	const experiment = await mw.testKitchen.getExperiment( EXPERIMENT_NAME );
-	return experiment.getAssignedGroup();
-}
-
 async function canCreateAccount() {
 	const api = new mw.Api();
 	return api.ajax( {
@@ -34,18 +29,28 @@ async function init() {
 		mw.storage.set( STORAGE_KEY_SUPPRESS_OVERLAY, '1' );
 
 		mw.notify( mw.message( 'wc-donor-account-creation-success-message' ) );
+		// Note: WikimediaEvents will check if the account was newly created.
+		if ( mw.user.isNamed() ) {
+			mw.hook( 'wikimediaCustomizations.donorAccountCreation.accountConnected' ).fire();
+		}
 		return;
 	}
 
 	const campaignParam = mw.util.getParamValue( 'campaign' );
 	const hasCampaignOverride = ( campaignParam && campaignParam.includes( CAMPAIGN_PREFIX ) );
-	const group = hasCampaignOverride ? 'treatment' : await getVariantGroup();
+	const experiment = await mw.testKitchen.getExperiment( EXPERIMENT_NAME );
+	const variantGroup = experiment.getAssignedGroup();
+	const group = hasCampaignOverride ? 'treatment' : variantGroup;
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
 	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay &&
 		mw.config.get( 'skin' ) === 'minerva' );
 
 	// temporary accounts and anonymous users are always lacking consent
 	const lackingConsent = !mw.user.isNamed() || !donor.hasConsented();
+
+	if ( mw.config.get( 'skin' ) === 'minerva' && variantGroup && donor.recentlyDonated() ) {
+		experiment.send( 'page_visit', {}, [ 'page_namespace_id' ] );
+	}
 
 	if ( isEligible && lackingConsent ) {
 		// Don't show dialog to logged out and temp users that don't have permissions.
@@ -66,6 +71,11 @@ async function init() {
 		// Lazy load the confirmation dialog module, then render it.
 		mw.loader.using( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' )
 			.then( ( req ) => {
+				// if the user is seeing the dialog because they're part of the experiment, then log their exposure
+				if ( variantGroup ) {
+					experiment.sendExposure();
+				}
+
 				req( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' ).launch( {
 					group,
 					campaign,

@@ -40,6 +40,7 @@
 					v-else
 					:class="fakeButtonClasses"
 					:href="createAccountLink"
+					@click="fakeYesClick"
 				>
 					{{ yesBtnText }}
 				</a>
@@ -114,7 +115,7 @@ module.exports = exports = {
 		const returnTo = mw.config.get( 'wgPageName' );
 		const createAccountLink = computed( () => mw.util.getUrl( 'Special:CreateAccount', {
 			returnto: returnTo,
-			returntoquery: 'newdonoraccount=1',
+			returntoquery: 'newdonoraccount=1&accountJustCreated=1',
 			campaign: props.campaign,
 			showlogin: 1
 		} ) );
@@ -153,7 +154,15 @@ module.exports = exports = {
 			mw.storage.set( props.storageKey, '1' );
 
 			mw.notify( mw.message( 'wc-donor-account-creation-success-message' ) );
+			mw.hook( 'wikimediaCustomizations.donorAccountCreation.yes' ).fire();
 			closeDialog();
+		}
+
+		/**
+		 * Handle click to the fake button (to make sure we keep track of clicks to yes)
+		 */
+		function fakeYesClick() {
+			mw.hook( 'wikimediaCustomizations.donorAccountCreation.yes' ).fire();
 		}
 
 		/**
@@ -162,6 +171,7 @@ module.exports = exports = {
 		function noClick() {
 			// Suppress this dialog with no expiration date.
 			mw.storage.set( props.storageKey, '1' );
+			mw.hook( 'wikimediaCustomizations.donorAccountCreation.no' ).fire();
 			closeDialog();
 		}
 
@@ -171,6 +181,7 @@ module.exports = exports = {
 		function laterClick() {
 			// Suppress this dialog for 3 hours.
 			mw.storage.set( props.storageKey, '1', 60 * 60 * 3 );
+			mw.hook( 'wikimediaCustomizations.donorAccountCreation.later' ).fire();
 			closeDialog();
 		}
 
@@ -192,6 +203,7 @@ module.exports = exports = {
 			laterBtnText,
 			noClick,
 			yesClick,
+			fakeYesClick,
 			laterClick
 		};
 	}

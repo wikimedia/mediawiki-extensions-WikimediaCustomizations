@@ -45,7 +45,9 @@ describe( 'donorAccountCreation init', () => {
 		global.mw = {
 			testKitchen: {
 				getExperiment: jest.fn( () => Promise.resolve( {
-					getAssignedGroup: jest.fn( () => overrides.group !== undefined ? overrides.group : 'treatment' )
+					getAssignedGroup: jest.fn( () => overrides.group !== undefined ? overrides.group : 'treatment' ),
+					send: jest.fn(),
+					sendExposure: jest.fn()
 				} ) )
 			},
 			util: {
@@ -83,6 +85,9 @@ describe( 'donorAccountCreation init', () => {
 				} ),
 				set: jest.fn()
 			},
+			hook: jest.fn( () => ( {
+				fire: jest.fn()
+			} ) ),
 			message: jest.fn( ( key ) => ( { key } ) ),
 			notify: jest.fn(),
 			Api: jest.fn().mockImplementation( () => ( { ajax: mockAjax } ) ),
@@ -277,7 +282,8 @@ describe( 'donorAccountCreation init', () => {
 			await nextTick();
 
 			expect( mockLaunch ).not.toHaveBeenCalled();
-			// Also should not probe the experiment framework on the early-return path.
+			// Probe the experiment framework on the early-return path
+			// since we need to log account creation.
 			expect( mw.testKitchen.getExperiment ).not.toHaveBeenCalled();
 		} );
 	} );
