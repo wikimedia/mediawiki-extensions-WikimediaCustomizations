@@ -102,17 +102,10 @@ class DonorIdentificationHookHandler implements
 
 		// otherwise, if we are in a reader donor campaign and the user is currently opted out of donor ID, opt them in
 		if ( $this->userOptionsManager->getOption( $user, self::DONOR_PREF ) === '' ) {
-			// if we're in the experiment, attempt to include that information
-			$experimentName = 'donor-status-consent';
-			$experiment = $this->experimentManager?->getExperiment( $experimentName );
-			$group = $experiment?->getAssignedGroup();
-
-			$source = $group ? "$campaign/$experimentName/$group" : $campaign;
-
 			$pref = json_encode( [
 				'value' => 1,
 				'timestamp' => (int)round( microtime( true ) * 1000 ),
-				'source' => $source,
+				'source' => $campaign,
 			] );
 
 			$this->userOptionsManager->setOption( $user, self::DONOR_PREF, $pref, UserOptionsManager::GLOBAL_CREATE );
