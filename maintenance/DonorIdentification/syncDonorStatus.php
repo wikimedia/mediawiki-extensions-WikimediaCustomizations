@@ -6,7 +6,6 @@ use GlobalPreferences\GlobalPreferencesServices;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Maintenance\Maintenance;
-use MediaWiki\MediaWikiServices;
 use SplFileObject;
 
 require_once getenv( 'MW_INSTALL_PATH' ) !== false
@@ -228,7 +227,7 @@ class SyncDonorStatus extends Maintenance {
 		}, $ids );
 
 		// get the DB and use replace so existing rows will be deleted before insert
-		$dbw = GlobalPreferencesServices::wrap( MediaWikiServices::getInstance() )
+		$dbw = GlobalPreferencesServices::wrap( $this->getServiceContainer() )
 			->getGlobalPreferencesConnectionProvider()
 			->getPrimaryDatabase();
 
@@ -281,7 +280,7 @@ class SyncDonorStatus extends Maintenance {
 			return $user->getName();
 		}, $users );
 
-		$current_preferences = MediaWikiServices::getInstance()
+		$current_preferences = $this->getServiceContainer()
 			->getUserOptionsManager()
 			->getOptionBatchForUserNames( $usernames, self::PREFERENCE_NAME );
 
