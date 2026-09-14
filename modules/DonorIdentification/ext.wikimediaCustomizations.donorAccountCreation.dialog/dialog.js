@@ -5,6 +5,8 @@ const AccountCreationDialog = require( './AccountCreationDialog.vue' );
 
 /**
  * Mount and display the donor account creation confirmation dialog.
+ *
+ * @param props
  */
 function launch( props ) {
 	const container = document.createElement( 'div' );
