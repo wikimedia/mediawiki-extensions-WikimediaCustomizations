@@ -10,8 +10,8 @@ use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Message\MessageFormatterFactory;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Rest\JsonLocalizer;
 use MediaWiki\Rest\Module\ModuleManager;
-use MediaWiki\Rest\ResponseFactory;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Utils\UrlUtils;
 use Wikimedia\ObjectCache\BagOStuff;
@@ -36,13 +36,12 @@ class SpecialRestSandbox extends SpecialPage {
 		$textFormatter = $messageFormatterFactory->getTextFormatter(
 			$this->getContentLanguage()->getCode()
 		);
-		$responseFactory = new ResponseFactory( [ $textFormatter ] );
 
 		$this->moduleManager = new ModuleManager(
 			new ServiceOptions( ModuleManager::CONSTRUCTOR_OPTIONS, $this->getConfig() ),
 			ExtensionRegistry::getInstance()->getAttribute( 'RestModuleFiles' ),
 			$srvCache,
-			$responseFactory
+			new JsonLocalizer( $textFormatter )
 		);
 	}
 
