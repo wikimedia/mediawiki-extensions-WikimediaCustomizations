@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Pikne"
+		]
+	},
+	"prefs-donor": "Annetajaseisund",
+	"wikimediacustomizations-donor-identify-label": "Kas soovid, et peaksime meeles, et oled enda Vikipeedia kontoga annetanud? Selle sätte väljalülitamisega eemaldatakse see eristus pöördumatult.",
+	"wikimediacustomizations-donor-identify-help": "Konto sidumisel nõustud, et {{GRAMMAR:genitive|{{SITENAME}}}} veebisaidi ja rakenduse annetamisega seotud funktsioonide juures tunnustab Wikimedia Foundation sind eraviisiliselt annetajana, kui oled sisse logitud. [https://foundation.wikimedia.org/wiki/Legal:Donor%20experiences Loe veel]."
+}
