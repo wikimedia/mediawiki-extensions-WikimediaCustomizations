@@ -43,6 +43,10 @@ function mountDialog( props = {} ) {
 			storageKey: STORAGE_KEY
 		}, props ),
 		global: {
+			mocks: {
+				// $i18n is normally injected globally by MediaWiki's Vue setup.
+				$i18n: jest.fn( ( key ) => key )
+			},
 			stubs: {
 				CdxDialog: cdxDialogStub,
 				CdxButton: cdxButtonStub

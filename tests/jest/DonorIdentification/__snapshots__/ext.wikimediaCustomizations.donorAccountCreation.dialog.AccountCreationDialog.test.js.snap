@@ -39,9 +39,12 @@ exports[`AccountCreationDialog for anonymous users matches the snapshot 1`] = `
       <div>
         <p>
           wc-donor-account-creation-dialog-body 
-          <span>
-            wc-donor-account-creation-dialog-learn
-          </span>
+          <a
+            href="wc-donor-account-creation-dialog-learn-url"
+            target="_blank"
+          >
+            wc-donor-account-creation-dialog-learn-label
+          </a>
         </p>
       </div>
     </div>
@@ -115,9 +118,12 @@ exports[`AccountCreationDialog for authenticated users matches the snapshot 1`] 
       <div>
         <p>
           wc-donor-account-creation-dialog-body 
-          <span>
-            wc-donor-account-creation-dialog-learn
-          </span>
+          <a
+            href="wc-donor-account-creation-dialog-learn-url"
+            target="_blank"
+          >
+            wc-donor-account-creation-dialog-learn-label
+          </a>
         </p>
       </div>
     </div>
@@ -175,9 +181,12 @@ exports[`AccountCreationDialog for users in the control group matches the snapsh
       <div>
         <p>
           wc-donor-account-creation-dialog-body 
-          <span>
-            wc-donor-account-creation-dialog-learn
-          </span>
+          <a
+            href="wc-donor-account-creation-dialog-learn-url"
+            target="_blank"
+          >
+            wc-donor-account-creation-dialog-learn-label
+          </a>
         </p>
       </div>
     </div>
@@ -252,9 +261,12 @@ exports[`AccountCreationDialog for users in the treatment group matches the snap
       <div>
         <p>
           wc-donor-account-creation-dialog-body 
-          <span>
-            wc-donor-account-creation-dialog-learn
-          </span>
+          <a
+            href="wc-donor-account-creation-dialog-learn-url"
+            target="_blank"
+          >
+            wc-donor-account-creation-dialog-learn-label
+          </a>
         </p>
       </div>
     </div>
