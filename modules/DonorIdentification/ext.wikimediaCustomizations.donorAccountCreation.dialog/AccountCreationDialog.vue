@@ -21,7 +21,11 @@
 			<div>
 				<p>
 					{{ bodyText }}
-					<span v-html="learnHtml"></span>
+					<a
+						target="_blank"
+						:href="$i18n( 'wc-donor-account-creation-dialog-learn-url' )">
+						{{ $i18n( 'wc-donor-account-creation-dialog-learn-label' ) }}
+					</a>
 				</p>
 			</div>
 		</div>
@@ -123,7 +127,6 @@ module.exports = exports = {
 		const titleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-title' ) );
 		const subtitleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-subtitle' ) );
 		const bodyText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-body' ) );
-		const learnHtml = computed( () => mw.message( 'wc-donor-account-creation-dialog-learn' ).parse() );
 		const benefitsLabelText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-label' ) );
 		const benefitsList1 = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-list-1' ) );
 		const benefitsList2 = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-list-2' ) );
@@ -193,7 +196,6 @@ module.exports = exports = {
 			titleText,
 			subtitleText,
 			bodyText,
-			learnHtml,
 			benefitsLabelText,
 			benefitsList1,
 			benefitsList2,
