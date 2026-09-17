@@ -2,12 +2,15 @@
 
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\Contributors\DataGatewayContributorCountProvider;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\Contributors\NullContributorCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\FlaggedRevsReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ParsoidReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\BadEmailDomain\BadEmailDomainChecker;
 use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
 use MediaWiki\Extension\WikimediaCustomizations\PrivilegedGroups\PrivilegedGroups;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -39,9 +42,12 @@ return [
 	): AttributionDataBuilder {
 		global $wgConf;
 		$statsFactory = $services->getStatsFactory()->withComponent( 'Attribution' );
+		$logger = LoggerFactory::getInstance( 'Attribution' );
 		$parserOutputAccess = $services->getParserOutputAccess();
 		$referenceCountProvider = new ParsoidReferenceCountProvider( $parserOutputAccess );
 		$pageViewService = null;
+		$mainConfig = $services->get( 'MainConfig' );
+		$wmcConfig = $services->get( 'WikimediaCustomizations.Config' );
 
 		if ( $services->getExtensionRegistry()->isLoaded( 'FlaggedRevs' ) ) {
 			$referenceCountProvider = new FlaggedRevsReferenceCountProvider(
@@ -55,16 +61,30 @@ return [
 			$pageViewService = $services->get( 'PageViewService' );
 		}
 
+		$endpointTemplate = $wmcConfig->get( 'WMCContributorCountsEndpoint' );
+
+		$contributorCountProvider = $endpointTemplate
+			? new DataGatewayContributorCountProvider(
+				$services->getWANObjectCache(),
+				$services->getHttpRequestFactory(),
+				$statsFactory,
+				$logger,
+				$mainConfig->get( MainConfigNames::DBname ),
+				(string)$endpointTemplate
+			)
+			: new NullContributorCountProvider();
+
 		return new AttributionDataBuilder(
-			$services->get( 'MainConfig' ),
+			$mainConfig,
 			$services->get( 'UrlUtils' ),
 			$services->get( 'RepoGroup' ),
 			$services->get( 'Tracer' ),
 			$wgConf,
-			LoggerFactory::getInstance( 'Attribution' ),
+			$logger,
 			$statsFactory,
 			$trendingRelativeStore,
 			$referenceCountProvider,
+			$contributorCountProvider,
 			$services->getLanguageNameUtils(),
 			$pageViewService
 		);

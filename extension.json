@@ -82,6 +82,10 @@
 		"WMCNoReferrerDomains": {
 			"description": "List of external link domains that should get rel=\"noreferrer noopener\", so the browser omits the Referer header when following the link. Subdomains match. See T429090.",
 			"value": []
+		},
+		"WMCContributorCountsEndpoint": {
+			"description": "URL template for the WMF Data Gateway endpoint that returns per-page editor counts (see T429834). Supports {wiki_id} and {page_id} placeholders. Expected shape: https://<data-gateway-host>/public/linked_artifacts/editor_counts_per_page/{wiki_id}/{page_id} (see data-gateway MR!11). When false (default), contributor counts are omitted from the Attribution API response.",
+			"value": false
 		}
 	},
 	"DefaultUserOptions": {

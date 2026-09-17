@@ -131,10 +131,37 @@
 					"example": 3658
 				},
 				"contributor_counts": {
-					"type": "number",
+					"type": "object",
 					"nullable": true,
 					"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts",
-					"example": 142
+					"required": [
+						"total_unique",
+						"logged_in_users",
+						"unregistered_users",
+						"known_bots"
+					],
+					"properties": {
+						"total_unique": {
+							"type": "integer",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-total-unique",
+							"example": 127
+						},
+						"logged_in_users": {
+							"type": "integer",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-logged-in-users",
+							"example": 102
+						},
+						"unregistered_users": {
+							"type": "integer",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-unregistered-users",
+							"example": 21
+						},
+						"known_bots": {
+							"type": "integer",
+							"x-i18n-description": "wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-known-bots",
+							"example": 4
+						}
+					}
 				},
 				"reference_count": {
 					"type": "integer",

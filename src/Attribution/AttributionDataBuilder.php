@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 use MediaWiki\Config\Config;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\Contributors\ContributorCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
@@ -42,6 +43,7 @@ class AttributionDataBuilder {
 		private readonly StatsFactory $stats,
 		private readonly PageviewTrendingRelativeStore $trendingRelativeStore,
 		private readonly ReferenceCountProvider $referenceCountProvider,
+		private readonly ContributorCountProvider $contributorCountProvider,
 		private readonly LanguageNameUtils $languageNameUtils,
 		private readonly ?PageViewService $pageViewService = null
 	) {
@@ -95,7 +97,6 @@ class AttributionDataBuilder {
 
 	/**
 	 * Emit metrics and log for any nullable fields that returned null.
-	 * Intentionally missing data (e.g. contributor_counts) is excluded.
 	 *
 	 * @param Title $title The article we're building attribution data for
 	 * @param array $base The built attribution data array
@@ -115,6 +116,9 @@ class AttributionDataBuilder {
 			}
 			if ( ( $base['trust_and_relevance']['reference_count'] ?? null ) === null ) {
 				$missingFields[] = 'reference_count';
+			}
+			if ( ( $base['trust_and_relevance']['contributor_counts'] ?? null ) === null ) {
+				$missingFields[] = 'contributor_counts';
 			}
 		}
 
@@ -285,8 +289,8 @@ class AttributionDataBuilder {
 		// If this is an article we'll add the reference count, trending data, page views
 		// and contributor counts.
 		if ( !$file && $this->includeExtendedAttribution( $title ) ) {
-			// Placeholder for the contributor counts will be implemented in a future version.
-			$trustAndRelevance['contributor_counts'] = null;
+			$trustAndRelevance['contributor_counts'] = $this->contributorCountProvider
+				->getContributorCounts( $page );
 			$trustAndRelevance['page_views'] = $this->getPageViews( $title );
 			$trustAndRelevance['reference_count'] = $this->getReferenceCount( $page );
 			$trustAndRelevance['trending'] = [

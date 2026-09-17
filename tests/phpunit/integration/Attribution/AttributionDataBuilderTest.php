@@ -6,6 +6,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
+use MediaWiki\Extension\WikimediaCustomizations\Attribution\Contributors\ContributorCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountResult;
 use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
@@ -53,6 +54,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		?Config $config = null,
 		?SiteConfiguration $siteConfig = null,
 		?LanguageNameUtils $languageNameUtils = null,
+		?ContributorCountProvider $contributorCountProvider = null,
 		?PageviewTrendingRelativeStore $trendingRelativeStore = null
 	): AttributionDataBuilder {
 		$config = $config ?? $this->mockConfig();
@@ -63,6 +65,10 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$referenceCountProvider->method( 'getReferenceCount' )->willReturn(
 			new ReferenceCountResult( null, 'test', ReferenceCountResult::CACHE_MISS )
 		);
+		if ( !$contributorCountProvider ) {
+			$contributorCountProvider = $this->createMock( ContributorCountProvider::class );
+			$contributorCountProvider->method( 'getContributorCounts' )->willReturn( null );
+		}
 		if ( !$repoGroup ) {
 			$repoGroup = $this->createMock( RepoGroup::class );
 		}
@@ -78,7 +84,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
 			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $trendingRelativeStore,
-			$referenceCountProvider, $languageNameUtils, $pageViewService
+			$referenceCountProvider, $contributorCountProvider,
+			$languageNameUtils, $pageViewService
 		);
 	}
 
@@ -281,9 +288,11 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	public function testTrendingRelativeIsTrueWhenPageIsTrending(): void {
 		$store = $this->createMock( PageviewTrendingRelativeStore::class );
+
 		$store->method( 'isTrending' )->willReturn( true );
 		$builder = $this->newDataBuilder(
-			null, null, null, null, null, null, null, $store
+			null, null, null, null, null,
+			null, null, null, $store
 		);
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
@@ -765,7 +774,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 
 	public function testMissingArticleFieldsEmitMissingDataCounters(): void {
 		$statsHelper = $this->newStatsHelper();
-		// No PageViewService → page_views=null; default mock ReferenceCountProvider → reference_count=null
+		// No PageViewService → page_views=null; default mock ReferenceCountProvider → reference_count=null;
+		// default mock ContributorCountProvider → contributor_counts=null
 		$builder = $this->newDataBuilder( null, null, null, $statsHelper->getStatsFactory() );
 		$title = $this->mockTitle();
 		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
@@ -782,6 +792,85 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 			1,
 			$statsHelper->count( 'missing_data_total{field="reference_count"}' )
 		);
+		$this->assertSame(
+			1,
+			$statsHelper->count( 'missing_data_total{field="contributor_counts"}' )
+		);
+	}
+
+	public function testTrustAndRelevanceContributorCountsPopulated() {
+		$statsHelper = $this->newStatsHelper();
+		$counts = [
+			'total_unique' => 127,
+			'logged_in_users' => 102,
+			'unregistered_users' => 21,
+			'known_bots' => 4,
+		];
+		$contributorCountProvider = $this->createMock( ContributorCountProvider::class );
+		$contributorCountProvider->method( 'getContributorCounts' )->willReturn( $counts );
+
+		$builder = $this->newDataBuilder(
+			null,
+			null,
+			null,
+			$statsHelper->getStatsFactory(),
+			null,
+			null,
+			null,
+			$contributorCountProvider
+		);
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+
+		$this->assertSame( $counts, $result['trust_and_relevance']['contributor_counts'] );
+	}
+
+	public function testMediaSpecificResponseOmitsContributorCounts() {
+		$file = $this->createMock( File::class );
+		$repoGroup = $this->createMock( RepoGroup::class );
+		$repoGroup->method( 'findFile' )->willReturn( $file );
+		$contributorCountProvider = $this->createMock( ContributorCountProvider::class );
+		$contributorCountProvider->expects( $this->never() )->method( 'getContributorCounts' );
+
+		$builder = $this->newDataBuilder(
+			null, null, $repoGroup, null, null, null, null, $contributorCountProvider
+		);
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$format->method( 'fetchExtendedMetadata' )->willReturn( [] );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+
+		$this->assertArrayNotHasKey( 'contributor_counts', $result['trust_and_relevance'] );
+	}
+
+	public function testNonWikitextContentModelSkipsContributorCounts() {
+		$contributorCountProvider = $this->createMock( ContributorCountProvider::class );
+		$contributorCountProvider->expects( $this->never() )->method( 'getContributorCounts' );
+
+		$builder = $this->newDataBuilder(
+			null, null, null, null, null, null, null, $contributorCountProvider
+		);
+		$title = $this->mockTitle( CONTENT_MODEL_UNKNOWN );
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+
+		$this->assertArrayNotHasKey( 'contributor_counts', $result['trust_and_relevance'] );
 	}
 
 	public function testMissingArticleFieldsDoesntEmitMissingDataCountersForNonWikiText(): void {
