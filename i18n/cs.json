@@ -9,5 +9,6 @@
 	"prefs-donor": "Status dárce",
 	"wikimediacustomizations-donor-identify-label": "Chcete, abychom si na vašem účtu na Wikipedii pamatovali, že jste darovali? Vypnutím nenávratně odeberete toto označení.",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "Vaše štědrost pomáhá udržovat Wikipedii svobodnou a otevřenou pro lidi po celém světě.",
+	"wc-donor-account-creation-dialog-subtitle": "Děkujeme za váš nedávný dar Wikipedii!",
 	"wc-donor-account-creation-success-message": "Váš účet si nyní budete pamatovat, že jste {{GENDER:|daroval|darovala|darovali}}. Propojení můžete kdykoli zrušit v [[Special:Preferences#mw-prefsection-personal-email|nastavení]]."
 }
