@@ -49,6 +49,8 @@ return [
 				$referenceCountProvider
 			);
 		}
+		$trendingRelativeStore = $services->get( 'WikimediaCustomizations.PageviewTrendingRelativeStore' );
+
 		if ( $services->getExtensionRegistry()->isLoaded( 'PageViewInfo' ) ) {
 			$pageViewService = $services->get( 'PageViewService' );
 		}
@@ -61,6 +63,7 @@ return [
 			$wgConf,
 			LoggerFactory::getInstance( 'Attribution' ),
 			$statsFactory,
+			$trendingRelativeStore,
 			$referenceCountProvider,
 			$services->getLanguageNameUtils(),
 			$pageViewService

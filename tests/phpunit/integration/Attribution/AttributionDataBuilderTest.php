@@ -8,6 +8,7 @@ use MediaWiki\Extension\PageViewInfo\PageViewService;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountProvider;
 use MediaWiki\Extension\WikimediaCustomizations\Attribution\ReferenceCountResult;
+use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
@@ -51,7 +52,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		?StatsFactory $statsFactory = null,
 		?Config $config = null,
 		?SiteConfiguration $siteConfig = null,
-		?LanguageNameUtils $languageNameUtils = null
+		?LanguageNameUtils $languageNameUtils = null,
+		?PageviewTrendingRelativeStore $trendingRelativeStore = null
 	): AttributionDataBuilder {
 		$config = $config ?? $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
@@ -71,11 +73,12 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 				->willReturn( [ 'wikipedia', 'en' ] );
 		}
 		$languageNameUtils ??= $this->getServiceContainer()->getLanguageNameUtils();
+		$trendingRelativeStore ??= $this->createMock( PageviewTrendingRelativeStore::class );
 
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
-			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $referenceCountProvider,
-			$languageNameUtils, $pageViewService
+			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $trendingRelativeStore,
+			$referenceCountProvider, $languageNameUtils, $pageViewService
 		);
 	}
 
@@ -273,9 +276,24 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['read'] );
 		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['edited'] );
 		$this->assertFalse( $result['trust_and_relevance']['trending']['top']['read_and_edited'] );
-		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['read'] );
-		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['edited'] );
-		$this->assertFalse( $result['trust_and_relevance']['trending']['relative']['read_and_edited'] );
+		$this->assertFalse( $result['trust_and_relevance']['trending']['relative'] );
+	}
+
+	public function testTrendingRelativeIsTrueWhenPageIsTrending(): void {
+		$store = $this->createMock( PageviewTrendingRelativeStore::class );
+		$store->method( 'isTrending' )->willReturn( true );
+		$builder = $this->newDataBuilder(
+			null, null, null, null, null, null, null, $store
+		);
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA', 'latest' => [ 'timestamp' => '20250101000000' ] ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'trust_and_relevance' ], $authority, $format
+		);
+		$this->assertTrue( $result['trust_and_relevance']['trending']['relative'] );
 	}
 
 	/**

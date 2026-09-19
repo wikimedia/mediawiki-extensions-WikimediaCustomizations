@@ -45,10 +45,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "The page is currently in the top 1000 read pages for the wiki project.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "The page is currently in the top 100 edited pages for the wiki project, based on number of edits.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "The page is currently in the top 1000 read and top 100 edited pages for the wiki project.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indicates the page is currently outperforming its average read and edit rates.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "The page is currently exceeding its average read rate.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "The page currently has a higher rate of edits being submitted than its average.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "The page currently has more read and edit activity than its average performance.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Indicates the page is currently outperforming its average read and edit rates. Value is being refreshed every 5 minutes. Note: In case trending information cannot be determined it will default to false.",
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "Get attribution information for a site.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "Attribution signals are the individual elements that keep Wikimedia projects visible when their content is surfaced in external contexts. Signals provide direct acknowledgment and access to sources, and present additional information that helps end users evaluate and engage with the knowledge they encounter.\n\nSite attribution signals may be pulled for any Wikimedia site or project.",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "Attribution information for a site."

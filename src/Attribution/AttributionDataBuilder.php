@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Attribution;
 use MediaWiki\Config\Config;
 use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Extension\PageViewInfo\PageViewService;
+use MediaWiki\Extension\WikimediaCustomizations\PageTrending\PageviewTrendingRelativeStore;
 use MediaWiki\FileRepo\File\File;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Language\Language;
@@ -39,6 +40,7 @@ class AttributionDataBuilder {
 		private readonly SiteConfiguration $siteConfig,
 		private readonly LoggerInterface $logger,
 		private readonly StatsFactory $stats,
+		private readonly PageviewTrendingRelativeStore $trendingRelativeStore,
 		private readonly ReferenceCountProvider $referenceCountProvider,
 		private readonly LanguageNameUtils $languageNameUtils,
 		private readonly ?PageViewService $pageViewService = null
@@ -287,18 +289,14 @@ class AttributionDataBuilder {
 			$trustAndRelevance['contributor_counts'] = null;
 			$trustAndRelevance['page_views'] = $this->getPageViews( $title );
 			$trustAndRelevance['reference_count'] = $this->getReferenceCount( $page );
-			// TEMPORARY: placeholder for demo purposes only. See: T419157
 			$trustAndRelevance['trending'] = [
 				'top' => [
+					// TEMPORARY: placeholders for demo purposes only. See: T419157
 					'read' => false,
 					'edited' => false,
 					'read_and_edited' => false,
 				],
-				'relative' => [
-					'read' => false,
-					'edited' => false,
-					'read_and_edited' => false,
-				],
+				'relative' => $this->trendingRelativeStore->isTrending( $title->getId() ),
 			];
 		}
 		return $trustAndRelevance;
