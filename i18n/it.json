@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Matroz"
 		]
 	},
+	"wikimediacustomizations-donor-unlink-confirm": "Sei sicuro di voler scollegare la tua utenza come donatore? Questo richiederà una nuova donazione per ripristinarlo.",
 	"wikimediacustomizations-donordelightbadge-remove-btn": "Rimuovi distintivo",
 	"wikimediacustomizations-donordelightbadge-dialog-title": "Rimuovere questo distintivo?",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "Questo cuore è un distintivo di ringraziamento per la tua donazione. Il distintivo non può essere ripristinato una volta rimosso.",
