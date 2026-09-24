@@ -196,13 +196,13 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 		$markdownUrl = str_replace( [ '(', ')' ], [ '%28', '%29' ], $url );
 		$markdownTitle = $this->escapeMarkdown( $formattedTitle );
 
-		$markdown = "# [$markdownTitle]($markdownUrl)\n\n$extract";
+		$markdown = "### [$markdownTitle]($markdownUrl)\n\n$extract";
 		$components[] = [ "type" => 10, "content" => $markdown ];
 		if ( $thumbnail !== null ) {
-			$components[] = [ "type" => 12, "items" => [ "media" => [ "url" => $thumbnail ] ] ];
+			$components[] = [ "type" => 12, "items" => [ [ "media" => [ "url" => $thumbnail ] ] ] ];
 		}
 
-		$container = [ "type" => 17, "components" => $components ];
+		$container = [ "component" => [ "type" => 17, "components" => $components ] ];
 
 		$response = $this->getResponseFactory()->createJson( $container );
 
