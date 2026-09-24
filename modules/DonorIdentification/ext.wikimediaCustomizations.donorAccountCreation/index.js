@@ -18,6 +18,10 @@ async function canCreateAccount() {
 	} );
 }
 
+function showSuccessMsg() {
+	mw.notify( mw.message( 'wc-donor-account-creation-success-message' ) );
+}
+
 async function init() {
 	// Handle user just returning from creating an account with consent.
 	if ( mw.util.getParamValue( 'newdonoraccount' ) ) {
@@ -28,7 +32,7 @@ async function init() {
 		// Suppress the account creation dialog with no expiry (in case user revokes consent later).
 		mw.storage.set( STORAGE_KEY_SUPPRESS_OVERLAY, '1' );
 
-		mw.notify( mw.message( 'wc-donor-account-creation-success-message' ) );
+		showSuccessMsg();
 		// Note: WikimediaEvents will check if the account was newly created.
 		if ( mw.user.isNamed() ) {
 			mw.hook( 'wikimediaCustomizations.donorAccountCreation.accountConnected' ).fire();
@@ -50,6 +54,11 @@ async function init() {
 
 	if ( mw.config.get( 'skin' ) === 'minerva' && variantGroup && donor.recentlyDonated() ) {
 		experiment.send( 'page_visit', {}, [ 'page_namespace_id' ] );
+	}
+
+	// If account was already connected re-display the success message.
+	if ( !lackingConsent && hasCampaignOverride ) {
+		showSuccessMsg();
 	}
 
 	if ( isEligible && lackingConsent ) {
