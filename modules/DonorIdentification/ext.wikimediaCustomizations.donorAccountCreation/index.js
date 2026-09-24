@@ -61,7 +61,6 @@ async function init() {
 				return;
 			}
 		}
-
 		const campaign = campaignParam ||
 			// Campaign needs to be limited to 40 characters!
 			// (See Extension:Campaign CampaignsAuthenticationRequest)
@@ -78,6 +77,7 @@ async function init() {
 
 				req( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' ).launch( {
 					group,
+					showLater: !hasCampaignOverride,
 					campaign,
 					storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 				} );

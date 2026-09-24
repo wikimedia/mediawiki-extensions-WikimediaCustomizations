@@ -52,6 +52,7 @@
 					{{ noBtnText }}
 				</cdx-button>
 				<cdx-button
+					v-if="showLater"
 					weight="quiet"
 					@click="laterClick"
 				>
@@ -77,6 +78,11 @@ module.exports = exports = {
 		CdxButton
 	},
 	props: {
+		showLater: {
+			type: Boolean,
+			// eslint-disable-next-line vue/no-boolean-default
+			default: true
+		},
 		/**
 		 * Experiment group.
 		 */
