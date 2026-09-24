@@ -86,6 +86,18 @@
 		"WMCContributorCountsEndpoint": {
 			"description": "URL template for the WMF Data Gateway endpoint that returns per-page editor counts (see T429834). Supports {wiki_id} and {page_id} placeholders. Expected shape: https://<data-gateway-host>/public/linked_artifacts/editor_counts_per_page/{wiki_id}/{page_id} (see data-gateway MR!11). When false (default), contributor counts are omitted from the Attribution API response.",
 			"value": false
+		},
+		"WMCShareCardEnabled": {
+			"description": "Whether the core share link in Minerva ($wgPageShareSkinsEnabled) opens a dialog that offers the article as a generated image.",
+			"value": false
+		},
+		"WMCShareCardApiBaseUri": {
+			"description": "Url to the API of the MediaWiki instance the share card reads page summaries from, or leave empty to use the local one. For development against another wiki's content.",
+			"value": ""
+		},
+		"WMCShareCardLicenseIcons": {
+			"description": "Content license icons for the share card, as a list of objects with 'src' and 'alt' keys. Each src must be a same-origin SVG, which the card recolors.",
+			"value": []
 		}
 	},
 	"DefaultUserOptions": {
@@ -172,6 +184,13 @@
 		},
 		"suggestedinvestigations": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\SuggestedInvestigations\\SuggestedInvestigationsHookHandler"
+		},
+		"sharecard": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\ShareCard\\ShareCardHookHandler",
+			"services": [
+				"WikimediaCustomizations.Config",
+				"MainConfig"
+			]
 		}
 	},
 	"Hooks": {
@@ -184,7 +203,7 @@
 		"GetSecurityLogContext": [ "privilegedgroups", "securitylogs" ],
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
-		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge", "donoridentification" ],
+		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge", "donoridentification", "sharecard" ],
 		"QuickSurveysEnabled": "discordsurvey",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
 		"ChangeAuthenticationDataAudit": "securitylogs",
@@ -320,6 +339,84 @@
 				"codex-styles"
 			]
 		},
+		"ext.wikimediaCustomizations.shareCard.init": {
+			"packageFiles": [
+				"ShareCard/ext.wikimediaCustomizations.shareCard.init/init.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard.init/PageData.js",
+				{
+					"name": "ShareCard/ext.wikimediaCustomizations.shareCard.init/config.json",
+					"config": {
+						"apiBaseUri": "WMCShareCardApiBaseUri"
+					}
+				}
+			],
+			"dependencies": [
+				"mediawiki.page.ready",
+				"mediawiki.util"
+			]
+		},
+		"ext.wikimediaCustomizations.shareCard": {
+			"dependencies": [
+				"vue",
+				"@wikimedia/codex",
+				"ext.wikimediaCustomizations.shareCard.init",
+				"mediawiki.jqueryMsg",
+				"mediawiki.language",
+				"mediawiki.page.ready",
+				"mediawiki.Title",
+				"mediawiki.util"
+			],
+			"packageFiles": [
+				"ShareCard/ext.wikimediaCustomizations.shareCard/index.js",
+				{
+					"name": "ShareCard/ext.wikimediaCustomizations.shareCard/config.json",
+					"callback": "MediaWiki\\Extension\\WikimediaCustomizations\\ShareCard\\ShareCardHookHandler::getShareCardClientConfig"
+				},
+				{
+					"name": "ShareCard/ext.wikimediaCustomizations.shareCard/icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconChart",
+						"cdxIconDownload",
+						"cdxIconLink",
+						"cdxIconReferences",
+						"cdxIconShare"
+					]
+				},
+				"ShareCard/ext.wikimediaCustomizations.shareCard/App.vue",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/components/InlineSvg.vue",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/components/ShareCardDialog.vue",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/components/ShareCardGraphic.vue",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/useCardImage.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/usePageData.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/usePromised.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/useShareCard.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/averageColor.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/fitText.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/imageGenerator.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/shareUrl.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/truncateText.js",
+				"lib/html-to-image/html-to-image.js"
+			],
+			"messages": [
+				"wikimediacustomizations-sharecard-copy-link",
+				"wikimediacustomizations-sharecard-dialog-title",
+				"wikimediacustomizations-sharecard-download",
+				"wikimediacustomizations-sharecard-downloading",
+				"wikimediacustomizations-sharecard-generating",
+				"wikimediacustomizations-sharecard-image-credit",
+				"wikimediacustomizations-sharecard-image-credit-partial",
+				"wikimediacustomizations-sharecard-link-copied",
+				"wikimediacustomizations-sharecard-loading",
+				"wikimediacustomizations-sharecard-page-views",
+				"wikimediacustomizations-sharecard-references",
+				"wikimediacustomizations-sharecard-share",
+				"wikimediacustomizations-sharecard-share-text",
+				"wikimediacustomizations-sharecard-share-title",
+				"ellipsis",
+				"unknown-error"
+			]
+		},
 		"ext.wikimediaCustomizations.special.restsandbox.styles": {
 			"styles": [
 				"RestSandbox/ext.wikimediaCustomizations.special.restsandbox/restsandbox.css"
@@ -366,7 +463,8 @@
 			"i18n",
 			"i18n/attribution",
 			"i18n/discord",
-			"i18n/restsandbox"
+			"i18n/restsandbox",
+			"i18n/sharecard"
 		]
 	},
 	"ExtensionMessagesFiles": {

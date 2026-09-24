@@ -6,5 +6,9 @@
 	{
 		"resourceModule": "ext.wikimediaCustomizations.donor",
 		"maxSize": null
+	},
+	{
+		"resourceModule": "ext.wikimediaCustomizations.shareCard",
+		"maxSize": null
 	}
 ]

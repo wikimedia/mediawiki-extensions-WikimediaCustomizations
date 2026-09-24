@@ -1,0 +1,8 @@
+{
+	"extends": [
+		"../.eslintrc.json"
+	],
+	"rules": {
+		"jsdoc/valid-types": "off"
+	}
+}

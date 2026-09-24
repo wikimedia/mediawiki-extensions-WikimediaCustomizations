@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Share",
+	"wikimediacustomizations-sharecard-copy-link": "Copy link",
+	"wikimediacustomizations-sharecard-link-copied": "Copied",
+	"wikimediacustomizations-sharecard-share": "Share",
+	"wikimediacustomizations-sharecard-download": "Download",
+	"wikimediacustomizations-sharecard-downloading": "Downloading",
+	"wikimediacustomizations-sharecard-loading": "Loading…",
+	"wikimediacustomizations-sharecard-generating": "Generating image",
+	"wikimediacustomizations-sharecard-share-title": "$1 — $2",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nRead more on $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "Image: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Image: $1",
+	"wikimediacustomizations-sharecard-page-views": "{{PLURAL:$1|$2 view|$2 views}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 reference|$2 references}}"
+}

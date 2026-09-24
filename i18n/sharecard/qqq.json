@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Title of the dialog where the user can share the article.\n{{Identical|Share}}",
+	"wikimediacustomizations-sharecard-copy-link": "Label for the button that copies the article link to the clipboard.",
+	"wikimediacustomizations-sharecard-link-copied": "Label shown after the link has been copied to the clipboard.",
+	"wikimediacustomizations-sharecard-share": "Label for the share button in the share dialog.\n{{Identical|Share}}",
+	"wikimediacustomizations-sharecard-download": "Label for the download button, and for the primary button when the Web Share API is not available.\n{{Identical|Download}}",
+	"wikimediacustomizations-sharecard-downloading": "Label shown while the image is being processed for download.",
+	"wikimediacustomizations-sharecard-loading": "Text shown while the share card's data is being loaded.",
+	"wikimediacustomizations-sharecard-generating": "Text shown while the share card image is being generated.",
+	"wikimediacustomizations-sharecard-share-title": "Title used when sharing an article via the Web Share API.\n\nParameters:\n* $1: the article title\n* $2: the project name (e.g. 'Wikipedia')",
+	"wikimediacustomizations-sharecard-share-text": "Text body used when sharing an article via the Web Share API.\n\nParameters:\n* $1: the truncated article extract\n* $2: the URL of the article\n* $3: the project name (e.g. 'Wikipedia')",
+	"wikimediacustomizations-sharecard-image-credit": "Credit for the image used on the share card.\n\nParameters:\n* $1: short name of the image's license\n* $2: the image author(s) name(s)",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Credit for the image used on the share card, when only its license or only its author is known.\n\nParameters:\n* $1: short name of the image's license, or the image author(s) name(s)",
+	"wikimediacustomizations-sharecard-page-views": "Number of times the article was viewed in the last 30 days, shown on the share card.\n\nParameters:\n* $1: the number of views, for PLURAL\n* $2: the number of views, in compact form (e.g. '5M')",
+	"wikimediacustomizations-sharecard-references": "Number of references the article cites, shown on the share card.\n\nParameters:\n* $1: the number of references, for PLURAL\n* $2: the number of references, in compact form (e.g. '10K')"
+}

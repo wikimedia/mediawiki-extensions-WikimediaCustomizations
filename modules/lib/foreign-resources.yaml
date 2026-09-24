@@ -15,3 +15,14 @@ swagger-ui:
   #  swagger-ui-5.32.6/dist/swagger-ui-bundle.js:
   #  swagger-ui-5.32.6/dist/swagger-ui-standalone-preset.js:
   #  swagger-ui-5.32.6/dist/swagger-ui.css:
+html-to-image:
+  homepage: https://github.com/bubkoo/html-to-image
+  license: MIT
+  authors: bubkoo
+  version: 1.11.13
+  type: tar
+  src: https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.13.tgz
+  integrity: sha384-ySh+JMCeOBylt9bGSGK1hiQQS8dRtyu7ZOpqVYjvHszD12g7xlTyi3LqZxbGZWdV
+  dest:
+    package/dist/html-to-image.js: .
+    package/LICENSE: .
