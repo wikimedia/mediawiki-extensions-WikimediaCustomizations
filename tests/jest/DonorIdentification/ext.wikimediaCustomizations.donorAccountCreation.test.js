@@ -111,6 +111,7 @@ describe( 'donorAccountCreation init', () => {
 			expect( mw.loader.using ).toHaveBeenCalledWith( DIALOG_MODULE );
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
+				showLater: false,
 				campaign: `foo-${ CAMPAIGN_PREFIX }-bar`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
@@ -125,6 +126,7 @@ describe( 'donorAccountCreation init', () => {
 			// Falls back to the default campaign when no param is present.
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
+				showLater: true,
 				campaign: `${ CAMPAIGN_PREFIX }-dsc-t`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
