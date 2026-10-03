@@ -2,12 +2,12 @@
 
 namespace MediaWiki\Extension\WikimediaCustomizations\Discord;
 
-use Config;
-use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
-use OutputPage;
-use Skin;
+use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\OutputPage;
+use MediaWiki\Skin\Skin;
 
 /**
  * Hook that adds a special meta tag for use by Discord

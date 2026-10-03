@@ -4,9 +4,9 @@ namespace MediaWiki\Extension\WikimediaCustomizations\DonorIdentification;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\TestKitchen\Sdk\ExperimentManager;
-use MediaWiki\Hook\UserLoginCompleteHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
+use MediaWiki\Specials\Hook\UserLoginCompleteHook;
 use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\User;
 
