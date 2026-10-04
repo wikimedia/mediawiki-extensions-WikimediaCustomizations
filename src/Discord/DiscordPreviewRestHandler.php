@@ -68,24 +68,24 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 	 * @return string|null The extract, or null if none could be produced
 	 */
 	private function fetchExtract( ExistingPageRecord $page ): ?string {
-		$extract = $this->cache->getWithSetCallback(
+		$extract = $this->cache->buildGetWithSetCallback()
 			// page_touched changes whenever the page must be re-rendered
 			// (edits, template changes, purges), so each rendering gets its
 			// own key and superseded entries just age out via the TTL
-			$this->cache->makeKey(
+			->key(
 				'WikimediaCustomizations',
 				'discord-preview-extract',
 				self::CACHE_VERSION,
 				$page->getId(),
 				$page->getTouched()
-			),
-			WANObjectCache::TTL_DAY,
-			function () use ( $page ): string {
+			)
+			->keepForADay()
+			->callback( function () use ( $page ): string {
 				// "No extract" must be cached too; '' represents it because
 				// WANObjectCache reserves false as its cache-miss value
 				return $this->buildExtract( $page ) ?? '';
-			}
-		);
+			} )
+			->fetch();
 		return $extract === '' ? null : $extract;
 	}
 
