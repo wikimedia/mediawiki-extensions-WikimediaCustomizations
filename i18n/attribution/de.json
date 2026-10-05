@@ -1,6 +1,8 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Brettchenweber"
+		]
 	},
 	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "Attribution API (Beta)",
 	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "Die Attribution-API stellt gut strukturierte Angaben zur Urheberschaft für Inhalte aus allen Wikimedia-Projekten bereit. Weitere Informationen zur Attribution-API findest du in der [Dokumentation auf mediawiki.org](https://www.mediawiki.org/wiki/Special:MyLanguage/Attribution_API). Weitere Informationen zu den Richtlinien zur Urheberschaft, den Erwartungen und den Stilrichtlinien bei der Wiederverwendung von Wikimedia-Inhalten findest du im [Attribution Framework](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html).\n\nHast du Fragen oder Anmerkungen zu dieser API? Hilf mit, die Benutzererfahrung und die Funktionalität während der Beta-Phase mitzugestalten, indem du [an der Diskussion teilnimmst](https://www.mediawiki.org/wiki/Talk:Attribution_API).",
@@ -27,19 +29,28 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "Inhaltssprache des Wikis, formatiert als Sprachcode",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Inhaltssprache der Seite, formatiert als Sprachcode",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Vertrauens- und Relevanzsignale",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Anzahl der Mitwirkenden",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Anzahl der Mitwirkenden nach Typ. Wird alle 24 Stunden aktualisiert. Diese Eigenschaft wird bei Dateiseiten nicht angegeben und kann den Wert „null“ annehmen, wenn die Anzahl nicht ermittelt werden kann.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-total-unique": "Gesamtzahl der einzelnen Mitwirkenden, einschließlich angemeldeter Nutzer, nicht registrierter Nutzer und bekannter Bots.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-logged-in-users": "Anzahl der Mitwirkenden, die im angemeldeten Zustand Bearbeitungen vorgenommen haben (permanente und wikiübergreifende Konten).",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-unregistered-users": "Anzahl der Mitwirkenden, die ohne festes Konto Bearbeitungen vorgenommen haben (temporäre und abgemeldete Bearbeiter).",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-known-bots": "Anzahl der als Bots identifizierten Mitwirkenden.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Zeitstempel der letzten Aktualisierung im ISO 8601-Format",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Anzahl der Seitenaufrufe in den letzten 30 Tagen",
 	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Anzahl der zitierten Einzelnachweise. Diese Eigenschaft wird für Dateiseiten weggelassen und kann „null“ sein, wenn die Anzahl nicht ermittelt werden kann.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-calls-to-action": "Aufrufe zum Handeln",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta": "Aufrufe zum Spenden",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-default": "Standard-Spendenaufruf",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-foundation": "Aufruf zu einer Spende an die Wikimedia Foundation",
+	"wikimediacustomizations-attribution-get-pages-signals-property-donation-cta-special": "Spendenaufruf für eine Sonderkampagne",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta": "Aufrufe zur Teilnahme. Der URL-Wert enthält einen Wikimedia-spezifischen Herkunftsparameter („wprov“). Dieser hilft Wikimedia dabei, die Wirksamkeit von Aufrufen zur Teilnahme zu bewerten, ohne die Zielseite oder die Quellenangaben zu verändern. Wir empfehlen, den Parameter nach Möglichkeit beizubehalten.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-participation-cta-talk-page": "Aufruf zur Teilnahme an der Diskussionsseite",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending": "Trendindikatoren zeigen an, wann Wikipedia-Artikel ein höheres Aufkommen an Seitenaufrufen, Bearbeitungen oder beidem verzeichneten. Trendaktivitäten korrelieren häufig mit aktuellen Ereignissen.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top": "Gibt an, ob ein Wikipedia-Artikel in den letzten 24 Stunden zu den meistgelesenen, den am häufigsten bearbeiteten oder zu beiden Kategorien gehörte",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "Die Seite gehört aktuell zu den 1000 meistgelesenen Seiten des Wiki-Projekts.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "Die Seite gehört aktuell, gemessen an der Anzahl der Bearbeitungen, zu den 100 am häufigsten bearbeiteten Seiten des Wiki-Projekts.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "Die Seite gehört aktuell zu den 1000 meistgelesenen und den 100 meistbearbeiteten Seiten des Wiki-Projekts.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Zeigt an, dass die Seite derzeit ihre durchschnittlichen Lese- und Bearbeitungsraten übertrifft.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "Die Seite verzeichnet derzeit eine höhere Leserate als im Durchschnitt.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "Die Seite verzeichnet derzeit eine höhere Anzahl an eingereichten Bearbeitungen als im Durchschnitt.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "Die Seite verzeichnet derzeit mehr Lese- und Bearbeitungsaktivität als im Durchschnitt.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Zeigt an, dass die Seite derzeit ihre durchschnittlichen Lese- und Bearbeitungsraten übertrifft. Der Wert wird alle 5 Minuten aktualisiert. Hinweis: Falls keine Trenddaten ermittelt werden können, wird standardmäßig „false“ zurückgegeben.",
+	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "Ruft die Attributionsinformationen für eine Webseite ab.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "Attributionsangaben sind die einzelnen Elemente, die dafür sorgen, dass Wikimedia-Projekte sichtbar bleiben, wenn ihre Inhalte in externen Kontexten angezeigt werden. Sie dienen der direkten Nennung und dem Zugriff auf Quellen und liefern zusätzliche Informationen, die Endnutzern helfen, das vorliegende Wissen zu bewerten und sich damit auseinanderzusetzen.\n\nQuellenangaben können für jede Wikimedia-Website oder jedes Wikimedia-Projekt abgerufen werden.",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "Attributions-Information für eine Webseite."
 }

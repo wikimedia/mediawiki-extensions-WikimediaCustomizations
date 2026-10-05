@@ -50,9 +50,6 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "根据编辑次数，页面目前在该wiki计划的编辑量排名前100。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "页面目前在该wiki计划的阅读量排名前1000，编辑量排名前100。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "表明页面目前的阅读和编辑率超过了其平均水平。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "页面目前的阅读率超过了其平均水平。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "页面目前已提交的编辑率高于其平均水平。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "页面目前的阅读和编辑活动高于其平均水平。",
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "获取网站的归属信息。",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "归属信号是维基媒体计划在外部语境呈现内容时保持可见性的关键要素。这些信号直接标明来源和提供访问途径，并展现额外信息，帮助终端用户评估和与所接触的知识互动。\n\n任何维基媒体网站或计划的归属信号都可被提取。",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "网站的归属信息。"

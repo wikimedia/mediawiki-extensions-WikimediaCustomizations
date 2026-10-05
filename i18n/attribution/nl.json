@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"McDutchie",
 			"Siebrand"
 		]
 	},
@@ -29,7 +30,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "Inhoudstaal van de wiki, opgemaakt als een taalcode",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "Inhoudstaal van de pagina, opgemaakt als een taalcode",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "Vertrouwen en relevantiesignalen",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Aantal bijdragers",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "Aantal bijdragers per soort. Wordt elke 24 uur bijgewerkt. Voor bestandspagina’s wordt deze eigenschap weggelaten. De waarde kan `null` zijn als het aantal niet kan worden vastgesteld.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "Tijdstempel van de laatste update in ISO 8601-formaat",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "Aantal paginaweergaven in de afgelopen 30 dagen",
 	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "Aantal geciteerde referenties. Deze eigenschap wordt weggelaten voor bestandspagina's en kan `null` zijn als het aantal niet kan worden vastgesteld.",
@@ -45,10 +46,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "De pagina staat momenteel in de top 1000 van meest gelezen pagina's van het wikiproject.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "De pagina staat momenteel in de top 100 van meest bewerkte pagina's van het wikiproject, gebaseerd op het aantal bewerkingen.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "De pagina staat momenteel in de top 1000 van meest gelezen en 100 van meest bewerkte pagina's van het wikiproject.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Geeft aan dat de pagina momenteel beter presteert dan gemiddeld wat betreft lees- en bewerkingspercentages.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read": "De pagina wordt momenteel vaker gelezen dan gemiddeld.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-edited": "De pagina ontvangt momenteel meer bewerkingen dan gemiddeld.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative-read-and-edited": "De pagina vertoont momenteel meer lees- en bewerkingsactiviteit dan gemiddeld.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "Geeft aan dat de pagina momenteel beter presteert dan gemiddeld wat betreft lees- en bewerkingspercentages. De waarde wordt elke 5 minuten vernieuwd. Let op: als er geen trendinformatie kan worden vastgesteld is de waarde ‘false’.",
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "Bronvermelding voor een site opvragen.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "Attributiesignalen zijn de individuele elementen die Wikimedia-projecten zichtbaar houden wanneer hun inhoud in externe contexten wordt weergegeven. Signalen bieden directe erkenning van en toegang tot bronnen en presenteren aanvullende informatie die eindgebruikers helpt de kennis die ze tegenkomen te evalueren en ermee aan de slag te gaan. Attributiesignalen kunnen worden opgevraagd voor elke Wikimedia-site of elk Wikimedia-project.",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "Informatie over bronvermelding voor een site."
