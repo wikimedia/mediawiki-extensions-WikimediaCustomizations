@@ -5,6 +5,7 @@
 			"Gsdn",
 			"GuoPC",
 			"Shizhao",
+			"Villager-bloc-h",
 			"沈澄心"
 		]
 	},
@@ -33,7 +34,11 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "wiki内容语言，以语言代码形式表示",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "页面内容语言，以语言代码形式表示",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "信度和相关性信号",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "贡献者数量",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "按类型统计的贡献者数量。每 24 小时更新一次。文件页面会省略此属性，如果无法确定贡献者数量，则此属性可能为 `null`。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-total-unique": "独立贡献者总数，包括已登录用户、未注册用户和已知机器人。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-logged-in-users": "登录后进行编辑的贡献者人数（永久帐户和跨wiki帐户）。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-unregistered-users": "使用非永久帐户进行编辑的贡献者人数（临时编辑和已注销的编辑）。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-known-bots": "被识别为机器人的贡献者数量。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "ISO 8601格式的最新更新时间戳",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "最近30天的页面浏览量",
 	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "引用的参考文献数量。文件页面会省略此属性，如果无法确定引用数量则可能为`null`。",
@@ -49,7 +54,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "页面目前在该wiki计划的阅读量排名前1000。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "根据编辑次数，页面目前在该wiki计划的编辑量排名前100。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "页面目前在该wiki计划的阅读量排名前1000，编辑量排名前100。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "表明页面目前的阅读和编辑率超过了其平均水平。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "表示该页面当前的阅读和编辑频率高于其平均水平。该值每5分钟刷新一次。注意：如果无法确定趋势信息，则默认值为false。",
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "获取网站的归属信息。",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "归属信号是维基媒体计划在外部语境呈现内容时保持可见性的关键要素。这些信号直接标明来源和提供访问途径，并展现额外信息，帮助终端用户评估和与所接触的知识互动。\n\n任何维基媒体网站或计划的归属信号都可被提取。",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "网站的归属信息。"

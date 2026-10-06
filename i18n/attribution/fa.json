@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeeputer"
+		]
+	},
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-total-unique": "تعداد کل مشارکت‌کنندگان یکتا، شامل کاربران واردشده، کاربران ثبت‌نشده، و ربات‌های شناخته‌شده.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-known-bots": "تعداد مشارکت‌کنندگان شناسایی‌شده به‌عنوان ربات."
+}

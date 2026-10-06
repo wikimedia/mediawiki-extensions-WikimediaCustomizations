@@ -29,7 +29,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-site-language": "لغة محتوى الويكي، مُنسقة كرمز لغة",
 	"wikimediacustomizations-attribution-get-pages-signals-property-source-wiki-page-language": "لغة محتوى الصفحة، منسقة كرمز لغة",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "مؤشرات الثقة والملاءمة",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "عدد المساهمين",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "عدد المساهمين، حسب النوع. يتم التحديث كل 24 ساعة. يتم حذف هذه الخاصية من صفحات الملفات وقد تكون قيمتها \"null\" إذا تعذر تحديد العدد.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "الطابع الزمني لآخر تحديث بتنسيق ISO 8601",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "عدد مشاهدات الصفحة في آخر 30 يومًا",
 	"wikimediacustomizations-attribution-get-pages-signals-property-reference-count": "عدد المراجع المذكورة. يتم حذف هذه الخاصية لصفحات الملفات وقد تكون قيمتها \"null\" إذا تعذر تحديد العدد.",
@@ -45,7 +45,7 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read": "تُصنف هذه الصفحة حاليًا ضمن أفضل 1000 صفحة قراءةً في مشروع الويكي.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-edited": "تُعد هذه الصفحة حاليًا من بين أفضل 100 صفحة تم تعديلها في مشروع الويكي، وذلك بناءً على عدد التعديلات.",
 	"wikimediacustomizations-attribution-get-pages-signals-property-trending-top-read-and-edited": "تُعد هذه الصفحة حاليًا من بين أفضل 1000 صفحة قراءةً وأفضل 100 صفحة تحريرًا لمشروع الويكي.",
-	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "يشير هذا إلى أن الصفحة تتفوق حاليًا على متوسط معدلات القراءة والتحرير الخاصة بها.",
+	"wikimediacustomizations-attribution-get-pages-signals-property-trending-relative": "يشير هذا إلى أن أداء الصفحة يتجاوز حاليًا متوسط معدلات القراءة والتعديل. يتم تحديث القيمة كل 5 دقائق. ملاحظة: في حال تعذر تحديد معلومات الاتجاه، ستكون القيمة الافتراضية \"خطأ\".",
 	"wikimediacustomizations-attribution-endpoint-summ-get-site-signals": "احصل على معلومات الإسناد لموقع ما.",
 	"wikimediacustomizations-attribution-endpoint-desc-get-site-signals": "إشارات الإسناد هي العناصر الفردية التي تُبقي مشاريع ويكيميديا مرئية عند عرض محتواها في سياقات خارجية. توفر هذه الإشارات إقرارًا مباشرًا بالمصادر وإمكانية الوصول إليها، كما تُقدم معلومات إضافية تُساعد المستخدمين النهائيين على تقييم المعرفة التي يصادفونها والتفاعل معها. يمكن استخراج إشارات إسناد الموقع لأي موقع أو مشروع في ويكيميديا.",
 	"wikimediacustomizations-attribution-endpoint-get-site-signals-schema-desc": "معلومات الإسناد لموقع إلكتروني."
