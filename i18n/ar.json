@@ -6,6 +6,10 @@
 	},
 	"wikimediacustomizations-desc": "يستضيف ملحق WikimediaCustomization روابط ورسائل وتخصيصات أخرى خاصة بموقع ويكيميديا.",
 	"wikimediacustomizations-bademaildomain-error": "لا ندعم عناوين البريد الإلكتروني التي تبدأ بـ $1 . يرجى اختيار مزود خدمة بريد إلكتروني آخر.",
+	"prefs-donor": "حالة المتبرع",
+	"wikimediacustomizations-donor-identify-label": "هل ترغب في أن نتذكر أنك تبرعت عبر حسابك على ويكيبيديا؟ سيؤدي تعطيل هذا الخيار إلى إزالة هذا التذكير، وهو أمر لا رجعة فيه.",
+	"wikimediacustomizations-donor-identify-help": "بربط حسابك، فإنك توافق على أن تقدم لك مؤسسة ويكيميديا تجارب متعلقة بالمتبرعين من خلال التعرف عليك بشكل خاص كداعم على موقع {{SITENAME}} الإلكتروني وتطبيقاتها أثناء تسجيل دخولك. [https://foundation.wikimedia.org/wiki/Legal:Donor%20experiences تعرف على المزيد].",
+	"wikimediacustomizations-donor-unlink-confirm": "هل أنت متأكد من رغبتك في فصل حسابك كمتبرع؟ سيؤدي ذلك إلى ضرورة قيامك بتبرع جديد لاستعادته.",
 	"wikimediacustomizations-donordelightbadge-badge-label": "شارة ويكي هارت لتبرعك",
 	"wikimediacustomizations-donordelightbadge-popover-heading": "شارة شكر صغيرة لتبرعك!",
 	"wikimediacustomizations-donordelightbadge-popover-body-b": "إن كرمكم يساعد في إبقاء ويكيبيديا مجانية ومفتوحة للناس في جميع أنحاء العالم.",
@@ -14,5 +18,16 @@
 	"wikimediacustomizations-donordelightbadge-dialog-title": "هل تريد إزالة هذه الشارة؟",
 	"wikimediacustomizations-donordelightbadge-dialog-body": "هذا القلب هو شارة شكر على تبرعك. لا يمكن استعادة الشارة بعد إزالتها.",
 	"wikimediacustomizations-donordelightbadge-dialog-primary-action": "إزالة الشارة",
-	"wikimediacustomizations-donordelightbadge-dialog-default-action": "احتفظ به"
+	"wikimediacustomizations-donordelightbadge-dialog-default-action": "احتفظ به",
+	"wc-donor-account-creation-dialog-title": "هل ترغب في أن نتذكر أنك تبرعت عبر حسابك على ويكيبيديا؟",
+	"wc-donor-account-creation-dialog-subtitle": "شكراً لك على تبرعك الأخير لموقع ويكيبيديا!",
+	"wc-donor-account-creation-dialog-body": "بربط حسابك، فإنك توافق على أن تقدم لك مؤسسة ويكيميديا تجارب متعلقة بالمتبرعين من خلال الاعتراف بك بشكل خاص كداعم على موقع ويكيبيديا الإلكتروني وتطبيقاتها أثناء تسجيل دخولك.",
+	"wc-donor-account-creation-dialog-learn-label": "يتعلم أكثر",
+	"wc-donor-account-creation-dialog-benefits-label": "من خلال ربط حساب، يمكنك:",
+	"wc-donor-account-creation-dialog-benefits-list-1": "توقف عن رؤية طلبات التبرع العامة",
+	"wc-donor-account-creation-dialog-benefits-list-2": "تلقَّ تحديثات حول تأثير دعمك",
+	"wc-donor-account-creation-dialog-benefits-list-3": "افتح الميزات عبر موقع ويكيبيديا الإلكتروني وتطبيقاتها",
+	"wc-donor-account-creation-dialog-yes": "نعم",
+	"wc-donor-account-creation-dialog-no": "ًلا شكرا",
+	"wc-donor-account-creation-dialog-later": "ذكرني لاحقاً"
 }
