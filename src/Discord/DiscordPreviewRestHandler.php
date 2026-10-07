@@ -29,7 +29,10 @@ use Wikimedia\ParamValidator\ParamValidator;
  */
 class DiscordPreviewRestHandler extends SimpleHandler {
 	/** Bump to invalidate cached extracts when the extract format changes */
-	private const CACHE_VERSION = 1;
+	private const CACHE_VERSION = 2;
+
+	// attribute used by the deprecated extracts extension
+	private const EXCLUDED_ELEMENT_SELECTORS = [ '.noexcerpt' ];
 
 	private PageContentHelper $contentHelper;
 
@@ -120,7 +123,7 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 			return null;
 		}
 		try {
-			$structure = new WikiTextStructure( $status->getValue() );
+			$structure = new WikiTextStructure( $status->getValue(), self::EXCLUDED_ELEMENT_SELECTORS );
 			// Pages without any section heading have no opening text
 			$extract = $structure->getOpeningText() ?? $structure->getMainText();
 		} catch ( LogicException ) {
