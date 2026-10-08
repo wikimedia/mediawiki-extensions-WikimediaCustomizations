@@ -18,6 +18,7 @@ use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\ResourceLoader\SkinModule;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
 use Psr\Log\LoggerInterface;
@@ -45,6 +46,7 @@ class AttributionDataBuilder {
 		private readonly ReferenceCountProvider $referenceCountProvider,
 		private readonly ContributorCountProvider $contributorCountProvider,
 		private readonly LanguageNameUtils $languageNameUtils,
+		private readonly SpecialPageFactory $specialPageFactory,
 		private readonly ?PageViewService $pageViewService = null
 	) {
 		$this->dbname = $this->mainConfig->get( MainConfigNames::DBname );
@@ -345,16 +347,20 @@ class AttributionDataBuilder {
 			// TEMPORARY: CTAs below have not yet been reviewed by owning teams. See: T419157
 			$participationCtas = [];
 			if ( $this->isWikipediaProject() ) {
-				$participationCtas['download_app'] = [
-					// TEMPORARY: defaulting to Android; waiting on OS-aware link from apps team. See: T419157
-					'url' => 'https://play.google.com/store/apps/details?id=org.wikipedia',
-					'link_text' => 'Download the Wikipedia app',
-					'description' => 'Download the free Wikipedia app for the best way to explore'
-						. ' knowledge on the go. The app delivers a rich, smooth mobile experience'
-						. ' with exclusive features designed to make discovering, reading, and'
-						. ' engaging with the world\'s largest encyclopedia faster and more'
-						. ' enjoyable than ever.',
-				];
+				if ( $this->specialPageFactory->exists( 'MobileAppRedirect' ) ) {
+					$localSpecialPageName = $this->specialPageFactory->getLocalNameFor( 'MobileAppRedirect' );
+					$mobileAppUrl = Title::makeTitle( NS_SPECIAL, $localSpecialPageName )
+						->getCanonicalURL( 'wprov=afcw1' );
+					$participationCtas['download_app'] = [
+						'url' => $mobileAppUrl,
+						'link_text' => 'Download the Wikipedia app',
+						'description' => 'Download the free Wikipedia app for the best way to explore' .
+							' knowledge on the go. The app delivers a rich, smooth mobile experience' .
+							' with exclusive features designed to make discovering, reading, and' .
+							' engaging with the world\'s largest encyclopedia faster and more' .
+							' enjoyable than ever.',
+					];
+				}
 			}
 			$participationCtas['create_account'] = [
 				'url' => 'https://auth.wikimedia.org/enwiki/wiki/Special:CreateAccount?wprov=afcw1',

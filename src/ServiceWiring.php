@@ -86,6 +86,7 @@ return [
 			$referenceCountProvider,
 			$contributorCountProvider,
 			$services->getLanguageNameUtils(),
+			$services->getSpecialPageFactory(),
 			$pageViewService
 		);
 	},

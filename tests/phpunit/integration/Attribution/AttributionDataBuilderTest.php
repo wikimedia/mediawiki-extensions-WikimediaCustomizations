@@ -19,6 +19,7 @@ use MediaWiki\Media\FormatMetadata;
 use MediaWiki\Message\Message;
 use MediaWiki\Page\ExistingPageRecord;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
@@ -55,7 +56,8 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		?SiteConfiguration $siteConfig = null,
 		?LanguageNameUtils $languageNameUtils = null,
 		?ContributorCountProvider $contributorCountProvider = null,
-		?PageviewTrendingRelativeStore $trendingRelativeStore = null
+		?PageviewTrendingRelativeStore $trendingRelativeStore = null,
+		?SpecialPageFactory $specialPageFactory = null
 	): AttributionDataBuilder {
 		$config = $config ?? $this->mockConfig();
 		$urlUtils = $this->createMock( UrlUtils::class );
@@ -80,12 +82,16 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		}
 		$languageNameUtils ??= $this->getServiceContainer()->getLanguageNameUtils();
 		$trendingRelativeStore ??= $this->createMock( PageviewTrendingRelativeStore::class );
-
+		if ( $specialPageFactory === null ) {
+			$specialPageFactory = $this->createMock( SpecialPageFactory::class );
+			$specialPageFactory->method( 'exists' )->willReturn( true );
+			$specialPageFactory->method( 'getLocalNameFor' )->willReturnArgument( 0 );
+		}
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
 			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $trendingRelativeStore,
 			$referenceCountProvider, $contributorCountProvider,
-			$languageNameUtils, $pageViewService
+			$languageNameUtils, $specialPageFactory, $pageViewService
 		);
 	}
 
@@ -425,6 +431,50 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->assertArrayNotHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
 		}
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getCallsToAction()
+	 */
+	public function testCallsToActionDownloadAppAbsentWhenMobileAppRedirectNotRegistered(): void {
+		$specialPageFactory = $this->createMock( SpecialPageFactory::class );
+		$specialPageFactory->method( 'exists' )->with( 'MobileAppRedirect' )->willReturn( false );
+		$builder = $this->newDataBuilder(
+			null, null, null, null, null, null, null, null, null, $specialPageFactory
+		);
+
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+		);
+
+		$this->assertArrayNotHasKey( 'download_app', $result['calls_to_action']['participation_ctas'] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Attribution\AttributionDataBuilder::getCallsToAction()
+	 */
+	public function testCallsToActionDownloadAppUrlContainsMobileAppRedirect(): void {
+		$this->overrideConfigValue( MainConfigNames::CanonicalServer, 'https://example.org' );
+		$builder = $this->newDataBuilder();
+
+		$title = $this->mockTitle();
+		$metadata = [ 'title' => 'Foo', 'license' => 'CC-BY-SA' ];
+		$page = $this->createMock( ExistingPageRecord::class );
+		$authority = $this->createMock( Authority::class );
+		$format = $this->createMock( FormatMetadata::class );
+		$result = $builder->getAttributionData(
+			$title, $page, $metadata, [ 'calls_to_action' ], $authority, $format
+		);
+
+		$url = $result['calls_to_action']['participation_ctas']['download_app']['url'];
+		$this->assertStringContainsString( 'Special:MobileAppRedirect', $url );
+		$this->assertStringContainsString( 'wprov=afcw1', $url );
+		$this->assertStringStartsWith( 'https://', $url );
 	}
 
 	public function testCallsToActionDoesntContainParticipationForNonWikiText() {
