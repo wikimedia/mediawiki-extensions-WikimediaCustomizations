@@ -343,6 +343,7 @@
 			"packageFiles": [
 				"ShareCard/ext.wikimediaCustomizations.shareCard.init/init.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard.init/PageData.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard.init/shareUrl.js",
 				{
 					"name": "ShareCard/ext.wikimediaCustomizations.shareCard.init/config.json",
 					"config": {
@@ -379,6 +380,7 @@
 						"cdxIconChart",
 						"cdxIconDownload",
 						"cdxIconLink",
+						"cdxIconLogoWikipedia",
 						"cdxIconReferences",
 						"cdxIconShare"
 					]
@@ -394,7 +396,6 @@
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/averageColor.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/fitText.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/imageGenerator.js",
-				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/shareUrl.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/truncateText.js",
 				"lib/html-to-image/html-to-image.js"
 			],

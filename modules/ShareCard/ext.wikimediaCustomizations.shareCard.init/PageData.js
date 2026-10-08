@@ -1,4 +1,5 @@
 const { apiBaseUri } = require( './config.json' );
+const { buildShareUrl } = require( './shareUrl.js' );
 
 const origin = apiBaseUri ? new URL( apiBaseUri ).origin : '';
 const restUrl = apiBaseUri ?
@@ -27,10 +28,11 @@ function textFromHtml( html ) {
 
 /**
  * @param {string} url
+ * @param {Object} [options] As for fetch()
  * @return {Promise<Object>}
  */
-async function fetchJson( url ) {
-	const response = await fetch( url );
+async function fetchJson( url, options ) {
+	const response = await fetch( url, options );
 	if ( !response.ok ) {
 		throw new Error( `${ url } returned ${ response.status }` );
 	}
@@ -57,6 +59,7 @@ class PageData {
 		this.summaryRequest = null;
 		this.signalsRequest = null;
 		this.imageInfoRequest = null;
+		this.shortUrlRequest = null;
 	}
 
 	/**
@@ -145,6 +148,40 @@ class PageData {
 			this.imageInfoRequest.catch( () => ( this.imageInfoRequest = null ) );
 		}
 		return this.imageInfoRequest;
+	}
+
+	/**
+	 * A short URL for the page's share URL, from UrlShortener. The card
+	 * renders without it, so this never rejects.
+	 *
+	 * @return {Promise<string>} The short URL, e.g. "https://w.wiki/ABC", or
+	 *  empty if unavailable
+	 */
+	getShortUrl() {
+		if ( !this.shortUrlRequest ) {
+			// Always the local wiki, even with $wgWMCShareCardApiBaseUri set:
+			// UrlShortener refuses URLs outside its own allowed domains.
+			this.shortUrlRequest = fetchJson( mw.util.wikiScript( 'api' ), {
+				method: 'POST',
+				body: new URLSearchParams( {
+					action: 'shortenurl',
+					url: buildShareUrl( this.pageName ),
+					format: 'json',
+					formatversion: 2
+				} )
+			} ).then( ( response ) => {
+				if ( !response.shortenurl || !response.shortenurl.shorturl ) {
+					throw new Error( response.error ? response.error.info : 'No short URL returned' );
+				}
+				return response.shortenurl.shorturl;
+			} );
+			this.shortUrlRequest.catch( () => ( this.shortUrlRequest = null ) );
+		}
+		return this.shortUrlRequest.catch( ( e ) => {
+			// eslint-disable-next-line no-console
+			console.warn( 'Short URL unavailable:', e );
+			return '';
+		} );
 	}
 }
 

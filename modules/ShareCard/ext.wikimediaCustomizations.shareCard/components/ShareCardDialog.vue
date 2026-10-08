@@ -15,6 +15,7 @@
 				:image-license="imageLicense"
 				:page-views="pageViews"
 				:reference-count="referenceCount"
+				:short-url="shortUrl"
 				:loading="isLoading"
 				:style="{ transform: 'scale(' + scale + ') translateX( calc( ( -1 * 0.5 * ( 1 - ' + scale + ' ) ) * 100% ) )' }"
 				@img-load="onImageLoad"
@@ -88,13 +89,13 @@
 
 <script>
 const { ref, toRef, computed, watch } = require( 'vue' );
+const { buildShareUrl } = require( 'ext.wikimediaCustomizations.shareCard.init' );
 const { CdxButton, CdxButtonGroup, CdxDialog, CdxIcon, CdxMessage, CdxProgressIndicator, useModelWrapper } = require( '@wikimedia/codex' );
 const icons = require( '../icons.json' );
 const ShareCardGraphic = require( './ShareCardGraphic.vue' );
 const useCardImage = require( '../composables/useCardImage.js' );
 const usePageData = require( '../composables/usePageData.js' );
 const useShareCard = require( '../composables/useShareCard.js' );
-const shareUrl = require( '../utils/shareUrl.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -145,7 +146,7 @@ module.exports = exports = {
 		const liveRegionRef = ref( null );
 
 		// Data fetched from the API: summary text, attribution signals
-		const { summary, signals, imageInfo } = usePageData( toRef( props, 'open' ), onError );
+		const { summary, signals, imageInfo, shortUrl } = usePageData( toRef( props, 'open' ), onError );
 
 		// Extract computed properties for summary text, pageview count, and reference count
 		const text = computed( () => {
@@ -172,9 +173,10 @@ module.exports = exports = {
 		const imageLicense = computed( () => shownImageInfo.value && shownImageInfo.value.license );
 
 		// Unified loading state: we are not ready until all the following have loaded:
-		// summary, attribution signals, page image
+		// summary, attribution signals, short URL, page image
 		const isLoading = computed( () => summary.value === null ||
 			signals.value === null ||
+			shortUrl.value === null ||
 			!isImageReady.value
 		);
 
@@ -292,7 +294,7 @@ module.exports = exports = {
 		 * Copy the article link to the clipboard.
 		 */
 		function handleCopyLink() {
-			const url = shareUrl.buildShareUrl( props.title.getMainText() );
+			const url = buildShareUrl( props.title.getMainText() );
 			// eslint-disable-next-line compat/compat
 			navigator.clipboard.writeText( url ).then( () => {
 				linkCopiedRef.value = true;
@@ -339,6 +341,7 @@ module.exports = exports = {
 			imageLicense,
 			pageViews,
 			referenceCount,
+			shortUrl,
 			text,
 			error,
 			wrappedOpen,

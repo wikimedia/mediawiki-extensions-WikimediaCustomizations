@@ -48,16 +48,23 @@
 				</span>
 			</div>
 			<div class="ext-wc-share-card__branding">
-				<div class="ext-wc-share-card__wordmark">
+				<div
+					v-if="shortUrlText"
+					class="ext-wc-share-card__short-url"
+				>
+					<cdx-icon :icon="cdxIconLogoWikipedia" size="small"></cdx-icon>
+					{{ shortUrlText }}
+				</div>
+				<div
+					v-else
+					class="ext-wc-share-card__wordmark"
+				>
 					<inline-svg
 						v-if="wordmark"
 						:src="wordmark.src"
 						:fill="dominantColorContrasting"
 						:alt="wordmark.alt"
-						:style="{
-							'--wordmark-width': wordmark.width + 'px',
-							'--wordmark-height': wordmark.height + 'px'
-						}"
+						:style="{ '--wordmark-height': wordmark.height + 'px' }"
 					></inline-svg>
 					<template v-else>
 						{{ siteName }}
@@ -151,6 +158,13 @@ module.exports = exports = {
 			default: null
 		},
 		/**
+		 * Short URL of the page, shown in place of the wordmark.
+		 */
+		shortUrl: {
+			type: String,
+			default: null
+		},
+		/**
 		 * Whether the card's data is still loading. The card shows only its
 		 * outline until then, so it appears once, complete.
 		 */
@@ -207,6 +221,11 @@ module.exports = exports = {
 			/\.svg\b/i.test( props.image ) ||
 			( !!color.value && color.value.hasTransparency )
 		) );
+
+		// Typed by hand, so the scheme is noise.
+		const shortUrlText = computed( () => props.shortUrl ?
+			props.shortUrl.replace( /^https?:\/\//, '' ) :
+			'' );
 
 		const imageCredit = computed( () => {
 			if ( props.imageLicense && props.imageAuthor ) {
@@ -275,6 +294,8 @@ module.exports = exports = {
 			onImageLoad,
 			isDarkTransparent,
 			isGraphic,
+			shortUrlText,
+			cdxIconLogoWikipedia: icons.cdxIconLogoWikipedia,
 			imageCredit,
 			stats,
 			wordmark,
@@ -408,9 +429,11 @@ module.exports = exports = {
 	}
 
 	// Sets the branding apart from the article content above it. No Codex
-	// token matches the design's 18px.
+	// token matches the design's 18px. The fixed height keeps the image the
+	// same height with the short URL or the wordmark.
 	&__branding {
 		margin-top: 18px;
+		height: @size-150;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -429,9 +452,29 @@ module.exports = exports = {
 		opacity: @opacity-secondary;
 	}
 
+	&__short-url {
+		box-sizing: border-box;
+		height: 100%;
+		display: inline-flex;
+		align-items: center;
+		padding: 0 @spacing-50;
+		border: @border-width-base @border-style-base currentColor;
+		border-radius: @border-radius-pill;
+
+		.cdx-icon {
+			margin-right: @spacing-25;
+			color: inherit;
+		}
+	}
+
+	// Some wikis' wordmarks are taller than the row. A percentage won't
+	// resolve here, as no ancestor up to the row has a set height. A block,
+	// so no line box offsets it from the row's centre.
 	&__wordmark img {
-		width: var( --wordmark-width );
+		display: block;
+		width: auto;
 		height: var( --wordmark-height );
+		max-height: @size-150;
 	}
 
 	&__license {
@@ -439,6 +482,11 @@ module.exports = exports = {
 
 		> * + * {
 			margin-left: @spacing-12;
+		}
+
+		// As for the wordmark, so the icons sit at the row's centre.
+		img {
+			display: block;
 		}
 	}
 }

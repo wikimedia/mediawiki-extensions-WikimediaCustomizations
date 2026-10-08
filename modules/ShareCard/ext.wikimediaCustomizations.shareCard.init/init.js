@@ -1,4 +1,5 @@
 const PageData = require( './PageData.js' );
+const { buildShareUrl } = require( './shareUrl.js' );
 
 let pageData = null;
 
@@ -26,6 +27,7 @@ if ( link ) {
 		getPageData().getSummary().catch( () => {} );
 		getPageData().getSignals();
 		getPageData().getImageInfo().catch( () => {} );
+		getPageData().getShortUrl();
 		mw.loader.using( 'ext.wikimediaCustomizations.shareCard' ).then(
 			( req ) => req( 'ext.wikimediaCustomizations.shareCard' ).open(),
 			() => require( 'mediawiki.page.ready' ).share( { url: link.href } )
@@ -34,5 +36,6 @@ if ( link ) {
 }
 
 module.exports = {
-	getPageData
+	getPageData,
+	buildShareUrl
 };

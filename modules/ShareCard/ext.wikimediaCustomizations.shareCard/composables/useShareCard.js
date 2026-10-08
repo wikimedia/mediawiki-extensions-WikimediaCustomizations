@@ -5,8 +5,8 @@
 
 const { ref } = require( 'vue' );
 const { share } = require( 'mediawiki.page.ready' );
+const { buildShareUrl } = require( 'ext.wikimediaCustomizations.shareCard.init' );
 const imageGenerator = require( '../utils/imageGenerator.js' );
-const shareUrl = require( '../utils/shareUrl.js' );
 const truncateText = require( '../utils/truncateText.js' );
 
 /** Maximum characters for the extract in the share text body. */
@@ -90,7 +90,7 @@ module.exports = function useShareCard() {
 				text: mw.msg(
 					'wikimediacustomizations-sharecard-share-text',
 					truncateText( text, MAX_SHARE_TEXT_LENGTH ),
-					shareUrl.buildShareUrl( articleTitle ),
+					buildShareUrl( articleTitle ),
 					siteName
 				)
 			};
