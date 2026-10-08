@@ -29,5 +29,6 @@
 	"wc-donor-account-creation-dialog-benefits-list-3": "افتح الميزات عبر موقع ويكيبيديا الإلكتروني وتطبيقاتها",
 	"wc-donor-account-creation-dialog-yes": "نعم",
 	"wc-donor-account-creation-dialog-no": "ًلا شكرا",
-	"wc-donor-account-creation-dialog-later": "ذكرني لاحقاً"
+	"wc-donor-account-creation-dialog-later": "ذكرني لاحقاً",
+	"wc-donor-account-creation-success-message": "سيتذكر حسابك الآن أنك تبرعت. يمكنك إلغاء الربط في أي وقت من خلال [[Special:Preferences#mw-prefsection-personal-email|settings]]."
 }
