@@ -47,7 +47,9 @@ class SyncDonorStatus extends Maintenance {
 		$this->outputIfVerbose( 'file found, reading...' );
 
 		// the file could be quite large, so stream it line by line:
+		$numRows = 0;
 		while ( $file->valid() ) {
+			$numRows++;
 			// without escape explicitly specified, this will fail linting only after attempting to merge
 			$row = $file->fgetcsv( escape: "\\" );
 
@@ -87,7 +89,10 @@ class SyncDonorStatus extends Maintenance {
 		}
 
 		// output summary
-		$this->output( "updated $this->total_updated opted-in users out of $this->total_eligible eligible\n" );
+		$this->output(
+			"updated $this->total_updated opted-in users out of " .
+				"$this->total_eligible eligible from $numRows CSV rows.\n"
+		);
 	}
 
 	/**
@@ -207,24 +212,24 @@ class SyncDonorStatus extends Maintenance {
 	 * one would entail updating at least five files across at least three repos 😰 sadly the public global preferences
 	 * interface will remain user-specific for now
 	 *
-	 * @param array<int> $ids - a list of global IDs for users to have their preference saved
-	 * @param string $preference - the preference as it is to be written to the DB
+	 * @param array<int,string> $preferences - a list of global IDs for users to have their preference saved
 	 * @return int - number of rows updated
 	 */
-	public function batchSavePreference( array $ids, string $preference ): int {
+	public function batchSavePreference( array $preferences ): int {
 		// in theory, this should never happen
-		if ( !count( $ids ) ) {
+		if ( !count( $preferences ) ) {
 			return 0;
 		}
 
 		// form the rows
-		$rows = array_map( static function ( int $id ) use ( $preference ) {
-			return [
+		$rows = [];
+		foreach ( $preferences as $id => $preference ) {
+			$rows[] = [
 				'gp_user' => $id,
 				'gp_property' => self::PREFERENCE_NAME,
 				'gp_value' => $preference,
 			];
-		}, $ids );
+		}
 
 		// get the DB and use replace so existing rows will be deleted before insert
 		$dbw = GlobalPreferencesServices::wrap( $this->getServiceContainer() )
@@ -240,6 +245,55 @@ class SyncDonorStatus extends Maintenance {
 
 		// return the number of rows for validation/logging purposes
 		return $dbw->affectedRows();
+	}
+
+	/**
+	 * Get the batch of user preferences that need to be updated based on the current donor status ID.
+	 *
+	 * @param array<CentralAuthUser> $users
+	 * @param array<string,string> $current_preferences - the current donor preference for
+	 * 	users, keyed by username
+	 * @param int $donor_status_id - the new donor status ID to set for all eligible users
+	 * @return array<int,string> - a list of global IDs for users whose preferences need
+	 * to be updated, with the new preference value as the value
+	 */
+	private function getBatchUpdate(
+		array $users, array $current_preferences, int $donor_status_id
+	): array {
+		// index the user objects by name so we can resolve global IDs while
+		// walking the current preferences
+		$users_by_name = [];
+		foreach ( $users as $user ) {
+			$users_by_name[$user->getName()] = $user;
+		}
+
+		// partition the users into
+		// those whose donor status should be updated
+		$to_update = [];
+		foreach ( $current_preferences as $username => $json ) {
+			if ( !isset( $users_by_name[$username] ) ) {
+				continue;
+			}
+			$id = $users_by_name[$username]->getId();
+
+			// ignore rows for donors who have an invalid value or never
+			// consented (empty string)
+			if ( !$this->checkCurrentPreference( $json ) ) {
+				continue;
+			}
+
+			$preference = (array)json_decode( $json, true );
+
+			// skip rows whose value already matches the value from the CSV
+			if ( $preference['value'] === $donor_status_id ) {
+				continue;
+			}
+
+			// change only the value, preserving other stored fields (e.g. the timestamp)
+			$preference['value'] = $donor_status_id;
+			$to_update[$id] = json_encode( $preference );
+		}
+		return $to_update;
 	}
 
 	/**
@@ -284,9 +338,7 @@ class SyncDonorStatus extends Maintenance {
 			->getUserOptionsManager()
 			->getOptionBatchForUserNames( $usernames, self::PREFERENCE_NAME );
 
-		// filter out users that have not opted in to being identified
-		$to_update = array_filter( $current_preferences, $this->checkCurrentPreference( ... ) );
-
+		$to_update = $this->getBatchUpdate( $users, $current_preferences, $donor_status_id );
 		$to_update_count = count( $to_update );
 
 		// in the slightly-more-likely case that no authenticated users have opted in to being identified, return early
@@ -308,8 +360,10 @@ class SyncDonorStatus extends Maintenance {
 		// finally, set the global preference for the relevant users
 		if ( $this->hasOption( 'dry-run' ) ) {
 			$this->outputIfVerbose( "dry run detected - skipping actual update" );
+			// even though not writing let's pretend we did and write to the result
+			$this->total_updated += $to_update_count;
 		} else {
-			$rows = $this->batchSavePreference( $ids, json_encode( [ 'value' => $donor_status_id ] ) );
+			$rows = $this->batchSavePreference( $to_update );
 
 			$this->outputIfVerbose( "updated $rows rows" );
 			$this->total_updated += $rows;
