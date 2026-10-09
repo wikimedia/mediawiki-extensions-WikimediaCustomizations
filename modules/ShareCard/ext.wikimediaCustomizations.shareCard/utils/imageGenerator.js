@@ -24,6 +24,10 @@ function generateImageBlob( element ) {
 			transform: 'none',
 			transformOrigin: '0 0'
 		},
+		// The card uses system fonts. Without this, the library reads every
+		// stylesheet in the page, refetches any it can't read, and copies
+		// their rules into the page's own (T440749).
+		skipFonts: true,
 		filter: function ( node ) {
 			if ( node.tagName === 'SCRIPT' ) {
 				return false;
