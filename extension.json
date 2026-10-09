@@ -204,6 +204,7 @@
 		"PasswordPoliciesForUser": "privilegedgroups",
 		"GetSessionJwtData": "ratelimit",
 		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge", "donoridentification", "sharecard" ],
+		"SkinTemplateNavigation::Universal": "sharecard",
 		"QuickSurveysEnabled": "discordsurvey",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
 		"ChangeAuthenticationDataAudit": "securitylogs",

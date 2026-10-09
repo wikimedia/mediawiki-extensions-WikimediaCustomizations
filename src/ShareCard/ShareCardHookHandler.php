@@ -7,13 +7,17 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\ResourceLoader\Context;
 use MediaWiki\ResourceLoader\SkinModule;
+use MediaWiki\Skin\Hook\SkinTemplateNavigation__UniversalHook;
 use MediaWiki\Skin\Skin;
 
 /**
  * On Minerva, replaces the core share link ($wgPageShareSkinsEnabled) with a
  * dialog that offers the article as a generated image.
  */
-class ShareCardHookHandler implements BeforePageDisplayHook {
+class ShareCardHookHandler implements
+	BeforePageDisplayHook,
+	SkinTemplateNavigation__UniversalHook
+{
 
 	public function __construct(
 		private readonly Config $config,
@@ -28,6 +32,28 @@ class ShareCardHookHandler implements BeforePageDisplayHook {
 		if ( $this->isEnabled( $skin ) ) {
 			$out->addModules( 'ext.wikimediaCustomizations.shareCard.init' );
 		}
+	}
+
+	/**
+	 * Adds the share link where the ?sharecard=1 URL parameter enabled the
+	 * card on a wiki that doesn't show core's link.
+	 *
+	 * @inheritDoc
+	 */
+	public function onSkinTemplateNavigation__Universal( $sktemplate, &$links ): void {
+		if ( isset( $links['views']['share'] ) || !$this->isEnabled( $sktemplate ) ) {
+			return;
+		}
+		// Matches the link core adds, which the card takes over.
+		$links['views']['share'] = [
+			'class' => 'mw-page-share',
+			'text' => $sktemplate->msg( 'skin-view-share' )->text(),
+			'icon' => 'share',
+			'href' => $sktemplate->getTitle()->getLocalURL(),
+			'data' => [
+				'mw-interface' => '1',
+			],
+		];
 	}
 
 	/**
@@ -47,18 +73,27 @@ class ShareCardHookHandler implements BeforePageDisplayHook {
 	}
 
 	/**
-	 * Whether the page has the core share link for the card to take over.
+	 * Whether the page gets the card: where config enables it and core shows
+	 * the share link, or where the ?sharecard=1 URL parameter asks for it, for
+	 * testing on any wiki.
 	 */
 	private function isEnabled( Skin $skin ): bool {
 		$title = $skin->getTitle();
+		if (
+			$skin->getSkinName() !== 'minerva' ||
+			!$title || !$title->isContentPage() || !$title->exists() ||
+			$skin->getActionName() !== 'view'
+		) {
+			return false;
+		}
+		if ( $skin->getRequest()->getFuzzyBool( 'sharecard' ) ) {
+			return true;
+		}
 		return $this->config->get( 'WMCShareCardEnabled' ) &&
-			$skin->getSkinName() === 'minerva' &&
 			in_array(
 				'minerva',
 				$this->mainConfig->get( MainConfigNames::PageShareSkinsEnabled ),
 				true
-			) &&
-			$title && $title->isContentPage() && $title->exists() &&
-			$skin->getActionName() === 'view';
+			);
 	}
 }
