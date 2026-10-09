@@ -314,7 +314,7 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::batchSavePreference
 	 */
 	public function testBatchSavePreference_noIds() {
-		$ret = $this->maintenance->batchSavePreference( [], 'test' );
+		$ret = $this->maintenance->batchSavePreference( [] );
 
 		$this->assertSame( 0, $ret );
 	}
@@ -325,7 +325,7 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::batchSavePreference
 	 */
 	public function testBatchSavePreference_singleRow() {
-		$rows = $this->maintenance->batchSavePreference( [ 0 ], 'test' );
+		$rows = $this->maintenance->batchSavePreference( [ 0 => 'test' ] );
 
 		$this->assertSame( 1, $rows );
 
@@ -347,7 +347,7 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	public function testBatchSavePreference_multiRow() {
 		$ids = range( 0, 499 );
 
-		$rows = $this->maintenance->batchSavePreference( $ids, 'test' );
+		$rows = $this->maintenance->batchSavePreference( array_fill_keys( $ids, 'test' ) );
 
 		$this->assertSame( 500, $rows );
 
@@ -372,10 +372,10 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 		$ids = range( 0, 499 );
 
 		// seed the DB with values
-		$this->maintenance->batchSavePreference( $ids, 'old' );
+		$this->maintenance->batchSavePreference( array_fill_keys( $ids, 'old' ) );
 
 		// then overwrite with our new value
-		$rows = $this->maintenance->batchSavePreference( $ids, 'new' );
+		$rows = $this->maintenance->batchSavePreference( array_fill_keys( $ids, 'new' ) );
 
 		$this->assertSame( 500, $rows );
 
@@ -405,9 +405,9 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::batchSavePreference
 	 */
 	public function testBatchSavePreference_mixed() {
-		$this->maintenance->batchSavePreference( [ 1, 4, 7, 8 ], 'old' );
+		$this->maintenance->batchSavePreference( array_fill_keys( [ 1, 4, 7, 8 ], 'old' ) );
 
-		$rows = $this->maintenance->batchSavePreference( [ 2, 4, 6, 8 ], 'new' );
+		$rows = $this->maintenance->batchSavePreference( array_fill_keys( [ 2, 4, 6, 8 ], 'new' ) );
 
 		$this->assertSame( 4, $rows );
 
@@ -941,5 +941,74 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 		$this->maintenance->setOption( 'verbose', true );
 
 		$this->maintenance->execute();
+	}
+
+	/**
+	 * Updating the value preserves other fields already stored, e.g. the timestamp
+	 *
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::processBatch
+	 */
+	public function testProcessBatch_preservesTimestamp() {
+		$user = new TestUser( 'Test', 'test', 'test email' );
+		$user->getUser()->setEmailAuthenticationTimestamp( 1 );
+
+		$global_user = CentralAuthTestUser::newFromTestUser( $user );
+		$global_user->save( $this->getDb() );
+
+		// a recent timestamp
+		$timestamp = (int)round( microtime( true ) * 1000 );
+
+		// existing preference carries a timestamp alongside the value
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'global_preferences' )
+			->row( [
+				'gp_user' => $global_user->getCentralUser()->getId(),
+				'gp_property' => 'wikimedia-donor',
+				'gp_value' => "{\"value\":1,\"timestamp\":$timestamp}"
+			] )
+			->execute();
+
+		// update the value from 1 to 5
+		$this->maintenance->processBatch( [ 'test email' ], 5 );
+
+		// the value changes but the timestamp is preserved
+		$this->newSelectQueryBuilder()
+			->select( 'gp_value' )
+			->from( 'global_preferences' )
+			->assertFieldValue( "{\"value\":5,\"timestamp\":$timestamp}" );
+	}
+
+	/**
+	 * Does not write when the user's current value already matches the CSV value
+	 *
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::processBatch
+	 */
+	public function testProcessBatch_unchangedNotWritten() {
+		$user = new TestUser( 'Test', 'test', 'test email' );
+		$user->getUser()->setEmailAuthenticationTimestamp( 1 );
+
+		$global_user = CentralAuthTestUser::newFromTestUser( $user );
+		$global_user->save( $this->getDb() );
+
+		// seed a value that already matches the sync value (2), with a recent
+		// timestamp (so it is not treated as stale) plus an extra field so that
+		// a needless rewrite (which would drop it) is detectable
+		$timestamp = (int)round( microtime( true ) * 1000 );
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'global_preferences' )
+			->row( [
+				'gp_user' => $global_user->getCentralUser()->getId(),
+				'gp_property' => 'wikimedia-donor',
+				'gp_value' => "{\"value\":2,\"timestamp\":$timestamp}"
+			] )
+			->execute();
+
+		$this->maintenance->processBatch( [ 'test email' ], 2 );
+
+		// the row is left untouched, proving no write happened
+		$this->newSelectQueryBuilder()
+			->select( 'gp_value' )
+			->from( 'global_preferences' )
+			->assertFieldValue( "{\"value\":2,\"timestamp\":$timestamp}" );
 	}
 }
