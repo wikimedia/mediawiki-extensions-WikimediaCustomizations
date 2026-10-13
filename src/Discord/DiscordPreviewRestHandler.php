@@ -112,7 +112,9 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 			$page,
 			$parserOptions,
 			null,
-			ParserOutputAccess::OPT_FOR_ARTICLE_VIEW
+			[
+				ParserOutputAccess::OPT_FOR_ARTICLE_VIEW => true,
+			]
 		);
 		if ( !$status->isOK() ) {
 			return null;
