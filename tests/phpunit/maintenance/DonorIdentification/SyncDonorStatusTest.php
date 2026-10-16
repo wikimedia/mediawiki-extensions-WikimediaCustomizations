@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\WikimediaCustomizations\Tests;
 
 use CentralAuthTestUser;
 use GlobalPreferences\GlobalPreferencesServices;
+use GlobalPreferences\Storage;
 use MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use SplFileObject;
@@ -438,6 +439,42 @@ class SyncDonorStatusTest extends MaintenanceBaseTestCase {
 				[ 6 ],
 				[ 8 ],
 			] );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification\SyncDonorStatus::batchSavePreference
+	 */
+	public function testBatchSavePreference_clearsCache() {
+		// seed directly so cache invalidation does not prevent warming the cache
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'global_preferences' )
+			->rows( [
+				[
+					'gp_user' => 42,
+					'gp_property' => 'wikimedia-donor',
+					'gp_value' => 'old-42',
+				],
+				[
+					'gp_user' => 43,
+					'gp_property' => 'wikimedia-donor',
+					'gp_value' => 'old-43',
+				],
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		$firstStorage = new Storage( 42 );
+		$secondStorage = new Storage( 43 );
+
+		// warm both users' caches with their existing preferences
+		$this->assertSame( [ 'wikimedia-donor' => 'old-42' ], $firstStorage->load() );
+		$this->assertSame( [ 'wikimedia-donor' => 'old-43' ], $secondStorage->load() );
+
+		$this->maintenance->batchSavePreference( [ 42 => 'new-42', 43 => 'new-43' ] );
+
+		// cached loads now reflect the updated preferences for both users
+		$this->assertSame( [ 'wikimedia-donor' => 'new-42' ], $firstStorage->load() );
+		$this->assertSame( [ 'wikimedia-donor' => 'new-43' ], $secondStorage->load() );
 	}
 
 	/**
