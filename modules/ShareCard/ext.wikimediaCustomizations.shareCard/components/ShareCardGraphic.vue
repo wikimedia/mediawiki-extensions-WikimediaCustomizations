@@ -250,7 +250,7 @@ module.exports = exports = {
 					key: 'views',
 					icon: icons.cdxIconChart,
 					label: mw.msg(
-						'wikimediacustomizations-sharecard-page-views',
+						'wikimediacustomizations-sharecard-page-views-monthly',
 						props.pageViews,
 						numberFormat.format( props.pageViews )
 					)
@@ -409,9 +409,13 @@ module.exports = exports = {
 		overflow-wrap: break-word;
 	}
 
+	// Stats that don't fit on one line wrap onto their own lines. The card
+	// keeps its height, so the extra lines take space from the image.
+	// A gap, as a trailing margin would make the stats wrap too early.
 	&__stats {
 		display: flex;
 		flex-wrap: wrap;
+		column-gap: @spacing-100;
 		font-family: @font-family-system-sans;
 		font-size: @font-size-x-small;
 		opacity: @opacity-secondary;
@@ -420,7 +424,6 @@ module.exports = exports = {
 	&__stat {
 		display: inline-flex;
 		align-items: center;
-		margin-right: @spacing-100;
 
 		.cdx-icon {
 			margin-right: @spacing-25;

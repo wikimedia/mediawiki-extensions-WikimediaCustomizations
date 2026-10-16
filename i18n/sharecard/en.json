@@ -14,6 +14,6 @@
 	"wikimediacustomizations-sharecard-share-text": "$1\n\nRead more on $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "Image: $1 - $2",
 	"wikimediacustomizations-sharecard-image-credit-partial": "Image: $1",
-	"wikimediacustomizations-sharecard-page-views": "{{PLURAL:$1|$2 view|$2 views}}",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2 view / month|$2 views / month}}",
 	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 reference|$2 references}}"
 }
