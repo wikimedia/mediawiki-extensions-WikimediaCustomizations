@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\WikimediaCustomizations\Maintenance\DonorIdentification;
 
 use GlobalPreferences\GlobalPreferencesServices;
+use GlobalPreferences\Storage;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Maintenance\Maintenance;
@@ -243,8 +244,15 @@ class SyncDonorStatus extends Maintenance {
 			->caller( __METHOD__ )
 			->execute();
 
+		$affected = $dbw->affectedRows();
+
+		// clear each user's cached preferences
+		foreach ( array_keys( $preferences ) as $globalUserId ) {
+			( new Storage( $globalUserId ) )->clearCache();
+		}
+
 		// return the number of rows for validation/logging purposes
-		return $dbw->affectedRows();
+		return $affected;
 	}
 
 	/**
