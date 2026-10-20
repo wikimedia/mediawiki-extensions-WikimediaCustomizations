@@ -163,6 +163,9 @@
 				"ExtensionRegistry"
 			]
 		},
+		"phpversion": {
+			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\PhpVersion\\PhpVersionHookHandler"
+		},
 		"noreferrerlinks": {
 			"class": "MediaWiki\\Extension\\WikimediaCustomizations\\NoReferrerLinks\\NoReferrerLinksHookHandler",
 			"services": [
@@ -187,6 +190,9 @@
 		"BeforePageDisplay": [ "officeban", "discord", "discordsurvey", "donoridentification-donorbadge", "donoridentification" ],
 		"QuickSurveysEnabled": "discordsurvey",
 		"LinkerMakeExternalLinkWithContext": "noreferrerlinks",
+		"SoftwareInfo": "phpversion",
+		"APIQueryAfterExecute": "phpversion",
+		"SetupAfterCache": "phpversion",
 		"ChangeAuthenticationDataAudit": "securitylogs",
 		"AuthManagerLoginAuthenticateAudit": "securitylogs",
 		"CheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay": "suggestedinvestigations"
