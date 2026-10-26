@@ -86,6 +86,23 @@ describe( 'DonorIdentification', () => {
 		expect( recentlyDonated( 0 ) ).toBe( true );
 	} );
 
+	test( 'recentlyDonated returns false when the hide cookie reason is not "donate"', () => {
+		const created = Date.now() / 1000;
+		global.mw = {
+			cookie: {
+				get: jest.fn(
+					() => JSON.stringify( {
+						v: 1,
+						created,
+						reason: 'close'
+					} )
+				)
+			}
+		};
+		expect( recentlyDonated() ).toBe( false );
+		expect( recentlyDonated( 0 ) ).toBe( false );
+	} );
+
 	test( 'recentlyDonated (within 30 days)', () => {
 		// 30 days + 1 hr ago
 		const created = (
@@ -269,6 +286,32 @@ describe( 'DonorIdentification', () => {
 			expect( document.documentElement.classList.contains(
 				`wikimedia-donor-clientpref-${ relationships.Recent }`
 			) ).toBe( true );
+		} );
+
+		test( 'stores Contactable when the hide cookie reason is not "donate"', async () => {
+			jest.spyOn( Date, 'now' ).mockReturnValue( 1700000000000 );
+			const { saveOption } = setupMw( {
+				cookie: {
+					get: jest.fn( () => JSON.stringify( {
+						v: 1,
+						created: Date.now() / 1000,
+						reason: 'close'
+					} ) )
+				}
+			} );
+			global.mw.user.options.get.mockReturnValue( donorOption( 0 ) );
+
+			consent();
+			await Promise.resolve();
+
+			expect( saveOption ).toHaveBeenCalledWith(
+				DONOR_KEY,
+				JSON.stringify( {
+					value: relationships.Contactable,
+					timestamp: 1700000000000
+				} ),
+				{ global: 'create' }
+			);
 		} );
 
 		test( 'stores Contactable when no fundraising cookie is present', async () => {
