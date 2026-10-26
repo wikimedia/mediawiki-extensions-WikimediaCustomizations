@@ -35,7 +35,10 @@ const getDonorRelationship = () => {
 };
 
 /**
- * Check if a donation happened recently
+ * Check if a donation happened recently.
+ *
+ * The CentralNotice hide cookie is also set when a reader closes a fundraising
+ * banner. Only a cookie whose reason is "donate" counts as a donation.
  *
  * @param {number} [maxDays] maximum full days since donation (integers are not supported)
  *  If the donation is 25 hours ago, it will return false for 1 day.
@@ -45,6 +48,9 @@ const recentlyDonated = ( maxDays ) => {
 	const donationCookie = mw.cookie.get( FUNDRAISING_COOKIE, '' );
 	const hasCookie = !!donationCookie;
 	const donorInfo = hasCookie ? JSON.parse( donationCookie ) : {};
+	if ( donorInfo.reason !== 'donate' ) {
+		return false;
+	}
 	// access the date and time of their donation (unix timestamp in seconds).
 	const donationDate = donorInfo.created ? new Date( donorInfo.created * 1000 ) : null;
 	// if there's no donor info or no created timestamp, indicate absence with false.
