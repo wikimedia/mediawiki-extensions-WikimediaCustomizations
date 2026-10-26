@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"0x48fe75df30",
+			"Anterdc99",
 			"Gsdn",
 			"GuoPC",
 			"Shizhao",
@@ -36,8 +37,8 @@
 	"wikimediacustomizations-attribution-get-pages-signals-property-trust-and-relevance": "信度和相关性信号",
 	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts": "按类型统计的贡献者数量。每 24 小时更新一次。文件页面会省略此属性，如果无法确定贡献者数量，则此属性可能为 `null`。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-total-unique": "独立贡献者总数，包括已登录用户、未注册用户和已知机器人。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-logged-in-users": "登录后进行编辑的贡献者人数（永久帐户和跨wiki帐户）。",
-	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-unregistered-users": "使用非永久帐户进行编辑的贡献者人数（临时编辑和已注销的编辑）。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-logged-in-users": "登录后进行编辑的贡献者人数（永久账号和跨wiki账号）。",
+	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-unregistered-users": "未使用永久账号进行编辑的贡献者人数（临时编辑者和已注销的编辑者）。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-contributor-counts-known-bots": "被识别为机器人的贡献者数量。",
 	"wikimediacustomizations-attribution-get-pages-signals-property-last-modified": "ISO 8601格式的最新更新时间戳",
 	"wikimediacustomizations-attribution-get-pages-signals-property-page-views": "最近30天的页面浏览量",
