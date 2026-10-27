@@ -12,7 +12,7 @@ const usePromised = require( './usePromised.js' );
  * @return {Object} Refs, each null while loading: `summary`, the REST API
  *  page summary; `signals`, { pageViews, referenceCount }, either of which
  *  may be null, and which never fails; `imageInfo`,
- *  { author, license, nonFree }, author and license empty if unknown;
+ *  { author, license, nonFree, badFile }, author and license empty if unknown;
  *  `shortUrl`, empty if unavailable, and which never fails
  */
 module.exports = function usePageData( isOpen, onError ) {

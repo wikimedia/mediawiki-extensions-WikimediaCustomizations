@@ -49,8 +49,8 @@ function cardImageSrc( thumbnailSrc, originalSrc, originalWidth ) {
  *  Null while loading; until then, the page's og:image tag stands in, so the
  *  image can start loading early
  * @param {import('vue').Ref<Object|null>} imageInfo The image's
- *  { author, license, nonFree }, null while loading. Non-free images aren't
- *  shown, and the image isn't ready until this is known
+ *  { author, license, nonFree, badFile }, null while loading. Non-free and
+ *  bad images aren't shown, and the image isn't ready until this is known
  * @param {function(Error): void} onError Called if the image fails to load
  * @return {Object} `image` (URL or null), `isImageReady`, and the
  *  `onImageLoad` and `onImageError` handlers, which take the image's src
@@ -60,8 +60,9 @@ module.exports = function useCardImage( summary, imageInfo, onError ) {
 	const ogImageWidth = document.querySelector( 'meta[property="og:image:width"]' );
 
 	const image = computed( () => {
-		// Fair use doesn't extend to a shareable image of the article.
-		if ( imageInfo.value && imageInfo.value.nonFree ) {
+		// Fair use doesn't extend to a shareable image of the article, and
+		// the wiki's bad image list keeps some files out of articles.
+		if ( imageInfo.value && ( imageInfo.value.nonFree || imageInfo.value.badFile ) ) {
 			return null;
 		}
 		if ( summary.value === null ) {
