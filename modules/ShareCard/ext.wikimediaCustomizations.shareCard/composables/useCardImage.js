@@ -49,7 +49,7 @@ function cardImageSrc( thumbnailSrc, originalSrc, originalWidth ) {
  *  Null while loading; until then, the page's og:image tag stands in, so the
  *  image can start loading early
  * @param {import('vue').Ref<Object|null>} imageInfo The image's
- *  { author, license, nonFree, badFile }, null while loading. Non-free and
+ *  { author, license, licenseCode, nonFree, badFile }, null while loading. Non-free and
  *  bad images aren't shown, and the image isn't ready until this is known
  * @param {function(Error): void} onError Called if the image fails to load
  * @return {Object} `image` (URL or null), `isImageReady`, and the

@@ -7,8 +7,8 @@ const restUrl = apiBaseUri ?
 	mw.config.get( 'wgScriptPath' ) + '/rest.php';
 const actionApiUrl = apiBaseUri || mw.util.wikiScript( 'api' );
 
-/** @type {{author: string, license: string, nonFree: boolean, badFile: boolean}} */
-const NO_IMAGE_INFO = { author: '', license: '', nonFree: false, badFile: false };
+/** @type {{author: string, license: string, licenseCode: string, nonFree: boolean, badFile: boolean}} */
+const NO_IMAGE_INFO = { author: '', license: '', licenseCode: '', nonFree: false, badFile: false };
 
 /**
  * The visible text of an HTML fragment. Commons metadata repeats some values
@@ -106,9 +106,10 @@ class PageData {
 	 * Author, license, non-free and bad-file status of the summary's image,
 	 * from the imageinfo API. Waits for the summary, which names the image.
 	 *
-	 * @return {Promise<{author: string, license: string, nonFree: boolean, badFile: boolean}>}
+	 * @return {Promise<{author: string, license: string, licenseCode: string, nonFree: boolean, badFile: boolean}>}
 	 *  Author and license are plain text, each empty if unknown, or both if
-	 *  the page has no image. `nonFree` is true for files marked non-free,
+	 *  the page has no image. `licenseCode` is Commons' code for the license,
+	 *  such as "cc-by-sa-4.0" or "pd", or empty if unknown. `nonFree` is true for files marked non-free,
 	 *  such as album covers and film posters used under fair use. `badFile`
 	 *  is true for files on MediaWiki:Bad image list, unless the list allows
 	 *  them on this page
@@ -129,7 +130,7 @@ class PageData {
 					titles: 'File:' + parsedUrl.name,
 					iiprop: 'extmetadata|badfile',
 					iibadfilecontexttitle: this.pageName,
-					iiextmetadatafilter: 'Artist|LicenseShortName|NonFree',
+					iiextmetadatafilter: 'Artist|License|LicenseShortName|NonFree',
 					iiextmetadatalanguage: mw.config.get( 'wgUserLanguage' ),
 					format: 'json',
 					formatversion: 2
@@ -144,6 +145,7 @@ class PageData {
 					return {
 						author: metadata.Artist ? textFromHtml( metadata.Artist.value ) : '',
 						license: metadata.LicenseShortName ? textFromHtml( metadata.LicenseShortName.value ) : '',
+						licenseCode: metadata.License ? metadata.License.value : '',
 						nonFree: !!metadata.NonFree && metadata.NonFree.value === 'true',
 						badFile: !!page.badfile
 					};

@@ -175,7 +175,32 @@ module.exports = exports = {
 		// Credit only an image the card actually shows.
 		const shownImageInfo = computed( () => ( image.value ? imageInfo.value : null ) );
 		const imageAuthor = computed( () => shownImageInfo.value && shownImageInfo.value.author );
-		const imageLicense = computed( () => shownImageInfo.value && shownImageInfo.value.license );
+		// Commons doesn't translate license short names, so common licenses
+		// have their own messages, keyed by Commons' license code.
+		const imageLicense = computed( () => {
+			if ( !shownImageInfo.value ) {
+				return null;
+			}
+			const { license, licenseCode } = shownImageInfo.value;
+			const key = `wikimediacustomizations-sharecard-license-${ licenseCode }`;
+			// The following messages are used here:
+			// * wikimediacustomizations-sharecard-license-cc-by-1.0
+			// * wikimediacustomizations-sharecard-license-cc-sa-1.0
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-1.0
+			// * wikimediacustomizations-sharecard-license-cc-by-2.0
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-2.0
+			// * wikimediacustomizations-sharecard-license-cc-by-2.1
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-2.1
+			// * wikimediacustomizations-sharecard-license-cc-by-2.5
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-2.5
+			// * wikimediacustomizations-sharecard-license-cc-by-3.0
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-3.0
+			// * wikimediacustomizations-sharecard-license-cc-by-4.0
+			// * wikimediacustomizations-sharecard-license-cc-by-sa-4.0
+			// * wikimediacustomizations-sharecard-license-cc0
+			// * wikimediacustomizations-sharecard-license-pd
+			return licenseCode && mw.messages.exists( key ) ? mw.msg( key ) : license;
+		} );
 
 		// Unified loading state: we are not ready until all the following have loaded:
 		// summary, attribution signals, short URL, page image
