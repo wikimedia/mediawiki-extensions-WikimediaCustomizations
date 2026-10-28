@@ -10,6 +10,8 @@
 				ref="cardRef"
 				:title="title"
 				:text="text"
+				:text-lang="textLang"
+				:text-dir="textDir"
 				:image="image"
 				:image-author="imageAuthor"
 				:image-license="imageLicense"
@@ -155,6 +157,9 @@ module.exports = exports = {
 			}
 			return null;
 		} );
+		// The article's language, which the UI's may not match.
+		const textLang = computed( () => summary.value && summary.value.lang );
+		const textDir = computed( () => summary.value && summary.value.dir );
 
 		const pageViews = computed( () => signals.value && signals.value.pageViews );
 		const referenceCount = computed( () => signals.value && signals.value.referenceCount );
@@ -343,6 +348,8 @@ module.exports = exports = {
 			referenceCount,
 			shortUrl,
 			text,
+			textLang,
+			textDir,
 			error,
 			wrappedOpen,
 			copyLinkLabel,

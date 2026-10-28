@@ -24,13 +24,19 @@
 			@error="( event ) => ( $emit( 'img-error', event.target.src ) )"
 		>
 		<div class="ext-wc-share-card__body">
-			<div class="ext-wc-share-card__title">
+			<div
+				class="ext-wc-share-card__title"
+				:lang="textLang"
+				:dir="textDir"
+			>
 				{{ title.getMainText() }}
 			</div>
 			<div
 				v-if="text"
 				ref="textElement"
 				class="ext-wc-share-card__text"
+				:lang="textLang"
+				:dir="textDir"
 			>
 				{{ fittedText }}
 			</div>
@@ -44,7 +50,7 @@
 					class="ext-wc-share-card__stat"
 				>
 					<cdx-icon :icon="stat.icon" size="small"></cdx-icon>
-					{{ stat.label }}
+					<span class="ext-wc-share-card__stat-label">{{ stat.label }}</span>
 				</span>
 			</div>
 			<div class="ext-wc-share-card__branding">
@@ -82,9 +88,10 @@
 			</div>
 			<div
 				v-if="imageCredit"
+				ref="creditElement"
 				class="ext-wc-share-card__image-credit"
 			>
-				{{ imageCredit }}
+				{{ fittedCredit }}
 			</div>
 		</div>
 	</div>
@@ -98,6 +105,17 @@ const { licenseIcons, wordmark: wordmarkConfig } = require( '../config.json' );
 const InlineSvg = require( './InlineSvg.vue' );
 const averageColor = require( '../utils/averageColor.js' );
 const fitText = require( '../utils/fitText.js' );
+
+/**
+ * Wraps a message parameter in Unicode first-strong isolate marks, so its
+ * direction doesn't reorder the message text around it. A license and an
+ * author next to each other in a right-to-left message would otherwise read
+ * as one left-to-right run, in the wrong order.
+ *
+ * @param {string} text
+ * @return {string}
+ */
+const isolate = ( text ) => '\u2068' + text + '\u2069';
 
 // @vue/component
 module.exports = exports = {
@@ -119,6 +137,20 @@ module.exports = exports = {
 		 * The text to display.
 		 */
 		text: {
+			type: String,
+			default: null
+		},
+		/**
+		 * Language code of the title and text.
+		 */
+		textLang: {
+			type: String,
+			default: null
+		},
+		/**
+		 * Direction of the title and text, 'ltr' or 'rtl'.
+		 */
+		textDir: {
 			type: String,
 			default: null
 		},
@@ -231,13 +263,25 @@ module.exports = exports = {
 			if ( props.imageLicense && props.imageAuthor ) {
 				return mw.msg(
 					'wikimediacustomizations-sharecard-image-credit',
-					props.imageLicense,
-					props.imageAuthor
+					isolate( props.imageLicense ),
+					isolate( props.imageAuthor )
 				);
 			}
 			const known = props.imageLicense || props.imageAuthor;
-			return known ? mw.msg( 'wikimediacustomizations-sharecard-image-credit-partial', known ) : null;
+			return known ? mw.msg( 'wikimediacustomizations-sharecard-image-credit-partial', isolate( known ) ) : null;
 		} );
+
+		// The credit, cut to one line. A CSS ellipsis cuts the line's visual
+		// end, which in a right-to-left line can be the start of the license.
+		const creditElement = ref( null );
+		const fittedCredit = ref( imageCredit.value );
+		watch( imageCredit, async ( credit ) => {
+			fittedCredit.value = credit;
+			await nextTick();
+			if ( credit && creditElement.value ) {
+				fittedCredit.value = fitText( creditElement.value, credit, mw.msg( 'ellipsis' ) );
+			}
+		}, { immediate: true } );
 
 		const numberFormat = new Intl.NumberFormat(
 			mw.language.bcp47( mw.config.get( 'wgUserLanguage' ) ),
@@ -252,7 +296,7 @@ module.exports = exports = {
 					label: mw.msg(
 						'wikimediacustomizations-sharecard-page-views-monthly',
 						props.pageViews,
-						numberFormat.format( props.pageViews )
+						isolate( numberFormat.format( props.pageViews ) )
 					)
 				} );
 			}
@@ -263,7 +307,7 @@ module.exports = exports = {
 					label: mw.msg(
 						'wikimediacustomizations-sharecard-references',
 						props.referenceCount,
-						numberFormat.format( props.referenceCount )
+						isolate( numberFormat.format( props.referenceCount ) )
 					)
 				} );
 			}
@@ -297,6 +341,8 @@ module.exports = exports = {
 			shortUrlText,
 			cdxIconLogoWikipedia: icons.cdxIconLogoWikipedia,
 			imageCredit,
+			creditElement,
+			fittedCredit,
 			stats,
 			wordmark,
 			licenseIcons,
@@ -445,13 +491,22 @@ module.exports = exports = {
 		opacity: @opacity-secondary;
 	}
 
+	// Messages fall back to English where untranslated, so each line takes
+	// its direction from its own text, not from the UI language.
+	&__stat-label,
+	&__image-credit {
+		unicode-bidi: plaintext;
+	}
+
+	// One line, cut to fit by fitText.
 	&__image-credit {
 		margin-top: @spacing-25;
+		max-height: calc( 1em * @line-height-small );
 		overflow: hidden;
 		font-family: @font-family-system-sans;
 		font-size: @font-size-x-small;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+		line-height: @line-height-small;
+		overflow-wrap: break-word;
 		opacity: @opacity-secondary;
 	}
 
