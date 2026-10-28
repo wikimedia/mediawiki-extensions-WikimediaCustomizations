@@ -11,7 +11,7 @@ class LicenseHelper {
 	/**
 	 * List created based on mediawiki-config/wmf-config/InitializeSettings wgRightsText config
 	 */
-	private static array $licenseMap = [
+	private const array LICENSE_MAP = [
 		'Creative Commons Attribution-Share Alike 4.0' => 'CC BY-SA 4.0',
 		'Creative Commons Attribution 2.5' => 'CC BY 2.5',
 		'Creative Commons Attribution 3.0' => 'CC BY 3.0',
@@ -23,8 +23,7 @@ class LicenseHelper {
 	 * a short name like "CC BY 3.0"
 	 */
 	public static function mapLongNameToShortName( string $longName ): string {
-		return array_key_exists( $longName, self::$licenseMap ) ? self::$licenseMap[$longName] :
-			$longName;
+		return self::LICENSE_MAP[$longName] ?? $longName;
 	}
 
 	/**
