@@ -4,6 +4,7 @@
 		class="ext-wc-share-card"
 		:class="{
 			'ext-wc-share-card--no-image': !image,
+			'ext-wc-share-card--dark': isDark,
 			'ext-wc-share-card--loading': loading
 		}"
 		:style="{
@@ -31,15 +32,16 @@
 			>
 				{{ title.getMainText() }}
 			</div>
+			<!-- eslint-disable vue/no-v-html -->
 			<div
-				v-if="text"
+				v-if="textHtml"
 				ref="textElement"
 				class="ext-wc-share-card__text"
 				:lang="textLang"
 				:dir="textDir"
-			>
-				{{ fittedText }}
-			</div>
+				v-html="fittedText"
+			></div>
+			<!-- eslint-enable vue/no-v-html -->
 			<div
 				v-if="stats.length"
 				class="ext-wc-share-card__stats"
@@ -105,6 +107,7 @@ const { licenseIcons, wordmark: wordmarkConfig } = require( '../config.json' );
 const InlineSvg = require( './InlineSvg.vue' );
 const averageColor = require( '../utils/averageColor.js' );
 const fitText = require( '../utils/fitText.js' );
+const fitHtml = require( '../utils/fitHtml.js' );
 
 /**
  * Wraps a message parameter in Unicode first-strong isolate marks, so its
@@ -134,9 +137,9 @@ module.exports = exports = {
 			validator: ( title ) => ( title instanceof mw.Title )
 		},
 		/**
-		 * The text to display.
+		 * The text to display, as HTML from summaryHtml.
 		 */
-		text: {
+		textHtml: {
 			type: String,
 			default: null
 		},
@@ -223,12 +226,12 @@ module.exports = exports = {
 
 		// The text, cut to fit the card with an ellipsis if needed.
 		const textElement = ref( null );
-		const fittedText = ref( props.text );
-		watch( toRef( props, 'text' ), async ( text ) => {
-			fittedText.value = text;
+		const fittedText = ref( props.textHtml );
+		watch( toRef( props, 'textHtml' ), async ( html ) => {
+			fittedText.value = html;
 			await nextTick();
-			if ( text && textElement.value ) {
-				fittedText.value = fitText( textElement.value, text, mw.msg( 'ellipsis' ) );
+			if ( html && textElement.value ) {
+				fittedText.value = fitHtml( textElement.value, html, mw.msg( 'ellipsis' ) );
 			}
 		}, { immediate: true } );
 
@@ -245,6 +248,8 @@ module.exports = exports = {
 		// logo on a transparent background.
 		const isDarkTransparent = computed( () => !!color.value &&
 			color.value.isDark && color.value.hasTransparency );
+
+		const isDark = computed( () => !!color.value && color.value.isDark );
 
 		// Logos, maps and diagrams lose meaning when cropped, so they're shown
 		// whole. SVGs are almost always such graphics; transparency catches
@@ -336,6 +341,7 @@ module.exports = exports = {
 			textElement,
 			fittedText,
 			onImageLoad,
+			isDark,
 			isDarkTransparent,
 			isGraphic,
 			shortUrlText,
@@ -453,6 +459,17 @@ module.exports = exports = {
 		font-size: @font-size-small;
 		line-height: @line-height-small;
 		overflow-wrap: break-word;
+	}
+
+	// Keeps formulas from making their line taller, which would push out the
+	// fifth line. Top only, as the bottom margin edge is the baseline.
+	&__math {
+		margin-top: -0.25em;
+	}
+
+	// Math images are black on transparent.
+	&--dark &__math {
+		filter: invert( 1 );
 	}
 
 	// Stats that don't fit on one line wrap onto their own lines. The card

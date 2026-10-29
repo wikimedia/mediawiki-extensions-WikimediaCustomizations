@@ -395,8 +395,10 @@
 				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/usePromised.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/composables/useShareCard.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/averageColor.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/fitHtml.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/fitText.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/imageGenerator.js",
+				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/summaryHtml.js",
 				"ShareCard/ext.wikimediaCustomizations.shareCard/utils/truncateText.js",
 				"lib/html-to-image/html-to-image.js"
 			],

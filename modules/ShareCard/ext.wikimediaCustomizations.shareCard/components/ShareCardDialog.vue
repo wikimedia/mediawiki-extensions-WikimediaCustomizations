@@ -9,7 +9,7 @@
 			<share-card-graphic
 				ref="cardRef"
 				:title="title"
-				:text="text"
+				:text-html="textHtml"
 				:text-lang="textLang"
 				:text-dir="textDir"
 				:image="image"
@@ -98,6 +98,7 @@ const ShareCardGraphic = require( './ShareCardGraphic.vue' );
 const useCardImage = require( '../composables/useCardImage.js' );
 const usePageData = require( '../composables/usePageData.js' );
 const useShareCard = require( '../composables/useShareCard.js' );
+const summaryHtml = require( '../utils/summaryHtml.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -156,6 +157,15 @@ module.exports = exports = {
 				return summary.value.extract.trim();
 			}
 			return null;
+		} );
+		// For the card only; the share message stays plain text.
+		const textHtml = computed( () => {
+			if ( !text.value ) {
+				return null;
+			}
+			return summary.value.extract_html ?
+				summaryHtml( summary.value.extract_html ) :
+				mw.html.escape( text.value );
 		} );
 		// The article's language, which the UI's may not match.
 		const textLang = computed( () => summary.value && summary.value.lang );
@@ -372,7 +382,7 @@ module.exports = exports = {
 			pageViews,
 			referenceCount,
 			shortUrl,
-			text,
+			textHtml,
 			textLang,
 			textDir,
 			error,
