@@ -41,10 +41,10 @@ class PageviewTrendingRelativeStore {
 	 * @return array Map of page ID, empty when nothing is trending.
 	 */
 	public function getTrending(): array {
-		$map = $this->cache->getWithSetCallback(
-			$this->cacheKey,
-			self::CACHE_TTL,
-			function ( $oldValue, &$ttl ) {
+		$map = $this->cache->buildGetWithSetCallback()
+			->rawKey( $this->cacheKey )
+			->lifetime( self::CACHE_TTL )
+			->callback( function ( $oldValue, &$ttl ) {
 				$map = $this->stash->get( $this->stashKey );
 
 				// If missing, return empty array and reduce cache TTL.
@@ -54,8 +54,8 @@ class PageviewTrendingRelativeStore {
 				}
 
 				return $map;
-			}
-		);
+			} )
+			->fetch();
 
 		return is_array( $map ) ? $map : [];
 	}
