@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"wikimediacustomizations-sharecard-copy-link": "Copia collegamento",
+	"wikimediacustomizations-sharecard-share": "Condividi",
+	"wikimediacustomizations-sharecard-downloading": "Download in corso",
+	"wikimediacustomizations-sharecard-image-credit": "Immagine: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Immagine: $1"
+}

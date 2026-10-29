@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Compartir",
+	"wikimediacustomizations-sharecard-copy-link": "Copiar a ligazón",
+	"wikimediacustomizations-sharecard-link-copied": "Copiada",
+	"wikimediacustomizations-sharecard-share": "Compartir",
+	"wikimediacustomizations-sharecard-download": "Descargar",
+	"wikimediacustomizations-sharecard-downloading": "Descargando",
+	"wikimediacustomizations-sharecard-loading": "Cargando…",
+	"wikimediacustomizations-sharecard-generating": "Xerando a imaxe",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nMáis información en $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "Imaxe: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Imaxe: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 referencia|$2 referencias}}"
+}

@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Network traveller"
+			"Network traveller",
+			"SleaY"
 		]
 	},
-	"wikimediacustomizations-donordelightbadge-badge-label": "Badge Wikicoeur pour votre don"
+	"wikimediacustomizations-donordelightbadge-badge-label": "Badge Wikicoeur pour votre don",
+	"wc-donor-account-creation-dialog-yes": "Oui",
+	"wc-donor-account-creation-dialog-no": "Non merci"
 }
