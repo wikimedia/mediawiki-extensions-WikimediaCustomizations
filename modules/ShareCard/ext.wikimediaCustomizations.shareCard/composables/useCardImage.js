@@ -1,9 +1,21 @@
 const { computed, ref, watch } = require( 'vue' );
+const stillFrame = require( '../utils/stillFrame.js' );
 
 // The card renders 288px wide, so 576px covers a 2x pixel ratio.
 const CARD_IMAGE_WIDTH = 576;
+// GIF thumbnails keep every frame, so they are several times larger than a
+// still. The card shows one frame, which is fine slightly scaled up.
+const GIF_IMAGE_WIDTH = 500;
 // Smaller originals look too poor on the card to be worth using.
 const MIN_ORIGINAL_IMAGE_WIDTH = 288;
+
+/**
+ * @param {string} src
+ * @return {boolean}
+ */
+function isGif( src ) {
+	return /\.gif$/i.test( new URL( src, location.href ).pathname );
+}
 
 /**
  * A thumbnail URL for the card, at a standard production width.
@@ -29,7 +41,7 @@ function cardImageSrc( thumbnailSrc, originalSrc, originalWidth ) {
 	// thumbnail is uncached and may be rate limited.
 	// @see https://www.mediawiki.org/wiki/Common_thumbnail_sizes
 	const width = mw.util.adjustThumbWidthForSteps(
-		CARD_IMAGE_WIDTH,
+		isGif( originalSrc ) ? GIF_IMAGE_WIDTH : CARD_IMAGE_WIDTH,
 		originalWidth
 	);
 	// width only equals originalWidth when the original was
@@ -59,7 +71,7 @@ module.exports = function useCardImage( summary, imageInfo, onError ) {
 	const ogImage = document.querySelector( 'meta[property="og:image"]' );
 	const ogImageWidth = document.querySelector( 'meta[property="og:image:width"]' );
 
-	const image = computed( () => {
+	const imageSrc = computed( () => {
 		// Fair use doesn't extend to a shareable image of the article, and
 		// the wiki's bad image list keeps some files out of articles.
 		if ( imageInfo.value && ( imageInfo.value.nonFree || imageInfo.value.badFile ) ) {
@@ -90,6 +102,30 @@ module.exports = function useCardImage( summary, imageInfo, onError ) {
 		return null;
 	} );
 
+	// A GIF shows as a still, so the card matches the image it exports, which
+	// holds one frame.
+	const image = ref( null );
+	const isStillPending = ref( false );
+	watch( imageSrc, async ( src ) => {
+		if ( image.value && image.value.startsWith( 'blob:' ) ) {
+			URL.revokeObjectURL( image.value );
+		}
+		if ( !src || !isGif( src ) ) {
+			image.value = src;
+			isStillPending.value = false;
+			return;
+		}
+		image.value = null;
+		isStillPending.value = true;
+		const still = await stillFrame( src ).catch( () => src );
+		if ( imageSrc.value === src ) {
+			image.value = still;
+			isStillPending.value = false;
+		} else if ( still !== src ) {
+			URL.revokeObjectURL( still );
+		}
+	}, { immediate: true } );
+
 	// Reset on every image change.
 	const imageLoadComplete = ref( false );
 	watch( image, () => ( imageLoadComplete.value = false ) );
@@ -106,8 +142,8 @@ module.exports = function useCardImage( summary, imageInfo, onError ) {
 	};
 
 	// No image is ready at once; otherwise wait for it and its information.
-	const isImageReady = computed( () => !image.value ||
-		( imageLoadComplete.value && imageInfo.value !== null ) );
+	const isImageReady = computed( () => !isStillPending.value && ( !image.value ||
+		( imageLoadComplete.value && imageInfo.value !== null ) ) );
 
 	return {
 		image,
