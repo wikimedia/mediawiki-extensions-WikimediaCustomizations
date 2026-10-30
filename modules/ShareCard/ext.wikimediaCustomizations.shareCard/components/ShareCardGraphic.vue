@@ -287,9 +287,11 @@ module.exports = exports = {
 			mw.language.bcp47( mw.config.get( 'wgUserLanguage' ) ),
 			{ notation: 'compact' }
 		);
+		// Zero counts are left out, as "0 references" on a disambiguation
+		// page reads as a fault on a shared card.
 		const stats = computed( () => {
 			const result = [];
-			if ( props.pageViews !== null ) {
+			if ( props.pageViews ) {
 				result.push( {
 					key: 'views',
 					icon: icons.cdxIconChart,
@@ -300,7 +302,7 @@ module.exports = exports = {
 					)
 				} );
 			}
-			if ( props.referenceCount !== null ) {
+			if ( props.referenceCount ) {
 				result.push( {
 					key: 'references',
 					icon: icons.cdxIconReferences,
