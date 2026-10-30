@@ -15,5 +15,6 @@
 	"wikimediacustomizations-sharecard-share-text": "$1\n\nWax dheeraad ah ka akhri $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "Sawir: $1 - $2",
 	"wikimediacustomizations-sharecard-image-credit-partial": "Sawirka: $1",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2 aragti / bishii|$2 aragtiyo / bishii}}",
 	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 tixraac|$2 tixraacyada}}"
 }

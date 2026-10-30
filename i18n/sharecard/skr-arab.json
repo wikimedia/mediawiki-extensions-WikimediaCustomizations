@@ -5,9 +5,11 @@
 		]
 	},
 	"wikimediacustomizations-sharecard-dialog-title": "شیئر",
+	"wikimediacustomizations-sharecard-copy-link": "لنک نقل کرو",
 	"wikimediacustomizations-sharecard-link-copied": "نقل تھی ڳئے",
 	"wikimediacustomizations-sharecard-share": "شیئر",
 	"wikimediacustomizations-sharecard-download": "ڈاؤن لوڈ",
 	"wikimediacustomizations-sharecard-downloading": "ڈاؤن لوڈ تھیندا پئے",
-	"wikimediacustomizations-sharecard-loading": "لوڈ تھین٘دا پئے۔۔۔"
+	"wikimediacustomizations-sharecard-loading": "لوڈ تھین٘دا پئے۔۔۔",
+	"wikimediacustomizations-sharecard-image-credit-partial": "تصویر: $1"
 }
