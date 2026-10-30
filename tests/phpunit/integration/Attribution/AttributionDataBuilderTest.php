@@ -24,7 +24,6 @@ use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
 use MediaWikiIntegrationTestCase;
-use Psr\Log\NullLogger;
 use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Stats\UnitTestingHelper;
 use Wikimedia\Telemetry\NoopTracer;
@@ -89,7 +88,7 @@ class AttributionDataBuilderTest extends MediaWikiIntegrationTestCase {
 		}
 		return new AttributionDataBuilder(
 			$config, $urlUtils, $repoGroup, $noopTracer, $siteConfig,
-			new NullLogger(), $statsFactory ?? StatsFactory::newNull(), $trendingRelativeStore,
+			$statsFactory ?? StatsFactory::newNull(), $trendingRelativeStore,
 			$referenceCountProvider, $contributorCountProvider,
 			$languageNameUtils, $specialPageFactory, $pageViewService
 		);

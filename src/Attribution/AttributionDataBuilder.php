@@ -21,7 +21,6 @@ use MediaWiki\ResourceLoader\SkinModule;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\Utils\UrlUtils;
-use Psr\Log\LoggerInterface;
 use Wikimedia\Stats\StatsFactory;
 use Wikimedia\Telemetry\TracerInterface;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -40,7 +39,6 @@ class AttributionDataBuilder {
 		private readonly RepoGroup $repoGroup,
 		private readonly TracerInterface $tracer,
 		private readonly SiteConfiguration $siteConfig,
-		private readonly LoggerInterface $logger,
 		private readonly StatsFactory $stats,
 		private readonly PageviewTrendingRelativeStore $trendingRelativeStore,
 		private readonly ReferenceCountProvider $referenceCountProvider,

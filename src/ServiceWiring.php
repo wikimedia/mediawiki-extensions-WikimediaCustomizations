@@ -80,7 +80,6 @@ return [
 			$services->get( 'RepoGroup' ),
 			$services->get( 'Tracer' ),
 			$wgConf,
-			$logger,
 			$statsFactory,
 			$trendingRelativeStore,
 			$referenceCountProvider,
