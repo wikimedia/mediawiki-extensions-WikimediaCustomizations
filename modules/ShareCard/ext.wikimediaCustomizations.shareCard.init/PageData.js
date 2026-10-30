@@ -67,8 +67,11 @@ class PageData {
 	 */
 	getSummary() {
 		if ( !this.summaryRequest ) {
+			// The endpoint converts the text to the language variant in
+			// Accept-Language, such as zh-tw. As in Popups.
 			this.summaryRequest = fetchJson(
-				`${ origin }/api/rest_v1/page/summary/${ encodeURIComponent( this.pageName ) }`
+				`${ origin }/api/rest_v1/page/summary/${ encodeURIComponent( this.pageName ) }`,
+				{ headers: { 'Accept-Language': mw.config.get( 'wgPageContentLanguage' ) } }
 			);
 			this.summaryRequest.catch( () => ( this.summaryRequest = null ) );
 		}
