@@ -68,4 +68,12 @@ describe( 'summaryHtml', () => {
 			'<p>where</p><ul><li>e is a number,</li><li>i is a unit, and</li><li>π is pi.</li></ul>'
 		) ).toBe( 'where e is a number, i is a unit, and π is pi.' );
 	} );
+
+	it( 'keeps the formatting of display titles', () => {
+		expect( summaryHtml(
+			'<span lang="zh-Hant-TW" dir="ltr"><span class="mw-page-title-main">長城</span></span>'
+		) ).toBe( '長城' );
+		expect( summaryHtml( '<i>Star Wars</i>' ) ).toBe( '<i>Star Wars</i>' );
+		expect( summaryHtml( 'Vitamin B<sub>12</sub>' ) ).toBe( 'Vitamin B<sub>12</sub>' );
+	} );
 } );

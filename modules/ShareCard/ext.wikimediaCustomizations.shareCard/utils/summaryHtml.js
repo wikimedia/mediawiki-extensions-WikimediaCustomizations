@@ -129,7 +129,7 @@ function normalizeWhitespace( root ) {
  * formulas and formatting that `extract` drops. Builds new elements, so no
  * attribute from the summary reaches the page.
  *
- * @param {string} html The summary's `extract_html`
+ * @param {string} html The summary's `extract_html` or display title
  * @return {string} HTML safe to render
  */
 module.exports = function summaryHtml( html ) {

@@ -25,14 +25,13 @@
 			@error="( event ) => ( $emit( 'img-error', event.target.src ) )"
 		>
 		<div class="ext-wc-share-card__body">
+			<!-- eslint-disable vue/no-v-html -->
 			<div
 				class="ext-wc-share-card__title"
 				:lang="textLang"
 				:dir="textDir"
-			>
-				{{ title.getMainText() }}
-			</div>
-			<!-- eslint-disable vue/no-v-html -->
+				v-html="titleHtml"
+			></div>
 			<div
 				v-if="textHtml"
 				ref="textElement"
@@ -129,12 +128,11 @@ module.exports = exports = {
 	},
 	props: {
 		/**
-		 * The article title.
+		 * The article title, as HTML from summaryHtml.
 		 */
-		title: {
-			type: /** @type {mw.Title} */ ( Object ),
-			required: true,
-			validator: ( title ) => ( title instanceof mw.Title )
+		titleHtml: {
+			type: String,
+			required: true
 		},
 		/**
 		 * The text to display, as HTML from summaryHtml.

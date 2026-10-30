@@ -8,7 +8,7 @@
 		<div v-if="!error">
 			<share-card-graphic
 				ref="cardRef"
-				:title="title"
+				:title-html="titleHtml"
 				:text-html="textHtml"
 				:text-lang="textLang"
 				:text-dir="textDir"
@@ -158,6 +158,13 @@ module.exports = exports = {
 			}
 			return null;
 		} );
+		// The display title, as in "iPhone" or "Vitamin B<sub>12</sub>", in the
+		// reader's language variant.
+		const titleHtml = computed( () => (
+			summary.value && summary.value.titles && summary.value.titles.display ?
+				summaryHtml( summary.value.titles.display ) :
+				mw.html.escape( props.title.getMainText() )
+		) );
 		// For the card only; the share message stays plain text.
 		const textHtml = computed( () => {
 			if ( !text.value ) {
@@ -382,6 +389,7 @@ module.exports = exports = {
 			pageViews,
 			referenceCount,
 			shortUrl,
+			titleHtml,
 			textHtml,
 			textLang,
 			textDir,
