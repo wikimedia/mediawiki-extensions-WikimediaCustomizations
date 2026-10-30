@@ -7,6 +7,9 @@ const restUrl = apiBaseUri ?
 	mw.config.get( 'wgScriptPath' ) + '/rest.php';
 const actionApiUrl = apiBaseUri || mw.util.wikiScript( 'api' );
 
+/** Milliseconds to wait for page signals before showing the card without them. */
+const SIGNALS_TIMEOUT = 5000;
+
 /** @type {{author: string, license: string, licenseCode: string, nonFree: boolean, badFile: boolean}} */
 const NO_IMAGE_INFO = { author: '', license: '', licenseCode: '', nonFree: false, badFile: false };
 
@@ -80,15 +83,19 @@ class PageData {
 
 	/**
 	 * Page views over the last 30 days and reference count, from the
-	 * Attribution API. Either is null if unavailable; the card renders
-	 * without them, so this never rejects.
+	 * Attribution API. Either is null if unavailable or slower than
+	 * SIGNALS_TIMEOUT; the card renders without them, so this never rejects.
 	 *
 	 * @return {Promise<{pageViews: number|null, referenceCount: number|null}>}
 	 */
 	getSignals() {
 		if ( !this.signalsRequest ) {
+			// The API can take many seconds on a parser cache miss.
+			const controller = new AbortController();
+			setTimeout( () => controller.abort(), SIGNALS_TIMEOUT );
 			this.signalsRequest = fetchJson(
-				`${ restUrl }/attribution/v0-beta/pages/${ encodeURIComponent( this.pageName ) }/signals?expand=trust_and_relevance`
+				`${ restUrl }/attribution/v0-beta/pages/${ encodeURIComponent( this.pageName ) }/signals?expand=trust_and_relevance`,
+				{ signal: controller.signal }
 			);
 			this.signalsRequest.catch( () => ( this.signalsRequest = null ) );
 		}

@@ -41,10 +41,7 @@
 				v-html="fittedText"
 			></div>
 			<!-- eslint-enable vue/no-v-html -->
-			<div
-				v-if="stats.length"
-				class="ext-wc-share-card__stats"
-			>
+			<div class="ext-wc-share-card__stats">
 				<span
 					v-for="stat in stats"
 					:key="stat.key"
@@ -476,6 +473,8 @@ module.exports = exports = {
 	&__stats {
 		display: flex;
 		flex-wrap: wrap;
+		// Keeps one line without stats, so the image is the same height.
+		min-height: 1lh;
 		column-gap: @spacing-100;
 		font-family: @font-family-system-sans;
 		font-size: @font-size-x-small;
