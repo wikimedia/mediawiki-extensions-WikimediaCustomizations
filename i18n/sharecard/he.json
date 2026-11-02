@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Neriah"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "שיתוף",
+	"wikimediacustomizations-sharecard-copy-link": "העתקת קישור",
+	"wikimediacustomizations-sharecard-link-copied": "הועתק",
+	"wikimediacustomizations-sharecard-share": "שיתוף",
+	"wikimediacustomizations-sharecard-download": "הורדה",
+	"wikimediacustomizations-sharecard-downloading": "בהורדה",
+	"wikimediacustomizations-sharecard-loading": "בטעינה...",
+	"wikimediacustomizations-sharecard-generating": "יצירת תמונה",
+	"wikimediacustomizations-sharecard-share-text": "$1 \n\nלקריאה נוספת על $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "תמונה: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "תמונה: $1",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|צפייה לחודש|$2 צפיות לחודש}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|הערת שוליים אחת|$2 הערות שוליים}}"
+}
