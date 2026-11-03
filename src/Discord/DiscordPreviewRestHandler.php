@@ -34,10 +34,10 @@ class DiscordPreviewRestHandler extends SimpleHandler {
 	// attribute used by the deprecated extracts extension
 	private const EXCLUDED_ELEMENT_SELECTORS = [ '.noexcerpt' ];
 
-	private PageContentHelper $contentHelper;
+	private readonly PageContentHelper $contentHelper;
 
 	public function __construct(
-		private readonly PageRestHelperFactory $helperFactory,
+		PageRestHelperFactory $helperFactory,
 		private readonly TitleFactory $titleFactory,
 		private readonly UrlUtils $urlUtils,
 		private readonly ParserOutputAccess $parserOutputAccess,
