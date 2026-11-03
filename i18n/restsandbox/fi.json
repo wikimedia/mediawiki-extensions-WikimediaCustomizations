@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Samoasambia",
+			"Wikipeedikko"
+		]
+	},
+	"restsandbox": "REST-hiekkalaatikko",
+	"wikimediacustomizations-restsandbox-text": "Tällä sivulla voit kokeilla MediaWikin REST API -rajapintoja. Hiekkalaatikkokäyttöliittymän kautta luodut API-kutsut toimivat wikin julkaistussa sisällössä, ja niillä voi muokata wikiä. Saat lisätietoja API-rajapintojen käytöstä [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API API-asiakirjoista].",
+	"wikimediacustomizations-restsandbox-disclaimer": "Haluatko antaa palautetta tästä hiekkalaatikosta? Voit antaa sitä [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox täällä].<br /> Huomautus: hiekkalaatikon käyttöliittymä ja valikkokohteet eivät vielä tue käännöksiä.",
+	"wikimediacustomizations-restsandbox-select-api": "Valitse tutkittava API.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Tutkimiseen ei määritelty REST API -rajapintoja. Käytä RestSandboxSpecs-asetusta.",
+	"wikimediacustomizations-restsandbox-no-such-api": "Annettua API-parametriä ei tueta: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "REST-eritelmän tarkastelu edellyttää JavaScriptin käyttöä."
+}

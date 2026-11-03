@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Pikne"
+		]
+	},
+	"restsandbox": "REST API liivakast",
+	"wikimediacustomizations-restsandbox-text": "Kasuta seda lehekülge, et katsetada MediaWiki REST API-t. API-kutsed mõjutavad kasutuses olevat vikit ja need võivad vikit muuta. Loe [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API API dokumentatsioonist] üksikasju API kasutamise kohta.",
+	"wikimediacustomizations-restsandbox-disclaimer": "Kas sul on selle liivakasti kohta tagasisidet? Palun jäta see [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox siia].<br />Märkus: liivakasti kasutajaliidesel ja navigeerimisüksustel ei ole veel tõlkimise tuge.",
+	"wikimediacustomizations-restsandbox-select-api": "Vali API, mida uurida.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Pole häälestatud ühtegi REST API-t, mida uurida. Kasuta sätet RestSandboxSpecs.",
+	"wikimediacustomizations-restsandbox-no-such-api": "Järgmist API parameetrit ei toetata: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "REST API spetsifikatsiooni vaatamiseks on nõutav JavaScript."
+}

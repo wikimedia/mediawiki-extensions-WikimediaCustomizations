@@ -1,9 +1,8 @@
 {
 	"@metadata": {
-		"authors": [
-		]
+		"authors": []
 	},
-	"special-restsandbox": "Title of Special:RestSandbox, also shown in the listing of special pages",
+	"restsandbox": "Title of Special:RestSandbox, also shown in the listing of special pages",
 	"wikimediacustomizations-restsandbox-text": "Message shown at the top of Special:RestSandbox.",
 	"wikimediacustomizations-restsandbox-disclaimer": "Message shown on non-English wikis near the top of Special:RestSandbox.",
 	"wikimediacustomizations-restsandbox-select-api": "Message shown at the top of Special:RestSandbox, next to the selector for choosing an API.",
