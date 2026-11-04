@@ -15,6 +15,7 @@
 	"wikimediacustomizations-sharecard-share-text": "$1\n\nMáis información en $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "Imaxe: $1 - $2",
 	"wikimediacustomizations-sharecard-image-credit-partial": "Imaxe: $1",
+	"wikimediacustomizations-sharecard-license-pd": "Dominio público",
 	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2 visualización/mes|$2 visualizacións/mes}}",
 	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 referencia|$2 referencias}}"
 }

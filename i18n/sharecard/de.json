@@ -13,6 +13,7 @@
 	"wikimediacustomizations-sharecard-share-text": "$1 \n\nLies mehr auf $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "Bild: $1 - $2",
 	"wikimediacustomizations-sharecard-image-credit-partial": "Bild: $1",
+	"wikimediacustomizations-sharecard-license-pd": "Gemeinfrei",
 	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2 Aufruf/Monat|$2 Aufrufe/Monat}}",
 	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 Einzelnachweis|$2 Einzelnachweise}}"
 }

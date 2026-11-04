@@ -15,6 +15,7 @@
 	"wikimediacustomizations-sharecard-share-text": "$1\n\n在$3上阅读更多：$2",
 	"wikimediacustomizations-sharecard-image-credit": "图像：$1 - $2",
 	"wikimediacustomizations-sharecard-image-credit-partial": "图像：$1",
+	"wikimediacustomizations-sharecard-license-pd": "公有领域",
 	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2次浏览/月}}",
 	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2篇参考文献}}"
 }
