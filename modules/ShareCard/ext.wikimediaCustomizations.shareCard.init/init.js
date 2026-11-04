@@ -30,7 +30,10 @@ if ( link ) {
 		getPageData().getShortUrl();
 		mw.loader.using( 'ext.wikimediaCustomizations.shareCard' ).then(
 			( req ) => req( 'ext.wikimediaCustomizations.shareCard' ).open(),
-			() => require( 'mediawiki.page.ready' ).share( { url: link.href } )
+			( error ) => {
+				mw.errorLogger.logError( error, 'error.sharecard' );
+				require( 'mediawiki.page.ready' ).share( { url: link.href } );
+			}
 		);
 	} );
 }
