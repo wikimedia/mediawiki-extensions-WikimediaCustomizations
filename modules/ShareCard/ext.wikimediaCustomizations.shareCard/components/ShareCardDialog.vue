@@ -139,9 +139,14 @@ module.exports = exports = {
 		const error = ref( null );
 
 		function onError( err ) {
-			// Still throw, so other handlers (e.g. logging) see it.
+			// One failure can arrive more than once. A failed summary also
+			// fails the image information.
+			if ( error.value ) {
+				return;
+			}
 			error.value = err;
-			throw err;
+			mw.errorLogger.logError( err, 'error.sharecard' );
+			mw.log.error( err );
 		}
 
 		// UI elements
@@ -351,8 +356,8 @@ module.exports = exports = {
 					liveRegionRef.value.textContent = '';
 				}, 2000 );
 			} ).catch( ( e ) => {
-				// eslint-disable-next-line no-console
-				console.error( 'Failed to copy link:', e );
+				mw.errorLogger.logError( e, 'error.sharecard' );
+				mw.log.error( e );
 			} );
 		}
 

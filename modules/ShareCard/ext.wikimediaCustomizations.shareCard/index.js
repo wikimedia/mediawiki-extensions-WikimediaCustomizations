@@ -10,7 +10,12 @@ function open() {
 	if ( !app ) {
 		const container = document.createElement( 'div' );
 		document.getElementById( 'content' ).appendChild( container );
-		app = Vue.createMwApp( App ).mount( container );
+		const vueApp = Vue.createMwApp( App );
+		vueApp.config.errorHandler = ( error ) => {
+			mw.errorLogger.logError( error, 'error.sharecard' );
+			mw.log.error( error );
+		};
+		app = vueApp.mount( container );
 	}
 	app.open();
 }
