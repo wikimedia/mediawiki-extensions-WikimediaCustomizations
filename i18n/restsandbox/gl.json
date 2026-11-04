@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"restsandbox": "Zona de probas REST",
+	"wikimediacustomizations-restsandbox-text": "Emprega esta páxina para experimentar coas API REST de MediaWiki. As chamadas á API realizadas a través da interface de probas interactuarán co contido real do wiki e poden modificalo. Consulta a [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API documentación da API] para obter máis detalles sobre o uso da API.",
+	"wikimediacustomizations-restsandbox-disclaimer": "Tes algún comentario sobre esta zona de probas? Déixao [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox aquí].<br />Nota: a interface de usuario e os elementos de navegación da zona de probas aínda non admiten tradución.",
+	"wikimediacustomizations-restsandbox-select-api": "Escolle a API que queres explorar.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Non se configuraron API REST para a exploración. Usa a configuración «RestSandboxSpecs».",
+	"wikimediacustomizations-restsandbox-no-such-api": "O parámetro da API indicado non é compatible: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "Cómpre JavaScript para ver a especificación REST."
+}

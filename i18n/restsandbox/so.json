@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612"
+		]
+	},
+	"restsandbox": "Bacaadka REST",
+	"wikimediacustomizations-restsandbox-text": "Isticmaal boggan si aad ugu tijaabiso MediaWiki REST APIs. Wicitaannada API-ga ee lagu sameeyo is dhexgalka tijaabada waxay la falgeli doonaan nuxurka wiki-ga tooska ah, waxaana laga yaabaa inay wax ka beddelaan wiki-ga. Faahfaahin dheeraad ah oo ku saabsan isticmaalka API-ga, eeg [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API dukumentiyada API-ga].",
+	"wikimediacustomizations-restsandbox-disclaimer": "Ma haysaa faallooyin ku saabsan goobtan tijaabada? Fadlan ku reeb [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox halkan].<br />Fiiro gaar ah: is-dhexgalka isticmaalaha iyo walxaha hagidda ee goobta tijaabada weli ma taageeraan turjumaadda.",
+	"wikimediacustomizations-restsandbox-select-api": "Dooro API-ga aad rabto inaad sahamiso.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Ma jiraan REST APIs loo habeeyay sahaminta. Isticmaal dejinta RestSandboxSpecs.",
+	"wikimediacustomizations-restsandbox-no-such-api": "Xuduudda API-ga ee la bixiyay lama taageero: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "JavaScript ayaa loo baahan yahay si loo arko qeexitaanka REST."
+}

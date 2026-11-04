@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Volvox"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Deelen",
+	"wikimediacustomizations-sharecard-copy-link": "Link kopéieren",
+	"wikimediacustomizations-sharecard-link-copied": "Kopéiert",
+	"wikimediacustomizations-sharecard-share": "Deelen",
+	"wikimediacustomizations-sharecard-download": "Eroflueden",
+	"wikimediacustomizations-sharecard-downloading": "Gëtt erofgelueden",
+	"wikimediacustomizations-sharecard-generating": "Bild gëtt generéiert",
+	"wikimediacustomizations-sharecard-image-credit": "Bild: $1 – $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Bild: $1"
+}

@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"GuoPC"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "分享",
+	"wikimediacustomizations-sharecard-copy-link": "复制链接",
+	"wikimediacustomizations-sharecard-link-copied": "已复制",
+	"wikimediacustomizations-sharecard-share": "分享",
+	"wikimediacustomizations-sharecard-download": "下载",
+	"wikimediacustomizations-sharecard-downloading": "下载中",
+	"wikimediacustomizations-sharecard-loading": "加载中…",
+	"wikimediacustomizations-sharecard-generating": "生成图像中",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\n在$3上阅读更多：$2",
+	"wikimediacustomizations-sharecard-image-credit": "图像：$1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "图像：$1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2篇参考文献}}"
+}

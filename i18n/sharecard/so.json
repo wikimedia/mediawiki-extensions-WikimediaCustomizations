@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "La wadaag",
+	"wikimediacustomizations-sharecard-copy-link": "Nuqul ka samee xiriirka",
+	"wikimediacustomizations-sharecard-link-copied": "La koobiyeyay",
+	"wikimediacustomizations-sharecard-share": "La wadaag",
+	"wikimediacustomizations-sharecard-download": "Soo deji",
+	"wikimediacustomizations-sharecard-downloading": "Soo dejinaya",
+	"wikimediacustomizations-sharecard-loading": "Soo raraya…",
+	"wikimediacustomizations-sharecard-generating": "Abuurista sawir",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nWax dheeraad ah ka akhri $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "Sawir: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Sawirka: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 tixraac|$2 tixraacyada}}"
+}

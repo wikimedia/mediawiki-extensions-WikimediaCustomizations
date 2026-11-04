@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Inkowik"
+		]
+	},
+	"restsandbox": "REST-Spielwiese",
+	"wikimediacustomizations-restsandbox-text": "Auf dieser Seite kannst du mit den MediaWiki-REST-APIs experimentieren. API-Aufrufe, die über die Sandbox-Schnittstelle erfolgen, greifen auf Live-Wiki-Inhalte zu und können das Wiki verändern. Weitere Informationen zur Nutzung der API findest du in der [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API API-Dokumentation].",
+	"wikimediacustomizations-restsandbox-disclaimer": "Hast du Feedback zu dieser Sandbox? Bitte hinterlasse es [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox hier].<br/>Hinweis: Die Benutzeroberfläche und die Navigationselemente der Sandbox unterstützen noch keine Übersetzung.",
+	"wikimediacustomizations-restsandbox-select-api": "Wähle die API aus, die du erkunden möchtest.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "Es wurden keine REST-APIs zur Erkundung konfiguriert. Verwende die Einstellung RestSandboxSpecs.",
+	"wikimediacustomizations-restsandbox-no-such-api": "Der angegebene API-Parameter wird nicht unterstützt: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "JavaScript wird benötigt, um die REST-Spezifikation anzuzeigen."
+}
