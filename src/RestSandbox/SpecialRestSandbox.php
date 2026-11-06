@@ -25,6 +25,7 @@ use Wikimedia\ObjectCache\BagOStuff;
 class SpecialRestSandbox extends SpecialPage {
 
 	private readonly ModuleManager $moduleManager;
+	private JsonLocalizer $jsonLocalizer;
 
 	public function __construct(
 		private readonly UrlUtils $urlUtils,
@@ -37,11 +38,12 @@ class SpecialRestSandbox extends SpecialPage {
 			$this->getContentLanguage()->getCode()
 		);
 
+		$this->jsonLocalizer = new JsonLocalizer( $textFormatter );
 		$this->moduleManager = new ModuleManager(
 			new ServiceOptions( ModuleManager::CONSTRUCTOR_OPTIONS, $this->getConfig() ),
 			ExtensionRegistry::getInstance()->getAttribute( 'RestModuleFiles' ),
 			$srvCache,
-			new JsonLocalizer( $textFormatter )
+			$this->jsonLocalizer
 		);
 	}
 
@@ -144,6 +146,7 @@ class SpecialRestSandbox extends SpecialPage {
 	private function showForm( array $apiSpecs, string $apiId ) {
 		$apis = [];
 
+		$apiSpecs = $this->jsonLocalizer->localizeJson( $apiSpecs );
 		foreach ( $apiSpecs as $key => $spec ) {
 			$apis[$spec['name']] = $key;
 		}
