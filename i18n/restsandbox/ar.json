@@ -4,5 +4,9 @@
 			"Meno25"
 		]
 	},
-	"restsandbox": "ملعب رست"
+	"restsandbox": "ملعب رست",
+	"wikimediacustomizations-restsandbox-select-api": "اختر واجهة برمجة التطبيقات (API) لاستكشافها.",
+	"wikimediacustomizations-restsandbox-no-specs-configured": "لم يتم تهيئة أي واجهات برمجة تطبيقات REST للاستكشاف. استخدم إعداد RestSandboxSpecs.",
+	"wikimediacustomizations-restsandbox-no-such-api": "المعامل المُعطى في واجهة برمجة التطبيقات غير مدعوم: $1",
+	"wikimediacustomizations-restsandbox-jsonly": "يلزم وجود جافا سكريبت لعرض مواصفات REST."
 }
