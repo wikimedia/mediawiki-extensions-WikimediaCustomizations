@@ -28,6 +28,7 @@ class SuggestedInvestigationsHookHandlerTest extends MediaWikiIntegrationTestCas
 	 */
 	private function newSummary(
 		array $names,
+		?string $message = 'shared-pages-summary',
 		?string $firstEditTimestamp = '20240101000000',
 		?string $lastEditTimestamp = '20240102000000'
 	): SuggestedInvestigationsSharedPagesSummary {
@@ -46,73 +47,88 @@ class SuggestedInvestigationsHookHandlerTest extends MediaWikiIntegrationTestCas
 		$summary->method( 'getLastEditTimestamp' )
 			->willReturn( $lastEditTimestamp );
 		$summary->method( 'getMessage' )
-			->willReturn( new MessageValue( 'shared-pages-summary' ) );
+			->willReturn( is_string( $message ) ? new MessageValue( 'shared-pages-summary' ) : null );
 		return $summary;
 	}
 
-	public function testLinkIsAddedForExactlyTwoEditors(): void {
-		// Ensure that we properly urlencode the names
-		$metadata = [ $this->newSummary( [ 'Alice Alice', 'Bób' ] ) ];
+	/** @dataProvider provideEditorsForLink */
+	public function testLinkIsAdded( array $editors, string $expected ): void {
+		$metadata = [ $this->newSummary( $editors ) ];
 
 		$handler = new SuggestedInvestigationsHookHandler();
 		$handler->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay( 42, $metadata );
 
-		$expectedStart = ConvertibleTimestamp::convert( TS::UNIX, '20240101000000' );
-		$expectedEnd = ConvertibleTimestamp::convert( TS::UNIX, '20240102000000' );
+		$expectedStart = ConvertibleTimestamp::convert( TS::MW, '20240101000000' );
+		$expectedEnd = ConvertibleTimestamp::convert( TS::MW, '20240102000000' );
+		$expectedStart = substr( $expectedStart, 0, 8 );
+		$expectedEnd = substr( $expectedEnd, 0, 8 );
 
 		$localizer = new MockMessageLocalizer();
 		$output = $localizer->msg( $metadata[0]->getMessageOverride() )->parse();
 		// Original text is preserved as the link content.
 		$this->assertStringContainsString( '>(shared-pages-summary)</a>', $output );
 		$this->assertStringContainsString(
-			'href="https://interaction-timeline.toolforge.org/', $output
+			'href="https://sigma.toolforge.org/editorinteract.py', $output
 		);
-		$this->assertStringContainsString( 'wiki=' . WikiMap::getCurrentWikiId(), $output );
-		$this->assertStringContainsString( 'user=Alice+Alice&amp;user=B%C3%B3b', $output );
+		$this->assertStringContainsString( 'server=' . WikiMap::getCurrentWikiId(), $output );
+		$this->assertStringContainsString( $expected, $output );
 		$this->assertStringContainsString(
-			'startDate=' . $expectedStart . '&amp;endDate=' . $expectedEnd,
+			'startdate=' . $expectedStart . '&amp;enddate=' . $expectedEnd,
 			$output
 		);
 	}
 
-	/** @dataProvider provideNotTwoEditors */
-	public function testNoLinkWhenNotExactlyTwoEditors( array $editors ): void {
-		$metadata = [ $this->newSummary( $editors ) ];
-		$parsedMetadata = [ 'shared pages summary' ];
-
-		$handler = new SuggestedInvestigationsHookHandler();
-		$handler->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay( 42, $metadata );
-
-		$this->assertSame( 'shared pages summary', $parsedMetadata[0] );
-	}
-
-	public static function provideNotTwoEditors(): iterable {
-		yield 'One editor' => [
-			'editors' => [ 'Alice' ],
+	public static function provideEditorsForLink(): iterable {
+		yield 'Two editors' => [
+			'editors' => [ 'Alice', 'Bob' ],
+			'expected' => 'users=Alice&amp;users=Bob'
 		];
 		yield 'Three editors' => [
 			'editors' => [ 'Alice', 'Bob', 'Carol' ],
+			'expected' => 'users=Alice&amp;users=Bob&amp;users=Carol'
+		];
+		yield 'Encoded usernames' => [
+			'editors' => [ 'Alice Alice', 'Bób' ],
+			'expected' => 'users=Alice+Alice&amp;users=B%C3%B3b'
+		];
+		yield 'Unsorted users' => [
+			// explicitly define array indexes so they are used as user IDs in newSummary
+			'editors' => [ 3 => 'Alice', 1 => 'Bob', 2 => 'Carol' ],
+			'expected' => 'users=Bob&amp;users=Carol&amp;users=Alice'
 		];
 	}
 
-	public function testNoLinkWhenOutputIsNull(): void {
-		$metadata = [ $this->newSummary( [ 1 => 'Alice', 2 => 'Bob' ] ) ];
-		$parsedMetadata = [ null ];
+	public function testNoLinkWhenLessThanTwoEditors(): void {
+		$metadata = [ $this->newSummary( [ 'Alice' ] ) ];
 
 		$handler = new SuggestedInvestigationsHookHandler();
 		$handler->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay( 42, $metadata );
 
-		$this->assertNull( $parsedMetadata[0] );
+		$output = $metadata[0]->getMessageOverride();
+
+		$this->assertNull( $output );
+	}
+
+	public function testNoLinkWhenNoMessage(): void {
+		$metadata = [ $this->newSummary( [ 1 => 'Alice', 2 => 'Bob' ], null ) ];
+
+		$handler = new SuggestedInvestigationsHookHandler();
+		$handler->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay( 42, $metadata );
+
+		$output = $metadata[0]->getMessageOverride();
+
+		$this->assertNull( $output );
 	}
 
 	public function testUnrelatedMetadataIsUntouched(): void {
 		$other = $this->createMock( SuggestedInvestigationsCaseMetadata::class );
 		$metadata = [ $other ];
-		$parsedMetadata = [ 'some other metadata' ];
 
 		$handler = new SuggestedInvestigationsHookHandler();
 		$handler->onCheckUserSuggestedInvestigationsCaseMetadataBeforeDisplay( 42, $metadata );
 
-		$this->assertSame( 'some other metadata', $parsedMetadata[0] );
+		$output = $metadata[0]->getMessageOverride();
+
+		$this->assertNull( $output );
 	}
 }

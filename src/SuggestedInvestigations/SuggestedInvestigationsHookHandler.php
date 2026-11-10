@@ -32,26 +32,32 @@ class SuggestedInvestigationsHookHandler implements CheckUserSuggestedInvestigat
 			return;
 		}
 		$commonEditors = $metadataItem->getCommonEditors();
-		if ( count( $commonEditors ) !== 2 ) {
-			// Interaction timeline supports only exactly 2 users. In other cases, don't display the link
+		if ( count( $commonEditors ) < 2 ) {
+			// At least 2 users are needed. In other cases, don't display the link
 			return;
 		}
 
 		// Keep the order of URL parameters consistent, so that the links retain their visited status
 		// regardless of the order in which users are passed to the hook (which is undefined)
 		usort( $commonEditors, static fn ( $a, $b ) => $a->getId() <=> $b->getId() );
-		$user1 = $commonEditors[0]->getName();
-		$user2 = $commonEditors[1]->getName();
 
-		$startTime = ConvertibleTimestamp::convert( TS::UNIX, $metadataItem->getFirstEditTimestamp() );
-		$endTime = ConvertibleTimestamp::convert( TS::UNIX, $metadataItem->getLastEditTimestamp() );
+		$startTime = ConvertibleTimestamp::convert( TS::MW, $metadataItem->getFirstEditTimestamp() );
+		$endTime = ConvertibleTimestamp::convert( TS::MW, $metadataItem->getLastEditTimestamp() );
 
-		$linkHref = 'https://interaction-timeline.toolforge.org/' .
-			'?wiki=' . WikiMap::getCurrentWikiId() .
-			'&user=' . urlencode( $user1 ) .
-			'&user=' . urlencode( $user2 ) .
-			'&startDate=' . $startTime .
-			'&endDate=' . $endTime;
+		// editorinteract expects YYYYMMDD date format, which ConvertibleTimestamp doesn't support
+		// the closest supported option is YYYYMMDDHHMMSS, so take first 8 characters
+		$startTime = substr( $startTime, 0, 8 );
+		$endTime = substr( $endTime, 0, 8 );
+
+		$linkHref = 'https://sigma.toolforge.org/editorinteract.py' .
+			'?server=' . WikiMap::getCurrentWikiId() .
+			'&startdate=' . $startTime .
+			'&enddate=' . $endTime;
+
+		foreach ( $commonEditors as $user ) {
+			$linkHref .= '&users=' . urlencode( $user->getName() );
+		}
+
 		$msgText = '<span ' .
 		'class="mw-usertoollinks-interaction-timeline mw-checkuser-suggestedinvestigations-custom-instrument" ' .
 		'data-subtype="interaction-timeline"' .
