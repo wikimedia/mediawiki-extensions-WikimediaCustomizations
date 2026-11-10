@@ -52,13 +52,17 @@ module.exports = exports = {
 					return;
 				}
 
-				const response = await fetch( src );
-				if ( props.src !== src ) {
-					// stale result
-					return;
+				let result = null;
+				try {
+					const response = await fetch( src );
+					if ( response.ok ) {
+						result = await response.text();
+					}
+				} catch ( e ) {
+					// The card shows the alt text in place of the image.
+					// This is an acceptable fallback for a network
+					// failure, so do not log it as an error.
 				}
-
-				const result = await response.text();
 				if ( props.src !== src ) {
 					// stale result
 					return;
