@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Waki285"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "共有",
+	"wikimediacustomizations-sharecard-copy-link": "リンクをコピー",
+	"wikimediacustomizations-sharecard-link-copied": "コピーしました",
+	"wikimediacustomizations-sharecard-share": "共有",
+	"wikimediacustomizations-sharecard-download": "ダウンロード",
+	"wikimediacustomizations-sharecard-downloading": "ダウンロード中",
+	"wikimediacustomizations-sharecard-loading": "読み込み中…",
+	"wikimediacustomizations-sharecard-generating": "画像を生成中",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\n$3で続きを読む: $2",
+	"wikimediacustomizations-sharecard-image-credit": "画像: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "画像: $1",
+	"wikimediacustomizations-sharecard-license-pd": "パブリック・ドメイン",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2回閲覧 / 月}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$1 出典}}"
+}
