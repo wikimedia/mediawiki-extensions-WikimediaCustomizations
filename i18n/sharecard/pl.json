@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"PanWor"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Udostępnij",
+	"wikimediacustomizations-sharecard-copy-link": "Skopiuj link",
+	"wikimediacustomizations-sharecard-link-copied": "Skopiowano",
+	"wikimediacustomizations-sharecard-share": "Udostępnij",
+	"wikimediacustomizations-sharecard-download": "Pobierz",
+	"wikimediacustomizations-sharecard-downloading": "Pobieranie",
+	"wikimediacustomizations-sharecard-loading": "Wczytywanie…",
+	"wikimediacustomizations-sharecard-generating": "Generowanie karty",
+	"wikimediacustomizations-sharecard-share-title": "„$1” – $2",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nCzytaj więcej w {{GRAMMAR:MS.lp|$3}}: $2",
+	"wikimediacustomizations-sharecard-image-credit": "Grafika: $1 – $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Grafika: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 przypis|$2 przypisy|$2 przypisów}}"
+}

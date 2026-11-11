@@ -10,7 +10,11 @@
 	"wikimediacustomizations-sharecard-share": "Deelen",
 	"wikimediacustomizations-sharecard-download": "Eroflueden",
 	"wikimediacustomizations-sharecard-downloading": "Gëtt erofgelueden",
+	"wikimediacustomizations-sharecard-loading": "Gëtt gelueden…",
 	"wikimediacustomizations-sharecard-generating": "Bild gëtt generéiert",
+	"wikimediacustomizations-sharecard-share-title": "$1 – $2",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nLiest méi op $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "Bild: $1 – $2",
-	"wikimediacustomizations-sharecard-image-credit-partial": "Bild: $1"
+	"wikimediacustomizations-sharecard-image-credit-partial": "Bild: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 Referenz|$2 Referenzen}}"
 }

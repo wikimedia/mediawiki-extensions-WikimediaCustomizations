@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Meno25"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "يشارك",
+	"wikimediacustomizations-sharecard-copy-link": "نسخ الوصلة",
+	"wikimediacustomizations-sharecard-link-copied": "تم النسخ",
+	"wikimediacustomizations-sharecard-share": "يشارك",
+	"wikimediacustomizations-sharecard-download": "تحميل",
+	"wikimediacustomizations-sharecard-downloading": "جارٍ التنزيل",
+	"wikimediacustomizations-sharecard-loading": "تحميل…",
+	"wikimediacustomizations-sharecard-generating": "توليد الصورة",
+	"wikimediacustomizations-sharecard-image-credit": "صورة: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "صورة: $1"
+}
