@@ -65,7 +65,17 @@ async function init() {
 		// Don't show dialog to logged out and temp users that don't have permissions.
 		// to create an account.
 		if ( !mw.user.isNamed() ) {
-			const canContinue = await canCreateAccount();
+			const canContinue = await canCreateAccount().catch( ( err ) => {
+				mw.log.warn( 'DonorAccountCreation: account creation check failed', err );
+				return null;
+			} );
+			// Record the check result. Users who fail the check send no exposure event (T442941).
+			if ( variantGroup ) {
+				const checkResult = canContinue === true ? 'can_create_account' :
+					( canContinue === false ? 'cannot_create_account' : 'api_error' );
+				// eslint-disable-next-line camelcase
+				experiment.send( 'eligibility_check', { action_subtype: checkResult } );
+			}
 			if ( !canContinue ) {
 				return;
 			}

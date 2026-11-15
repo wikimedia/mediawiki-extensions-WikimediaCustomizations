@@ -31,6 +31,7 @@ const nextTick = () => Promise.resolve();
 describe( 'donorAccountCreation init', () => {
 	let mockLaunch;
 	let mockAjax;
+	let mockExperiment;
 
 	// Build a fresh mw stub with sensible eligible-user defaults; individual
 	// tests override the pieces they exercise.
@@ -40,15 +41,17 @@ describe( 'donorAccountCreation init', () => {
 			query: { userinfo: { cancreateaccount: true } }
 		} ) );
 
+		mockExperiment = {
+			getAssignedGroup: jest.fn( () => overrides.group !== undefined ? overrides.group : 'treatment' ),
+			send: jest.fn(),
+			sendExposure: jest.fn()
+		};
+
 		const dialogModule = { launch: mockLaunch };
 
 		global.mw = {
 			testKitchen: {
-				getExperiment: jest.fn( () => Promise.resolve( {
-					getAssignedGroup: jest.fn( () => overrides.group !== undefined ? overrides.group : 'treatment' ),
-					send: jest.fn(),
-					sendExposure: jest.fn()
-				} ) )
+				getExperiment: jest.fn( () => Promise.resolve( mockExperiment ) )
 			},
 			util: {
 				getParamValue: jest.fn( ( name ) => {
@@ -90,6 +93,7 @@ describe( 'donorAccountCreation init', () => {
 			} ) ),
 			message: jest.fn( ( key ) => ( { key } ) ),
 			notify: jest.fn(),
+			log: { warn: jest.fn() },
 			Api: jest.fn().mockImplementation( () => ( { ajax: mockAjax } ) ),
 			loader: {
 				using: jest.fn( () => Promise.resolve( () => dialogModule ) )
@@ -221,6 +225,51 @@ describe( 'donorAccountCreation init', () => {
 			await nextTick();
 			expect( mw.Api ).not.toHaveBeenCalled();
 			expect( mockLaunch ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		test( 'does not launch when the account-creation check fails', async () => {
+			setupMw( { campaign: CAMPAIGN_PREFIX, isNamed: false } );
+			const error = new Error( 'http' );
+			mockAjax.mockReturnValue( Promise.reject( error ) );
+			await init();
+			await nextTick();
+			expect( mockLaunch ).not.toHaveBeenCalled();
+			expect( mw.log.warn ).toHaveBeenCalledWith( expect.any( String ), error );
+		} );
+	} );
+
+	describe( 'eligibility check diagnostics', () => {
+		test.each( [
+			[ 'can_create_account', () => Promise.resolve( { query: { userinfo: { cancreateaccount: true } } } ) ],
+			[ 'cannot_create_account', () => Promise.resolve( { query: { userinfo: { cancreateaccount: false } } } ) ],
+			[ 'api_error', () => Promise.reject( new Error( 'http' ) ) ],
+			[ 'api_error', () => Promise.resolve( { query: { userinfo: {} } } ) ]
+		] )( 'logs %s for an enrolled anonymous donor', async ( subtype, response ) => {
+			mockRecentlyDonated.mockReturnValue( true );
+			setupMw( { group: 'control', isNamed: false } );
+			mockAjax.mockImplementation( response );
+			await init();
+			await nextTick();
+			expect( mockExperiment.send ).toHaveBeenCalledWith(
+				'eligibility_check',
+				// eslint-disable-next-line camelcase
+				{ action_subtype: subtype }
+			);
+		} );
+
+		test( 'does not log when the user is not enrolled', async () => {
+			setupMw( { campaign: CAMPAIGN_PREFIX, group: null, isNamed: false } );
+			await init();
+			await nextTick();
+			expect( mockExperiment.send ).not.toHaveBeenCalledWith( 'eligibility_check', expect.anything() );
+		} );
+
+		test( 'does not log for named users', async () => {
+			mockRecentlyDonated.mockReturnValue( true );
+			setupMw( { group: 'treatment', isNamed: true } );
+			await init();
+			await nextTick();
+			expect( mockExperiment.send ).not.toHaveBeenCalledWith( 'eligibility_check', expect.anything() );
 		} );
 	} );
 
