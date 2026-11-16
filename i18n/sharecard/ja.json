@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Kokage si",
 			"Waki285"
 		]
 	},
@@ -17,5 +18,5 @@
 	"wikimediacustomizations-sharecard-image-credit-partial": "画像: $1",
 	"wikimediacustomizations-sharecard-license-pd": "パブリック・ドメイン",
 	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2回閲覧 / 月}}",
-	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$1 出典}}"
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 出典}}"
 }

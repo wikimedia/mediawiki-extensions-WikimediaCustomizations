@@ -5,6 +5,8 @@
 		]
 	},
 	"restsandbox": "ملعب رست",
+	"wikimediacustomizations-restsandbox-text": "استخدم هذه الصفحة للتجربة مع مديا ويكي REST APIs. ستتفاعل دعوات API التي يتم إجراؤها من خلال واجهة sandbox مع محتوى ويكي مباشر ويمكن أن تعدل ويكي. راجع [https://www.mediawiki.org/wiki/Special:MyLanguage/API:REST_API API وثائق] لمزيد من التفاصيل حول استخدام API.",
+	"wikimediacustomizations-restsandbox-disclaimer": "هل لديك ردود فعل حول هذا الصندوق الرملي؟ يرجى تركها [https://www.mediawiki.org/wiki/MediaWiki_Interfaces_Team/Feature_Feedback/REST_Sandbox هنا]. ملاحظة: واجهة المستخدم في صندوق الرمل ومواد التنقل لا تدعم الترجمة بعد.<br/>",
 	"wikimediacustomizations-restsandbox-select-api": "اختر واجهة برمجة التطبيقات (API) لاستكشافها.",
 	"wikimediacustomizations-restsandbox-no-specs-configured": "لم يتم تهيئة أي واجهات برمجة تطبيقات REST للاستكشاف. استخدم إعداد RestSandboxSpecs.",
 	"wikimediacustomizations-restsandbox-no-such-api": "المعامل المُعطى في واجهة برمجة التطبيقات غير مدعوم: $1",
