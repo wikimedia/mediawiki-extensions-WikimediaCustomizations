@@ -12,6 +12,8 @@
 	"wikimediacustomizations-sharecard-downloading": "جارٍ التنزيل",
 	"wikimediacustomizations-sharecard-loading": "تحميل…",
 	"wikimediacustomizations-sharecard-generating": "توليد الصورة",
+	"wikimediacustomizations-sharecard-share-text": "$1 \n\nاقرأ المزيد عن $3: $2",
 	"wikimediacustomizations-sharecard-image-credit": "صورة: $1 - $2",
-	"wikimediacustomizations-sharecard-image-credit-partial": "صورة: $1"
+	"wikimediacustomizations-sharecard-image-credit-partial": "صورة: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1| $2 مرجع}}"
 }

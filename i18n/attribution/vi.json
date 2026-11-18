@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"HungKhanh0106"
+		]
+	},
+	"wikimediacustomizations-attribution-rest-module-v0-beta-title": "API Ghi Công (phiên bản thử nghiệm)",
+	"wikimediacustomizations-attribution-rest-module-v0-beta-desc": "API Ghi Công cung cấp dữ liệu ghi công được trình bày hệ thống dành cho nội dung trên các dự án Wikimedia. Để biết thêm chi tiết về API Ghi Công, bạn có thể xem [tài liệu kỹ thuật trên mediawiki.org](https://www.mediawiki.org/wiki/Special:MyLanguage/Attribution_API). Để nắm rõ các khuyến cáo, kỳ vọng cũng như tiêu chuẩn trình bày khi tái sử dụng nội dung Wikimedia, bạn có thể tham khảo [Nền Tảng Ghi Công](https://wikimedia-attribution.toolforge.org/attribution-signals/overview.html).\n\nBạn có câu hỏi hoặc góp ý gì về API này không? Trong giai đoạn thử nghiệm này, bạn có thể [tham gia thảo luận](https://www.mediawiki.org/wiki/Talk:Attribution_API) để giúp chúng tôi cải thiện trải nghiệm và tính năng của API này."
+}

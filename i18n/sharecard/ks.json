@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Iflaq"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "بٲغراوُن",
+	"wikimediacustomizations-sharecard-copy-link": "لِنک کٔرِو نَقٕل",
+	"wikimediacustomizations-sharecard-link-copied": "نقل آو کَرنہٕ",
+	"wikimediacustomizations-sharecard-share": "بٲغراوُن",
+	"wikimediacustomizations-sharecard-download": "ڈاوُنلوڈ",
+	"wikimediacustomizations-sharecard-downloading": "ڈاون لوڈ کَرن",
+	"wikimediacustomizations-sharecard-loading": "لوڑ چھُ گژھن...",
+	"wikimediacustomizations-sharecard-generating": "تصویٖر بناوَن",
+	"wikimediacustomizations-sharecard-share-title": "$1 – $2",
+	"wikimediacustomizations-sharecard-image-credit": "تَصویٖر: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "تَصویٖر: $1",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 حوالہٕ|$2 حَوالہٕ}}"
+}
