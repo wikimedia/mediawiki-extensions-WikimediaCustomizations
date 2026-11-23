@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Patsagorn Y."
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "แบ่งปัน",
+	"wikimediacustomizations-sharecard-copy-link": "คัดลอกลิงก์",
+	"wikimediacustomizations-sharecard-link-copied": "คัดลอกแล้ว",
+	"wikimediacustomizations-sharecard-share": "แบ่งปัน",
+	"wikimediacustomizations-sharecard-download": "ดาวน์โหลด",
+	"wikimediacustomizations-sharecard-downloading": "กำลังดาวน์โหลด",
+	"wikimediacustomizations-sharecard-loading": "กำลังโหลด…",
+	"wikimediacustomizations-sharecard-generating": "กำลังสร้างภาพ",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nอ่านต่อที่ $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "ภาพ: $1 โดย $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "ภาพ: $1",
+	"wikimediacustomizations-sharecard-license-pd": "สาธารณสมบัติ",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|อ่าน $2 ครั้ง/เดือน}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|อ้างอิง $2 รายการ}}"
+}
