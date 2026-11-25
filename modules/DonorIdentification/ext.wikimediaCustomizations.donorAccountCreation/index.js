@@ -3,6 +3,7 @@ const EXPERIMENT_NAME = 'donor-status-consent';
 // Default campaign used to attribute account creations from this dialog.
 const CAMPAIGN_PREFIX = 'reader-donor-account';
 const STORAGE_KEY_SUPPRESS_OVERLAY = 'wc-donor-account-creation-suppress-consent-overlay';
+const CURRENT_ACTIVE_CAMPAIGN = 'dsc-2';
 
 async function canCreateAccount() {
 	const api = new mw.Api();
@@ -46,15 +47,13 @@ async function init() {
 	const variantGroup = experiment.getAssignedGroup();
 	const group = hasCampaignOverride ? 'treatment' : variantGroup;
 	const shouldSuppressOverlay = mw.storage.get( STORAGE_KEY_SUPPRESS_OVERLAY );
-	const isEligible = hasCampaignOverride || ( donor.recentlyDonated() && group !== null && !shouldSuppressOverlay &&
-		mw.config.get( 'skin' ) === 'minerva' );
+	// Limit to users that donated in last 24 hrs.
+	const isEligible = hasCampaignOverride || (
+		donor.recentlyDonated( 1 ) && group !== null && !shouldSuppressOverlay
+	);
 
 	// temporary accounts and anonymous users are always lacking consent
 	const lackingConsent = !mw.user.isNamed() || !donor.hasConsented();
-
-	if ( mw.config.get( 'skin' ) === 'minerva' && variantGroup && donor.recentlyDonated() ) {
-		experiment.send( 'page_visit', {}, [ 'page_namespace_id' ] );
-	}
 
 	// If account was already connected re-display the success message.
 	if ( !lackingConsent && hasCampaignOverride ) {
@@ -85,7 +84,7 @@ async function init() {
 			// (See Extension:Campaign CampaignsAuthenticationRequest)
 			// Since CAMPAIGN_PREFIX is 20 characters, experiment and group are abbreviated to
 			// fit this limit.
-			( group ? `${ CAMPAIGN_PREFIX }-dsc-${ group.charAt( 0 ) }` : null );
+			( group ? `${ CAMPAIGN_PREFIX }-${ CURRENT_ACTIVE_CAMPAIGN }-${ group.charAt( 0 ) }` : null );
 		// Lazy load the confirmation dialog module, then render it.
 		mw.loader.using( 'ext.wikimediaCustomizations.donorAccountCreation.dialog' )
 			.then( ( req ) => {

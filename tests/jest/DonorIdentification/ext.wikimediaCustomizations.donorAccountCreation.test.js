@@ -131,7 +131,7 @@ describe( 'donorAccountCreation init', () => {
 			expect( mockLaunch ).toHaveBeenCalledWith( {
 				group: 'treatment',
 				showLater: true,
-				campaign: `${ CAMPAIGN_PREFIX }-dsc-t`,
+				campaign: `${ CAMPAIGN_PREFIX }-dsc-2-t`,
 				storageKey: STORAGE_KEY_SUPPRESS_OVERLAY
 			} );
 		} );

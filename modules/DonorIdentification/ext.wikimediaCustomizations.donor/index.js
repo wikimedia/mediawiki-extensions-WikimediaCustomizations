@@ -61,8 +61,7 @@ const recentlyDonated = ( maxDays ) => {
 	if ( maxDays !== undefined ) {
 		const now = new Date();
 		const msPerDay = 1000 * 60 * 60 * 24;
-		const daysSince = Math.floor( ( now - donationDate ) / msPerDay );
-		return daysSince <= maxDays;
+		return ( now - donationDate ) <= maxDays * msPerDay;
 	}
 	return true;
 };

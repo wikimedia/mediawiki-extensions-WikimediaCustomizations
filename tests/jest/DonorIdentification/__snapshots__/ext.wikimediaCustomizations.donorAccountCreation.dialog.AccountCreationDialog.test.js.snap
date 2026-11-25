@@ -4,12 +4,12 @@ exports[`AccountCreationDialog for anonymous users matches the snapshot 1`] = `
 <div
   class="cdx-dialog ext-wc-donor-account-creation-dialog"
   role="dialog"
-  subtitle="wc-donor-account-creation-dialog-subtitle"
+  subtitle="wc-donor-account-creation-dialog-subtitle-treatment"
 >
   <header
     class="cdx-dialog__header"
   >
-    wc-donor-account-creation-dialog-title
+    wc-donor-account-creation-dialog-title-treatment
   </header>
   <div
     class="cdx-dialog__body"
@@ -22,11 +22,11 @@ exports[`AccountCreationDialog for anonymous users matches the snapshot 1`] = `
         class="ext-wc-donor-account-creation-dialog__benefits"
       >
         <p>
-          wc-donor-account-creation-dialog-benefits-label
+          wc-donor-account-creation-dialog-benefits-label-treatment
         </p>
         <ul>
           <li>
-            wc-donor-account-creation-dialog-benefits-list-1
+            wc-donor-account-creation-dialog-benefits-list-1-treatment
           </li>
           <li>
             wc-donor-account-creation-dialog-benefits-list-2
@@ -38,6 +38,11 @@ exports[`AccountCreationDialog for anonymous users matches the snapshot 1`] = `
       </div>
       <div>
         <p>
+          wc-donor-account-creation-dialog-benefits-suffix-treatment
+        </p>
+        <p
+          class="ext-wc-donor-account-creation-dialog__legal-text"
+        >
           wc-donor-account-creation-dialog-body 
           <a
             href="wc-donor-account-creation-dialog-learn-url"
@@ -83,12 +88,12 @@ exports[`AccountCreationDialog for authenticated users matches the snapshot 1`] 
 <div
   class="cdx-dialog ext-wc-donor-account-creation-dialog"
   role="dialog"
-  subtitle="wc-donor-account-creation-dialog-subtitle"
+  subtitle="wc-donor-account-creation-dialog-subtitle-treatment"
 >
   <header
     class="cdx-dialog__header"
   >
-    wc-donor-account-creation-dialog-title
+    wc-donor-account-creation-dialog-title-treatment
   </header>
   <div
     class="cdx-dialog__body"
@@ -101,11 +106,11 @@ exports[`AccountCreationDialog for authenticated users matches the snapshot 1`] 
         class="ext-wc-donor-account-creation-dialog__benefits"
       >
         <p>
-          wc-donor-account-creation-dialog-benefits-label
+          wc-donor-account-creation-dialog-benefits-label-treatment
         </p>
         <ul>
           <li>
-            wc-donor-account-creation-dialog-benefits-list-1
+            wc-donor-account-creation-dialog-benefits-list-1-treatment
           </li>
           <li>
             wc-donor-account-creation-dialog-benefits-list-2
@@ -117,6 +122,11 @@ exports[`AccountCreationDialog for authenticated users matches the snapshot 1`] 
       </div>
       <div>
         <p>
+          wc-donor-account-creation-dialog-benefits-suffix-treatment
+        </p>
+        <p
+          class="ext-wc-donor-account-creation-dialog__legal-text"
+        >
           wc-donor-account-creation-dialog-body 
           <a
             href="wc-donor-account-creation-dialog-learn-url"
@@ -177,9 +187,29 @@ exports[`AccountCreationDialog for users in the control group matches the snapsh
     <div
       class="ext-wc-donor-account-creation-dialog__body"
     >
-      <!--v-if-->
-      <div>
+      <div
+        class="ext-wc-donor-account-creation-dialog__benefits"
+      >
         <p>
+          wc-donor-account-creation-dialog-benefits-label
+        </p>
+        <ul>
+          <li>
+            wc-donor-account-creation-dialog-benefits-list-1
+          </li>
+          <li>
+            wc-donor-account-creation-dialog-benefits-list-2
+          </li>
+          <li>
+            wc-donor-account-creation-dialog-benefits-list-3
+          </li>
+        </ul>
+      </div>
+      <div>
+        <!--v-if-->
+        <p
+          class=""
+        >
           wc-donor-account-creation-dialog-body 
           <a
             href="wc-donor-account-creation-dialog-learn-url"
@@ -226,12 +256,12 @@ exports[`AccountCreationDialog for users in the treatment group matches the snap
 <div
   class="cdx-dialog ext-wc-donor-account-creation-dialog"
   role="dialog"
-  subtitle="wc-donor-account-creation-dialog-subtitle"
+  subtitle="wc-donor-account-creation-dialog-subtitle-treatment"
 >
   <header
     class="cdx-dialog__header"
   >
-    wc-donor-account-creation-dialog-title
+    wc-donor-account-creation-dialog-title-treatment
   </header>
   <div
     class="cdx-dialog__body"
@@ -244,11 +274,11 @@ exports[`AccountCreationDialog for users in the treatment group matches the snap
         class="ext-wc-donor-account-creation-dialog__benefits"
       >
         <p>
-          wc-donor-account-creation-dialog-benefits-label
+          wc-donor-account-creation-dialog-benefits-label-treatment
         </p>
         <ul>
           <li>
-            wc-donor-account-creation-dialog-benefits-list-1
+            wc-donor-account-creation-dialog-benefits-list-1-treatment
           </li>
           <li>
             wc-donor-account-creation-dialog-benefits-list-2
@@ -260,6 +290,11 @@ exports[`AccountCreationDialog for users in the treatment group matches the snap
       </div>
       <div>
         <p>
+          wc-donor-account-creation-dialog-benefits-suffix-treatment
+        </p>
+        <p
+          class="ext-wc-donor-account-creation-dialog__legal-text"
+        >
           wc-donor-account-creation-dialog-body 
           <a
             href="wc-donor-account-creation-dialog-learn-url"

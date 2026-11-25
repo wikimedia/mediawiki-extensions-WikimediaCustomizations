@@ -9,7 +9,6 @@
 	>
 		<div class="ext-wc-donor-account-creation-dialog__body">
 			<div
-				v-if="group !== 'control'"
 				class="ext-wc-donor-account-creation-dialog__benefits">
 				<p v-html="benefitsLabelText"></p>
 				<ul>
@@ -19,8 +18,9 @@
 				</ul>
 			</div>
 			<div>
-				<p>
-					{{ bodyText }}
+				<p v-if="benefitsLabelSuffixText">{{ benefitsLabelSuffixText }}</p>
+				<p :class="group !== 'control' ? 'ext-wc-donor-account-creation-dialog__legal-text' : ''">
+					{{ legalText }}
 					<a
 						target="_blank"
 						:href="$i18n( 'wc-donor-account-creation-dialog-learn-url' )">
@@ -129,14 +129,32 @@ module.exports = exports = {
 			campaign: props.campaign,
 			showlogin: 1
 		} ) );
+		const isControl = props.group === 'control';
 
-		const titleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-title' ) );
-		const subtitleText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-subtitle' ) );
-		const bodyText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-body' ) );
-		const benefitsLabelText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-label' ) );
-		const benefitsList1 = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-list-1' ) );
+		const titleText = computed( () => mw.msg(
+			isControl ? 'wc-donor-account-creation-dialog-title' : 'wc-donor-account-creation-dialog-title-treatment'
+		) );
+		const subtitleText = computed( () => mw.msg(
+			isControl ? 'wc-donor-account-creation-dialog-subtitle' : 'wc-donor-account-creation-dialog-subtitle-treatment'
+		) );
+		// legal text
+		const legalText = computed( () => mw.msg(
+			'wc-donor-account-creation-dialog-body'
+		) );
+		const benefitsLabelText = computed( () => mw.msg(
+			isControl ? 'wc-donor-account-creation-dialog-benefits-label' :
+				'wc-donor-account-creation-dialog-benefits-label-treatment'
+		) );
+		const benefitsList1 = computed( () => mw.msg(
+			isControl ? 'wc-donor-account-creation-dialog-benefits-list-1' :
+				'wc-donor-account-creation-dialog-benefits-list-1-treatment'
+		) );
 		const benefitsList2 = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-list-2' ) );
 		const benefitsList3 = computed( () => mw.msg( 'wc-donor-account-creation-dialog-benefits-list-3' ) );
+
+		const benefitsLabelSuffixText = computed( () => isControl ? '' :
+			mw.msg( 'wc-donor-account-creation-dialog-benefits-suffix-treatment' )
+		);
 		const yesBtnText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-yes' ) );
 		const noBtnText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-no' ) );
 		const laterBtnText = computed( () => mw.msg( 'wc-donor-account-creation-dialog-later' ) );
@@ -201,11 +219,12 @@ module.exports = exports = {
 			createAccountLink,
 			titleText,
 			subtitleText,
-			bodyText,
+			legalText,
 			benefitsLabelText,
 			benefitsList1,
 			benefitsList2,
 			benefitsList3,
+			benefitsLabelSuffixText,
 			yesBtnText,
 			noBtnText,
 			laterBtnText,
@@ -257,5 +276,8 @@ module.exports = exports = {
 		// Remove Minerva default margins.
 		margin: 0;
 	}
+}
+.ext-wc-donor-account-creation-dialog__legal-text {
+	font-size: @font-size-x-small;
 }
 </style>

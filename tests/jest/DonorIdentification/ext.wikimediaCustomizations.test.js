@@ -103,22 +103,39 @@ describe( 'DonorIdentification', () => {
 		expect( recentlyDonated( 0 ) ).toBe( false );
 	} );
 
-	test( 'recentlyDonated (within 30 days)', () => {
-		// 30 days + 1 hr ago
-		const created = (
-			new Date( Date.now() - ( 60 * 60 * 25 * 30 * 1000 ) )
-		) / 1000;
-		global.mw = {
+	const makeMwStub = ( ms ) => (
+		{
 			cookie: {
 				get: jest.fn(
 					() => JSON.stringify( {
 						v: 1,
-						created,
+						created: (
+							new Date( Date.now() - ms )
+						) / 1000,
 						reason: 'donate'
 					} )
 				)
 			}
-		};
+		}
+	);
+	test( 'recentlyDonated (1 millisecond before a day)', () => {
+		global.mw = makeMwStub( ( 60 * 60 * 24 * 1000 ) - 1 );
+		expect( recentlyDonated( 1 ) ).toBe( true );
+	} );
+
+	test( 'recentlyDonated (1 millisecond past a day)', () => {
+		global.mw = makeMwStub( ( 60 * 60 * 24 * 1000 ) + 1 );
+		expect( recentlyDonated( 1 ) ).toBe( false );
+	} );
+
+	test( 'recentlyDonated (30 hours ago)', () => {
+		global.mw = makeMwStub( 60 * 60 * 30 * 1000 );
+		expect( recentlyDonated( 1 ) ).toBe( false );
+	} );
+
+	test( 'recentlyDonated (within 30 days)', () => {
+		// 30 days + 1 hr ago
+		global.mw = makeMwStub( ( ( 60 * 60 * 24 * 30 ) + ( 60 * 60 ) ) * 1000 );
 
 		expect( recentlyDonated( 0 ) ).toBe( false );
 		expect( recentlyDonated( 1 ) ).toBe( false );
