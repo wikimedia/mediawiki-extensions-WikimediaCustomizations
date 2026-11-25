@@ -114,7 +114,7 @@ class AttributionRestHandler extends SimpleHandler {
 		// With ?redirect=no, non-existing pages with an existing variant will get a 404.
 		$redirectResponse = $redirectHelper->createRedirectResponseIfNeeded(
 			$pageIdentity,
-			$this->contentHelper->getTitleText()
+			$this->contentHelper->getTitleAsRequested()
 		);
 
 		if ( $redirectResponse !== null ) {
