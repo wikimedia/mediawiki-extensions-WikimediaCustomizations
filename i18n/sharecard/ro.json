@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Paloi Sciurala"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "Distribuie",
+	"wikimediacustomizations-sharecard-copy-link": "Copiați legătura",
+	"wikimediacustomizations-sharecard-link-copied": "Copiat!",
+	"wikimediacustomizations-sharecard-share": "Distribuie",
+	"wikimediacustomizations-sharecard-download": "Descărcare",
+	"wikimediacustomizations-sharecard-downloading": "Se descarcă",
+	"wikimediacustomizations-sharecard-loading": "Se încarcă…",
+	"wikimediacustomizations-sharecard-generating": "Se generează imaginea",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\nCitiți mai mult despre $3: $2",
+	"wikimediacustomizations-sharecard-image-credit": "Imagine: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "Imagine: $1",
+	"wikimediacustomizations-sharecard-license-pd": "Domeniul public",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|$2 vizualizare / lună|$2 vizualizări / lună}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2 referință|$2 referințe}}"
+}
