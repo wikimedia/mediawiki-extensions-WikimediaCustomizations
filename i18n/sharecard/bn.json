@@ -1,0 +1,35 @@
+{
+	"@metadata": {
+		"authors": [
+			"আফতাবুজ্জামান"
+		]
+	},
+	"wikimediacustomizations-sharecard-dialog-title": "শেয়ার করুন",
+	"wikimediacustomizations-sharecard-copy-link": "লিঙ্ক অনুলিপি করুন",
+	"wikimediacustomizations-sharecard-link-copied": "অনুলিপি করা হয়েছে",
+	"wikimediacustomizations-sharecard-share": "শেয়ার করুন",
+	"wikimediacustomizations-sharecard-download": "ডাউনলোড করুন",
+	"wikimediacustomizations-sharecard-downloading": "ডাউনলোড করা হচ্ছে",
+	"wikimediacustomizations-sharecard-loading": "লোড করা হচ্ছে…",
+	"wikimediacustomizations-sharecard-generating": "চিত্র উৎপন্ন করা হচ্ছে",
+	"wikimediacustomizations-sharecard-share-text": "$1\n\n$3য় আরও পড়ুন: $2",
+	"wikimediacustomizations-sharecard-image-credit": "চিত্র: $1 - $2",
+	"wikimediacustomizations-sharecard-image-credit-partial": "চিত্র: $1",
+	"wikimediacustomizations-sharecard-license-cc-by-1.0": "সিসি বাই ১.০",
+	"wikimediacustomizations-sharecard-license-cc-sa-1.0": "সিসি এসএ ১.০",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-1.0": "সিসি বাই-এসএ ১.০",
+	"wikimediacustomizations-sharecard-license-cc-by-2.0": "সিসি বাই ২.০",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-2.0": "সিসি বাই-এস ২.০",
+	"wikimediacustomizations-sharecard-license-cc-by-2.1": "সিসি বাই ২.১",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-2.1": "সিসি বাই-এসএ ২.১",
+	"wikimediacustomizations-sharecard-license-cc-by-2.5": "সিসি বাই ২.৫",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-2.5": "সিসি বাই-এসএ ২.৫",
+	"wikimediacustomizations-sharecard-license-cc-by-3.0": "সিসি বাই ৩.০",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-3.0": "সিসি বাই-এসএ ৩.০",
+	"wikimediacustomizations-sharecard-license-cc-by-4.0": "সিসি বাই ৪.০",
+	"wikimediacustomizations-sharecard-license-cc-by-sa-4.0": "সিসি বাই-এসএ ৪.০",
+	"wikimediacustomizations-sharecard-license-cc0": "সিসি০",
+	"wikimediacustomizations-sharecard-license-pd": "পাবলিক ডোমেইন",
+	"wikimediacustomizations-sharecard-page-views-monthly": "{{PLURAL:$1|প্রতি মাসে $2 বার পরিদর্শন}}",
+	"wikimediacustomizations-sharecard-references": "{{PLURAL:$1|$2টি তথ্যসূত্র}}"
+}
